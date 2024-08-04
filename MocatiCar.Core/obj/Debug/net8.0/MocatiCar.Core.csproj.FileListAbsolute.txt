@@ -1,0 +1,12 @@
+F:\Car_Rental_System\MocatiCar.Core\bin\Debug\net8.0\MocatiCar.Core.deps.json
+F:\Car_Rental_System\MocatiCar.Core\bin\Debug\net8.0\MocatiCar.Core.dll
+F:\Car_Rental_System\MocatiCar.Core\bin\Debug\net8.0\MocatiCar.Core.pdb
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.csproj.AssemblyReference.cache
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.GeneratedMSBuildEditorConfig.editorconfig
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.AssemblyInfoInputs.cache
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.AssemblyInfo.cs
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.csproj.CoreCompileInputs.cache
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.dll
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\refint\MocatiCar.Core.dll
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.pdb
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\ref\MocatiCar.Core.dll

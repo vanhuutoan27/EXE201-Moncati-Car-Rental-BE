@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moncati-Car-API", "Moncati-Car-API\Moncati-Car-API.csproj", "{47028ED5-AC15-4459-AE30-9C51F7628161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MocatiCar.Core", "MocatiCar.Core\MocatiCar.Core.csproj", "{AE8AFA5E-F4E2-4F91-90D0-ACBF3D5FB157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoncatiCar.Data", "MoncatiCar.Data\MoncatiCar.Data.csproj", "{78CB43EC-A4DC-4F02-9AC3-B3E52F981765}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47028ED5-AC15-4459-AE30-9C51F7628161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47028ED5-AC15-4459-AE30-9C51F7628161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47028ED5-AC15-4459-AE30-9C51F7628161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47028ED5-AC15-4459-AE30-9C51F7628161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8AFA5E-F4E2-4F91-90D0-ACBF3D5FB157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8AFA5E-F4E2-4F91-90D0-ACBF3D5FB157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8AFA5E-F4E2-4F91-90D0-ACBF3D5FB157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8AFA5E-F4E2-4F91-90D0-ACBF3D5FB157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CB43EC-A4DC-4F02-9AC3-B3E52F981765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CB43EC-A4DC-4F02-9AC3-B3E52F981765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CB43EC-A4DC-4F02-9AC3-B3E52F981765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CB43EC-A4DC-4F02-9AC3-B3E52F981765}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {810B5018-D0CB-42BF-924F-5135ED92BD9E}
+	EndGlobalSection
+EndGlobal
