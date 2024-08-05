@@ -10,3 +10,4 @@ F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.dll
 F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\refint\MocatiCar.Core.dll
 F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.pdb
 F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\ref\MocatiCar.Core.dll
+F:\Car_Rental_System\MocatiCar.Core\obj\Debug\net8.0\MocatiCar.Core.sourcelink.json

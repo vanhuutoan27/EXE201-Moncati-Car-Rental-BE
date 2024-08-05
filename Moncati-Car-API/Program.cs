@@ -1,45 +1,20 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MocatiCar.Core.Domain.Identity;
 using Moncati_Car_API;
-using MoncatiCar.Data;
+using Moncati_Car_API.Extensions;
+using Moncati_Car_API.GlobalExceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-var connectionString = configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<MocatiContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<MocatiContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
-
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = false;
-
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedEmail = true;
-});
-
-
-
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureCors();
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.ConfigureSqlContext(configuration);
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 
 
@@ -64,6 +39,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("CorsPolicy");
+
+app.UseExceptionHandler(opt => { });
 
 app.UseHttpsRedirection();
 

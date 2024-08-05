@@ -78,3 +78,6 @@ F:\Car_Rental_System\Moncati-Car-API\obj\Debug\net8.0\refint\Moncati-Car-API.dll
 F:\Car_Rental_System\Moncati-Car-API\obj\Debug\net8.0\Moncati-Car-API.pdb
 F:\Car_Rental_System\Moncati-Car-API\obj\Debug\net8.0\Moncati-Car-API.genruntimeconfig.cache
 F:\Car_Rental_System\Moncati-Car-API\obj\Debug\net8.0\ref\Moncati-Car-API.dll
+F:\Car_Rental_System\Moncati-Car-API\obj\Debug\net8.0\Moncati-Car-API.sourcelink.json
+F:\Car_Rental_System\Moncati-Car-API\bin\Debug\net8.0\AutoMapper.dll
+F:\Car_Rental_System\Moncati-Car-API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -1,0 +1,13 @@
+﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Repository;
+using MoncatiCar.Data.SeedWork;
+
+namespace MoncatiCar.Data.Repository
+{
+    public class CarTypeRepository : RepositoryBase<CarType, Guid>, ICarTypeRepository
+    {
+        public CarTypeRepository(MocatiContext context) : base(context)
+        {
+        }
+    }
+}
