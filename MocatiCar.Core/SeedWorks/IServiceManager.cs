@@ -11,5 +11,7 @@ namespace MocatiCar.Core.SeedWorks
         IImageService ImageService { get; }
         IModelService ModelService { get; }
         IReviewService ReviewService { get; }
+        IBrandService BrandService { get; }
+
     }
 }

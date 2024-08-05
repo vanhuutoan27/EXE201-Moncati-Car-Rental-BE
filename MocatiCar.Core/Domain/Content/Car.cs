@@ -11,14 +11,13 @@ namespace MocatiCar.Core.Domain.Content
         public string Slug { get; set; }
         public string licensePlate { get; set; }
         public int Seats { get; set; }
-        public string Color { get; set; }
         public string Transmission { get; set; }
         public string FuelType { get; set; }
         public string FuelConsumption { get; set; }
         public string? Description { get; set; }
         public string? Location { get; set; }
         public decimal PricePerDay { get; set; }
-        public string? RentalOptions { get; set; }
+        //public string? RentalOptions { get; set; }
         public string? RentalStatus { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -42,6 +41,10 @@ namespace MocatiCar.Core.Domain.Content
         public Guid OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public AppUser User { get; set; }
+
+        public Guid BrandId { get; set; }
+        [ForeignKey(nameof(BrandId))]
+        public Brand Brand { get; set; }
 
     }
 }

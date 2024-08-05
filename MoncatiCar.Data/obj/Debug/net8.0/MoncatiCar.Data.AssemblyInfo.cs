@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MoncatiCar.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a801f8b85837b0e76e274eddc428dd5024517400")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+468b4f410ca836f582fb15e38efb653aa8a43fff")]
 [assembly: System.Reflection.AssemblyProductAttribute("MoncatiCar.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MoncatiCar.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

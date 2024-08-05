@@ -14,6 +14,8 @@ namespace MocatiCar.Core.Domain.Content
         public string? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public Guid? UpdatedBy { get; set; }
 
         [ForeignKey(nameof(Author))]
         public AppUser User { get; set; }
