@@ -12,8 +12,8 @@ using MoncatiCar.Data;
 namespace MoncatiCar.Data.Migrations
 {
     [DbContext(typeof(MocatiContext))]
-    [Migration("20240804143435_updateGenderuser")]
-    partial class updateGenderuser
+    [Migration("20240806045130_InitialDBContext")]
+    partial class InitialDBContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,36 @@ namespace MoncatiCar.Data.Migrations
                     b.ToTable("AppUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MocatiCar.Core.Domain.Content.Brand", b =>
+                {
+                    b.Property<Guid>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BrandName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BrandId");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Car", b =>
                 {
                     b.Property<Guid>("CarId")
@@ -134,10 +164,6 @@ namespace MoncatiCar.Data.Migrations
 
                     b.Property<Guid>("CarTypeId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -167,9 +193,6 @@ namespace MoncatiCar.Data.Migrations
 
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("RentalOptions")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RentalStatus")
                         .HasColumnType("nvarchar(max)");
@@ -329,14 +352,16 @@ namespace MoncatiCar.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Make")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModelName")
@@ -353,6 +378,8 @@ namespace MoncatiCar.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ModelId");
+
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Models");
                 });
@@ -375,11 +402,17 @@ namespace MoncatiCar.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReviewId");
 
@@ -571,6 +604,17 @@ namespace MoncatiCar.Data.Migrations
                     b.Navigation("Car");
                 });
 
+            modelBuilder.Entity("MocatiCar.Core.Domain.Content.Model", b =>
+                {
+                    b.HasOne("MocatiCar.Core.Domain.Content.Brand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Review", b =>
                 {
                     b.HasOne("MocatiCar.Core.Domain.Identity.AppUser", "User")
@@ -584,6 +628,11 @@ namespace MoncatiCar.Data.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MocatiCar.Core.Domain.Content.Brand", b =>
+                {
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Car", b =>

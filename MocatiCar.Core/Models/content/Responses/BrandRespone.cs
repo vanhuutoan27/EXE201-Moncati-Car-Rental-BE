@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MocatiCar.Core.Domain.Content
+namespace MocatiCar.Core.Models.content.Responses
 {
-    public class Brand
+    public class BrandRespone
     {
-        [Key]
         public Guid BrandId { get; set; }
         public string BrandName { get; set; }
         public string? Description { get; set; }
@@ -12,7 +15,5 @@ namespace MocatiCar.Core.Domain.Content
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-        public ICollection<Model> Models { get; set; }
-
     }
 }

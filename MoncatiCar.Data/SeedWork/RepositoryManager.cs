@@ -46,7 +46,7 @@ namespace MoncatiCar.Data.SeedWork
 
         public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }
