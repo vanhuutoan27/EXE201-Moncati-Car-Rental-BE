@@ -1,1 +1,4 @@
 ﻿.vs
+MocatiCar.Core/obj/Debug/net8.0
+Moncati-Car-API/obj/Debug/net8.0
+MoncatiCar.Data/obj/Debug/net8.0
