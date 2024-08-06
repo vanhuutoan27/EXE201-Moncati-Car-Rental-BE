@@ -42,6 +42,18 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
+        public async Task<bool> DeleteBrand(Guid id)
+        {
+            var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
+            if (model == null)
+            {
+                return false;
+            }
+            _repositoryManager.ModelRepository.Remove(model);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<ModelRespone>> GetAllModels(int page, int limit)
         {
             var listModel = await _repositoryManager.ModelRepository.GetAllModelAsync(page, limit);
@@ -59,6 +71,12 @@ namespace MoncatiCar.Data.Services
         {
             var model = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
             return _mapper.Map<IEnumerable<ModelRespone>>(model);
+        }
+
+        public async Task<ModelRespone> GetModelById(Guid id)
+        {
+            var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
+            return _mapper.Map<ModelRespone>(model);
         }
 
         public async Task<bool> UpdateModel(Guid id, CreateUpdateModelRequest updateModelRequest)

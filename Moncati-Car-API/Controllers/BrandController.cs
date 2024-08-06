@@ -43,6 +43,29 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ResultModel>> GetById(Guid id)
+        {
+            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            if(brand == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Brand isn't exist"
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = brand,
+                Message = "GetBrandById Successfully."
+            });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateBrandRequest addBrandRequest)
         {
@@ -95,6 +118,27 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Message = "Update Successfully"
+            });
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        {
+            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            if (brand == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Brand not found."
+                });
+            }            
+            await _serviceManager.BrandService.DeleteBrand(id);
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Delete Successfully."
             });
         }
     }

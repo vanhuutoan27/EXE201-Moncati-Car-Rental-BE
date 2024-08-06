@@ -10,5 +10,7 @@ namespace MocatiCar.Core.Services
         Task<IEnumerable<ModelRespone>> GetAllModels(int page, int limit);
         Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id);
         Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName);
+        Task<ModelRespone> GetModelById(Guid id);
+        Task<bool> DeleteBrand(Guid id);
     }
 }
