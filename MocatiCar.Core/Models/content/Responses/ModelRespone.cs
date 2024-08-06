@@ -8,6 +8,7 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class ModelRespone
     {
+        public Guid ModelId { get; set; }
         public string ModelName { get; set; }
         public string? Description { get; set; }
         public int Year { get; set; }

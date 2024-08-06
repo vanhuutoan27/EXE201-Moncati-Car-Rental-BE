@@ -47,7 +47,31 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpGet("{brandId:guid}")]
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<ActionResult<ResultModel>> GetById(Guid id)
+        {
+            var checkModelExist = await _serviceManager.ModelService.GetModelById(id);
+            if (checkModelExist == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Model isn't exist!!!"
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = checkModelExist,
+                Message = "GetModelById Successfully."
+            });
+        }
+
+        [HttpGet]
+        [Route("brand/{brandId:guid}")]
         public async Task<ActionResult<ResultModel>> GetModelByBrandId(Guid brandId)
         {
             var models = await _serviceManager.ModelService.GetModelByBrandId(brandId);
@@ -153,5 +177,27 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        {
+            var checkExistModel = await _serviceManager.ModelService.GetModelById(id);
+            if(checkExistModel == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Model isn't exist!!!"
+                });
+            }
+            await _serviceManager.ModelService.DeleteBrand(id);
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Delete Successfully"
+            });
+        }
+
     }
 }
