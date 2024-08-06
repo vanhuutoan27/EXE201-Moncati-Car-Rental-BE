@@ -1,4 +1,14 @@
 ﻿.vs
+Moncati-Car-API/obj/Debug/net8.0/Moncati-Car-API.AssemblyInfo.cs
+Moncati-Car-API/obj/Debug/net8.0/Moncati-Car-API.AssemblyInfoInputs.cache
+MocatiCar.Core/obj/Debug/net8.0
+MoncatiCar.Data/obj/Debug/net8.0
+Moncati-Car-API/obj/Debug/net8.0
+MocatiCar.Core/bin
+MocatiCar.Core/obj
+MoncatiCar.Data/bin
+MoncatiCar.Data/obj
+Moncati-Car-API/bin
 MoncatiCar.Data/obj
 MocatiCar.Core/obj
 MoncatiCar.Data/obj

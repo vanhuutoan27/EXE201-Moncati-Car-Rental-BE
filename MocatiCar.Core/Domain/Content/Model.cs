@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MocatiCar.Core.Domain.Content
 {
@@ -8,7 +9,7 @@ namespace MocatiCar.Core.Domain.Content
         public Guid ModelId { get; set; }
 
         public string ModelName { get; set; }
-        public string Make { get; set; }
+        public string? Description { get; set; }
         public int Year { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -17,5 +18,9 @@ namespace MocatiCar.Core.Domain.Content
 
 
         public ICollection<Car> Cars { get; set; }
+
+        public Guid BrandId { get; set; }
+        [ForeignKey(nameof(BrandId))]
+        public Brand Brand { get; set; }
     }
 }
