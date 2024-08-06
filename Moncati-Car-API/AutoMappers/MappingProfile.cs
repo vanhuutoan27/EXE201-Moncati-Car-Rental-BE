@@ -12,6 +12,8 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<CarType, CarTypeResponse>().ReverseMap();
             CreateMap<Model, CreateUpdateModelRequest>().ReverseMap();
             CreateMap<Model, ModelRespone>().ReverseMap();
+            CreateMap<Brand, CreateUpdateBrandRequest>().ReverseMap();
+            CreateMap<Brand, BrandRespone>().ReverseMap();
         }
     }
 }
