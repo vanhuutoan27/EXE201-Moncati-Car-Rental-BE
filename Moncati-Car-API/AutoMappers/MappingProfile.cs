@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 
 namespace Moncati_Car_API.AutoMappers
@@ -9,6 +10,8 @@ namespace Moncati_Car_API.AutoMappers
         public MappingProfile()
         {
             CreateMap<CarType, CarTypeResponse>().ReverseMap();
+            CreateMap<Model, CreateUpdateModelRequest>().ReverseMap();
+            CreateMap<Model, ModelRespone>().ReverseMap();
         }
     }
 }

@@ -4637,19 +4637,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\quocd\\.nuget\\packages\\": {}
+    "C:\\Users\\ACER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Car_Rental_System\\MoncatiCar.Data\\MoncatiCar.Data.csproj",
+      "projectUniqueName": "E:\\Ky8\\EXE201_Moncati\\EXE201-NJS1704-Moncati-Car-Rental-BE\\MoncatiCar.Data\\MoncatiCar.Data.csproj",
       "projectName": "MoncatiCar.Data",
-      "projectPath": "F:\\Car_Rental_System\\MoncatiCar.Data\\MoncatiCar.Data.csproj",
-      "packagesPath": "C:\\Users\\quocd\\.nuget\\packages\\",
-      "outputPath": "F:\\Car_Rental_System\\MoncatiCar.Data\\obj\\",
+      "projectPath": "E:\\Ky8\\EXE201_Moncati\\EXE201-NJS1704-Moncati-Car-Rental-BE\\MoncatiCar.Data\\MoncatiCar.Data.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "E:\\Ky8\\EXE201_Moncati\\EXE201-NJS1704-Moncati-Car-Rental-BE\\MoncatiCar.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\quocd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4663,8 +4663,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "F:\\Car_Rental_System\\MocatiCar.Core\\MocatiCar.Core.csproj": {
-              "projectPath": "F:\\Car_Rental_System\\MocatiCar.Core\\MocatiCar.Core.csproj"
+            "E:\\Ky8\\EXE201_Moncati\\EXE201-NJS1704-Moncati-Car-Rental-BE\\MocatiCar.Core\\MocatiCar.Core.csproj": {
+              "projectPath": "E:\\Ky8\\EXE201_Moncati\\EXE201-NJS1704-Moncati-Car-Rental-BE\\MocatiCar.Core\\MocatiCar.Core.csproj"
             }
           }
         }
@@ -4673,11 +4673,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4729,7 +4724,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

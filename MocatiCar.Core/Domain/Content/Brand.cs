@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Domain.Content
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-        public ICollection<Car> Cars { get; set; }
+        public ICollection<Model> Models { get; set; }
 
     }
 }
