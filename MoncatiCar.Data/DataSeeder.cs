@@ -28,7 +28,7 @@ namespace MoncatiCar.Data
                 var user = new AppUser()
                 {
                     Id = userId,
-                    FullName = "QuocDai",
+                    FullName = "admin",
                     Email = "admin@gmail.com",
                     NormalizedEmail = "ADMIN@GMAIL.COM",
                     UserName = "admin",
