@@ -58,7 +58,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Model isn't exist!!!"
+                    Message = "Model not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -66,7 +66,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = checkModelExist,
-                Message = "GetModelById Successfully."
+                Message = "Model retrieved successfully."
             });
         }
 
@@ -96,7 +96,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpGet("by-name/{brandName}")]
+        [HttpGet("brand/{brandName}")]
         public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
         {
             var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
@@ -177,17 +177,18 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<ResultModel>> Delete(Guid id)
         {
             var checkExistModel = await _serviceManager.ModelService.GetModelById(id);
-            if(checkExistModel == null)
+            if (checkExistModel == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Model isn't exist!!!"
+                    Message = "Model not found."
                 });
             }
             await _serviceManager.ModelService.DeleteBrand(id);
@@ -195,9 +196,8 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Delete Successfully"
+                Message = "Model deleted successfully."
             });
         }
-
     }
 }
