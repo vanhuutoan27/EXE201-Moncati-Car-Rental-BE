@@ -11,6 +11,11 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
+        public async Task<bool> CheckModelNameExist(string modelName)
+        {
+            return await _context.Models.AnyAsync(x => x.ModelName == modelName);
+        }
+
         public async Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit)
         {
             if(page > 0 && limit > 0)

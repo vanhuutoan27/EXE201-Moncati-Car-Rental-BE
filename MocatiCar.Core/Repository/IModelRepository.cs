@@ -10,5 +10,6 @@ namespace MocatiCar.Core.Repository
         void UpdateModel(Guid id, Model model);
         Task<IEnumerable<Model>> GetModelByBrandId(Guid brandId);
         Task<IEnumerable<Model>> GetModelByBrandName(string name);
+        Task<bool> CheckModelNameExist(string modelName);
     }
 }
