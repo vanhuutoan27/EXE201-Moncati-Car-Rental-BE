@@ -24,6 +24,12 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("BrandId isn't exist");
             }
+
+            // check ModelName exist
+            if(await _repositoryManager.ModelRepository.CheckModelNameExist(addModelRequest.ModelName))
+            {
+                throw new Exception("Model Name already existed.");
+            }
             var createModel = _mapper.Map<Model>(addModelRequest);
             var model = new Model()
             {
@@ -87,6 +93,11 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Model isn't exist");
             }
 
+            // check ModelName exist
+            if (await _repositoryManager.ModelRepository.CheckModelNameExist(updateModelRequest.ModelName))
+            {
+                throw new Exception("Model Name already existed.");
+            }
             //check brandId
             var checkBrandId = await _repositoryManager.BrandRepository.GetByIdAsync(updateModelRequest.BrandId);
             if (checkBrandId == null || !updateModelRequest.BrandId.Equals(checkBrandId.BrandId))
