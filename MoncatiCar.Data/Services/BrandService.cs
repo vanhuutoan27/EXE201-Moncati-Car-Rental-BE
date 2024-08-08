@@ -16,6 +16,7 @@ namespace MoncatiCar.Data.Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
+
         public async Task<CreateUpdateBrandRequest> AddBrand(CreateUpdateBrandRequest brandRequest)
         {
             var createBrand = _mapper.Map<Brand>(brandRequest);
@@ -23,7 +24,7 @@ namespace MoncatiCar.Data.Services
             // check brandName exist
             if(await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
             {
-                throw new Exception("BrandName already existed.");
+                throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
             }
             var model = new Brand()
             {
@@ -45,7 +46,7 @@ namespace MoncatiCar.Data.Services
             var brand = await _repositoryManager.BrandRepository.GetByIdAsync(id);
             if (brand == null)
             {
-                return false;
+                throw new Exception("Brand not found.");
             }
             _repositoryManager.BrandRepository.Remove(brand);
             await _repositoryManager.SaveAsync();
@@ -69,6 +70,10 @@ namespace MoncatiCar.Data.Services
         public async Task<BrandRespone> GetBrandById(Guid id)
         {
             var brand = await _repositoryManager.BrandRepository.GetByIdAsync(id);
+            if (brand == null)
+            {
+                throw new Exception("Brand not found.");
+            }
             return _mapper.Map<BrandRespone>(brand);
         }
 
@@ -77,13 +82,13 @@ namespace MoncatiCar.Data.Services
             var updateBrand = await _repositoryManager.BrandRepository.GetBrandById(id);
             if (updateBrand == null)
             {
-                return false;
+                throw new Exception("Brand not found.");
             }
 
             // check brandName exist
             if (await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
             {
-                throw new Exception("BrandName already existed.");
+                throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
             }
 
             updateBrand.BrandName = brandRequest.BrandName;

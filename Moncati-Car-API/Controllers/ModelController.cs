@@ -22,16 +22,15 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 1)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
         {
-            var listModel = await _serviceManager.ModelService.GetAllModels(page, limit);
-            if (listModel == null || !listModel.Any())
+            var models = await _serviceManager.ModelService.GetAllModels(page, limit);
+            if (models == null)
             {
                 _resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Data = null,
                     Message = "No models found."
                 };
                 return NotFound(_resultModel);
@@ -40,7 +39,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = listModel,
+                Data = models,
                 Message = "Models retrieved successfully."
             };
 

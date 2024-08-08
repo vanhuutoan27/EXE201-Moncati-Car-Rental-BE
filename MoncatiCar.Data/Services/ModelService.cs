@@ -19,17 +19,18 @@ namespace MoncatiCar.Data.Services
 
         public async Task<CreateUpdateModelRequest> AddModel(CreateUpdateModelRequest addModelRequest)
         {
-            var brandId = await _repositoryManager.BrandRepository.GetByIdAsync(addModelRequest.BrandId);
-            if (brandId == null)
+            var brand = await _repositoryManager.BrandRepository.GetByIdAsync(addModelRequest.BrandId);
+            if (brand == null)
             {
-                throw new Exception("BrandId isn't exist");
+                throw new Exception($"Brand with ID '{addModelRequest.BrandId}' does not exist.");
             }
 
             // check ModelName exist
-            if(await _repositoryManager.ModelRepository.CheckModelNameExist(addModelRequest.ModelName))
+            if (await _repositoryManager.ModelRepository.CheckModelNameExist(addModelRequest.ModelName))
             {
-                throw new Exception("Model Name already existed.");
+                throw new Exception($"Model name '{addModelRequest.ModelName}' already exists.");
             }
+
             var createModel = _mapper.Map<Model>(addModelRequest);
             var model = new Model()
             {
@@ -53,7 +54,7 @@ namespace MoncatiCar.Data.Services
             var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
             if (model == null)
             {
-                return false;
+                throw new Exception($"Model with ID '{id}' does not exist.");
             }
             _repositoryManager.ModelRepository.Remove(model);
             await _repositoryManager.SaveAsync();
@@ -64,51 +65,67 @@ namespace MoncatiCar.Data.Services
         {
             var listModel = await _repositoryManager.ModelRepository.GetAllModelAsync(page, limit);
             var totalItems = await _repositoryManager.ModelRepository.GetTotalModelCountAsync();
-            return new PageResult<Model>
+
+            var pageResult = new PageResult<Model>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
                 TotalItems = totalItems,
                 Items = listModel
             };
+
+            return pageResult;
         }
 
         public async Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id)
         {
-            var model = await _repositoryManager.ModelRepository.GetModelByBrandId(id);
-            return _mapper.Map<IEnumerable<ModelRespone>>(model);
+            var models = await _repositoryManager.ModelRepository.GetModelByBrandId(id);
+            if (models == null || !models.Any())
+            {
+                throw new Exception($"No models found for brand with ID '{id}'.");
+            }
+            return _mapper.Map<IEnumerable<ModelRespone>>(models);
         }
 
         public async Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName)
         {
-            var model = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
-            return _mapper.Map<IEnumerable<ModelRespone>>(model);
+            var models = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
+            if (models == null || !models.Any())
+            {
+                throw new Exception($"No models found for brand with name '{brandName}'.");
+            }
+            return _mapper.Map<IEnumerable<ModelRespone>>(models);
         }
 
         public async Task<ModelRespone> GetModelById(Guid id)
         {
             var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
+            if (model == null)
+            {
+                throw new Exception($"Model with ID '{id}' does not exist.");
+            }
             return _mapper.Map<ModelRespone>(model);
         }
 
         public async Task<bool> UpdateModel(Guid id, CreateUpdateModelRequest updateModelRequest)
         {
             var updateModel = await _repositoryManager.ModelRepository.GetByIdAsync(id);
-            if(updateModel == null)
+            if (updateModel == null)
             {
-                throw new Exception("Model isn't exist");
+                throw new Exception($"Model with ID '{id}' does not exist.");
             }
 
             // check ModelName exist
             if (await _repositoryManager.ModelRepository.CheckModelNameExist(updateModelRequest.ModelName))
             {
-                throw new Exception("Model Name already existed.");
+                throw new Exception($"Model name '{updateModelRequest.ModelName}' already exists.");
             }
-            //check brandId
-            var checkBrandId = await _repositoryManager.BrandRepository.GetByIdAsync(updateModelRequest.BrandId);
-            if (checkBrandId == null || !updateModelRequest.BrandId.Equals(checkBrandId.BrandId))
+
+            // check brandId
+            var brand = await _repositoryManager.BrandRepository.GetByIdAsync(updateModelRequest.BrandId);
+            if (brand == null || !updateModelRequest.BrandId.Equals(brand.BrandId))
             {
-                throw new Exception("Brand isn't exist");
+                throw new Exception($"Brand with ID '{updateModelRequest.BrandId}' does not exist.");
             }
 
             updateModel.ModelName = updateModelRequest.ModelName;
