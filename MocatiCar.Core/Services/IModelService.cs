@@ -8,7 +8,7 @@ namespace MocatiCar.Core.Services
     {
         Task<CreateUpdateModelRequest> AddModel(CreateUpdateModelRequest addModelRequest);
         Task<bool> UpdateModel(Guid id, CreateUpdateModelRequest updateModelRequest);
-        Task<PageResult<Model>> GetAllModels(int page, int limit);
+        Task<PageResult<ModelRespone>> GetAllModels(int page, int limit);
         Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id);
         Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName);
         Task<ModelRespone> GetModelById(Guid id);

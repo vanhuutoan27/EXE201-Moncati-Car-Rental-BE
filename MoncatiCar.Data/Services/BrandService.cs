@@ -52,17 +52,18 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<Brand>> GetAllBrands(int page, int limit)
+        public async Task<PageResult<BrandRespone>> GetAllBrands(int page, int limit)
         {
             var listBrand = await _repositoryManager.BrandRepository.GetAllBrandAsync(page, limit);
+            var listResult = _mapper.Map<IEnumerable<BrandRespone>>(listBrand);
             var totalItems = await _repositoryManager.BrandRepository.GetTotalBrandCountAsync();
 
-            return new PageResult<Brand>
+            return new PageResult<BrandRespone>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
                 TotalItems = totalItems,
-                Items = listBrand
+                Items = listResult
             };
         }
 
