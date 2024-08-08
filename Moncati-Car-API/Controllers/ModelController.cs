@@ -22,7 +22,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 1)
         {
             var listModel = await _serviceManager.ModelService.GetAllModels(page, limit);
             if (listModel == null || !listModel.Any())

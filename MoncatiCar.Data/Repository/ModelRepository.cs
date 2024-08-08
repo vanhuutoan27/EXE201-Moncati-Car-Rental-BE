@@ -41,6 +41,10 @@ namespace MoncatiCar.Data.Repository
             return await _context.Models.Where(b => b.ModelId == id).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetTotalModelCountAsync()
+        {
+            return await _context.Models.CountAsync();
+        }
 
         public void UpdateModel(Guid id, Model model)
         {
