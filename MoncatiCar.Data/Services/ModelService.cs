@@ -73,8 +73,6 @@ namespace MoncatiCar.Data.Services
                 TotalItems = totalItems,
                 Items = listResult
             };
-
-            return pageResult;
         }
 
         public async Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id)
