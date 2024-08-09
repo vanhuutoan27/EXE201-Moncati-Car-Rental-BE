@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -72,7 +70,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
         {
             var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
-            if (model.IsNullOrEmpty())
+            if (model == null || !model.Any())
             {
                 return NotFound(_resultModel = new ResultModel
                 {

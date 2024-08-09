@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 using System.Net;
 
@@ -20,6 +20,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
         {
             var listBrand = await _serviceManager.BrandService.GetAllBrands(page, limit);
@@ -87,7 +88,7 @@ namespace Moncati_Car_API.Controllers
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
                     Message = "Update Fail."
-                });             
+                });
             }
             // update success
             return Ok(_resultModel = new ResultModel
