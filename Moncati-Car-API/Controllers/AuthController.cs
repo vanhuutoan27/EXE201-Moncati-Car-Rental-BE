@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         [AllowAnonymous]
         public async Task<ActionResult<ResultModel>> Login([FromBody] LoginRequest request)
         {
@@ -75,12 +75,12 @@ namespace Moncati_Car_API.Controllers
             _resp.Success = true;
             _resp.Data = new AutheticatedResult()
             {
-                Token = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken,
                 ExpiryTime = user.RefreshTokenExpiryTime
             };
             _resp.Status = (int)HttpStatusCode.OK;
-            _resp.Message = "Login Successfull";
+            _resp.Message = "Login Successfully";
             return _resp;
         }
     }
