@@ -15,11 +15,15 @@ builder.Services.ConfigureServiceManager();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.ConfigureSqlContext(configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.ConfigureJwtSetting(configuration);
+builder.Services.ConfigureTokenAndManagerIdentity();
+
+builder.Services.AddCustomJwtAuthentication(configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+//builder.Services.AddSwaggerGen();
+builder.Services.AddCustomSwagger();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +38,7 @@ app.UseExceptionHandler(opt => { });
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
