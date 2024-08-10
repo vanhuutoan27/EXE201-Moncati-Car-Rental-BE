@@ -38,32 +38,30 @@ namespace Moncati_Car_API.Controllers
         {
             if (request == null)
             {
-                return BadRequest("Invalid request");
+                return BadRequest("Invalid request.");
             }
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if (user == null || user.IsActive == false || user.LockoutEnabled)
+            if (user == null || !user.IsActive || user.LockoutEnabled)
             {
-                return Unauthorized();
+                return Unauthorized("Invalid credentials.");
             }
+
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
             if (!result.Succeeded)
             {
-                return Unauthorized("Invalid Password");
+                return Unauthorized("Incorrect password.");
             }
 
-            //authorize
+            // Authorization
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Email, user.Email),
                  new Claim(UserClaims.Id, user.Id.ToString()),
-                // new Claim(ClaimTypes.NameIdentifier, user.UserName),
-                new Claim(UserClaims.FullName, user.FullName),
-                 //new Claim(ClaimTypes.Name, user.FullName),
-                    new Claim(UserClaims.Roles, string.Join(";", roles)),
-                   // new Claim(UserClaims.Permissions, JsonSerializer.Serialize(permissions)),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                 new Claim(UserClaims.FullName, user.FullName),
+                 new Claim(UserClaims.Roles, string.Join(";", roles)),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
@@ -77,10 +75,10 @@ namespace Moncati_Car_API.Controllers
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                ExpiryTime = user.RefreshTokenExpiryTime
+                ExpiredAt = user.RefreshTokenExpiryTime
             };
             _resp.Status = (int)HttpStatusCode.OK;
-            _resp.Message = "Login Successfully";
+            _resp.Message = "Login successful.";
             return _resp;
         }
     }
