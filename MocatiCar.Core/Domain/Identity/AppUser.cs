@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Content;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MocatiCar.Core.Domain.Identity
 {
@@ -21,7 +22,7 @@ namespace MocatiCar.Core.Domain.Identity
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-
+       
         public ICollection<Car> Cars { get; set; }
         public ICollection<Review> Reviews { get; set; }
 

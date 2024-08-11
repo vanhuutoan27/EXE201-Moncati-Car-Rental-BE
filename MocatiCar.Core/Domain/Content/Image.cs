@@ -13,9 +13,13 @@ namespace MocatiCar.Core.Domain.Content
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
 
-        public Guid CarId { get; set; }
+        public Guid? CarId { get; set; }
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
 
+        public static implicit operator string(Image v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
