@@ -158,14 +158,14 @@ namespace MoncatiCar.Data.Services
                     UpdatedAt = (DateTime)img.UpdatedAt,
                 }).ToList() ?? new List<ImageResponse>(),
 
-                Reviews = car.Reviews?.Select(review => new ReviewResponse
-                {
-                    ReviewId = review.ReviewId,
-                    Author = review.Author,
-                    Content = review.Content,
-                    CreatedAt = (DateTime)review.CreatedAt,
-                    UpdatedAt = (DateTime)review.UpdatedAt,
-                }).ToList() ?? new List<ReviewResponse>(),
+                //Reviews = car.Reviews?.Select(review => new ReviewResponse
+                //{
+                //    ReviewId = review.ReviewId,
+                //    Author = review.Author,
+                //    Content = review.Content,
+                //    CreatedAt = (DateTime)review.CreatedAt,
+                //    UpdatedAt = (DateTime)review.UpdatedAt,
+                //}).ToList() ?? new List<ReviewResponse>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = DateTime.Now,
@@ -178,17 +178,17 @@ namespace MoncatiCar.Data.Services
             return carResponse;
         }
 
-        public async Task<Car> GetCarByCarId(Guid id)
+        public async Task<CarResponeIdandSlug> GetCarByCarId(Guid id)
         {
             var query = await _repositoryManager.CarRepository.GetCarByCarId(id);
 
-            return query;
+            return _mapper.Map<CarResponeIdandSlug>(query);
         }
 
-        public async Task<Car> GetCarBySlug(string slug)
+        public async Task<CarResponeIdandSlug> GetCarBySlug(string slug)
         {
             var query = await _repositoryManager.CarRepository.GetCarBySlug(slug);
-            return query;
+            return _mapper.Map<CarResponeIdandSlug>(query);
         }
 
         public async Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update)

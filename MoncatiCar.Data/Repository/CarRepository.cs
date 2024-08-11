@@ -32,7 +32,8 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<Car> GetCarBySlug(string slug)
         {
-            var query = await _context.Cars.FirstOrDefaultAsync(c => c.Slug == slug);
+            var query = await _context.Cars.Where(c => c.Slug == slug)
+                                           .Include(c => c.Images).FirstOrDefaultAsync();
             return query;
         }
 
