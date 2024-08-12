@@ -158,14 +158,14 @@ namespace MoncatiCar.Data.Services
                     UpdatedAt = (DateTime)img.UpdatedAt,
                 }).ToList() ?? new List<ImageResponse>(),
 
-                //Reviews = car.Reviews?.Select(review => new ReviewResponse
-                //{
-                //    ReviewId = review.ReviewId,
-                //    Author = review.Author,
-                //    Content = review.Content,
-                //    CreatedAt = (DateTime)review.CreatedAt,
-                //    UpdatedAt = (DateTime)review.UpdatedAt,
-                //}).ToList() ?? new List<ReviewResponse>(),
+                Reviews = car.Reviews?.Select(review => new ReviewResponse
+                {
+                    ReviewId = review.ReviewId,
+                    Author = review.Author,
+                    Content = review.Content,
+                    CreatedAt = (DateTime)review.CreatedAt,
+                    UpdatedAt = (DateTime)review.UpdatedAt,
+                }).ToList() ?? new List<ReviewResponse>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = DateTime.Now,

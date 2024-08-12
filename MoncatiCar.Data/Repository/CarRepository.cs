@@ -14,9 +14,10 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Car>> GetAllCarAsync(int page, int limit)
         {
-            IQueryable<Car> query = _context.Cars.Include(m => m.Model).
-                ThenInclude(b => b.Brand)
-                            .Include(i => i.Images);
+            IQueryable<Car> query = _context.Cars.Include(m => m.Model)
+                                                 .ThenInclude(b => b.Brand)
+                                                 .Include(i => i.Images)
+                                                 .Include(review => review.Reviews);
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
