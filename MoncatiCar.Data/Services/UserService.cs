@@ -1,0 +1,161 @@
+﻿using AutoMapper;
+using Azure.Core;
+using Microsoft.AspNetCore.Identity;
+using MocatiCar.Core.Domain.Identity;
+using MocatiCar.Core.Models.content.Requests;
+using MocatiCar.Core.Models.content.Responses;
+using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MoncatiCar.Data.Services
+{
+    public class UserService : IUserService
+    {
+
+        private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+
+        public UserService(UserManager<AppUser> userManager,IRepositoryManager repositoryManager, IMapper mapper)
+        {
+            this._userManager = userManager;
+
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
+        }
+
+        public async Task<UserReponse> AddUser(CreateUpdateUserRequest User)
+        {
+            // var userModel = _mapper.Map<AppUser>(User);
+
+
+            var newUserRequest = new AppUser()
+            {
+                Id = Guid.NewGuid(),
+                FullName = User.FullName,
+                Address = User.Address,
+                Avatar = User.Avatar,
+                Dob = User.Dob,
+                Gender = User.Gender,
+                IsActive = false,
+                Email = User.Email,
+                UserName = User.UserName,
+                PhoneNumber = User.PhoneNumber,
+                LockoutEnabled = false,
+                EmailConfirmed = true,
+
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+
+        var result = await _userManager.CreateAsync(newUserRequest, User.Password);
+            newUserRequest = await _userManager.FindByEmailAsync(User.Email);
+            if (!result.Succeeded)
+            {
+
+                throw new Exception("This email is already register");
+            }
+            await _userManager.AddToRoleAsync(newUserRequest, User.Role);
+            var UserResponse =  _mapper.Map<UserReponse>(newUserRequest);
+            return UserResponse;
+        }
+
+        public async Task<UserReponse> GetUserById(Guid id)
+        {
+            var getUser = await _repositoryManager.UserRepository.GetUserById(id);
+            if(getUser == null) {
+                throw new Exception("Not Found By Customer Id");
+
+            }
+            return _mapper.Map<UserReponse>(getUser);   
+
+        }
+
+        public async Task<IEnumerable<UserReponse>> GetUsersAsync(int page, int limit)
+        {
+            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit);   
+            var listUserReponse = _mapper.Map<IEnumerable< UserReponse>>(listUser);
+
+            return listUserReponse;
+        }
+
+        public async Task<bool> RemoveUser(Guid id)
+        {
+            if (id == null)  throw new Exception("Not Found Id");
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null) throw new Exception("Not Found User");
+
+            user.LockoutEnabled = true;
+
+            user.IsActive = false;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+
+
+        }
+
+        public async Task<UserReponse> UpdateUser(Guid id, CreateUpdateUserRequest User)
+        {
+            var UserToEdit = await _userManager.FindByIdAsync(id.ToString());
+            if (UserToEdit == null) throw new Exception("Not Found User");
+            var roles = await _userManager.GetRolesAsync(UserToEdit);
+
+            // Neu Roles thay doi
+            if (roles.FirstOrDefault() != User.Role)
+            {
+                await _repositoryManager.UserRepository.RemoveUserFromRoleAsync(UserToEdit.Id, roles.ToArray());
+                _repositoryManager.SaveAsync();
+                var addedResult = await _userManager.AddToRoleAsync(UserToEdit, User.Role);
+                if (addedResult.Succeeded)
+                {
+                    Console.WriteLine("Alice đã được thêm vào role 'Manager' thành công.");
+                }
+                else
+                {
+                    // Nếu có lỗi, hiển thị các lỗi
+                    foreach (var error in addedResult.Errors)
+                    {
+                        Console.WriteLine($"Lỗi: {error.Description}");
+                    }
+                }
+            }
+
+            if (UserToEdit.Email != User.Email)
+                UserToEdit.Email = User.Email;
+
+            if (UserToEdit.FullName != User.FullName)
+            {
+                UserToEdit.FullName = User.FullName;
+                UserToEdit.UserName = User.FullName.Replace(" ", "");
+            }
+
+            if (UserToEdit.PhoneNumber != User.PhoneNumber)
+                UserToEdit.PhoneNumber = User.PhoneNumber;
+
+            if (UserToEdit.Address != User.Address)
+                UserToEdit.Address = User.Address;
+            if (UserToEdit.Avatar != User.Avatar)
+            {
+                UserToEdit.Avatar = User.Avatar;
+            }
+            var result = await _userManager.UpdateAsync(UserToEdit);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    throw new Exception($"{error.Description}");
+            }
+            var UserReponse = _mapper.Map<UserReponse>(UserToEdit);
+            return UserReponse;
+
+        }
+    }
+}

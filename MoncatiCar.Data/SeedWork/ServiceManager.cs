@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
 using MoncatiCar.Data.Services;
@@ -15,8 +17,10 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IModelService> _modelService;
         private readonly Lazy<IReviewService> _reviewService;
         private readonly Lazy<IBrandService> _brandService;
+        private readonly Lazy<IUserService> _userService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper)
+
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
         {
             _carFeatureService = new Lazy<ICarFeatureService>(() => new CarFeatureService(repositoryManager, mapper));
             _carService = new Lazy<ICarService>(() => new CarService(repositoryManager, mapper));
@@ -26,6 +30,8 @@ namespace MoncatiCar.Data.SeedWork
             _modelService = new Lazy<IModelService>(() => new ModelService(repositoryManager, mapper));
             _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, mapper));
             _brandService = new Lazy<IBrandService>(() => new BrandService(repositoryManager, mapper));
+            _userService = new Lazy<IUserService>(() => new UserService(userManager, repositoryManager, mapper));
+
         }
 
         public ICarFeatureService CarFeatureService => _carFeatureService.Value;
@@ -43,5 +49,7 @@ namespace MoncatiCar.Data.SeedWork
         public IReviewService ReviewService => _reviewService.Value;
 
         public IBrandService BrandService => _brandService.Value;
+
+        public IUserService UserService => _userService.Value;  
     }
 }
