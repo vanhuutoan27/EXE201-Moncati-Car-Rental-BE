@@ -20,7 +20,7 @@ namespace MoncatiCar.Data.Repository
         {
             if(page > 0 && limit > 0)
             {
-                return await _context.Models.Skip((page - 1) * limit).Take(limit).ToListAsync();
+                return await _context.Models.Include(b => b.Brand).Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
             return await _context.Models.ToListAsync();
             
