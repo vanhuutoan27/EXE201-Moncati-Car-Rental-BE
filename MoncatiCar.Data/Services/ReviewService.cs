@@ -67,6 +67,19 @@ namespace MoncatiCar.Data.Services
             return reviewRespone;
         }
 
+        public async Task<IEnumerable<ReviewRespone>> GetReviewByCarId(Guid carId)
+        {
+            var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId);
+
+            if (reviews == null || !reviews.Any())
+            {
+                throw new KeyNotFoundException("CarId does not match!");
+            }
+
+            return _mapper.Map<IEnumerable<ReviewRespone>>(reviews);
+        }
+
+
         public async Task<ReviewRespone> GetReviewById(Guid id)
         {
             var query = await _repositoryManager.ReviewRepository.GetByIdAsync(id);
@@ -84,6 +97,16 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
+        }
+
+        public async Task<IEnumerable<ReviewRespone>> GetReviewByUserId(Guid userId)
+        {
+            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId);
+            if(user == null)
+            {
+                throw new Exception("UserId does not match");
+            }
+            return _mapper.Map<IEnumerable<ReviewRespone>>(user);
         }
 
         public async Task<bool> UpdateReview(Guid id, CreateUpdateReviewRequest update)

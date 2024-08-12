@@ -12,5 +12,7 @@ namespace MocatiCar.Core.Services
         Task<ReviewRespone> GetReviewById(Guid id);
         Task<bool> UpdateReview(Guid id, CreateUpdateReviewRequest update);
         Task<bool> DeleteReview(Guid id);
+        Task<IEnumerable<ReviewRespone>> GetReviewByCarId(Guid carId);
+        Task<IEnumerable<ReviewRespone>> GetReviewByUserId(Guid userId);
     }
 }

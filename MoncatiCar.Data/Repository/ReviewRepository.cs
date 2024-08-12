@@ -23,6 +23,18 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId)
+        {
+            var query = await _context.Reviews.Where(c => c.CarId == carId).ToListAsync();
+            return query;
+        }
+
+        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId)
+        {
+            var query = await _context.Reviews.Where(u =>u.Author == userId).ToListAsync();
+            return query;
+        }
+
         public async Task<Review> GetReviewId(Guid id)
         {
             var query = await _context.Reviews.FirstOrDefaultAsync(r => r.ReviewId == id);
@@ -31,7 +43,7 @@ namespace MoncatiCar.Data.Repository
 
         public void UpdateReview(Guid id, Review review)
         {
-           _context.Reviews.Update(review);    
+            _context.Reviews.Update(review);
         }
     }
 }
