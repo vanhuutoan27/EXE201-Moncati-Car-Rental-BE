@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class CarResponse
     {
-       
+        public Guid CarId { get; set; }
         public Guid Owner { get; set; } 
         public string LicensePlate { get; set; }
         public string Slug { get; set; }
