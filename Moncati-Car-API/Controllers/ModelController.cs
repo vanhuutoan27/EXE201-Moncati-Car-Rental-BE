@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -14,6 +12,7 @@ namespace Moncati_Car_API.Controllers
     {
         private readonly IServiceManager _serviceManager;
         private ResultModel _resultModel;
+
         public ModelController(IServiceManager service)
         {
             _serviceManager = service;
@@ -21,73 +20,102 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
         {
-            var listModel = await _serviceManager.ModelService.GetAllModels(page, limit);
-            if (listModel == null)
+            var models = await _serviceManager.ModelService.GetAllModels(page, limit);
+            if (models == null)
             {
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "Not Found",
-                    Status = (int)HttpStatusCode.NotFound
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No models found."
                 };
+                return NotFound(_resultModel);
             }
             _resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = listModel,
-                Message = "Get All Model Successfully"
+                Data = models,
+                Message = "Models retrieved successfully."
             };
 
             return Ok(_resultModel);
         }
 
         [HttpGet]
-        [Route("{brandId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetModelByBrandId(Guid brandId)
+        [Route("{id:guid}")]
+        public async Task<ActionResult<ResultModel>> GetById(Guid id)
         {
-            var model = await _serviceManager.ModelService.GetModelByBrandId(brandId);
-            if (model == null)
+            var checkModelExist = await _serviceManager.ModelService.GetModelById(id);
+            if (checkModelExist == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Model isn't exist"
+                    Message = "Model not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = model,
-                Message = "Get Model By BrandId Successfully"
+                Data = checkModelExist,
+                Message = "Model retrieved successfully."
             });
         }
 
         [HttpGet]
-        [Route("{brandName}")]
-        public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
+        [Route("brand/{brandId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetModelByBrandId(Guid brandId)
         {
-            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
-            if (model.IsNullOrEmpty())
+            var models = await _serviceManager.ModelService.GetModelByBrandId(brandId);
+            if (models == null || !models.Any())
             {
-                return NotFound(_resultModel = new ResultModel
+                _resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Model isn't exist"
-                });
+                    Message = "No models found."
+                };
+                return NotFound(_resultModel);
             }
-            return Ok(_resultModel = new ResultModel
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = models,
+                Message = "Models retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+
+        [HttpGet("brand/{brandName}")]
+        public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
+        {
+            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
+            if (model == null || !model.Any())
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No models found."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = model,
-                Message = "Get ModelByBrandName Successfully"
-            });
+                Message = "Models retrieved successfully."
+            };
+
+            return Ok(_resultModel);
         }
 
         [HttpPost]
@@ -98,8 +126,10 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.BadRequest
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Invalid data."
                 };
+                return BadRequest(_resultModel);
             }
             var result = await _serviceManager.ModelService.AddModel(addModelRequest);
             if (result == null)
@@ -107,17 +137,17 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Create Brand fail"
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = "Failed to add model."
                 };
-                return NotFound(_resultModel);
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
 
             _resultModel = new ResultModel
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "Create Model Successfully"
+                Message = "Model added successfully."
             };
             return Ok(_resultModel);
         }
@@ -128,21 +158,43 @@ namespace Moncati_Car_API.Controllers
             var update = await _serviceManager.ModelService.UpdateModel(id, updateModelRequest);
             if (!update)
             {
-                return NotFound(_resultModel = new ResultModel
+                _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Update Fail."
-                });
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = "Failed to update model."
+                };
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
             _resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Update Successfully"
+                Message = "Model updated successfully."
             };
             return Ok(_resultModel);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        {
+            var checkExistModel = await _serviceManager.ModelService.GetModelById(id);
+            if (checkExistModel == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Model not found."
+                });
+            }
+            await _serviceManager.ModelService.DeleteBrand(id);
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Model deleted successfully."
+            });
+        }
     }
 }

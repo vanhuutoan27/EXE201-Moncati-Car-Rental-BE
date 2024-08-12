@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
@@ -28,6 +28,7 @@ namespace Moncati_Car_API.AutoMappers
                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                .ReverseMap();
 
+            CreateMap<Brand, BrandResponeGetAll>().ReverseMap();
         }
     }
 }

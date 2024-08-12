@@ -16,9 +16,16 @@ namespace MoncatiCar.Data.Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
+
         public async Task<CreateUpdateBrandRequest> AddBrand(CreateUpdateBrandRequest brandRequest)
         {
             var createBrand = _mapper.Map<Brand>(brandRequest);
+
+            // check brandName exist
+            if(await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
+            {
+                throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
+            }
             var model = new Brand()
             {
                 BrandId = Guid.NewGuid(),
@@ -34,13 +41,41 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
-        public async Task<IEnumerable<BrandRespone>> GetAllBrands(int page, int limit)
+        public async Task<bool> DeleteBrand(Guid id)
+        {
+            var brand = await _repositoryManager.BrandRepository.GetByIdAsync(id);
+            if (brand == null)
+            {
+                throw new Exception("Brand not found.");
+            }
+            _repositoryManager.BrandRepository.Remove(brand);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
+
+        public async Task<PageResult<BrandRespone>> GetAllBrands(int page, int limit)
         {
             var listBrand = await _repositoryManager.BrandRepository.GetAllBrandAsync(page, limit);
+            var listResult = _mapper.Map<IEnumerable<BrandRespone>>(listBrand);
+            var totalItems = await _repositoryManager.BrandRepository.GetTotalBrandCountAsync();
 
-            var listBrandRespone = _mapper.Map<IEnumerable<BrandRespone>>(listBrand);
+            return new PageResult<BrandRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = listResult
+            };
+        }
 
-            return listBrandRespone;
+        public async Task<BrandRespone> GetBrandById(Guid id)
+        {
+            var brand = await _repositoryManager.BrandRepository.GetByIdAsync(id);
+            if (brand == null)
+            {
+                throw new Exception("Brand not found.");
+            }
+            return _mapper.Map<BrandRespone>(brand);
         }
 
         public async Task<bool> UpdateBrand(Guid id, CreateUpdateBrandRequest brandRequest)
@@ -48,7 +83,13 @@ namespace MoncatiCar.Data.Services
             var updateBrand = await _repositoryManager.BrandRepository.GetBrandById(id);
             if (updateBrand == null)
             {
-                return false;
+                throw new Exception("Brand not found.");
+            }
+
+            // check brandName exist
+            if (await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
+            {
+                throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
             }
 
             updateBrand.BrandName = brandRequest.BrandName;

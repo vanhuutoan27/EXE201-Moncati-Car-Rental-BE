@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 using System.Net;
 
@@ -13,6 +13,7 @@ namespace Moncati_Car_API.Controllers
     {
         private readonly IServiceManager _serviceManager;
         private ResultModel _resultModel;
+
         public BrandController(IServiceManager service)
         {
             _serviceManager = service;
@@ -20,27 +21,51 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
         {
-            var listBrand = await _serviceManager.BrandService.GetAllBrands(page, limit);
-            if (listBrand == null)
+            var brands = await _serviceManager.BrandService.GetAllBrands(page, limit);
+            if (brands == null)
             {
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "Not record is matched!!!",
-                    Status = (int)HttpStatusCode.NotFound
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No brands found."
                 };
+                return NotFound(_resultModel);
             }
             _resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = listBrand,
-                Message = "Get All Brand Successfully"
+                Data = brands,
+                Message = "Brands retrieved successfully."
             };
 
             return Ok(_resultModel);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ResultModel>> GetById(Guid id)
+        {
+            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            if (brand == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Brand not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = brand,
+                Message = "Brand retrieved successfully."
+            });
         }
 
         [HttpPost]
@@ -51,8 +76,10 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.BadRequest
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Invalid data."
                 };
+                return BadRequest(_resultModel);
             }
             var result = await _serviceManager.BrandService.AddBrand(addBrandRequest);
             if (result == null)
@@ -61,7 +88,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Create Brand fail"
+                    Message = "Failed to add brand."
                 };
                 return NotFound(_resultModel);
             }
@@ -70,7 +97,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "Create Brand Successfully"
+                Message = "Brand added successfully."
             };
             return Ok(_resultModel);
         }
@@ -81,20 +108,42 @@ namespace Moncati_Car_API.Controllers
             var update = await _serviceManager.BrandService.UpdateBrand(id, updateBrandRequest);
             if (!update)
             {
-                //update fail
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Failed to update brand."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Brand updated successfully."
+            };
+            return Ok(_resultModel);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        {
+            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            if (brand == null)
+            {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Update Fail."
-                });             
+                    Message = "Brand not found."
+                });
             }
-            // update success
+            await _serviceManager.BrandService.DeleteBrand(id);
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Update Successfully"
+                Message = "Brand deleted successfully."
             });
         }
     }

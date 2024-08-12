@@ -28,20 +28,19 @@ namespace MoncatiCar.Data
                 var user = new AppUser()
                 {
                     Id = userId,
-                    FullName = "QuocDai",
-                    Email = "admin@gmail.com",
-                    NormalizedEmail = "ADMIN@GMAIL.COM",
-                    UserName = "admin",
-                    NormalizedUserName = "ADMIN",
-                    Address = "HCM",
+                    FullName = "asd",
+                    Email = "asd@gmail.com",
+                    NormalizedEmail = "ASD@GMAIL.COM",
+                    UserName = "asd",
+                    NormalizedUserName = "ASD",
+                    Address = "Cu Chi",
                     IsActive = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LockoutEnabled = false,
                     CreatedAt = DateTime.Now,
                     EmailConfirmed = true,
-
                 };
-                user.PasswordHash = passwordHasher.HashPassword(user, "Admin@123");
+                user.PasswordHash = passwordHasher.HashPassword(user, "123As@");
                 await context.Users.AddAsync(user);
 
                 await context.UserRoles.AddAsync(new IdentityUserRole<Guid>()

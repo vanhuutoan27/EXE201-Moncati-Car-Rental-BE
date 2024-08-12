@@ -11,11 +11,16 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
+        public async Task<bool> CheckModelNameExist(string modelName)
+        {
+            return await _context.Models.AnyAsync(x => x.ModelName == modelName);
+        }
+
         public async Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit)
         {
             if(page > 0 && limit > 0)
             {
-                return await _context.Models.Skip((page - 1) * limit).Take(limit).ToListAsync();
+                return await _context.Models.Include(b => b.Brand).Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
             return await _context.Models.ToListAsync();
             
@@ -36,6 +41,10 @@ namespace MoncatiCar.Data.Repository
             return await _context.Models.Where(b => b.ModelId == id).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetTotalModelCountAsync()
+        {
+            return await _context.Models.CountAsync();
+        }
 
         public void UpdateModel(Guid id, Model model)
         {

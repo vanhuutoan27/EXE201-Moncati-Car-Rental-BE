@@ -11,6 +11,12 @@ namespace MoncatiCar.Data.Repository
         {
 
         }
+
+        public async Task<bool> CheckBrandName(string brandName)
+        {
+            return await _context.Brands.AnyAsync(b => b.BrandName == brandName);
+        }
+
         public async Task<IEnumerable<Brand>> GetAllBrandAsync(int page, int limit)
         {
             if(page > 0 && limit > 0)
@@ -25,9 +31,15 @@ namespace MoncatiCar.Data.Repository
             return await _context.Brands.Where(b => b.BrandId == id).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetTotalBrandCountAsync()
+        {
+            return await _context.Brands.CountAsync();
+        }
+
         public void UpdateBrand(Guid id, Brand brand)
         {
             _context.Update(brand);
         }
+
     }
 }

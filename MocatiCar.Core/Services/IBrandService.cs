@@ -1,4 +1,5 @@
-﻿using MocatiCar.Core.Models.content.Requests;
+﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 
 namespace MocatiCar.Core.Services
@@ -7,6 +8,8 @@ namespace MocatiCar.Core.Services
     {
         Task<CreateUpdateBrandRequest> AddBrand(CreateUpdateBrandRequest brandRequest);
         Task<bool> UpdateBrand(Guid id, CreateUpdateBrandRequest brand);
-        Task<IEnumerable<BrandRespone>> GetAllBrands(int page, int limit);
+        Task<PageResult<BrandRespone>> GetAllBrands(int page, int limit);
+        Task<BrandRespone> GetBrandById(Guid id);
+        Task<bool> DeleteBrand(Guid id);
     }
 }

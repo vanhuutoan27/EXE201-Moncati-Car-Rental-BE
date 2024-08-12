@@ -1,0 +1,85 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MocatiCar.Core.Domain.Identity;
+using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.auth;
+using MocatiCar.Core.SeedWorks.Constants;
+using Moncati_Car_API.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+
+namespace Moncati_Car_API.Controllers
+{
+    [Route("api/v1/auth")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<AppRole> _roleManager;
+        private readonly ITokenService _tokenService;
+        private readonly ResultModel _resp;
+
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, ITokenService tokenService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
+            _resp = new ResultModel();
+            _tokenService = tokenService;
+        }
+
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResultModel>> Login([FromBody] LoginRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Invalid request.");
+            }
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (user == null || !user.IsActive || user.LockoutEnabled)
+            {
+                return Unauthorized("Invalid credentials.");
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+            if (!result.Succeeded)
+            {
+                return Unauthorized("Incorrect password.");
+            }
+
+            // Authorization
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new[]
+            {
+                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                 new Claim(UserClaims.Id, user.Id.ToString()),
+                 new Claim(UserClaims.FullName, user.FullName),
+                 new Claim(UserClaims.Roles, string.Join(";", roles)),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(30);
+            await _userManager.UpdateAsync(user);
+
+            _resp.Success = true;
+            _resp.Data = new AutheticatedResult()
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpiredAt = user.RefreshTokenExpiryTime
+            };
+            _resp.Status = (int)HttpStatusCode.OK;
+            _resp.Message = "Login successful.";
+            return _resp;
+        }
+    }
+}
