@@ -19,7 +19,8 @@ namespace Moncati_Car_API.AutoMappers
                 .ForMember(dest => dest.Images , opt => 
                 opt.MapFrom(src => src.Images.Select(i => i.Url)
                 .ToList()));
-                
+            CreateMap<Review, ReviewRespone>().ReverseMap();  
+            CreateMap<Review , CreateUpdateReviewRequest>().ReverseMap();
         }
     }
 }

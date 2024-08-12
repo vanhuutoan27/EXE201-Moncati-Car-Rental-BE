@@ -27,7 +27,7 @@ namespace MoncatiCar.Data.SeedWork
             _featureService = new Lazy<IFeatureService>(() => new FeatureService(repositoryManager, mapper));
             _imageService = new Lazy<IImageService>(() => new ImageService(repositoryManager, mapper));
             _modelService = new Lazy<IModelService>(() => new ModelService(repositoryManager, mapper));
-            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, mapper));
+            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, mapper, userManager));
             _brandService = new Lazy<IBrandService>(() => new BrandService(repositoryManager, mapper));
         }
 
