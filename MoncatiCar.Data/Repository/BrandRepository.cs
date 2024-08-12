@@ -17,13 +17,22 @@ namespace MoncatiCar.Data.Repository
             return await _context.Brands.AnyAsync(b => b.BrandName == brandName);
         }
 
-        public async Task<IEnumerable<Brand>> GetAllBrandAsync(int page, int limit)
+        public async Task<IEnumerable<Brand>> GetAllBrandAsync(int page, int limit, string searchName)
         {
-            if(page > 0 && limit > 0)
+            if (searchName == null)
             {
-                return await _context.Brands.Skip((page - 1) * limit).Take(limit).ToListAsync();
+                if (page > 0 && limit > 0)
+                {
+                    return await _context.Brands.Skip((page - 1) * limit).Take(limit).ToListAsync();
+                }
+                return await _context.Brands.ToListAsync();
             }
-            return await _context.Brands.ToListAsync();
+            else
+            {
+                return await _context.Brands
+                    .Where(s => s.BrandName.ToLower().Contains(searchName.ToLower()))
+                    .Skip((page - 1) * limit).Take(limit).ToListAsync();
+            }
         }
 
         public async Task<Brand> GetBrandById(Guid id)

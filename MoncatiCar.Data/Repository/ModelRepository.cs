@@ -16,13 +16,22 @@ namespace MoncatiCar.Data.Repository
             return await _context.Models.AnyAsync(x => x.ModelName == modelName);
         }
 
-        public async Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit)
+        public async Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit, string searchName)
         {
-            if(page > 0 && limit > 0)
+            if(searchName == null)
             {
-                return await _context.Models.Include(b => b.Brand).Skip((page - 1) * limit).Take(limit).ToListAsync();
+                if (page > 0 && limit > 0)
+                {
+                    return await _context.Models.Include(b => b.Brand).Skip((page - 1) * limit).Take(limit).ToListAsync();
+                }
+                return await _context.Models.ToListAsync();
+            } else
+            {
+                return await _context.Models.Include(b => b.Brand)
+                    .Where(s => s.ModelName.ToLower().Contains(searchName.ToLower()))
+                    .Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
-            return await _context.Models.ToListAsync();
+            
             
         }
 

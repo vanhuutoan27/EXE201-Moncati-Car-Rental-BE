@@ -61,9 +61,9 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<ModelRespone>> GetAllModels(int page, int limit)
+        public async Task<PageResult<ModelRespone>> GetAllModels(int page, int limit, string searchName)
         {
-            var listModel = await _repositoryManager.ModelRepository.GetAllModelAsync(page, limit);
+            var listModel = await _repositoryManager.ModelRepository.GetAllModelAsync(page, limit, searchName);
             var listResult = _mapper.Map<IEnumerable<ModelRespone>>(listModel);
             var totalItems = await _repositoryManager.ModelRepository.GetTotalModelCountAsync();
 

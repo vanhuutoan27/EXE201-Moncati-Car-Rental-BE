@@ -5,7 +5,7 @@ namespace MocatiCar.Core.Repository
 {
     public interface IModelRepository : IRepositoryBase<Model, Guid>
     {
-        Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit);
+        Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit, string searchName);
         Task<Model> GetModelById(Guid id);
         void UpdateModel(Guid id, Model model);
         Task<IEnumerable<Model>> GetModelByBrandId(Guid brandId);
