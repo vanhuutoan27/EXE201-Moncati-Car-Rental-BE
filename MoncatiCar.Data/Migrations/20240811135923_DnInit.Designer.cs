@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoncatiCar.Data;
 
@@ -11,9 +12,11 @@ using MoncatiCar.Data;
 namespace MoncatiCar.Data.Migrations
 {
     [DbContext(typeof(MocatiContext))]
-    partial class MocatiContextModelSnapshot : ModelSnapshot
+    [Migration("20240811135923_DnInit")]
+    partial class DnInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -443,29 +446,6 @@ namespace MoncatiCar.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("322488f9-7aa9-49b0-b2b8-fd98b7b260fc"),
-                            DisplayName = "Khách Hàng",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        },
-                        new
-                        {
-                            Id = new Guid("c0278115-8549-4fad-890a-44f8e8fcc022"),
-                            DisplayName = "Quản Lí",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = new Guid("ab8e4032-2d95-45cc-89c1-c039e9e8bc39"),
-                            DisplayName = "Chủ Xe",
-                            Name = "Owner",
-                            NormalizedName = "CarOwener"
-                        });
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Identity.AppUser", b =>
