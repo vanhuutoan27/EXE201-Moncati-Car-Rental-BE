@@ -34,7 +34,7 @@ namespace Moncati_Car_API.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultModel>> Login([FromBody] LoginRequest request)
+        public async Task<ActionResult<ResultModel>> Login([FromBody] MocatiCar.Core.Models.auth.LoginRequest request)
         {
             if (request == null)
             {
@@ -81,5 +81,49 @@ namespace Moncati_Car_API.Controllers
             _resp.Message = "Login successful.";
             return _resp;
         }
+        [HttpPost]
+        [Route("register")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResultModel>> Register([FromBody] RegisterRequests request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var users = new AppUser
+            {
+                FullName = request.FullName,
+                UserName = request.Username,
+                Email = request.Email,
+                IsActive = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                LockoutEnabled = false,
+                CreatedAt = DateTime.Now
+            };
+            var result = await _userManager.CreateAsync(users, request.Password);
+
+            if (result.Succeeded)
+            {
+                //users = await _userManager.FindByEmailAsync(request.Email);
+                //var token = await _userManager.GenerateEmailConfirmationTokenAsync(users);
+                //Console.WriteLine("yourToke: " + token);
+                //var confirmationLink = $"http://localhost:1412/confirm-email/?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(users.Email)}&success=true";
+                //var message = new Message(new string[] { users.Email! }, "Confirmation email link", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>;.");
+                //await emailSender.SendEmailAsync(message);
+
+                await _userManager.AddToRoleAsync(users, Roles.Customer);
+                _resp.Status = (int)HttpStatusCode.OK;
+                _resp.Message = "Register Succesfull!";
+                _resp.Success = true;
+
+                return _resp;
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return BadRequest(ModelState);
+        }
+
     }
 }

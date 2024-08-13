@@ -60,7 +60,7 @@ namespace Moncati_Car_API.Extensions
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
             });
         }
         public static void ConfigureJwtSetting(this IServiceCollection services, IConfiguration configuration)

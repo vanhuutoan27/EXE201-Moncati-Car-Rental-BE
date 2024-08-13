@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
+using MoncatiCar.Data.Configurations;
 
 namespace MoncatiCar.Data
 {
@@ -35,7 +36,7 @@ namespace MoncatiCar.Data
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens")
                .HasKey(x => new { x.UserId });
 
-
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
