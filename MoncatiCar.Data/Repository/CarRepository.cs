@@ -12,17 +12,29 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<IEnumerable<Car>> GetAllCarAsync(int page, int limit)
+        public async Task<IEnumerable<Car>> GetAllCarAsync(int page, int limit, string search)
         {
-            IQueryable<Car> query = _context.Cars.Include(m => m.Model)
-                                                 .ThenInclude(b => b.Brand)
-                                                 .Include(i => i.Images)
-                                                 .Include(review => review.Reviews);
-            if (page > 0 && limit > 0)
+            if (search == null)
             {
-                query = query.Skip((page - 1) * limit).Take(limit);
+                IQueryable<Car> query = _context.Cars.Include(m => m.Model)
+                                                .ThenInclude(b => b.Brand)
+                                                .Include(i => i.Images)
+                                                .Include(review => review.Reviews);
+                if (page > 0 && limit > 0)
+                {
+                    query = query.Skip((page - 1) * limit).Take(limit);
+                }
+                return await query.ToListAsync();
             }
-            return await query.ToListAsync();
+            else
+            {
+                return await _context.Cars.Where(c => c.Slug.ToLower().Contains(search.ToLower()))
+                    .Include(m => m.Model).ThenInclude(b => b.Brand)
+                    .Include(i => i.Images)
+                    .Include(r => r.Reviews)
+                    .Skip((page - 1) * limit).Take(limit).ToListAsync();
+            }
+
         }
 
         public async Task<Car> GetCarByCarId(Guid id)
@@ -37,6 +49,11 @@ namespace MoncatiCar.Data.Repository
             var query = await _context.Cars.Where(c => c.Slug == slug)
                                            .Include(c => c.Images).FirstOrDefaultAsync();
             return query;
+        }
+
+        public async Task<int> GetTotalCarAsync()
+        {
+            return await _context.Cars.CountAsync();
         }
 
         public void UpdateCar(Guid id, Car car)

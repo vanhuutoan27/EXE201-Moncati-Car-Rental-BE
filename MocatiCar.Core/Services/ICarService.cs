@@ -1,5 +1,4 @@
-﻿using MocatiCar.Core.Domain.Content;
-using MocatiCar.Core.Models.content.Requests;
+﻿using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 
 namespace MocatiCar.Core.Services
@@ -7,7 +6,7 @@ namespace MocatiCar.Core.Services
     public interface ICarService
     {
         Task<CreateUpdateCarRequest> AddCar(CreateUpdateCarRequest carRequest);
-        Task<IEnumerable<CarResponse>> GetAllCars(int page, int limit);
+        Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search);
         Task<CarResponeIdandSlug> GetCarByCarId(Guid id);
         Task<CarResponeIdandSlug> GetCarBySlug(string slug);
         Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update);

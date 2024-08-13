@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic.FileIO;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
@@ -40,7 +39,7 @@ namespace MoncatiCar.Data.Services
 
             var model = new Car()
             {
-                ModelId =carRequest.ModelId,
+                ModelId = carRequest.ModelId,
                 CarTypeId = carRequest.CarTypeId,
                 OwnerId = carRequest.OwnerId,
                 licensePlate = carRequest.LicensePlate,
@@ -53,9 +52,8 @@ namespace MoncatiCar.Data.Services
                 Location = carRequest.Location,
                 PricePerDay = carRequest.PricePerDay,
                 RentalStatus = carRequest.RentalStatus,
-                Status = carRequest.Status,
+                Status = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
                 CreatedBy = carRequest.CreatedBy,
                 UpdatedBy = carRequest.UpdatedBy,
 
@@ -100,13 +98,13 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> ChangeStatusAsync(Guid id)
         {
-           var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
-            if(car == null)
+            var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
+            if (car == null)
             {
                 throw new Exception("Not Found Car!");
             }
             var check = car.Status;
-            if(check == true)
+            if (check == true)
             {
                 car.Status = false;
             }
@@ -127,14 +125,14 @@ namespace MoncatiCar.Data.Services
                 return false;
             }
             _repositoryManager.CarRepository.Remove(carId);
-            _repositoryManager.SaveAsync();
+            await _repositoryManager.SaveAsync();
             return true;
         }
 
-        public async Task<IEnumerable<CarResponse>> GetAllCars(int page, int limit)
+        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search)
         {
-            var listCar = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit);
-
+            var listCar = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search);
+            var totalItems = await _repositoryManager.CarRepository.GetTotalCarAsync();
             var carResponse = listCar.Select(car => new CarResponse
             {
                 CarId = car.CarId,
@@ -175,7 +173,13 @@ namespace MoncatiCar.Data.Services
             });
 
 
-            return carResponse;
+            return new PageResult<CarResponse>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = carResponse
+            };
         }
 
         public async Task<CarResponeIdandSlug> GetCarByCarId(Guid id)
@@ -209,11 +213,11 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("ModelId isn't exist");
             }
             var checkOwner = await _userManager.FindByIdAsync(update.OwnerId.ToString());
-            if(checkOwner == null || !update.OwnerId.Equals(checkOwner.Id))
+            if (checkOwner == null || !update.OwnerId.Equals(checkOwner.Id))
             {
                 throw new Exception("OwnerId isn't exist");
             }
-            
+
             query.ModelId = update.ModelId;
             query.CarTypeId = update.CarTypeId;
             query.OwnerId = update.OwnerId;
@@ -227,8 +231,7 @@ namespace MoncatiCar.Data.Services
             query.Location = update.Location;
             query.PricePerDay = update.PricePerDay;
             query.RentalStatus = update.RentalStatus;
-            query.Status     = update.Status;
-            query.CreatedAt = DateTime.Now;
+            query.Status = update.Status;
             query.UpdatedAt = DateTime.Now;
             query.CreatedBy = update.CreatedBy;
             query.UpdatedBy = update.UpdatedBy;

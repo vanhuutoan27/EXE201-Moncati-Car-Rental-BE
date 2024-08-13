@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
     public class CreateUpdateCarRequest
     {
-   
+
         [Required]
         public string LicensePlate { get; set; } = string.Empty;
 
         [Required]
         public string Slug { get; set; } = string.Empty;
-   
+
 
         [Required]
 
@@ -34,8 +29,8 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         public string Location { get; set; } = string.Empty;
 
-     
-      
+
+
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Price per day must be a positive value.")]
         public decimal PricePerDay { get; set; }

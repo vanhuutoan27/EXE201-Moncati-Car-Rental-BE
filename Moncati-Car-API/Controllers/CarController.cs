@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -16,13 +15,13 @@ namespace Moncati_Car_API.Controllers
         private ResultModel _resultModel;
         public CarController(IServiceManager serviceManager)
         {
-            _serviceManager=serviceManager;
-            _resultModel= new ResultModel();
+            _serviceManager = serviceManager;
+            _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
         {
-            var listcar = await _serviceManager.CarService.GetAllCars(page, limit);
+            var listcar = await _serviceManager.CarService.GetAllCars(page, limit, search);
             if (listcar == null)
             {
                 _resultModel = new ResultModel
@@ -158,9 +157,9 @@ namespace Moncati_Car_API.Controllers
             {
                 _resultModel = new ResultModel
                 {
-                    Success= false,
+                    Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message ="Car does not exist!"
+                    Message = "Car does not exist!"
                 };
                 return _resultModel;
             }
@@ -170,7 +169,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
                 Message = "Delete Car Successfully!",
-                Data =  delete
+                Data = delete
             };
         }
 
