@@ -65,7 +65,7 @@ namespace MoncatiCar.Data.Services
         {
             var listModel = await _repositoryManager.ModelRepository.GetAllModelAsync(page, limit, searchName);
             var listResult = _mapper.Map<IEnumerable<ModelRespone>>(listModel);
-            var totalItems = await _repositoryManager.ModelRepository.GetTotalModelCountAsync();
+            var totalItems = await _repositoryManager.ModelRepository.GetTotalModelCountAsync(searchName);
 
             var resultJson = new List<ModelRespone>();
             foreach (var item in listResult)

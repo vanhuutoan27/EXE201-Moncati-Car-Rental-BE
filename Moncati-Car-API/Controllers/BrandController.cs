@@ -21,7 +21,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string? search = null)
         {
             var brands = await _serviceManager.BrandService.GetAllBrands(page, limit, search);
             if (brands == null)

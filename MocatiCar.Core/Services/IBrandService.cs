@@ -8,7 +8,7 @@ namespace MocatiCar.Core.Services
     {
         Task<CreateUpdateBrandRequest> AddBrand(CreateUpdateBrandRequest brandRequest);
         Task<bool> UpdateBrand(Guid id, CreateUpdateBrandRequest brand);
-        Task<PageResult<BrandRespone>> GetAllBrands(int page, int limit, string searchName);
+        Task<PageResult<BrandRespone>> GetAllBrands(int page, int limit, string? searchName);
         Task<BrandRespone> GetBrandById(Guid id);
         Task<bool> DeleteBrand(Guid id);
     }

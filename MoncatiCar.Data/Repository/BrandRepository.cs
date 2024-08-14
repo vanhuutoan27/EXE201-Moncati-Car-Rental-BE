@@ -19,7 +19,8 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Brand>> GetAllBrandAsync(int page, int limit, string searchName)
         {
-            if (searchName == null)
+            searchName = searchName?.Trim();
+            if (string.IsNullOrEmpty(searchName))
             {
                 if (page > 0 && limit > 0)
                 {
@@ -40,8 +41,12 @@ namespace MoncatiCar.Data.Repository
             return await _context.Brands.Where(b => b.BrandId == id).FirstOrDefaultAsync();
         }
 
-        public async Task<int> GetTotalBrandCountAsync()
+        public async Task<int> GetTotalBrandCountAsync(string search)
         {
+            if(!string.IsNullOrEmpty(search))
+            {
+                return await _context.Brands.Where(s => s.BrandName.ToLower().Contains(search.ToLower().Trim())).CountAsync();
+            }
             return await _context.Brands.CountAsync();
         }
 

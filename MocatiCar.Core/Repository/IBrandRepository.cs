@@ -8,7 +8,7 @@ namespace MocatiCar.Core.Repository
     public interface IBrandRepository : IRepositoryBase<Brand, Guid>
     {
         Task<IEnumerable<Brand>> GetAllBrandAsync(int page, int limit, string searchName);
-        Task<int> GetTotalBrandCountAsync();
+        Task<int> GetTotalBrandCountAsync(string search);
         Task<Brand> GetBrandById(Guid id);
         void UpdateBrand(Guid id, Brand brand);
         Task<bool> CheckBrandName(string brandName);

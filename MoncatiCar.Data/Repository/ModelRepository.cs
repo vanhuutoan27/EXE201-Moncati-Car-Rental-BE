@@ -18,7 +18,8 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Model>> GetAllModelAsync(int page, int limit, string searchName)
         {
-            if(searchName == null)
+            searchName = searchName?.Trim();
+            if(string.IsNullOrEmpty(searchName))
             {
                 if (page > 0 && limit > 0)
                 {
@@ -30,9 +31,7 @@ namespace MoncatiCar.Data.Repository
                 return await _context.Models.Include(b => b.Brand)
                     .Where(s => s.ModelName.ToLower().Contains(searchName.ToLower()))
                     .Skip((page - 1) * limit).Take(limit).ToListAsync();
-            }
-            
-            
+            }         
         }
 
         public async Task<IEnumerable<Model>> GetModelByBrandId(Guid brandId)
@@ -50,8 +49,13 @@ namespace MoncatiCar.Data.Repository
             return await _context.Models.Where(b => b.ModelId == id).FirstOrDefaultAsync();
         }
 
-        public async Task<int> GetTotalModelCountAsync()
+        public async Task<int> GetTotalModelCountAsync(string search)
         {
+            if(!string.IsNullOrEmpty(search))
+            {
+                var resultSearch = await _context.Models.Where(s => s.ModelName.ToLower().Contains(search.ToLower().Trim())).CountAsync();
+                return resultSearch;
+            }
             return await _context.Models.CountAsync();
         }
 
