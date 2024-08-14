@@ -41,6 +41,47 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
         [HttpGet]
+        [Route("{reviewId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetReviewById(Guid reviewId)
+        {
+            try
+            {
+                var reviews = await _serviceManager.ReviewService.GetReviewById(reviewId);
+
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = reviews,
+                    Message = "Get reviews by Id successfully."
+                };
+
+                return Ok(_resultModel);
+            }
+            catch (KeyNotFoundException)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No reviews found."
+                };
+
+                return NotFound(_resultModel);
+            }
+            catch (Exception ex)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = $"An error occurred: {ex.Message}"
+                };
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
+            }
+        }
+        [HttpGet]
         [Route("car/{carId:guid}")]
         public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId)
         {
