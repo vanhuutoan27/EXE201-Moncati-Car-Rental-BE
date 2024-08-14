@@ -113,7 +113,7 @@ namespace Moncati_Car_API.Controllers
 
                 await _userManager.AddToRoleAsync(users, Roles.Customer);
                 _resp.Status = (int)HttpStatusCode.OK;
-                _resp.Message = "Register Succesfull!";
+                _resp.Message = "Register successful.";
                 _resp.Success = true;
 
                 return _resp;
