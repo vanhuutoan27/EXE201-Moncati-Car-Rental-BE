@@ -17,8 +17,8 @@
         public string Location { get; set; }
         public decimal PricePerDay { get; set; }
         public ICollection<ImageResponse> Images { get; set; }
-        public ICollection<ReviewResponse> Reviews { get; set; }
-        public ICollection<FeatureResponses> Features { get; set; }
+        //public ICollection<ReviewResponse> Reviews { get; set; }
+        public ICollection<string> Features { get; set; }
         public string RentalStatus { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }

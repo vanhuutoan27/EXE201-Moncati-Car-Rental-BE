@@ -6,5 +6,7 @@ namespace MocatiCar.Core.Services
     public interface IFeatureService
     {
         Task<FeatureResponses> CreateFeaturesAsync(CreateFeatureRequest request);
+        Task<IEnumerable<FeatureResponses>> GetAllFeatureAsync();
+
     }
 }

@@ -90,6 +90,22 @@ namespace MoncatiCar.Data.Services
             //    _repositoryManager.ReviewRepository.Add(review);
             //}
 
+            //add feature
+            if (carRequest.Features != null && carRequest.Features.Any())
+            {
+                foreach (var feature in carRequest.Features)
+                {
+                    var carFeature = new CarFeature()
+                    {
+                        CarId = model.CarId,
+                        FeatureId = Guid.Parse(feature)
+                    };
+                    _repositoryManager.CarFeatureRepository.Add(carFeature);
+
+                }
+            }
+
+
             await _repositoryManager.SaveAsync();
 
             var result = _mapper.Map<CreateUpdateCarRequest>(model);
@@ -132,7 +148,7 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search)
         {
             var listCar = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search);
-            var totalItems = await _repositoryManager.CarRepository.GetTotalCarAsync();
+            var totalItems = listCar.Count();
             var carResponse = listCar.Select(car => new CarResponse
             {
                 CarId = car.CarId,
@@ -141,7 +157,7 @@ namespace MoncatiCar.Data.Services
                 Slug = car.Slug,
                 Brand = car.Model.Brand.BrandName,
                 Model = car.Model.ModelName,
-
+                Location = car.Location,
                 Seats = car.Seats,
                 Transmission = car.Transmission,
                 FuelType = car.FuelType,
@@ -155,7 +171,9 @@ namespace MoncatiCar.Data.Services
                     CreatedAt = (DateTime)img.CreatedAt,
                     UpdatedAt = (DateTime)img.UpdatedAt,
                 }).ToList() ?? new List<ImageResponse>(),
-
+                Features = car.CarFeatures != null
+                         ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
+                                : new List<string>(),
                 //Reviews = car.Reviews?.Select(review => new ReviewResponse
                 //{
                 //    ReviewId = review.ReviewId,
@@ -166,8 +184,8 @@ namespace MoncatiCar.Data.Services
                 //}).ToList() ?? new List<ReviewResponse>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = car.CreatedAt,
+                UpdatedAt = car.UpdatedAt,
                 CreatedBy = car.CreatedBy,
                 UpdatedBy = car.UpdatedBy,
             });
@@ -182,11 +200,50 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<CarResponeIdandSlug> GetCarByCarId(Guid id)
+        public async Task<CarResponse> GetCarByCarId(Guid id)
         {
-            var query = await _repositoryManager.CarRepository.GetCarByCarId(id);
-
-            return _mapper.Map<CarResponeIdandSlug>(query);
+            var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
+            var carResponse = new CarResponse()
+            {
+                CarId = car.CarId,
+                Owner = car.OwnerId,
+                LicensePlate = car.licensePlate,
+                Slug = car.Slug,
+                Brand = car.Model.Brand.BrandName,
+                Model = car.Model.ModelName,
+                Location = car.Location,
+                Seats = car.Seats,
+                Transmission = car.Transmission,
+                FuelType = car.FuelType,
+                FuelConsumption = car.FuelConsumption,
+                Description = car.Description,
+                PricePerDay = car.PricePerDay,
+                Images = car.Images?.Select(img => new ImageResponse
+                {
+                    ImageId = img.ImageId,
+                    Url = img.Url,
+                    CreatedAt = (DateTime)img.CreatedAt,
+                    UpdatedAt = (DateTime)img.UpdatedAt,
+                }).ToList() ?? new List<ImageResponse>(),
+                Features = car.CarFeatures != null
+                         ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
+                                : new List<string>(),
+                //Reviews = car.Reviews?.Select(review => new ReviewResponse
+                //{
+                //    ReviewId = review.ReviewId,
+                //    Author = review.Author,
+                //    Content = review.Content,
+                //    CreatedAt = (DateTime)review.CreatedAt,
+                //    UpdatedAt = (DateTime)review.UpdatedAt,
+                //}).ToList() ?? new List<ReviewResponse>(),
+                RentalStatus = car.RentalStatus,
+                Status = car.Status,
+                CreatedAt = car.CreatedAt,
+                UpdatedAt = car.UpdatedAt,
+                CreatedBy = car.CreatedBy,
+                UpdatedBy = car.UpdatedBy,
+            };
+            return carResponse;
         }
 
         public async Task<CarResponeIdandSlug> GetCarBySlug(string slug)

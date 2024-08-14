@@ -30,5 +30,11 @@ namespace MoncatiCar.Data.Services
             await _repositoryManager.SaveAsync();
             return _mapper.Map<FeatureResponses>(feature);
         }
+
+        public async Task<IEnumerable<FeatureResponses>> GetAllFeatureAsync()
+        {
+            var features = await _repositoryManager.FeatureRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<FeatureResponses>>(features);
+        }
     }
 }

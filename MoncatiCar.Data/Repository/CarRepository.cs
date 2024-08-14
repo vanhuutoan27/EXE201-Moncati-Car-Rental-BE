@@ -14,17 +14,23 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Car>> GetAllCarAsync(int page, int limit, string search)
         {
-            if (search == null)
+            if (string.IsNullOrEmpty(search))
             {
-                IQueryable<Car> query = _context.Cars.Include(m => m.Model)
-                                                .ThenInclude(b => b.Brand)
-                                                .Include(i => i.Images)
-                                                .Include(review => review.Reviews);
+                IQueryable<Car> query = _context.Cars.AsQueryable();
                 if (page > 0 && limit > 0)
                 {
                     query = query.Skip((page - 1) * limit).Take(limit);
                 }
-                return await query.ToListAsync();
+                else
+                {
+                    query = _context.Cars;
+                }
+
+                return await query.Include(m => m.Model)
+                                             .ThenInclude(b => b.Brand)
+                                             .Include(i => i.Images)
+                                             .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
+                                             .Include(review => review.Reviews).ToListAsync();
             }
             else
             {
@@ -32,6 +38,7 @@ namespace MoncatiCar.Data.Repository
                     .Include(m => m.Model).ThenInclude(b => b.Brand)
                     .Include(i => i.Images)
                     .Include(r => r.Reviews)
+                    .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
                     .Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
 
@@ -39,8 +46,12 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<Car> GetCarByCarId(Guid id)
         {
-            var query = await _context.Cars.Where(m => m.CarId == id).
-                                            Include(m => m.Images).FirstOrDefaultAsync();
+            var query = await _context.Cars.Where(m => m.CarId == id)
+                                           .Include(m => m.Model)
+                                             .ThenInclude(b => b.Brand)
+                                             .Include(i => i.Images)
+                                             .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
+                                             .Include(review => review.Reviews).FirstOrDefaultAsync();
             return query;
         }
 

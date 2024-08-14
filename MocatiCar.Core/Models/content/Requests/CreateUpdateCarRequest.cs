@@ -45,6 +45,8 @@ namespace MocatiCar.Core.Models.content.Requests
 
         [Required]
         public List<string> Images { get; set; } = new List<string>();
+
+        public List<string> Features { get; set; }
         //[Required]
         //public List<ReviewDto> Reviews { get; set; }
         [Required]

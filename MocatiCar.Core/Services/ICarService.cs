@@ -7,7 +7,7 @@ namespace MocatiCar.Core.Services
     {
         Task<CreateUpdateCarRequest> AddCar(CreateUpdateCarRequest carRequest);
         Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search);
-        Task<CarResponeIdandSlug> GetCarByCarId(Guid id);
+        Task<CarResponse> GetCarByCarId(Guid id);
         Task<CarResponeIdandSlug> GetCarBySlug(string slug);
         Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update);
         Task<bool> DeleteCar(Guid id);

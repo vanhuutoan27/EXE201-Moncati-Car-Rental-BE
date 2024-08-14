@@ -150,7 +150,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Car", b =>
@@ -226,7 +226,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.CarFeature", b =>
@@ -247,7 +247,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("FeatureId");
 
-                    b.ToTable("CarFeatures");
+                    b.ToTable("CarFeatures", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.CarType", b =>
@@ -278,7 +278,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasKey("CarTypeId");
 
-                    b.ToTable("CarTypes");
+                    b.ToTable("CarTypes", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Feature", b =>
@@ -308,7 +308,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasKey("FeatureId");
 
-                    b.ToTable("Features");
+                    b.ToTable("Features", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Image", b =>
@@ -317,7 +317,7 @@ namespace MoncatiCar.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CarId")
+                    b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -340,7 +340,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Model", b =>
@@ -378,7 +378,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Review", b =>
@@ -417,7 +417,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Identity.AppRole", b =>
@@ -442,7 +442,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -564,7 +564,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Car", b =>
@@ -617,7 +617,9 @@ namespace MoncatiCar.Data.Migrations
                 {
                     b.HasOne("MocatiCar.Core.Domain.Content.Car", "Car")
                         .WithMany("Images")
-                        .HasForeignKey("CarId");
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Car");
                 });
