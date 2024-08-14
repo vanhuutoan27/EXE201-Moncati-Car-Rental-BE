@@ -46,7 +46,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{brandId}")]
         public async Task<ActionResult<ResultModel>> GetById(Guid id)
         {
             var brand = await _serviceManager.BrandService.GetBrandById(id);
@@ -102,7 +102,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{brandId}")]
         public async Task<ActionResult<ResultModel>> Update(Guid id, CreateUpdateBrandRequest updateBrandRequest)
         {
             var update = await _serviceManager.BrandService.UpdateBrand(id, updateBrandRequest);
@@ -125,7 +125,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{brandId}")]
         public async Task<ActionResult<ResultModel>> Delete(Guid id)
         {
             var brand = await _serviceManager.BrandService.GetBrandById(id);

@@ -28,7 +28,7 @@ namespace MoncatiCar.Data.Services
             // check ModelName exist
             if (await _repositoryManager.ModelRepository.CheckModelNameExist(addModelRequest.ModelName))
             {
-                throw new Exception($"Model name '{addModelRequest.ModelName}' already exists.");
+                throw new Exception($"Model name '{addModelRequest.ModelName}' already exists. ");
             }
 
             var createModel = _mapper.Map<Model>(addModelRequest);

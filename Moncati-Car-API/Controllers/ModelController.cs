@@ -45,7 +45,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{modelId:guid}")]
         public async Task<ActionResult<ResultModel>> GetById(Guid id)
         {
             var checkModelExist = await _serviceManager.ModelService.GetModelById(id);
@@ -152,7 +152,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{modelId}")]
         public async Task<ActionResult<ResultModel>> Update(Guid id, CreateUpdateModelRequest updateModelRequest)
         {
             var update = await _serviceManager.ModelService.UpdateModel(id, updateModelRequest);
@@ -175,7 +175,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{modelId}")]
         public async Task<ActionResult<ResultModel>> Delete(Guid id)
         {
             var checkExistModel = await _serviceManager.ModelService.GetModelById(id);

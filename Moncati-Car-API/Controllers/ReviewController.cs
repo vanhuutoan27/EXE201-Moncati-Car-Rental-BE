@@ -19,7 +19,7 @@ namespace Moncati_Car_API.Controllers
             _resultModel= new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
         {
             var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit);
             if (listreview == null)
@@ -27,17 +27,16 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "Not record is matched!!!",
+                    Message = "No reviews found.",
                     Status = (int)HttpStatusCode.NotFound
                 };
-
             }
             _resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = listreview,
-                Message = "Get All Review Successfully"
+                Message = "Reviews retrieved successfully."
             };
             return Ok(_resultModel);
         }
@@ -54,7 +53,7 @@ namespace Moncati_Car_API.Controllers
                     Success = true,
                     Status = (int)HttpStatusCode.OK,
                     Data = reviews,
-                    Message = "Get Reviews By Car Successfully!!"
+                    Message = "Car reviews retrieved successfully."
                 };
 
                 return Ok(_resultModel);
@@ -65,7 +64,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "carId does not exist!!"
+                    Message = "No reviews found for the specified car."
                 };
 
                 return NotFound(_resultModel);
@@ -76,7 +75,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = ex.Message
+                    Message = $"An error occurred: {ex.Message}"
                 };
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
@@ -96,7 +95,7 @@ namespace Moncati_Car_API.Controllers
                     Success = true,
                     Status = (int)HttpStatusCode.OK,
                     Data = reviews,
-                    Message = "Get Reviews By User Successfully!!"
+                    Message = "User reviews retrieved successfully."
                 };
 
                 return Ok(_resultModel);
@@ -107,7 +106,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "userId does not exist!!"
+                    Message = "No reviews found for the specified user."
                 };
 
                 return NotFound(_resultModel);
@@ -118,7 +117,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = ex.Message
+                    Message = $"An error occurred: {ex.Message}"
                 };
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
@@ -134,9 +133,8 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Review does not exsit!"
-
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Unable to add review. Please try again."
                 };
             }
             _resultModel = new ResultModel
@@ -144,7 +142,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = addReview,
-                Message = "Add Review Successfully!"
+                Message = "Review added successfully."
             };
             return Ok(_resultModel);
         }
@@ -159,7 +157,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Review does not exsit!"
+                    Message = "Review not found."
 
                 };
             }
@@ -168,7 +166,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = updateReview,
-                Message = "Update Review Successfully!"
+                Message = "Review updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -183,7 +181,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Review does not exsit!"
+                    Message = "Review not found."
 
                 };
             }
@@ -192,10 +190,9 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
                 Data = updateReview,
-                Message = "Delete Review Successfully!"
+                Message = "Review deleted successfully."
             };
             return Ok(_resultModel);
         }
- 
     }
 }
