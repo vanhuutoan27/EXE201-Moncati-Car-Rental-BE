@@ -168,8 +168,6 @@ namespace MoncatiCar.Data.Services
                 {
                     ImageId = img.ImageId,
                     Url = img.Url,
-                    CreatedAt = (DateTime)img.CreatedAt,
-                    UpdatedAt = (DateTime)img.UpdatedAt,
                 }).ToList() ?? new List<ImageResponse>(),
                 Features = car.CarFeatures != null
                          ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
@@ -222,8 +220,6 @@ namespace MoncatiCar.Data.Services
                 {
                     ImageId = img.ImageId,
                     Url = img.Url,
-                    CreatedAt = (DateTime)img.CreatedAt,
-                    UpdatedAt = (DateTime)img.UpdatedAt,
                 }).ToList() ?? new List<ImageResponse>(),
                 Features = car.CarFeatures != null
                          ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()

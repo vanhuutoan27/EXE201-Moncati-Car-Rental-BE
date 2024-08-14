@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
@@ -35,12 +36,19 @@ namespace MocatiCar.Core.Models.content.Requests
         [Range(0, double.MaxValue, ErrorMessage = "Price per day must be a positive value.")]
         public decimal PricePerDay { get; set; }
         [Required]
+        [JsonPropertyName("brand")]
         public Guid BrandId { get; set; }
         [Required]
+        [JsonPropertyName("owner")]
+
         public Guid OwnerId { get; set; }
         [Required]
+        [JsonPropertyName("carType")]
+
         public Guid CarTypeId { get; set; }
         [Required]
+        [JsonPropertyName("model")]
+
         public Guid ModelId { get; set; }
 
         [Required]
