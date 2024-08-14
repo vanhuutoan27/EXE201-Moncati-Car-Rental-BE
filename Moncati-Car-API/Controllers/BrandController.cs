@@ -19,7 +19,6 @@ namespace Moncati_Car_API.Controllers
             _serviceManager = service;
             _resultModel = new ResultModel();
         }
-
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string? search = null)
         {

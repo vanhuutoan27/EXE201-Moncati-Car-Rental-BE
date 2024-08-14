@@ -20,7 +20,7 @@ namespace MoncatiCar.Data.Services
             var carTypes = await _repositoryManager.CarTypeRepository.GetAllAsync();
             if (carTypes == null)
             {
-                throw new Exception("Not Found List CarTypes");
+                throw new Exception("Car type list not found.");
             }
             return _mapper.Map<IEnumerable<CarTypeResponse>>(carTypes);
         }

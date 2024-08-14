@@ -31,7 +31,7 @@ namespace MoncatiCar.Data.Services
             var model1 = await _repositoryManager.ModelRepository.GetModelById(carRequest.ModelId);
             if (brand == null || model1 == null)
             {
-                throw new Exception("Brand or Model not found.");
+                throw new Exception("Brand or model not found.");
             }
 
             // Tạo Slug với định dạng "Brand-Model-Year"
@@ -117,7 +117,7 @@ namespace MoncatiCar.Data.Services
             var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
             if (car == null)
             {
-                throw new Exception("Not Found Car!");
+                throw new Exception("Car not found.");
             }
             var check = car.Status;
             if (check == true)
@@ -257,12 +257,12 @@ namespace MoncatiCar.Data.Services
             var query = await _repositoryManager.CarRepository.GetByIdAsync(id);
             if (query == null)
             {
-                throw new Exception("Car isn't exist");
+                throw new Exception("Car not found.");
             }
             var checkCartype = await _repositoryManager.CarTypeRepository.GetByIdAsync(update.CarTypeId);
             if (checkCartype == null || !update.CarTypeId.Equals(checkCartype.CarTypeId))
             {
-                throw new Exception("CarTypeId isn't exist");
+                throw new Exception("Car type not found.");
             }
             var checkModel = await _repositoryManager.ModelRepository.GetByIdAsync(update.ModelId);
             if (checkModel == null || !update.ModelId.Equals(checkModel.ModelId))
@@ -272,7 +272,7 @@ namespace MoncatiCar.Data.Services
             var checkOwner = await _userManager.FindByIdAsync(update.OwnerId.ToString());
             if (checkOwner == null || !update.OwnerId.Equals(checkOwner.Id))
             {
-                throw new Exception("OwnerId isn't exist");
+                throw new Exception("Owner not found.");
             }
 
             query.ModelId = update.ModelId;

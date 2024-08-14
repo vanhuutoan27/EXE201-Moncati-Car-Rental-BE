@@ -21,13 +21,13 @@ namespace Moncati_Car_API.Controllers
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
         {
-            var listcar = await _serviceManager.CarService.GetAllCars(page, limit, search);
-            if (listcar == null)
+            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search);
+            if (cars == null)
             {
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "Not record is matched!!!",
+                    Message = "No cars found.",
                     Status = (int)HttpStatusCode.NotFound
                 };
 
@@ -36,8 +36,8 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = listcar,
-                Message = "Get All Car Successfully"
+                Data = cars,
+                Message = "Cars retrieved successfully."
             };
             return Ok(_resultModel);
         }
@@ -62,7 +62,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Create Car failed."
+                    Message = "Failed to add car."
                 };
                 return NotFound(_resultModel);
             }
@@ -71,7 +71,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "Create car successfully.",
+                Message = "Car added successfully.",
                 Data = result
             };
             return Ok(_resultModel);
@@ -87,14 +87,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Car does not exist!"
+                    Message = "Car not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Get Car by Id Successfully!",
+                Message = "Car retrieved successfully.",
                 Data = query
             });
         }
@@ -112,14 +112,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Car does not exist!"
+                    Message = "Car not found."
                 });
             }
             return Ok(new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Get Car by slug Successfully!",
+                Message = "Car with slug retrieved successfully.",
                 Data = car
             });
         }
@@ -136,7 +136,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Update fail."
+                    Message = "Failed to update car."
                 };
                 return _resultModel;
             }
@@ -145,7 +145,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = update,
-                Message = "Update Car Successfully",
+                Message = "Car updated successfully.",
             };
             return _resultModel;
         }
@@ -159,7 +159,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Car does not exist!"
+                    Message = "Car not found."
                 };
                 return _resultModel;
             }
@@ -168,7 +168,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Delete Car Successfully!",
+                Message = "Car deleted successfully.",
                 Data = delete
             };
         }
@@ -182,7 +182,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Car does not exist!"
+                    Message = "Car not found."
                 };
                 return NotFound(_resultModel);
             }
@@ -195,7 +195,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = "Failed to change car status!"
+                    Message = "Failed to change status car."
                 };
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
@@ -204,7 +204,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Change Status Successfully!",
+                Message = "Change status car successfully.",
                 Data = result
             };
 
