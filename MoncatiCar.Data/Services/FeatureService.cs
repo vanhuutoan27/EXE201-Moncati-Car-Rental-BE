@@ -22,7 +22,7 @@ namespace MoncatiCar.Data.Services
             if (request == null) throw new Exception("Invalid Feature");
             var feature = new Feature()
             {
-                Name = request.Name,
+                FeatureName = request.Name,
                 Description = request.Description,
                 CreatedAt = DateTime.Now
             };

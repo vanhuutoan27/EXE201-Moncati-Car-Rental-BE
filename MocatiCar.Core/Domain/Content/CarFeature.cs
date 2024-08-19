@@ -8,11 +8,11 @@ namespace MocatiCar.Core.Domain.Content
         [Key]
         public Guid CarFeatureId { get; set; }
 
-        public Guid CarId { get; set; }
+        public Guid? CarId { get; set; }
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
 
-        public Guid FeatureId { get; set; }
+        public Guid? FeatureId { get; set; }
         [ForeignKey(nameof(FeatureId))]
         public Feature Feature { get; set; }
 

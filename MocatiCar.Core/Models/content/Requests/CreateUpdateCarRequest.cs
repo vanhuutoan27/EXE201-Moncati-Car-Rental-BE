@@ -51,8 +51,7 @@ namespace MocatiCar.Core.Models.content.Requests
 
         public Guid ModelId { get; set; }
 
-        [Required]
-        public List<string> Images { get; set; } = new List<string>();
+        public List<string>? Images { get; set; } = new List<string>();
 
         public List<string> Features { get; set; }
         //[Required]

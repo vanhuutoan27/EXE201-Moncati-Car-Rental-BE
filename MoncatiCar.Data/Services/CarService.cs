@@ -70,7 +70,6 @@ namespace MoncatiCar.Data.Services
                     CarId = model.CarId,
                     Url = imageUrl,
                     CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
                 };
                 _repositoryManager.ImageRepository.Add(image);
             }
@@ -170,7 +169,7 @@ namespace MoncatiCar.Data.Services
                     Url = img.Url,
                 }).ToList() ?? new List<ImageResponse>(),
                 Features = car.CarFeatures != null
-                         ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
+                         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                                 : new List<string>(),
                 //Reviews = car.Reviews?.Select(review => new ReviewResponse
                 //{
@@ -222,7 +221,7 @@ namespace MoncatiCar.Data.Services
                     Url = img.Url,
                 }).ToList() ?? new List<ImageResponse>(),
                 Features = car.CarFeatures != null
-                         ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
+                         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                                 : new List<string>(),
                 //Reviews = car.Reviews?.Select(review => new ReviewResponse
                 //{
@@ -314,6 +313,31 @@ namespace MoncatiCar.Data.Services
                     _repositoryManager.ImageRepository.Add(image);
                 }
             }
+
+            //Handle FeatureList by name
+            if (update.Features != null && update.Features.Any())
+            {
+                //remove featureid of CarFeature
+                var carFeatureList = await _repositoryManager.CarFeatureRepository.GetALLCarFeatureByCarId(id);
+                if (carFeatureList != null && carFeatureList.Any())
+                    _repositoryManager.CarFeatureRepository.RemoveRange(carFeatureList);
+
+                foreach (var featureName in update.Features)
+                {
+                    var feature = await _repositoryManager.FeatureRepository.GetFeatureByFeatureNameAsync(featureName);
+                    var carFeature = new CarFeature()
+                    {
+                        CarId = id,
+                        FeatureId = feature != null ? feature.FeatureId : null
+
+                    };
+                    _repositoryManager.CarFeatureRepository.Add(carFeature);
+                }
+            }
+
+
+
+
             await _repositoryManager.SaveAsync();
             return true;
         }
