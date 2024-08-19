@@ -8,7 +8,7 @@ namespace Moncati_Car_API.Controllers
 {
     [Route("api/v1/User")]
     [ApiController]
-    public class UserController : ControllerBase    
+    public class UserController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
         private ResultModel _resultModel;
@@ -18,9 +18,9 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
         {
-            var listuser = await _serviceManager.UserService.GetUsersAsync(page, limit);
+            var listuser = await _serviceManager.UserService.GetUsersAsync(page, limit, search);
             if (listuser == null)
             {
                 _resultModel = new ResultModel

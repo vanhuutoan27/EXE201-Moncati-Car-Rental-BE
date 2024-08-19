@@ -2,11 +2,6 @@
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Repository;
 using MoncatiCar.Data.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Repository
 {
@@ -21,13 +16,19 @@ namespace MoncatiCar.Data.Repository
             return await _context.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit)
+        public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search)
         {
+            IQueryable<AppUser> query = _context.Users;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(u => u.Email.ToLower().Contains(search) || u.UserName.ToLower().Contains(search));
+            }
             if (page > 0 && limit > 0)
             {
-                return await _context.Users.Skip((page - 1) * limit).Take(limit).ToListAsync();
+                query = query.Skip((page - 1) * limit).Take(limit);
             }
-            return await _context.Users.ToListAsync();
+            return await query.ToListAsync();
         }
 
         public async Task RemoveUserFromRoleAsync(Guid userId, string[] roles)

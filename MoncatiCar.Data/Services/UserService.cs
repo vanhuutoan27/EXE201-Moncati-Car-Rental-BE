@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Services
 {
@@ -22,7 +15,7 @@ namespace MoncatiCar.Data.Services
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserService(UserManager<AppUser> userManager,IRepositoryManager repositoryManager, IMapper mapper)
+        public UserService(UserManager<AppUser> userManager, IRepositoryManager repositoryManager, IMapper mapper)
         {
             this._userManager = userManager;
 
@@ -51,10 +44,9 @@ namespace MoncatiCar.Data.Services
                 EmailConfirmed = true,
 
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
             };
 
-        var result = await _userManager.CreateAsync(newUserRequest, User.Password);
+            var result = await _userManager.CreateAsync(newUserRequest, User.Password);
             newUserRequest = await _userManager.FindByEmailAsync(User.Email);
             if (!result.Succeeded)
             {
@@ -62,32 +54,41 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("This email is already register");
             }
             await _userManager.AddToRoleAsync(newUserRequest, User.Role);
-            var UserResponse =  _mapper.Map<UserReponse>(newUserRequest);
+            var UserResponse = _mapper.Map<UserReponse>(newUserRequest);
             return UserResponse;
         }
 
         public async Task<UserReponse> GetUserById(Guid id)
         {
             var getUser = await _repositoryManager.UserRepository.GetUserById(id);
-            if(getUser == null) {
+            if (getUser == null)
+            {
                 throw new Exception("Not Found By Customer Id");
 
             }
-            return _mapper.Map<UserReponse>(getUser);   
+            return _mapper.Map<UserReponse>(getUser);
 
         }
 
-        public async Task<IEnumerable<UserReponse>> GetUsersAsync(int page, int limit)
+        public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)
         {
-            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit);   
-            var listUserReponse = _mapper.Map<IEnumerable< UserReponse>>(listUser);
+            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
+            var totalItems = listUser.Count();
 
-            return listUserReponse;
+            var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(listUser);
+
+            return new PageResult<UserReponse>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = listUserReponse
+            };
         }
 
         public async Task<bool> RemoveUser(Guid id)
         {
-            if (id == null)  throw new Exception("Not Found Id");
+            if (id == null) throw new Exception("Not Found Id");
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null) throw new Exception("Not Found User");
