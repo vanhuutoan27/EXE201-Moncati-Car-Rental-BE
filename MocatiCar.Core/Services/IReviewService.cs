@@ -6,7 +6,7 @@ namespace MocatiCar.Core.Services
 {
     public interface IReviewService
     {
-        Task<IEnumerable<ReviewRespone>> GetAllReviewAsync(int page, int limit);
+        Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit , int star);
         Task<CreateUpdateReviewRequest> AddReview(CreateUpdateReviewRequest carRequest);
 
         Task<ReviewRespone> GetReviewById(Guid id);

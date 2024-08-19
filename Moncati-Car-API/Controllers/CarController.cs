@@ -173,7 +173,7 @@ namespace Moncati_Car_API.Controllers
             };
         }
 
-        [HttpPatch("{carId}")]
+        [HttpPatch("{carId}/change-status")]
         public async Task<ActionResult<ResultModel>> ChangeStatusCar(Guid carId)
         {
             if (carId == Guid.Empty)
@@ -210,6 +210,42 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
+        [HttpPut("{carId}/change-rental-status")]
+        public async Task<ActionResult<ResultModel>> ChangeRentalStatusCar(Guid carId , [FromBody] string status)
+        {
+            if (carId == Guid.Empty)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Car not found."
+                };
+                return NotFound(_resultModel);
+            }
 
+            var result = await _serviceManager.CarService.ChangeRentalStatusAsync(carId , status);
+
+            if (!result)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = "Failed to change status car."
+                };
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
+            }
+
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Change rental status car successfully.",
+                Data = result
+            };
+
+            return Ok(_resultModel);
+        }
     }
 }

@@ -50,9 +50,10 @@ namespace MoncatiCar.Data.Services
             return true;    
         }
 
-        public async Task<IEnumerable<ReviewRespone>> GetAllReviewAsync(int page, int limit)
+        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit , int star)
         {
-            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit);
+            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit , star);
+            var totalItems = listreview.Count();
             var reviewRespone = listreview.Select(x => new ReviewRespone
             {
                 ReviewId = x.ReviewId,
@@ -64,7 +65,13 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
             });
 
-            return reviewRespone;
+            return new PageResult<ReviewRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = reviewRespone
+            };
         }
 
         public async Task<IEnumerable<ReviewRespone>> GetReviewByCarId(Guid carId)

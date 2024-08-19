@@ -10,5 +10,6 @@ namespace MocatiCar.Core.Repository
         Task<Car> GetCarBySlug(string slug);
         void UpdateCar(Guid id, Car car);
         Task<int> GetTotalCarAsync();
+
     }
 }

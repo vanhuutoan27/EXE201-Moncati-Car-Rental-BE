@@ -1,8 +1,13 @@
-﻿namespace MocatiCar.Core.Models.content.Responses
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MocatiCar.Core.Models.content.Requests
 {
-    public class CarTypeResponse
+    public class CreateUpdateCarTypeRequest
     {
-        public Guid CarTypeId { get; set; }
         public string TypeName { get; set; }
         public string Description { get; set; }
         public DateTime? CreatedAt { get; set; }
