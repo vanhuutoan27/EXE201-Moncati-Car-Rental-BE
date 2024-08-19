@@ -112,6 +112,23 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
+        public async Task<bool> ChangeRentalStatusAsync(Guid id, string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                return false;
+            }
+            var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
+            if (car == null)
+            {
+                return false;
+            }
+            car.RentalStatus = status;  
+            _repositoryManager.CarRepository.Update(car);
+            await _repositoryManager.SaveAsync();   
+            return true;    
+        }
+
         public async Task<bool> ChangeStatusAsync(Guid id)
         {
             var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
@@ -172,14 +189,7 @@ namespace MoncatiCar.Data.Services
                 Features = car.CarFeatures != null
                          ? car.CarFeatures.Select(cf => cf.Feature.Name).ToList()
                                 : new List<string>(),
-                //Reviews = car.Reviews?.Select(review => new ReviewResponse
-                //{
-                //    ReviewId = review.ReviewId,
-                //    Author = review.Author,
-                //    Content = review.Content,
-                //    CreatedAt = (DateTime)review.CreatedAt,
-                //    UpdatedAt = (DateTime)review.UpdatedAt,
-                //}).ToList() ?? new List<ReviewResponse>(),
+                
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = car.CreatedAt,

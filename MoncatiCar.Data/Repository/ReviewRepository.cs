@@ -12,10 +12,14 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit)
+        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit , int star)
         {
             IQueryable<Review> query = _context.Reviews.Include(a => a.User)
                                                        .Include(c => c.Car);
+            if(star > 0)
+            {
+                query = query.Where(r => r.Rating == star);
+            }
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);

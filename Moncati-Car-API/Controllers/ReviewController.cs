@@ -19,10 +19,25 @@ namespace Moncati_Car_API.Controllers
             _resultModel= new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, int? star = null)
         {
-            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit);
-            if (listreview == null)
+            // Check if star rating is provided and if so, validate it
+            if (star.HasValue && (star < 1 || star > 5))
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "Star rating must be between 1 and 5.",
+                    Status = (int)HttpStatusCode.BadRequest
+                };
+                return BadRequest(_resultModel);
+            }
+
+            // Fetch reviews based on the star value (if provided), otherwise fetch all reviews
+            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
+
+            // Check if the Items collection is null or empty
+            if (listreview == null || !listreview.Items.Any())
             {
                 _resultModel = new ResultModel
                 {
@@ -30,7 +45,10 @@ namespace Moncati_Car_API.Controllers
                     Message = "No reviews found.",
                     Status = (int)HttpStatusCode.NotFound
                 };
+                return NotFound(_resultModel);
             }
+
+            // Return the result if reviews are found
             _resultModel = new ResultModel
             {
                 Success = true,
@@ -40,6 +58,8 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
+
+
         [HttpGet]
         [Route("{reviewId:guid}")]
         public async Task<ActionResult<ResultModel>> GetReviewById(Guid reviewId)
@@ -199,8 +219,8 @@ namespace Moncati_Car_API.Controllers
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
                     Message = "Review not found."
-
                 };
+                return BadRequest(_resultModel);
             }
             _resultModel = new ResultModel
             {
