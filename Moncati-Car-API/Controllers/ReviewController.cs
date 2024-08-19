@@ -255,5 +255,32 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
+        [HttpPatch]
+        [Route("{reviewId}/flag")]
+        public async Task<ActionResult<ResultModel>> ChangeFlag(Guid reviewId)
+        {
+            var flagChanged = await _serviceManager.ReviewService.ChangeFlagAsync(reviewId);
+
+            if (!flagChanged)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Change Flag Failed!"
+                };
+                return NotFound(_resultModel);
+            }
+
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Change Flag Successfully!"
+            };
+
+            return Ok(_resultModel);
+        }
+
     }
 }
