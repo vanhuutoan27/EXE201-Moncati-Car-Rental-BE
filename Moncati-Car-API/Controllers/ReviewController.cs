@@ -33,7 +33,7 @@ namespace Moncati_Car_API.Controllers
                 return BadRequest(_resultModel);
             }
 
-            // Fetch reviews based on the star value (if provided), otherwise fetch all reviews
+           
             var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
 
             // Check if the Items collection is null or empty
