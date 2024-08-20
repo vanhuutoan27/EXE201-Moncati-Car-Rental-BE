@@ -170,7 +170,33 @@ namespace Moncati_Car_API.Controllers
                 Message = "Update Successfully"
             });
 
-            return Ok(_resultModel);
+        }
+        [HttpPatch("{id}/change-password")]
+        public async Task<ActionResult<ResultModel>> ChangePassword(Guid id,  string currentPassword,  string newPassword)
+        {
+
+            var result = await _serviceManager.UserService.ChangePasswordbyId(id, currentPassword, newPassword);
+            if (result)
+            {
+
+                return Ok(_resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Message = "change Password Successfully"
+                });
+            }
+            else
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Change Password Fail."
+                });
+            }
+
+
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MocatiCar.Core.Services
 
         Task<bool> ChangeStatusbyId(Guid id,bool isActive);
 
-        Task<bool> ChangePasswordbyId(Guid id); 
+        Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword); 
 
 
 

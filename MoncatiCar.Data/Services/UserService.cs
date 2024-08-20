@@ -58,9 +58,25 @@ namespace MoncatiCar.Data.Services
             return UserResponse;
         }
 
-        public Task<bool> ChangePasswordbyId(Guid id)
+   
+
+        public async Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if(user == null) { 
+                throw new Exception("Somthing wrong with this account");
+            }
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, currentPassword); 
+            if(!isPasswordValid) { 
+                throw new Exception("current password is incorrect");
+            }
+            var result = await _userManager.ChangePasswordAsync(user,currentPassword,newPassword);  
+            if(!result.Succeeded)
+            {
+                throw new Exception("Fail to change password");
+            }
+            return true;
+
         }
 
         public async Task<bool> ChangeStatusbyId(Guid id, bool isActive)
@@ -216,5 +232,6 @@ namespace MoncatiCar.Data.Services
             return UserReponse;
 
         }
+
     }
 }
