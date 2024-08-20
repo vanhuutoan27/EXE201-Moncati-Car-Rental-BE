@@ -14,7 +14,7 @@ namespace MocatiCar.Core.Services
 
         Task<IEnumerable< UserReponse>> GetUserByName(string name);
 
-        Task<bool> ChangeStatusbyId(Guid id);
+        Task<bool> ChangeStatusbyId(Guid id,bool isActive);
 
         Task<bool> ChangePasswordbyId(Guid id); 
 

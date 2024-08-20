@@ -63,9 +63,18 @@ namespace MoncatiCar.Data.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> ChangeStatusbyId(Guid id)
+        public async Task<bool> ChangeStatusbyId(Guid id, bool isActive)
         {
-            throw new NotImplementedException();
+            var getUser = await _repositoryManager.UserRepository.GetUserById(id);
+            if (getUser == null) { 
+                throw new Exception("not found any");
+            }
+
+            getUser.Status = isActive;
+           var result = await _userManager.UpdateAsync(getUser);
+            return result.Succeeded;
+
+
         }
 
         public async Task<UserReponse> GetUserById(Guid id)
