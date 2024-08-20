@@ -59,7 +59,7 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         public string RentalStatus { get; set; }
         [Required]
-        public bool Status { get; set; }
+        public bool Status { get; set; } = false;
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -73,23 +73,7 @@ namespace MoncatiCar.Data.Services
                 };
                 _repositoryManager.ImageRepository.Add(image);
             }
-            //foreach (var reviewDto in carRequest.Reviews)
-            //{
-            //    var review = new Review
-            //    {
-            //        ReviewId = Guid.NewGuid(),
-            //        Author = model.OwnerId,
-            //        Rating = reviewDto.Rating,
-            //        Content = reviewDto.Content,
-            //        CreatedAt = DateTime.Now,
-            //        UpdatedAt = DateTime.Now,
-
-            //    };
-
-            //    _repositoryManager.ReviewRepository.Add(review);
-            //}
-
-            //add feature
+          
             if (carRequest.Features != null && carRequest.Features.Any())
             {
                 foreach (var feature in carRequest.Features)
