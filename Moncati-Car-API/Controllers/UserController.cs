@@ -66,7 +66,7 @@ namespace Moncati_Car_API.Controllers
             }
             return Ok(_resultModel);
         }
-        [HttpGet("search")]
+        [HttpGet("search-by-name")]
         public async Task<ActionResult<ResultModel>> GetUserByName(string name)
         {
             var users = await _serviceManager.UserService.GetUserByName(name);
@@ -146,7 +146,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Update Successfully"
             });
         }
-        [HttpPut("{id}/status")]
+        [HttpPut("{id}/change-status")]
         public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid id, bool isActive)
         {
             // Gọi dịch vụ để tìm người dùng theo ID
