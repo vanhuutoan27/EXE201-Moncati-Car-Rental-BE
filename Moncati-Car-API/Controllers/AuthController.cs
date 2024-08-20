@@ -42,7 +42,7 @@ namespace Moncati_Car_API.Controllers
             }
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if (user == null || !user.IsActive || user.LockoutEnabled)
+            if (user == null || !user.Status || user.LockoutEnabled)
             {
                 return Unauthorized("Invalid credentials.");
             }
@@ -95,7 +95,8 @@ namespace Moncati_Car_API.Controllers
                 FullName = request.FullName,
                 UserName = request.Username,
                 Email = request.Email,
-                IsActive = true,
+                Status = true,
+                PhoneNumber = request.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 LockoutEnabled = false,
                 CreatedAt = DateTime.Now

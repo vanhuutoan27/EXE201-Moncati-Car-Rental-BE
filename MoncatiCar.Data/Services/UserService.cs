@@ -36,7 +36,7 @@ namespace MoncatiCar.Data.Services
                 Avatar = User.Avatar,
                 Dob = User.Dob,
                 Gender = User.Gender,
-                IsActive = false,
+                Status = false,
                 Email = User.Email,
                 UserName = User.UserName,
                 PhoneNumber = User.PhoneNumber,
@@ -50,8 +50,8 @@ namespace MoncatiCar.Data.Services
             newUserRequest = await _userManager.FindByEmailAsync(User.Email);
             if (!result.Succeeded)
             {
-
-                throw new Exception("This email is already register");
+                var errorMessages = string.Join("; ", result.Errors.Select(e => e.Description));
+                throw new Exception($"User Fail: {errorMessages}");
             }
             await _userManager.AddToRoleAsync(newUserRequest, User.Role);
             var UserResponse = _mapper.Map<UserReponse>(newUserRequest);
@@ -75,8 +75,14 @@ namespace MoncatiCar.Data.Services
             var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
             var totalItems = listUser.Count();
 
-            var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(listUser);
-
+            var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(listUser).ToList();
+            var listUsers = listUser.ToList();
+            //add Role
+            for (int i = 0; i < listUser.Count(); i++)
+            {
+                var roles = await _userManager.GetRolesAsync(listUsers[i]);
+                listUserReponse[i].Role = roles.FirstOrDefault();
+            }
             return new PageResult<UserReponse>
             {
                 CurrentPage = page,
@@ -95,7 +101,7 @@ namespace MoncatiCar.Data.Services
 
             user.LockoutEnabled = true;
 
-            user.IsActive = false;
+            user.Status = false;
 
             var result = await _userManager.UpdateAsync(user);
 

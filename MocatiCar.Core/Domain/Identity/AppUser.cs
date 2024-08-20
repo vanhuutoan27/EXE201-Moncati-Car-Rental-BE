@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Content;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MocatiCar.Core.Domain.Identity
 {
@@ -16,13 +15,13 @@ namespace MocatiCar.Core.Domain.Identity
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public string? Gender { get; set; }
-        public bool IsActive { get; set; }
+        public bool Status { get; set; }
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-       
+
         public ICollection<Car> Cars { get; set; }
         public ICollection<Review> Reviews { get; set; }
 

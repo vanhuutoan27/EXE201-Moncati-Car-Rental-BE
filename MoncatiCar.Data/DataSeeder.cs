@@ -34,7 +34,7 @@ namespace MoncatiCar.Data
                     UserName = "asd",
                     NormalizedUserName = "ASD",
                     Address = "Cu Chi",
-                    IsActive = true,
+                    Status = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LockoutEnabled = false,
                     CreatedAt = DateTime.Now,

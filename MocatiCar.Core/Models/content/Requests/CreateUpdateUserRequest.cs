@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MocatiCar.Core.Models.content.Requests
+﻿namespace MocatiCar.Core.Models.content.Requests
 {
     public class CreateUpdateUserRequest
     {
@@ -15,7 +9,6 @@ namespace MocatiCar.Core.Models.content.Requests
         public DateTime? VipStartDate { get; set; }
         public DateTime? VipExpireDate { get; set; }
         public string? Gender { get; set; }
-        public bool IsActive { get; set; }
 
         public string? UserName { get; set; }
         public string? Email { get; set; }
