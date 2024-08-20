@@ -3,6 +3,7 @@ using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -65,6 +66,32 @@ namespace Moncati_Car_API.Controllers
             }
             return Ok(_resultModel);
         }
+        [HttpGet("search-by-name")]
+        public async Task<ActionResult<ResultModel>> GetUserByName(string name)
+        {
+            var users = await _serviceManager.UserService.GetUserByName(name);
+            if (users == null || !users.Any())
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "No records matched!!!",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            else
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = users,
+                    Message = "Users retrieved successfully"
+                };
+            }
+            return Ok(_resultModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)
         {
@@ -118,6 +145,58 @@ namespace Moncati_Car_API.Controllers
                 Status = (int)HttpStatusCode.OK,
                 Message = "Update Successfully"
             });
+        }
+        [HttpPut("{id}/change-status")]
+        public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid id, bool isActive)
+        {
+            // Gọi dịch vụ để tìm người dùng theo ID
+            var update = await _serviceManager.UserService.ChangeStatusbyId(id, isActive);
+
+            if (update == null)
+            {
+                //update fail
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Update Fail."
+                });
+            }
+            // update success
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Update Successfully"
+            });
+
+        }
+        [HttpPatch("{id}/change-password")]
+        public async Task<ActionResult<ResultModel>> ChangePassword(Guid id,  string currentPassword,  string newPassword)
+        {
+
+            var result = await _serviceManager.UserService.ChangePasswordbyId(id, currentPassword, newPassword);
+            if (result)
+            {
+
+                return Ok(_resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Message = "change Password Successfully"
+                });
+            }
+            else
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Change Password Fail."
+                });
+            }
+
+
         }
     }
 }
