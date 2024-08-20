@@ -13,23 +13,25 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<AppUser> GetUserById(Guid id)
         {
-            return await _context.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _context.Users.Where(p => p.Id == id ).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<AppUser>> GetUserByName(string name)
         {
             return await _context.Users
-                      .Where(p => p.UserName.ToLower().Contains(name))
+                      .Where(p => p.UserName.ToLower().Contains(name) && p.Status != false)
                       .ToListAsync();
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search)
         {
             IQueryable<AppUser> query = _context.Users;
+            query = query.Where(u => u.Status !=false);
+
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(u => u.Email.ToLower().Contains(search) || u.UserName.ToLower().Contains(search));
+                query = query.Where(u => u.Email.ToLower().Contains(search) || u.UserName.ToLower().Contains(search) && u.Status != false);
             }
             if (page > 0 && limit > 0)
             {
