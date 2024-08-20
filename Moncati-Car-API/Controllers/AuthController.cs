@@ -125,6 +125,33 @@ namespace Moncati_Car_API.Controllers
             }
             return BadRequest(ModelState);
         }
+        [HttpGet]
+        [Route("me")]
+        [Authorize]
+        public async Task<ActionResult<ResultModel>> GetInformationOfUser()
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                throw new Exception("Not Found User");
+
+            }
+            _resp.Status = (int)HttpStatusCode.OK;
+            _resp.Message = "Successful.";
+            _resp.Success = true;
+            _resp.Data = new MeResponse()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                Avatar = user.Avatar
+            };
+            return _resp;
+        }
+        private async Task<AppUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
 
     }
 }

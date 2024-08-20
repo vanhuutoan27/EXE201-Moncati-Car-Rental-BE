@@ -83,7 +83,7 @@ namespace Moncati_Car_API.Extensions
             })
             .AddJwtBearer(cfg =>
             {
-                cfg.RequireHttpsMetadata = false;
+                cfg.RequireHttpsMetadata = true;
                 cfg.SaveToken = true;
                 cfg.TokenValidationParameters = new TokenValidationParameters
                 {
