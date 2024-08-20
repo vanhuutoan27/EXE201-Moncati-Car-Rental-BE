@@ -173,7 +173,7 @@ namespace Moncati_Car_API.Controllers
             };
         }
 
-        [HttpPatch("{carId}/change-status")]
+        [HttpPatch("{carId}/status")]
         public async Task<ActionResult<ResultModel>> ChangeStatusCar(Guid carId)
         {
             if (carId == Guid.Empty)
@@ -210,7 +210,7 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
-        [HttpPut("{carId}/change-rental-status")]
+        [HttpPut("{carId}/rental-status")]
         public async Task<ActionResult<ResultModel>> ChangeRentalStatusCar(Guid carId , [FromBody] string status)
         {
             if (carId == Guid.Empty)

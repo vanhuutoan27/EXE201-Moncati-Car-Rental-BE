@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/car-types")]
     [ApiController]
     public class CarTypeController : ControllerBase
     {
@@ -27,13 +27,13 @@ namespace Moncati_Car_API.Controllers
             {
                 _resultModel.Success = false;
                 _resultModel.Status = (int)HttpStatusCode.InternalServerError;
-                _resultModel.Message = "Not Found List CarType";
+                _resultModel.Message = "No car types found.";
                 return _resultModel;
             }
             _resultModel.Success = true;
             _resultModel.Status = (int)HttpStatusCode.OK;
             _resultModel.Data = cartypes;
-            _resultModel.Message = "Get all CarType Successfully!";
+            _resultModel.Message = "Car types retrieved successfully.";
             return _resultModel;
         }
         [HttpGet]
@@ -47,14 +47,14 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "cartypeId does not exist!",
+                    Message = "Car type not found.",
                     Status = (int)HttpStatusCode.NotFound,
                 };
             }
             _resultModel = new ResultModel
             {
                 Success = true,
-                Message = "Get CarType by Id Successfully!",
+                Message = "Car type retrieved successfully.",
                 Data = cartype
             };
             return Ok(_resultModel);
@@ -82,7 +82,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = "Add CarType failed!",
+                    Message = "Failed to add car type.",
                     Data=cartype
                 };
             }
@@ -90,7 +90,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Add CarType successfully",
+                Message = "Car type added successfully.",
                 Data=cartype
             };
             return Ok(_resultModel);
@@ -107,7 +107,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.BadRequest,
                     Success = false,
-                    Message = "Update CarType Failed!"
+                    Message = "Failed to update car type."
                 };
                 return BadRequest(_resultModel);
             }
@@ -116,7 +116,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "Update CarType Successfully!",
+                Message = "Car type updated successfully.",
                 Data = updateSuccess
             };
 
@@ -133,14 +133,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.BadRequest,
                     Success = false,
-                    Message= "Remove Cartype failed!"
+                    Message= "Failed to delete car type."
 
                 };
                 _resultModel = new ResultModel
                 {
                     Status = (int)HttpStatusCode.OK,
                     Success = true,
-                    Message = "Remove CarType Sucessfully",
+                    Message = "Car type deleted successfully.",
                     Data = carType
                 };
                

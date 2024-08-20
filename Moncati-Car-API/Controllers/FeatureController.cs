@@ -30,12 +30,12 @@ namespace Moncati_Car_API.Controllers
             if (feature == null)
             {
                 _resultModel.Success = false;
-                _resultModel.Message = "Create Feature Fail!";
+                _resultModel.Message = "Failed to add feature.";
                 _resultModel.Status = (int)HttpStatusCode.InternalServerError;
                 return _resultModel;
             }
             _resultModel.Success = true;
-            _resultModel.Message = "Create Successfull";
+            _resultModel.Message = "Feature added successfully.";
             _resultModel.Status = (int)HttpStatusCode.OK;
             _resultModel.Data = feature;
             return _resultModel;
@@ -48,12 +48,12 @@ namespace Moncati_Car_API.Controllers
             if (features == null)
             {
                 _resultModel.Success = false;
-                _resultModel.Message = "Not Found Features";
+                _resultModel.Message = "No features found.";
                 _resultModel.Status = (int)HttpStatusCode.InternalServerError;
                 return _resultModel;
             }
             _resultModel.Success = true;
-            _resultModel.Message = "Successfull";
+            _resultModel.Message = "Features retrieved successfully.";
             _resultModel.Status = (int)HttpStatusCode.OK;
             _resultModel.Data = features;
             return _resultModel;

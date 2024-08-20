@@ -107,7 +107,7 @@ namespace MoncatiCar.Data.Services
             var getUser = await _repositoryManager.UserRepository.GetUserById(id);
             if (getUser == null)
             {
-                throw new Exception("Not Found By Customer Id");
+                throw new Exception("User not found.");
 
             }
             var userResponse = _mapper.Map<UserReponse>(getUser);
@@ -168,7 +168,7 @@ namespace MoncatiCar.Data.Services
             if (id == null) throw new Exception("Not Found Id");
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-            if (user == null) throw new Exception("Not Found User");
+            if (user == null) throw new Exception("User not found.");
 
             user.LockoutEnabled = true;
 
@@ -234,10 +234,7 @@ namespace MoncatiCar.Data.Services
                     throw new Exception($"{error.Description}");
             }
 
-
-
             var UserReponse = _mapper.Map<UserReponse>(UserToEdit);
-
 
             return UserReponse;
 

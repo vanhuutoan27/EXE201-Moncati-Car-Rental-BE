@@ -27,7 +27,7 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Message = "Star rating must be between 1 and 5.",
+                    Message = "Rating must be between 1 and 5.",
                     Status = (int)HttpStatusCode.BadRequest
                 };
                 return BadRequest(_resultModel);
@@ -73,7 +73,7 @@ namespace Moncati_Car_API.Controllers
                     Success = true,
                     Status = (int)HttpStatusCode.OK,
                     Data = reviews,
-                    Message = "Get reviews by Id successfully."
+                    Message = "Review retrieved successfully."
                 };
 
                 return Ok(_resultModel);
@@ -84,7 +84,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No reviews found."
+                    Message = "Review not found."
                 };
 
                 return NotFound(_resultModel);
