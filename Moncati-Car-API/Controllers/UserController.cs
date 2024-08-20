@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/v1/User")]
+    [Route("api/v1/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -40,7 +40,31 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResultModel>> GetUserById(Guid id)
+        {
+            var user = await _serviceManager.UserService.GetUserById(id);
+            if (user == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "Not record is matched!!!",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            else
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = user,
+                    Message = "Get User Successfully"
+                };
+            }
+            return Ok(_resultModel);
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)
         {
@@ -74,7 +98,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid id, CreateUpdateUserRequest request)
+        public async Task<ActionResult<ResultModel>> Update(Guid id, UpdateUserRequest request)
         {
             var update = await _serviceManager.UserService.UpdateUser(id, request);
             if (update == null)

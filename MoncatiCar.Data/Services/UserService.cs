@@ -66,8 +66,10 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Not Found By Customer Id");
 
             }
-            return _mapper.Map<UserReponse>(getUser);
-
+            var userResponse = _mapper.Map<UserReponse>(getUser);
+            var roles = await _userManager.GetRolesAsync(getUser);
+            userResponse.Role = roles.FirstOrDefault();
+            return userResponse;
         }
 
         public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)
@@ -110,7 +112,7 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<UserReponse> UpdateUser(Guid id, CreateUpdateUserRequest User)
+        public async Task<UserReponse> UpdateUser(Guid id, UpdateUserRequest User)
         {
             var UserToEdit = await _userManager.FindByIdAsync(id.ToString());
             if (UserToEdit == null) throw new Exception("Not Found User");
@@ -120,7 +122,6 @@ namespace MoncatiCar.Data.Services
             if (roles.FirstOrDefault() != User.Role)
             {
                 await _repositoryManager.UserRepository.RemoveUserFromRoleAsync(UserToEdit.Id, roles.ToArray());
-                _repositoryManager.SaveAsync();
                 var addedResult = await _userManager.AddToRoleAsync(UserToEdit, User.Role);
                 if (addedResult.Succeeded)
                 {
@@ -142,7 +143,10 @@ namespace MoncatiCar.Data.Services
             if (UserToEdit.FullName != User.FullName)
             {
                 UserToEdit.FullName = User.FullName;
-                UserToEdit.UserName = User.FullName.Replace(" ", "");
+            }
+            if (UserToEdit.UserName != User.UserName)
+            {
+                UserToEdit.UserName = User.UserName;
             }
 
             if (UserToEdit.PhoneNumber != User.PhoneNumber)
@@ -160,7 +164,12 @@ namespace MoncatiCar.Data.Services
                 foreach (var error in result.Errors)
                     throw new Exception($"{error.Description}");
             }
+
+
+
             var UserReponse = _mapper.Map<UserReponse>(UserToEdit);
+
+
             return UserReponse;
 
         }
