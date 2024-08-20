@@ -3,7 +3,6 @@ using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -124,10 +123,10 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid id, UpdateUserRequest request)
+        [HttpPut("{userId}")]
+        public async Task<ActionResult<ResultModel>> Update(Guid userId, UpdateUserRequest request)
         {
-            var update = await _serviceManager.UserService.UpdateUser(id, request);
+            var update = await _serviceManager.UserService.UpdateUser(userId, request);
             if (update == null)
             {
                 //update fail
@@ -146,11 +145,11 @@ namespace Moncati_Car_API.Controllers
                 Message = "Update Successfully"
             });
         }
-        [HttpPut("{id}/change-status")]
-        public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid id, bool isActive)
+        [HttpPut("{userId}/change-status")]
+        public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
         {
             // Gọi dịch vụ để tìm người dùng theo ID
-            var update = await _serviceManager.UserService.ChangeStatusbyId(id, isActive);
+            var update = await _serviceManager.UserService.ChangeStatusbyId(userId);
 
             if (update == null)
             {
@@ -171,11 +170,11 @@ namespace Moncati_Car_API.Controllers
             });
 
         }
-        [HttpPatch("{id}/change-password")]
-        public async Task<ActionResult<ResultModel>> ChangePassword(Guid id,  string currentPassword,  string newPassword)
+        [HttpPatch("{userId}/change-password")]
+        public async Task<ActionResult<ResultModel>> ChangePassword(Guid userId, string currentPassword, string newPassword)
         {
 
-            var result = await _serviceManager.UserService.ChangePasswordbyId(id, currentPassword, newPassword);
+            var result = await _serviceManager.UserService.ChangePasswordbyId(userId, currentPassword, newPassword);
             if (result)
             {
 

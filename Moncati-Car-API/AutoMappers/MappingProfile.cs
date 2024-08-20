@@ -20,7 +20,9 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Brand, BrandRespone>().ReverseMap();
             CreateMap<AppUser, UserReponse>()
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-               .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
+
+               .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName))
                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))

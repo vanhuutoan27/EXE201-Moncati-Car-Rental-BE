@@ -34,11 +34,10 @@ namespace MoncatiCar.Data.Services
                 FullName = User.FullName,
                 Address = User.Address,
                 Avatar = User.Avatar,
-                Dob = User.Dob,
                 Gender = User.Gender,
                 Status = false,
                 Email = User.Email,
-                UserName = User.UserName,
+                UserName = User.Username,
                 PhoneNumber = User.PhoneNumber,
                 LockoutEnabled = false,
                 EmailConfirmed = true,
@@ -58,20 +57,22 @@ namespace MoncatiCar.Data.Services
             return UserResponse;
         }
 
-   
+
 
         public async Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
-            if(user == null) { 
+            if (user == null)
+            {
                 throw new Exception("Somthing wrong with this account");
             }
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, currentPassword); 
-            if(!isPasswordValid) { 
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, currentPassword);
+            if (!isPasswordValid)
+            {
                 throw new Exception("current password is incorrect");
             }
-            var result = await _userManager.ChangePasswordAsync(user,currentPassword,newPassword);  
-            if(!result.Succeeded)
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            if (!result.Succeeded)
             {
                 throw new Exception("Fail to change password");
             }
@@ -79,15 +80,23 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<bool> ChangeStatusbyId(Guid id, bool isActive)
+        public async Task<bool> ChangeStatusbyId(Guid id)
         {
             var getUser = await _repositoryManager.UserRepository.GetUserById(id);
-            if (getUser == null) { 
+            if (getUser == null)
+            {
                 throw new Exception("not found any");
             }
 
-            getUser.Status = isActive;
-           var result = await _userManager.UpdateAsync(getUser);
+            if (getUser.Status)
+            {
+                getUser.Status = false;
+            }
+            else
+            {
+                getUser.Status = true;
+            }
+            var result = await _userManager.UpdateAsync(getUser);
             return result.Succeeded;
 
 
@@ -110,7 +119,8 @@ namespace MoncatiCar.Data.Services
         public async Task<IEnumerable<UserReponse>> GetUserByName(string name)
         {
             var getUsers = await _repositoryManager.UserRepository.GetUserByName(name);
-            if (getUsers == null) { 
+            if (getUsers == null)
+            {
                 throw new Exception("Not Found Any");
             }
             var userResponses = new List<UserReponse>();
