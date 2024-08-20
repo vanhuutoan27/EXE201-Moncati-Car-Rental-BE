@@ -58,6 +58,16 @@ namespace MoncatiCar.Data.Services
             return UserResponse;
         }
 
+        public Task<bool> ChangePasswordbyId(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ChangeStatusbyId(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<UserReponse> GetUserById(Guid id)
         {
             var getUser = await _repositoryManager.UserRepository.GetUserById(id);
@@ -70,6 +80,30 @@ namespace MoncatiCar.Data.Services
             var roles = await _userManager.GetRolesAsync(getUser);
             userResponse.Role = roles.FirstOrDefault();
             return userResponse;
+        }
+
+        public async Task<IEnumerable<UserReponse>> GetUserByName(string name)
+        {
+            var getUsers = await _repositoryManager.UserRepository.GetUserByName(name);
+            if (getUsers == null) { 
+                throw new Exception("Not Found Any");
+            }
+            var userResponses = new List<UserReponse>();
+
+            foreach (var user in getUsers)
+            {
+                var userResponse = _mapper.Map<UserReponse>(user);
+
+                // Lấy danh sách các vai trò của người dùng
+                var roles = await _userManager.GetRolesAsync(user);
+
+                // Lấy vai trò đầu tiên (nếu có) và gán vào UserResponse
+                userResponse.Role = roles.FirstOrDefault();
+
+                userResponses.Add(userResponse);
+            }
+
+            return userResponses;
         }
 
         public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)

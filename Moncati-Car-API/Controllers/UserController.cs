@@ -65,6 +65,32 @@ namespace Moncati_Car_API.Controllers
             }
             return Ok(_resultModel);
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<ResultModel>> GetUserByName(string name)
+        {
+            var users = await _serviceManager.UserService.GetUserByName(name);
+            if (users == null || !users.Any())
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "No records matched!!!",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            else
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = users,
+                    Message = "Users retrieved successfully"
+                };
+            }
+            return Ok(_resultModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)
         {
