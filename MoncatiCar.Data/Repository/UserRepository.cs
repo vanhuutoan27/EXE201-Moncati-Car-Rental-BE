@@ -36,7 +36,6 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search)
         {
             IQueryable<AppUser> query = _context.Users;
-            query = query.Where(u => u.Status != false);
 
             if (!string.IsNullOrEmpty(search))
             {
