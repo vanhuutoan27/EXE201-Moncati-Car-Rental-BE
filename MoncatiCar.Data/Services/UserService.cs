@@ -27,7 +27,6 @@ namespace MoncatiCar.Data.Services
         {
             // var userModel = _mapper.Map<AppUser>(User);
 
-
             var newUserRequest = new AppUser()
             {
                 Id = Guid.NewGuid(),
@@ -50,26 +49,24 @@ namespace MoncatiCar.Data.Services
             if (!result.Succeeded)
             {
                 var errorMessages = string.Join("; ", result.Errors.Select(e => e.Description));
-                throw new Exception($"User Fail: {errorMessages}");
+                throw new Exception($"Failed to create user: {errorMessages}");
             }
             await _userManager.AddToRoleAsync(newUserRequest, User.Role);
             var UserResponse = _mapper.Map<UserReponse>(newUserRequest);
             return UserResponse;
         }
 
-
-
         public async Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                throw new Exception("Somthing wrong with this account");
+                throw new Exception("User not found.");
             }
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, currentPassword);
             if (!isPasswordValid)
             {
-                throw new Exception("current password is incorrect");
+                throw new Exception("Current password is incorrect.");
             }
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
             if (!result.Succeeded)
@@ -85,7 +82,7 @@ namespace MoncatiCar.Data.Services
             var getUser = await _repositoryManager.UserRepository.GetUserById(id);
             if (getUser == null)
             {
-                throw new Exception("not found any");
+                throw new Exception("User not found.");
             }
 
             if (getUser.Status)
@@ -98,8 +95,6 @@ namespace MoncatiCar.Data.Services
             }
             var result = await _userManager.UpdateAsync(getUser);
             return result.Succeeded;
-
-
         }
 
         public async Task<UserReponse> GetUserById(Guid id)
@@ -121,7 +116,7 @@ namespace MoncatiCar.Data.Services
             var getUsers = await _repositoryManager.UserRepository.GetUserName(name);
             if (getUsers == null)
             {
-                throw new Exception("Not Found Any");
+                throw new Exception("User not found.");
             }
             var user = _mapper.Map<UserReponse>(getUsers);
             var roles = await _userManager.GetRolesAsync(getUsers);
@@ -153,7 +148,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> RemoveUser(Guid id)
         {
-            if (id == null) throw new Exception("Not Found Id");
+            if (id == null) throw new Exception("User not found.");
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null) throw new Exception("User not found.");
@@ -172,7 +167,7 @@ namespace MoncatiCar.Data.Services
         public async Task<UserReponse> UpdateUser(Guid id, UpdateUserRequest User)
         {
             var UserToEdit = await _userManager.FindByIdAsync(id.ToString());
-            if (UserToEdit == null) throw new Exception("Not Found User");
+            if (UserToEdit == null) throw new Exception("User not found.");
             var roles = await _userManager.GetRolesAsync(UserToEdit);
 
             // Neu Roles thay doi

@@ -31,7 +31,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Not addresses found"
+                    Message = "No addresses found"
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -52,7 +52,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Not addresses found."
+                    Message = "No addresses found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -111,7 +111,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to update brand."
+                    Message = "Failed to update address."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -142,7 +142,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Address deleted successfully."
             });
         }
-        [HttpPatch("{userId}/{addressId}/set-as-default")]
+        [HttpPatch("{userId}/{addressId}/set-default")]
         public async Task<ActionResult<ResultModel>> SetAsDefault(Guid userId, Guid addressId)
         {
             var result = await _serviceManager.AddressService.SetDefaultAddress(userId, addressId);
