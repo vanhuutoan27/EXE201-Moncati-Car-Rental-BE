@@ -94,7 +94,7 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Update Feature failed!" };
 
             }
-            _resultModel = new ResultModel { Status= (int)HttpStatusCode.OK, Success = true, Message = "Update Feature Sucessfully!" };
+            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Update Feature Sucessfully!" };
             return Ok(_resultModel);
         }
         [HttpDelete]
@@ -107,7 +107,7 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Delete Feature failed!" };
 
             }
-            _resultModel = new ResultModel { Status= (int)HttpStatusCode.OK, Success = true, Message = "Deete Feature Sucessfully!" };
+            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Deete Feature Sucessfully!" };
             return Ok(_resultModel);
         }
     }

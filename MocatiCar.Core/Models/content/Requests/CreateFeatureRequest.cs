@@ -2,7 +2,7 @@
 {
     public class CreateFeatureRequest
     {
-        public string Name { get; set; }
+        public string FeatureName { get; set; }
         public string? Description { get; set; }
     }
 }
