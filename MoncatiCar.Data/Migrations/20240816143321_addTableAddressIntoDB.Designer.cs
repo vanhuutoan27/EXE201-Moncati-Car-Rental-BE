@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoncatiCar.Data;
 
@@ -11,9 +12,11 @@ using MoncatiCar.Data;
 namespace MoncatiCar.Data.Migrations
 {
     [DbContext(typeof(MocatiContext))]
-    partial class MocatiContextModelSnapshot : ModelSnapshot
+    [Migration("20240816143321_addTableAddressIntoDB")]
+    partial class addTableAddressIntoDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +172,7 @@ namespace MoncatiCar.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("MocatiCar.Core.Domain.Content.Brand", b =>

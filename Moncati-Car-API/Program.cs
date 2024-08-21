@@ -1,6 +1,9 @@
+using AutoMapper;
+using AutoMapper.Internal;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
 using Moncati_Car_API;
+using Moncati_Car_API.AutoMappers;
 using Moncati_Car_API.Extensions;
 using Moncati_Car_API.GlobalExceptions;
 using MoncatiCar.Data.SeedWork;
@@ -16,7 +19,12 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.Internal().MethodMappingEnabled = false;
+    mc.AddProfile(new MappingProfile());
+});
+builder.Services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(Program).Assembly);
 builder.Services.ConfigureSqlContext(configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.ConfigureJwtSetting(configuration);

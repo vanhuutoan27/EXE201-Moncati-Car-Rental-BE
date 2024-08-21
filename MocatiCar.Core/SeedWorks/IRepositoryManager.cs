@@ -12,6 +12,7 @@ namespace MocatiCar.Core.SeedWorks
         IModelRepository ModelRepository { get; }
         IReviewRepository ReviewRepository { get; }
         IBrandRepository BrandRepository { get; }
+        IAddressRepository AddressRepository { get; }
         Task SaveAsync();
     }
 }

@@ -46,9 +46,9 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("{modelId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetById(Guid id)
+        public async Task<ActionResult<ResultModel>> GetById(Guid modelId)
         {
-            var checkModelExist = await _serviceManager.ModelService.GetModelById(id);
+            var checkModelExist = await _serviceManager.ModelService.GetModelById(modelId);
             if (checkModelExist == null)
             {
                 return NotFound(_resultModel = new ResultModel
@@ -153,9 +153,9 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPut("{modelId}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid id, CreateUpdateModelRequest updateModelRequest)
+        public async Task<ActionResult<ResultModel>> Update(Guid modelId, [FromBody]CreateUpdateModelRequest updateModelRequest)
         {
-            var update = await _serviceManager.ModelService.UpdateModel(id, updateModelRequest);
+            var update = await _serviceManager.ModelService.UpdateModel(modelId, updateModelRequest);
             if (!update)
             {
                 _resultModel = new ResultModel
@@ -176,9 +176,9 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpDelete("{modelId}")]
-        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        public async Task<ActionResult<ResultModel>> Delete(Guid modelId)
         {
-            var checkExistModel = await _serviceManager.ModelService.GetModelById(id);
+            var checkExistModel = await _serviceManager.ModelService.GetModelById(modelId);
             if (checkExistModel == null)
             {
                 return NotFound(_resultModel = new ResultModel
@@ -188,7 +188,7 @@ namespace Moncati_Car_API.Controllers
                     Message = "Model not found."
                 });
             }
-            await _serviceManager.ModelService.DeleteBrand(id);
+            await _serviceManager.ModelService.DeleteBrand(modelId);
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
