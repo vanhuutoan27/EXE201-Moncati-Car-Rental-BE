@@ -67,7 +67,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet("{username}")]
-        public async Task<ActionResult<ResultModel>> getuserbyname(string username)
+        public async Task<ActionResult<ResultModel>> GetUserByUsername(string username)
         {
             var user = await _serviceManager.UserService.GetUserName(username);
             if (user == null)

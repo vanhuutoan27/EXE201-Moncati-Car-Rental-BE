@@ -32,7 +32,6 @@ namespace Moncati_Car_API.Controllers
                 };
                 return BadRequest(_resultModel);
             }
-
            
             var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
 

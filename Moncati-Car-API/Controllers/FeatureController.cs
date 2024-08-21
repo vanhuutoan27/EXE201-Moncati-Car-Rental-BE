@@ -70,7 +70,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.BadRequest,
                     Success = false,
-                    Message = "Get Feature by Id failed!"
+                    Message = "Feature not found."
                 };
             }
             _resultModel = new ResultModel
@@ -78,7 +78,7 @@ namespace Moncati_Car_API.Controllers
 
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "Get Feature by Id Sucessfully!",
+                Message = "Feature retrieved successfully.",
                 Data = id
 
             };
@@ -91,10 +91,10 @@ namespace Moncati_Car_API.Controllers
             var query = await _serviceManager.FeatureService.UpdateFeature(featureId, request);
             if (query == false)
             {
-                _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Update Feature failed!" };
+                _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Failed to update feature." };
 
             }
-            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Update Feature Sucessfully!" };
+            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Feature updated successfully." };
             return Ok(_resultModel);
         }
         [HttpDelete]
@@ -104,10 +104,10 @@ namespace Moncati_Car_API.Controllers
             var query = await _serviceManager.FeatureService.DeleteFeature(featureId);
             if (query == false)
             {
-                _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Delete Feature failed!" };
+                _resultModel = new ResultModel { Status = (int)HttpStatusCode.BadRequest, Success = false, Message = "Failed to delete feature." };
 
             }
-            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Deete Feature Sucessfully!" };
+            _resultModel = new ResultModel { Status = (int)HttpStatusCode.OK, Success = true, Message = "Feature deleted successfully." };
             return Ok(_resultModel);
         }
     }
