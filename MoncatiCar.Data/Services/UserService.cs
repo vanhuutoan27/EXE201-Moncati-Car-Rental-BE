@@ -27,12 +27,10 @@ namespace MoncatiCar.Data.Services
         {
             // var userModel = _mapper.Map<AppUser>(User);
 
-
             var newUserRequest = new AppUser()
             {
                 Id = Guid.NewGuid(),
                 FullName = User.FullName,
-                Address = User.Address,
                 Avatar = User.Avatar,
                 Gender = User.Gender,
                 Status = false,

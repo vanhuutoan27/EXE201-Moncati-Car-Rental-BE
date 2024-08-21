@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -41,7 +40,7 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
-        [HttpGet("{userId}")]
+        [HttpGet("{userId:guid}")]
         public async Task<ActionResult<ResultModel>> GetUserById(Guid userId)
         {
             var user = await _serviceManager.UserService.GetUserById(userId);
@@ -67,10 +66,10 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpGet("search-username")]
-        public async Task<ActionResult<ResultModel>> getuserbyname(string name)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<ResultModel>> getuserbyname(string username)
         {
-            var user = await _serviceManager.UserService.GetUserName(name);
+            var user = await _serviceManager.UserService.GetUserName(username);
             if (user == null)
             {
                 _resultModel = new ResultModel
