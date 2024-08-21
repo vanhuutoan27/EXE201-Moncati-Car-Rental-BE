@@ -58,6 +58,10 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+            if (currentPassword == newPassword)
+            {
+                throw new Exception("Current password is equal with new pasword");
+            }
             if (user == null)
             {
                 throw new Exception("User not found.");
@@ -67,6 +71,7 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Current password is incorrect.");
             }
+
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
             if (!result.Succeeded)
             {
