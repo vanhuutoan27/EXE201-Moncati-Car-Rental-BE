@@ -21,6 +21,7 @@ namespace MoncatiCar.Data
         public DbSet<Model> Models { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims").HasKey(x => x.Id);

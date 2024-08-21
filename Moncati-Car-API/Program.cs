@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.Internal;
+using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
 using Moncati_Car_API;
 using Moncati_Car_API.AutoMappers;

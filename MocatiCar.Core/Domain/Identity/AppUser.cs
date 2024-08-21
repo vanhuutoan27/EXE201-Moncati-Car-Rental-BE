@@ -24,6 +24,7 @@ namespace MocatiCar.Core.Domain.Identity
 
         public ICollection<Car> Cars { get; set; }
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<Address> Addresses { get; set; }
 
 
     }

@@ -36,12 +36,12 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Model>> GetModelByBrandId(Guid brandId)
         {
-            return await _context.Models.Where(x => x.BrandId == brandId).ToListAsync();
+            return await _context.Models.Include(i => i.Brand).Where(x => x.BrandId == brandId).ToListAsync();
         }
 
         public async Task<IEnumerable<Model>> GetModelByBrandName(string name)
         {
-            return await _context.Models.Where(b => b.Brand.BrandName.ToLower().Equals(name.ToLower())).ToListAsync();
+            return await _context.Models.Where(b => b.Brand.BrandName.ToLower().Contains(name.ToLower())).ToListAsync();
         }
 
         public async Task<Model> GetModelById(Guid id)

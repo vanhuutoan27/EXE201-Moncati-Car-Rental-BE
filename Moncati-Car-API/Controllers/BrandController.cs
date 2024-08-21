@@ -46,9 +46,9 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("{brandId}")]
-        public async Task<ActionResult<ResultModel>> GetById(Guid id)
+        public async Task<ActionResult<ResultModel>> GetById(Guid brandId)
         {
-            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            var brand = await _serviceManager.BrandService.GetBrandById(brandId);
             if (brand == null)
             {
                 return NotFound(_resultModel = new ResultModel
@@ -102,9 +102,9 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPut("{brandId}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid id, CreateUpdateBrandRequest updateBrandRequest)
+        public async Task<ActionResult<ResultModel>> Update(Guid brandId, [FromBody]CreateUpdateBrandRequest updateBrandRequest)
         {
-            var update = await _serviceManager.BrandService.UpdateBrand(id, updateBrandRequest);
+            var update = await _serviceManager.BrandService.UpdateBrand(brandId, updateBrandRequest);
             if (!update)
             {
                 _resultModel = new ResultModel
@@ -125,9 +125,9 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpDelete("{brandId}")]
-        public async Task<ActionResult<ResultModel>> Delete(Guid id)
+        public async Task<ActionResult<ResultModel>> Delete(Guid brandId)
         {
-            var brand = await _serviceManager.BrandService.GetBrandById(id);
+            var brand = await _serviceManager.BrandService.GetBrandById(brandId);
             if (brand == null)
             {
                 return NotFound(_resultModel = new ResultModel
@@ -137,7 +137,7 @@ namespace Moncati_Car_API.Controllers
                     Message = "Brand not found."
                 });
             }
-            await _serviceManager.BrandService.DeleteBrand(id);
+            await _serviceManager.BrandService.DeleteBrand(brandId);
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,

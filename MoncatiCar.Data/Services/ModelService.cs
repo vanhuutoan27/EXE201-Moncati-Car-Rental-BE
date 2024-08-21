@@ -95,68 +95,90 @@ namespace MoncatiCar.Data.Services
                 TotalItems = totalItems,
                 Items = resultJson
             };
-        }                
-
-    public async Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id)
-    {
-        var models = await _repositoryManager.ModelRepository.GetModelByBrandId(id);
-        if (models == null || !models.Any())
-        {
-            throw new Exception($"No models found for brand with ID '{id}'.");
         }
-        return _mapper.Map<IEnumerable<ModelRespone>>(models);
+
+        public async Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id)
+        {
+            var models = await _repositoryManager.ModelRepository.GetModelByBrandId(id);
+            if (models == null || !models.Any())
+            {
+                throw new Exception($"No models found for brand with ID '{id}'.");
+            }
+            var listResult = _mapper.Map<IEnumerable<ModelRespone>>(models);
+
+            var resultJson = new List<ModelRespone>();
+            foreach (var item in listResult)
+            {
+                resultJson.Add(new ModelRespone
+                {
+                    ModelId = item.ModelId,
+                    ModelName = item.ModelName,
+                    Description = item.Description,
+                    Year = item.Year,
+                    Brand = new BrandResponeGetAll
+                    {
+                        BrandId = item.Brand.BrandId,
+                        BrandName = item.Brand.BrandName
+                    },
+                    CreatedAt = item.CreatedAt,
+                    UpdatedAt = item.UpdatedAt,
+                    CreatedBy = item.CreatedBy,
+                    UpdatedBy = item.UpdatedBy
+                });
+            }
+            return resultJson.ToList();
+        }
+
+        public async Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName)
+        {
+            var models = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
+            if (models == null || !models.Any())
+            {
+                throw new Exception($"No models found for brand with name '{brandName}'.");
+            }
+            return _mapper.Map<IEnumerable<ModelRespone>>(models);
+        }
+
+        public async Task<ModelRespone> GetModelById(Guid id)
+        {
+            var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
+            if (model == null)
+            {
+                throw new Exception($"Model with ID '{id}' does not exist.");
+            }
+            return _mapper.Map<ModelRespone>(model);
+        }
+
+        public async Task<bool> UpdateModel(Guid id, CreateUpdateModelRequest updateModelRequest)
+        {
+            var updateModel = await _repositoryManager.ModelRepository.GetByIdAsync(id);
+            if (updateModel == null)
+            {
+                throw new Exception($"Model with ID '{id}' does not exist.");
+            }
+
+            // check ModelName exist
+            if (await _repositoryManager.ModelRepository.CheckModelNameExist(updateModelRequest.ModelName))
+            {
+                throw new Exception($"Model name '{updateModelRequest.ModelName}' already exists.");
+            }
+
+            // check brandId
+            var brand = await _repositoryManager.BrandRepository.GetByIdAsync(updateModelRequest.BrandId);
+            if (brand == null || !updateModelRequest.BrandId.Equals(brand.BrandId))
+            {
+                throw new Exception($"Brand with ID '{updateModelRequest.BrandId}' does not exist.");
+            }
+
+            updateModel.ModelName = updateModelRequest.ModelName;
+            updateModel.Year = updateModelRequest.Year;
+            updateModel.Description = updateModelRequest.Description;
+            updateModel.UpdatedAt = DateTime.Now;
+            updateModel.BrandId = updateModelRequest.BrandId;
+
+            _repositoryManager.ModelRepository.UpdateModel(id, updateModel);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
     }
-
-    public async Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName)
-    {
-        var models = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
-        if (models == null || !models.Any())
-        {
-            throw new Exception($"No models found for brand with name '{brandName}'.");
-        }
-        return _mapper.Map<IEnumerable<ModelRespone>>(models);
-    }
-
-    public async Task<ModelRespone> GetModelById(Guid id)
-    {
-        var model = await _repositoryManager.ModelRepository.GetByIdAsync(id);
-        if (model == null)
-        {
-            throw new Exception($"Model with ID '{id}' does not exist.");
-        }
-        return _mapper.Map<ModelRespone>(model);
-    }
-
-    public async Task<bool> UpdateModel(Guid id, CreateUpdateModelRequest updateModelRequest)
-    {
-        var updateModel = await _repositoryManager.ModelRepository.GetByIdAsync(id);
-        if (updateModel == null)
-        {
-            throw new Exception($"Model with ID '{id}' does not exist.");
-        }
-
-        // check ModelName exist
-        if (await _repositoryManager.ModelRepository.CheckModelNameExist(updateModelRequest.ModelName))
-        {
-            throw new Exception($"Model name '{updateModelRequest.ModelName}' already exists.");
-        }
-
-        // check brandId
-        var brand = await _repositoryManager.BrandRepository.GetByIdAsync(updateModelRequest.BrandId);
-        if (brand == null || !updateModelRequest.BrandId.Equals(brand.BrandId))
-        {
-            throw new Exception($"Brand with ID '{updateModelRequest.BrandId}' does not exist.");
-        }
-
-        updateModel.ModelName = updateModelRequest.ModelName;
-        updateModel.Year = updateModelRequest.Year;
-        updateModel.Description = updateModelRequest.Description;
-        updateModel.UpdatedAt = DateTime.Now;
-        updateModel.BrandId = updateModelRequest.BrandId;
-
-        _repositoryManager.ModelRepository.UpdateModel(id, updateModel);
-        await _repositoryManager.SaveAsync();
-        return true;
-    }
-}
 }
