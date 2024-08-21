@@ -16,12 +16,10 @@ namespace MoncatiCar.Data.Repository
             return await _context.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<AppUser> GetUserByName(string username)
+        public async Task<AppUser> GetUserName(string username)
         {
             return await _context.Users
                       .Where(p => p.UserName == username).FirstOrDefaultAsync();
-
-
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search)
