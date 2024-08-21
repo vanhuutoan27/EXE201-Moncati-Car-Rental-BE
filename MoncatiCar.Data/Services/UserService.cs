@@ -39,7 +39,7 @@ namespace MoncatiCar.Data.Services
                 PhoneNumber = User.PhoneNumber,
                 LockoutEnabled = false,
                 EmailConfirmed = true,
-
+                UpdatedAt = DateTime.Now,
                 CreatedAt = DateTime.Now,
             };
 
@@ -215,7 +215,7 @@ namespace MoncatiCar.Data.Services
                 foreach (var error in result.Errors)
                     throw new Exception($"{error.Description}");
             }
-
+            UserToEdit.UpdatedAt = DateTime.Now;
             var UserReponse = _mapper.Map<UserReponse>(UserToEdit);
 
             return UserReponse;

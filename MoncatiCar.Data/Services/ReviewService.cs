@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
@@ -31,6 +30,7 @@ namespace MoncatiCar.Data.Services
                 Content = carRequest.Content,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+
                 Flag = false,
 
             };
@@ -41,12 +41,13 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> ChangeFlagAsync(Guid id)
         {
-           var review = await _repositoryManager.ReviewRepository.GetReviewId(id);
-            if(review == null) {
+            var review = await _repositoryManager.ReviewRepository.GetReviewId(id);
+            if (review == null)
+            {
                 return false;
             }
             var check = review.Flag;
-            if(check == true)
+            if (check == true)
             {
                 review.Flag = false;
             }
@@ -54,7 +55,7 @@ namespace MoncatiCar.Data.Services
             {
                 review.Flag = true;
             }
-          
+
             _repositoryManager.ReviewRepository.Update(review);
             await _repositoryManager.SaveAsync();
             return true;
@@ -63,18 +64,18 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> DeleteReview(Guid id)
         {
             Review review = await _repositoryManager.ReviewRepository.GetReviewId(id);
-            if (review == null) 
+            if (review == null)
             {
                 return false;
             }
             _repositoryManager.ReviewRepository.Remove(review);
-           await _repositoryManager.SaveAsync();
-            return true;    
+            await _repositoryManager.SaveAsync();
+            return true;
         }
 
-        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit , int star)
+        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star)
         {
-            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit , star);
+            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit, star);
             var totalItems = listreview.Count();
             var reviewRespone = listreview.Select(x => new ReviewRespone
             {
@@ -82,7 +83,7 @@ namespace MoncatiCar.Data.Services
                 CarId = x.Car.CarId,
                 Author = x.User.Id,
                 Rating = x.Rating,
-                Content= x.Content,
+                Content = x.Content,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 Flag = x.Flag,
@@ -132,7 +133,7 @@ namespace MoncatiCar.Data.Services
         public async Task<IEnumerable<ReviewRespone>> GetReviewByUserId(Guid userId)
         {
             var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId);
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception($"No reviews found for user with ID '{userId}'");
             }
@@ -157,7 +158,7 @@ namespace MoncatiCar.Data.Services
                 throw new Exception($"No user found with ID '{update.Author}'.");
             }
             reviewId.Rating = update.Rating;
-            reviewId.Content= update.Content;
+            reviewId.Content = update.Content;
             reviewId.UpdatedAt = DateTime.Now;
             reviewId.CreatedAt = DateTime.Now;
             _repositoryManager.ReviewRepository.Update(reviewId);
@@ -165,7 +166,7 @@ namespace MoncatiCar.Data.Services
             var updateReview = _mapper.Map<Review>(reviewId);
             await _repositoryManager.SaveAsync();
             return true;
-           
+
         }
     }
 }
