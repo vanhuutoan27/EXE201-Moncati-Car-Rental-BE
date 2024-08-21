@@ -146,8 +146,9 @@ namespace Moncati_Car_API.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
-                UserName = user.UserName,
+                Username = user.UserName,
                 Avatar = user.Avatar,
+                Fullname = user.FullName,
                 Role = roles.FirstOrDefault()
             };
             return _resp;

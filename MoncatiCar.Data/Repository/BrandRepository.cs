@@ -43,7 +43,7 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<int> GetTotalBrandCountAsync(string search)
         {
-            if(!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
             {
                 return await _context.Brands.Where(s => s.BrandName.ToLower().Contains(search.ToLower().Trim())).CountAsync();
             }

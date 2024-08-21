@@ -24,7 +24,6 @@ namespace Moncati_Car_API.AutoMappers
 
                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName))
                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
-               .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))
                .ForMember(dest => dest.Dob, opt => opt.MapFrom(src => src.Dob))
                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
@@ -33,9 +32,9 @@ namespace Moncati_Car_API.AutoMappers
 
             CreateMap<Car, CreateUpdateCarRequest>().ReverseMap();
             CreateMap<Car, CarResponeIdandSlug>()
-                .ForMember(dest => dest.Images, opt =>
-                opt.MapFrom(src => src.Images.Select(i => i.Url)
-                .ToList()));
+                    .ForMember(dest => dest.Images, opt =>
+                    opt.MapFrom(src => src.Images.Select(i => i.Url)
+                    .ToList()));
             CreateMap<Review, ReviewRespone>().ReverseMap();
             CreateMap<Review, CreateUpdateReviewRequest>().ReverseMap();
             CreateMap<Brand, BrandResponeGetAll>().ReverseMap();

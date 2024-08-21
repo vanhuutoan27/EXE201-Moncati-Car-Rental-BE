@@ -132,7 +132,7 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)
         {
             var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
-            var totalItems = listUser.Count();
+            var totalItems = await _repositoryManager.UserRepository.GetTotalUserCountAsync(search);
 
             var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(listUser).ToList();
             var listUsers = listUser.ToList();
@@ -201,9 +201,9 @@ namespace MoncatiCar.Data.Services
             {
                 UserToEdit.FullName = User.FullName;
             }
-            if (UserToEdit.UserName != User.UserName)
+            if (UserToEdit.UserName != User.Username)
             {
-                UserToEdit.UserName = User.UserName;
+                UserToEdit.UserName = User.Username;
             }
 
             if (UserToEdit.PhoneNumber != User.PhoneNumber)

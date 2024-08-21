@@ -145,7 +145,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "User updated successfully."
             });
         }
-        [HttpPut("{userId}/status")]
+        [HttpPatch("{userId}/status")]
         public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
         {
             // Gọi dịch vụ để tìm người dùng theo ID
@@ -170,7 +170,8 @@ namespace Moncati_Car_API.Controllers
             });
 
         }
-        [HttpPatch("{userId}/password")]
+
+        [HttpPut("{userId}/password")]
         public async Task<ActionResult<ResultModel>> ChangePassword(Guid userId, string currentPassword, string newPassword)
         {
 

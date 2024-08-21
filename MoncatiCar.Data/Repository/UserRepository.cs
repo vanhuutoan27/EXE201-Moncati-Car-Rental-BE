@@ -15,6 +15,18 @@ namespace MoncatiCar.Data.Repository
         {
             return await _context.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
+        public async Task<int> GetTotalUserCountAsync(string search)
+        {
+            search = search.Trim();
+            if (!string.IsNullOrEmpty(search))
+            {
+                return await _context.Users.Where(s => s.UserName.ToLower().Contains(search.ToLower()) ||
+                    s.Email.ToLower().Contains(search.ToLower())
+                    || s.FullName.ToLower().Contains(search.ToLower())
+                ).CountAsync();
+            }
+            return await _context.Users.CountAsync();
+        }
 
         public async Task<AppUser> GetUserByName(string username)
         {
@@ -32,7 +44,9 @@ namespace MoncatiCar.Data.Repository
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(u => u.Email.ToLower().Contains(search) || u.UserName.ToLower().Contains(search) && u.Status != false);
+                query = query.Where(s => s.UserName.ToLower().Contains(search.ToLower()) ||
+                    s.Email.ToLower().Contains(search.ToLower())
+                    || s.FullName.ToLower().Contains(search.ToLower()));
             }
             if (page > 0 && limit > 0)
             {
