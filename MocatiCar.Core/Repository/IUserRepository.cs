@@ -10,7 +10,7 @@ namespace MocatiCar.Core.Repository
         Task<AppUser> GetUserById(Guid id);
         public Task RemoveUserFromRoleAsync(Guid userId, string[] roles);
 
-        Task<IEnumerable<AppUser>> GetUserByName(string name);
+        Task<AppUser> GetUserByName(string username);
 
 
 

@@ -116,29 +116,17 @@ namespace MoncatiCar.Data.Services
             return userResponse;
         }
 
-        public async Task<IEnumerable<UserReponse>> GetUserByName(string name)
+        public async Task<UserReponse> GetUserByName(string name)
         {
             var getUsers = await _repositoryManager.UserRepository.GetUserByName(name);
             if (getUsers == null)
             {
                 throw new Exception("Not Found Any");
             }
-            var userResponses = new List<UserReponse>();
-
-            foreach (var user in getUsers)
-            {
-                var userResponse = _mapper.Map<UserReponse>(user);
-
-                // Lấy danh sách các vai trò của người dùng
-                var roles = await _userManager.GetRolesAsync(user);
-
-                // Lấy vai trò đầu tiên (nếu có) và gán vào UserResponse
-                userResponse.Role = roles.FirstOrDefault();
-
-                userResponses.Add(userResponse);
-            }
-
-            return userResponses;
+            var user = _mapper.Map<UserReponse>(getUsers);
+            var roles = await _userManager.GetRolesAsync(getUsers);
+            user.Role = roles.FirstOrDefault();
+            return user;
         }
 
         public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)

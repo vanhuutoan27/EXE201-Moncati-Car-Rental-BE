@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Services
 
         Task<UserReponse> GetUserById(Guid id);
 
-        Task<IEnumerable<UserReponse>> GetUserByName(string name);
+        Task<UserReponse> GetUserByName(string name);
 
         Task<bool> ChangeStatusbyId(Guid id);
 

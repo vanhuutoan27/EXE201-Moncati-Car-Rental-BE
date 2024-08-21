@@ -138,6 +138,7 @@ namespace Moncati_Car_API.Controllers
                 throw new Exception("Not Found User");
 
             }
+            var roles = await _userManager.GetRolesAsync(user);
             _resp.Status = (int)HttpStatusCode.OK;
             _resp.Message = "MONCATI";
             _resp.Success = true;
@@ -146,7 +147,8 @@ namespace Moncati_Car_API.Controllers
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
-                Avatar = user.Avatar
+                Avatar = user.Avatar,
+                Role = roles.FirstOrDefault()
             };
             return _resp;
         }

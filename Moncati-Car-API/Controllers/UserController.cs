@@ -40,10 +40,10 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ResultModel>> GetUserById(Guid id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<ResultModel>> GetUserById(Guid userId)
         {
-            var user = await _serviceManager.UserService.GetUserById(id);
+            var user = await _serviceManager.UserService.GetUserById(userId);
             if (user == null)
             {
                 _resultModel = new ResultModel
@@ -65,11 +65,12 @@ namespace Moncati_Car_API.Controllers
             }
             return Ok(_resultModel);
         }
-        [HttpGet("search-by-name")]
-        public async Task<ActionResult<ResultModel>> GetUserByName(string name)
+        [HttpGet]
+        [Route("get-username/{username}")]
+        public async Task<ActionResult<ResultModel>> GetUserByUserName(string username)
         {
-            var users = await _serviceManager.UserService.GetUserByName(name);
-            if (users == null || !users.Any())
+            var users = await _serviceManager.UserService.GetUserByName(username);
+            if (users == null)
             {
                 _resultModel = new ResultModel
                 {
@@ -145,13 +146,13 @@ namespace Moncati_Car_API.Controllers
                 Message = "Car updated successfully."
             });
         }
-        [HttpPut("{userId}/change-status")]
+        [HttpPatch("change-status/{userId}")]
         public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
         {
             // Gọi dịch vụ để tìm người dùng theo ID
             var update = await _serviceManager.UserService.ChangeStatusbyId(userId);
 
-            if (update == null)
+            if (!update)
             {
                 //update fail
                 return NotFound(_resultModel = new ResultModel
@@ -170,7 +171,7 @@ namespace Moncati_Car_API.Controllers
             });
 
         }
-        [HttpPatch("{userId}/change-password")]
+        [HttpPut("change-password/{userId}")]
         public async Task<ActionResult<ResultModel>> ChangePassword(Guid userId, string currentPassword, string newPassword)
         {
 
