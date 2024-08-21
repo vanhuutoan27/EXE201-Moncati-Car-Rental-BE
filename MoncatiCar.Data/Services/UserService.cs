@@ -31,7 +31,6 @@ namespace MoncatiCar.Data.Services
             {
                 Id = Guid.NewGuid(),
                 FullName = User.FullName,
-                Address = User.Address,
                 Avatar = User.Avatar,
                 Gender = User.Gender,
                 Status = false,

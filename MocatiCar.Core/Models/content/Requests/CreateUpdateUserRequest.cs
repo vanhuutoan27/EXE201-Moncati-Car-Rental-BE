@@ -3,7 +3,6 @@
     public class CreateUpdateUserRequest
     {
         public string FullName { get; set; }
-        public string? Address { get; set; }
         public string? Avatar { get; set; }
 
         public string? Gender { get; set; }

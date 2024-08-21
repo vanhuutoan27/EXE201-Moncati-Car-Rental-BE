@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -41,7 +40,7 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
-        [HttpGet("{userId}")]
+        [HttpGet("{userId:guid}")]
         public async Task<ActionResult<ResultModel>> GetUserById(Guid userId)
         {
             var user = await _serviceManager.UserService.GetUserById(userId);
@@ -67,31 +66,31 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        //[HttpGet("search-by-name")]
-        //public async Task<ActionResult<ResultModel>> GetUserByName(string name)
-        //{
-        //    var users = await _serviceManager.UserService.GetUserByName(name);
-        //    if (users == null || !users.Any())
-        //    {
-        //        _resultModel = new ResultModel
-        //        {
-        //            Success = false,
-        //            Message = "No users founds.",
-        //            Status = (int)HttpStatusCode.NotFound
-        //        };
-        //    }
-        //    else
-        //    {
-        //        _resultModel = new ResultModel
-        //        {
-        //            Success = true,
-        //            Status = (int)HttpStatusCode.OK,
-        //            Data = users,
-        //            Message = "Users retrieved successfully"
-        //        };
-        //    }
-        //    return Ok(_resultModel);
-        //}
+        [HttpGet("{username}")]
+        public async Task<ActionResult<ResultModel>> getuserbyname(string username)
+        {
+            var user = await _serviceManager.UserService.GetUserName(username);
+            if (user == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "User not found.",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            else
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = user,
+                    Message = "User found successfully."
+                };
+            }
+            return Ok(_resultModel);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)

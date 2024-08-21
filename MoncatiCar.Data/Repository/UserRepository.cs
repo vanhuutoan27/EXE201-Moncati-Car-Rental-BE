@@ -17,7 +17,6 @@ namespace MoncatiCar.Data.Repository
         }
         public async Task<int> GetTotalUserCountAsync(string search)
         {
-            search = search.Trim();
             if (!string.IsNullOrEmpty(search))
             {
                 return await _context.Users.Where(s => s.UserName.ToLower().Contains(search.ToLower()) ||
