@@ -65,32 +65,31 @@ namespace Moncati_Car_API.Controllers
             }
             return Ok(_resultModel);
         }
-        [HttpGet]
-        [Route("get-username/{username}")]
-        public async Task<ActionResult<ResultModel>> GetUserByUserName(string username)
-        {
-            var users = await _serviceManager.UserService.GetUserByName(username);
-            if (users == null)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Message = "No records matched!!!",
-                    Status = (int)HttpStatusCode.NotFound
-                };
-            }
-            else
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = true,
-                    Status = (int)HttpStatusCode.OK,
-                    Data = users,
-                    Message = "Users retrieved successfully"
-                };
-            }
-            return Ok(_resultModel);
-        }
+        //[HttpGet("search-by-name")]
+        //public async Task<ActionResult<ResultModel>> GetUserByName(string name)
+        //{
+        //    var users = await _serviceManager.UserService.GetUserByName(name);
+        //    if (users == null || !users.Any())
+        //    {
+        //        _resultModel = new ResultModel
+        //        {
+        //            Success = false,
+        //            Message = "No users founds.",
+        //            Status = (int)HttpStatusCode.NotFound
+        //        };
+        //    }
+        //    else
+        //    {
+        //        _resultModel = new ResultModel
+        //        {
+        //            Success = true,
+        //            Status = (int)HttpStatusCode.OK,
+        //            Data = users,
+        //            Message = "Users retrieved successfully"
+        //        };
+        //    }
+        //    return Ok(_resultModel);
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)
@@ -135,7 +134,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to update car."
+                    Message = "Failed to update user."
                 });
             }
             // update success
@@ -143,10 +142,10 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Car updated successfully."
+                Message = "User updated successfully."
             });
         }
-        [HttpPatch("change-status/{userId}")]
+        [HttpPut("{userId}/status")]
         public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
         {
             // Gọi dịch vụ để tìm người dùng theo ID
@@ -159,7 +158,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Update Fail."
+                    Message = "Failed to update user."
                 });
             }
             // update success
@@ -167,11 +166,11 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Update Successfully"
+                Message = "User updated successfully."
             });
 
         }
-        [HttpPut("change-password/{userId}")]
+        [HttpPatch("{userId}/password")]
         public async Task<ActionResult<ResultModel>> ChangePassword(Guid userId, string currentPassword, string newPassword)
         {
 
@@ -183,7 +182,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = true,
                     Status = (int)HttpStatusCode.OK,
-                    Message = "change Password Successfully"
+                    Message = "Change password user successfully."
                 });
             }
             else
@@ -192,7 +191,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Change Password Fail."
+                    Message = "Failed to change password user."
                 });
             }
 
