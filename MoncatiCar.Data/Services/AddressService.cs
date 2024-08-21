@@ -82,6 +82,13 @@ namespace MoncatiCar.Data.Services
             return listResult;
         }
 
+        public async Task<IEnumerable<GetAddressByUsernameRespone>> GetAddressesByUsername(string username)
+        {
+            var listAddress = await _repositoryManager.AddressRepository.GetAddressesByUsername(username);
+            var listResult = _mapper.Map<IEnumerable<GetAddressByUsernameRespone>>(listAddress);
+            return listResult;
+        }
+
         public async Task<bool> SetDefaultAddress(Guid userId, Guid addressId)
         {
             // kiem tra xem nguoi dung da ca dia chi default nao hay chua

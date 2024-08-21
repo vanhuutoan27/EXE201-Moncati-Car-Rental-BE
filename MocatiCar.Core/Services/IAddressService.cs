@@ -17,5 +17,6 @@ namespace MocatiCar.Core.Services
         Task<bool> UpdateAddress(Guid userid, Guid addressId, UpdateAddressRequest updateAddress);
         Task<bool> DeleteAddress(Guid userId, Guid addressid);
         Task<bool> SetDefaultAddress(Guid userId, Guid addressId);
+        Task<IEnumerable<GetAddressByUsernameRespone>> GetAddressesByUsername(string username);
     }
 }

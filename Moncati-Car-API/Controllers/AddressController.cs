@@ -21,7 +21,7 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetAll(Guid userId)
         {
             var listAddress = await _serviceManager.AddressService.GetAddressesByUserId(userId);
@@ -46,6 +46,27 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> GetByUserIdAndAddressId(Guid userId, Guid addressId)
         {
             var address = await _serviceManager.AddressService.GetAddressByUserIdAndAddressId(userId, addressId);
+            if(address == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No addresses found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = address,
+                Message = "Address retrieved successfully."
+            });
+        }
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetAddressByUsername(string username)
+        {
+            var address = await _serviceManager.AddressService.GetAddressesByUsername(username);
             if(address == null)
             {
                 return NotFound(_resultModel = new ResultModel

@@ -48,5 +48,10 @@ namespace MoncatiCar.Data.Repository
                 newDefault.isDefault = true;
             }
         }
+
+        public async Task<IEnumerable<Address>> GetAddressesByUsername(string username)
+        {
+            return await _context.Addresses.Include(i => i.User).Where(x => x.User.UserName == username).ToListAsync();
+        }
     }
 }
