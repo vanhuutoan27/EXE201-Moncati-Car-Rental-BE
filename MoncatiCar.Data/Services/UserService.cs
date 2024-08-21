@@ -116,9 +116,9 @@ namespace MoncatiCar.Data.Services
             return userResponse;
         }
 
-        public async Task<UserReponse> GetUserByName(string name)
+        public async Task<UserReponse> GetUserName(string name)
         {
-            var getUsers = await _repositoryManager.UserRepository.GetUserByName(name);
+            var getUsers = await _repositoryManager.UserRepository.GetUserName(name);
             if (getUsers == null)
             {
                 throw new Exception("Not Found Any");
