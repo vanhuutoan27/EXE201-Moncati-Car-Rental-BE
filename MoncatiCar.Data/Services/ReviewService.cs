@@ -31,11 +31,33 @@ namespace MoncatiCar.Data.Services
                 Content = carRequest.Content,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Flag = false,
 
             };
             _repositoryManager.ReviewRepository.Add(model);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<CreateUpdateReviewRequest>(model);
+        }
+
+        public async Task<bool> ChangeFlagAsync(Guid id)
+        {
+           var review = await _repositoryManager.ReviewRepository.GetReviewId(id);
+            if(review == null) {
+                return false;
+            }
+            var check = review.Flag;
+            if(check == true)
+            {
+                review.Flag = false;
+            }
+            else
+            {
+                review.Flag = true;
+            }
+          
+            _repositoryManager.ReviewRepository.Update(review);
+            await _repositoryManager.SaveAsync();
+            return true;
         }
 
         public async Task<bool> DeleteReview(Guid id)
@@ -63,6 +85,7 @@ namespace MoncatiCar.Data.Services
                 Content= x.Content,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Flag = x.Flag,
             });
 
             return new PageResult<ReviewRespone>
@@ -102,6 +125,7 @@ namespace MoncatiCar.Data.Services
                 Content = query.Content,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Flag = query.Flag,
             };
         }
 

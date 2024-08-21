@@ -31,10 +31,37 @@ namespace MoncatiCar.Data.Services
             return _mapper.Map<FeatureResponses>(feature);
         }
 
+        public async Task<bool> DeleteFeature(Guid id)
+        {
+            var query = await _repositoryManager.FeatureRepository.GetFeatureById(id);
+            if (query == null) return false;
+            _repositoryManager.FeatureRepository.Remove(query);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<FeatureResponses>> GetAllFeatureAsync()
         {
             var features = await _repositoryManager.FeatureRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<FeatureResponses>>(features);
+        }
+
+        public async Task<FeatureResponses> GetFeatureById(Guid id)
+        {
+            var featureId = await _repositoryManager.FeatureRepository.GetFeatureById(id);
+            if (featureId == null) throw new Exception("Fearture does not exist!");
+            return _mapper.Map<FeatureResponses>(featureId);
+        }
+
+        public async Task<bool> UpdateFeature(Guid id, CreateFeatureRequest update)
+        {
+            var query = await _repositoryManager.FeatureRepository.GetFeatureById(id);
+            if (query == null) return false;
+            update.Description = query.Description;
+            update.Name =  query.FeatureName;
+            _repositoryManager.FeatureRepository.Update(query);
+            await _repositoryManager.SaveAsync();
+            return true;
         }
     }
 }

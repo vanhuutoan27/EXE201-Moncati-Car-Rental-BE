@@ -15,5 +15,6 @@ namespace MocatiCar.Core.Models.content.Responses
         public string? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public bool Flag {  get; set; }
     }
 }
