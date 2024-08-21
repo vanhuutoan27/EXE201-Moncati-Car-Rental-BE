@@ -144,7 +144,7 @@ namespace Moncati_Car_API.Controllers
             _resp.Success = true;
             _resp.Data = new MeResponse()
             {
-                Id = user.Id,
+                UserId = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
                 Avatar = user.Avatar,
