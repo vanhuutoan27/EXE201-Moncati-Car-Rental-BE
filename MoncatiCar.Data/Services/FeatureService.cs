@@ -22,7 +22,7 @@ namespace MoncatiCar.Data.Services
             if (request == null) throw new Exception("Invalid Feature");
             var feature = new Feature()
             {
-                FeatureName = request.Name,
+                FeatureName = request.FeatureName,
                 Description = request.Description,
                 CreatedAt = DateTime.Now
             };
@@ -58,7 +58,7 @@ namespace MoncatiCar.Data.Services
             var query = await _repositoryManager.FeatureRepository.GetFeatureById(id);
             if (query == null) return false;
             update.Description = query.Description;
-            update.Name =  query.FeatureName;
+            update.FeatureName = query.FeatureName;
             _repositoryManager.FeatureRepository.Update(query);
             await _repositoryManager.SaveAsync();
             return true;
