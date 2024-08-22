@@ -16,8 +16,9 @@
         public string? Description { get; set; }
         public string Location { get; set; }
         public decimal PricePerDay { get; set; }
-       
+
         //public ICollection<ReviewResponse> Reviews { get; set; }
+        public List<string> Images { get; set; }
         public ICollection<string> Features { get; set; }
         public string RentalStatus { get; set; }
         public bool Status { get; set; }
@@ -25,7 +26,6 @@
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-        public List<string> Images { get; set; }
     }
 
     // ImageResponse class

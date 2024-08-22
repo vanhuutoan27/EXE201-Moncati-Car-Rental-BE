@@ -274,7 +274,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Flag review successfully."
+                Message = "Review flagged successfully."
             };
 
             return Ok(_resultModel);
