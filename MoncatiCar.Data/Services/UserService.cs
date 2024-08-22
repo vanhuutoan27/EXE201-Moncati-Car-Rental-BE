@@ -17,15 +17,18 @@ namespace MoncatiCar.Data.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-        public UserService(UserManager<AppUser> userManager, IRepositoryManager repositoryManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        private readonly Dictionary<string, int> _roleHierarchy = new Dictionary<string, int>
+    {
+        { "Admin", 3 },
+        { "Manager", 2 },
+        { "Customer", 1 }
+    };
+        public UserService(UserManager<AppUser> userManager, IRepositoryManager repositoryManager, IMapper mapper)
         {
             _userManager = userManager;
             _repositoryManager = repositoryManager;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserReponse> AddUser(CreateUpdateUserRequest User)
@@ -186,17 +189,28 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        private bool CanViewUser(string currentUserRole, string targetUserRole)
+        /* private bool CanViewUser(string currentUserRole, string targetUserRole)
+         {
+             // Nếu người dùng hiện tại có vai trò ngang bằng hoặc thấp hơn so với người dùng mục tiêu, từ chối truy cập
+             if (string.Compare(currentUserRole, targetUserRole, StringComparison.Ordinal) >= 0)
+             {
+                 return false;
+             }
+
+             // Nếu vai trò của người dùng mục tiêu thấp hơn vai trò của người dùng hiện tại, cho phép xem
+             return true;
+         }*/
+        public bool CanViewUser(string currentUserRole, string targetUserRole)
         {
-            // Nếu người dùng hiện tại có vai trò ngang bằng hoặc thấp hơn so với người dùng mục tiêu, từ chối truy cập
-            if (string.Compare(currentUserRole, targetUserRole, StringComparison.Ordinal) >= 0)
+            if (!_roleHierarchy.TryGetValue(currentUserRole, out var currentUserLevel) ||
+                !_roleHierarchy.TryGetValue(targetUserRole, out var targetUserLevel))
             {
                 return false;
             }
 
-            // Nếu vai trò của người dùng mục tiêu thấp hơn vai trò của người dùng hiện tại, cho phép xem
-            return true;
+            return currentUserLevel > targetUserLevel;
         }
+
         public async Task<bool> RemoveUser(Guid id)
         {
             if (id == null) throw new Exception("Not Found Id");
