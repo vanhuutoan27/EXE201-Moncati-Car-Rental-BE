@@ -72,7 +72,6 @@ namespace Moncati_Car_API.Controllers
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
                 Message = "Car added successfully.",
-                Data = result
             };
             return Ok(_resultModel);
         }
@@ -144,7 +143,6 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = update,
                 Message = "Car updated successfully.",
             };
             return _resultModel;
@@ -169,7 +167,6 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
                 Message = "Car deleted successfully.",
-                Data = delete
             };
         }
 
@@ -242,7 +239,6 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Message = "Change rental status car successfully.",
-                Data = result
             };
 
             return Ok(_resultModel);

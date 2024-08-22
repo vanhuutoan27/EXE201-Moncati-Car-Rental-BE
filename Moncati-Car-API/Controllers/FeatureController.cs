@@ -37,7 +37,6 @@ namespace Moncati_Car_API.Controllers
             _resultModel.Success = true;
             _resultModel.Message = "Feature added successfully.";
             _resultModel.Status = (int)HttpStatusCode.OK;
-            _resultModel.Data = feature;
             return _resultModel;
         }
 

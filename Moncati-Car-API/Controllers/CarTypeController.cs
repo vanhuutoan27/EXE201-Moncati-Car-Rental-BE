@@ -71,7 +71,6 @@ namespace Moncati_Car_API.Controllers
                     Success = false,
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = "Invalid data!",
-
                 };
                 return BadRequest(_resultModel);
             }
@@ -83,7 +82,6 @@ namespace Moncati_Car_API.Controllers
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
                     Message = "Failed to add car type.",
-                    Data=cartype
                 };
             }
             _resultModel = new ResultModel
@@ -91,7 +89,6 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Message = "Car type added successfully.",
-                Data=cartype
             };
             return Ok(_resultModel);
         }
@@ -117,7 +114,6 @@ namespace Moncati_Car_API.Controllers
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
                 Message = "Car type updated successfully.",
-                Data = updateSuccess
             };
 
             return Ok(_resultModel);
@@ -141,7 +137,6 @@ namespace Moncati_Car_API.Controllers
                     Status = (int)HttpStatusCode.OK,
                     Success = true,
                     Message = "Car type deleted successfully.",
-                    Data = carType
                 };
                
             }

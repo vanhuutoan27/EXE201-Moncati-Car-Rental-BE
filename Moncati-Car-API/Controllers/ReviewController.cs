@@ -249,7 +249,6 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Data = updateReview,
                 Message = "Review deleted successfully."
             };
             return Ok(_resultModel);
@@ -266,7 +265,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Change Flag Failed!"
+                    Message = "Failed to flag review."
                 };
                 return NotFound(_resultModel);
             }
@@ -275,7 +274,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Change Flag Successfully!"
+                Message = "Flag review successfully."
             };
 
             return Ok(_resultModel);
