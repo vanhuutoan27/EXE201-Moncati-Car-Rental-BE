@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace MoncatiCar.Data.Services
 {
@@ -14,13 +17,15 @@ namespace MoncatiCar.Data.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(UserManager<AppUser> userManager, IRepositoryManager repositoryManager, IMapper mapper)
+
+        public UserService(UserManager<AppUser> userManager, IRepositoryManager repositoryManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            this._userManager = userManager;
-
+            _userManager = userManager;
             _repositoryManager = repositoryManager;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserReponse> AddUser(CreateUpdateUserRequest User)
@@ -128,16 +133,46 @@ namespace MoncatiCar.Data.Services
             user.Role = roles.FirstOrDefault();
             return user;
         }
+     
 
-        public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search)
+        public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search, string currentUserId)
         {
-            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
-            var totalItems = listUser.Count();
+            /*var httpContext = _httpContextAccessor.HttpContext;
+            var currentUserId = httpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(listUser).ToList();
-            var listUsers = listUser.ToList();
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }*/
+            var currentUser = await _userManager.FindByIdAsync(currentUserId);
+            var currentUserRoles = (await _userManager.GetRolesAsync(currentUser)).FirstOrDefault();//chi co 1 role
+
+
+            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
+
+            var filteredUsers = new List<AppUser>();
+            foreach (var user in listUser)
+            {
+                // Bỏ qua tài khoản của chính người dùng hiện tại
+                if (currentUser.Id == user.Id)
+                    continue;
+
+                var userRoles = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+                // Kiểm tra nếu người dùng hiện tại có quyền xem người dùng mục tiêu
+                if (CanViewUser(currentUserRoles, userRoles))
+                {
+                    filteredUsers.Add(user);
+                }
+            }
+
+
+            var totalItems = filteredUsers.Count();
+
+            var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(filteredUsers).ToList();
+            var listUsers = filteredUsers.ToList();
             //add Role
-            for (int i = 0; i < listUser.Count(); i++)
+            for (int i = 0; i < filteredUsers.Count(); i++)
             {
                 var roles = await _userManager.GetRolesAsync(listUsers[i]);
                 listUserReponse[i].Role = roles.FirstOrDefault();
@@ -151,6 +186,17 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+        private bool CanViewUser(string currentUserRole, string targetUserRole)
+        {
+            // Nếu người dùng hiện tại có vai trò ngang bằng hoặc thấp hơn so với người dùng mục tiêu, từ chối truy cập
+            if (string.Compare(currentUserRole, targetUserRole, StringComparison.Ordinal) >= 0)
+            {
+                return false;
+            }
+
+            // Nếu vai trò của người dùng mục tiêu thấp hơn vai trò của người dùng hiện tại, cho phép xem
+            return true;
+        }
         public async Task<bool> RemoveUser(Guid id)
         {
             if (id == null) throw new Exception("Not Found Id");

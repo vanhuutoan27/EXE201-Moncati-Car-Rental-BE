@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.Internal;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
@@ -14,6 +14,7 @@ var configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor(); // Đảm bảo đã thêm dòng này
 
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureCors();
