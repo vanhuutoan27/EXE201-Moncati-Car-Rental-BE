@@ -117,6 +117,7 @@ namespace MoncatiCar.Data.Services
             existingAddress.district = updateAddress.district;
             existingAddress.commune = updateAddress.commune;
             existingAddress.isDefault = updateAddress.isDefault;
+            existingAddress.updateAt = DateTime.Now;
 
             _repositoryManager.AddressRepository.Update(existingAddress);
             await _repositoryManager.SaveAsync();

@@ -73,7 +73,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No addresses found."
+                    Message = "No users found."
                 });
             }
             return Ok(_resultModel = new ResultModel
