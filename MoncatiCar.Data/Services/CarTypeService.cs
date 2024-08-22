@@ -21,12 +21,10 @@ namespace MoncatiCar.Data.Services
         {
             var model = new CarType()
             {
-                CreatedAt = DateTime.Now,
-                CreatedBy = carRequest.CreatedBy,
+
                 Description = carRequest.Description,
                 TypeName = carRequest.TypeName,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = carRequest.UpdatedBy,
+
             };
             _repositoryManager.CarTypeRepository.Add(model);
             await _repositoryManager.SaveAsync();
@@ -47,7 +45,7 @@ namespace MoncatiCar.Data.Services
             var relatedReviews = await _repositoryManager.ReviewRepository.GetReviewsByCarTypeIdAsync(id);
             if (relatedReviews.Any())
             {
-               
+
                 _repositoryManager.ReviewRepository.RemoveRange(relatedReviews);
             }
 
@@ -61,8 +59,20 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<CarTypeResponse>> GetAllCarTypeAsync(int page, int limit)
         {
             var carTypes = await _repositoryManager.CarTypeRepository.GetAllCarTypeAsync(page, limit);
-            var listResults = _mapper.Map<IEnumerable<CarTypeResponse>>(carTypes);
+
             var totalItems = carTypes.Count();
+            var listResults = carTypes.Select(cartype => new CarTypeResponse
+            {
+
+                CarTypeId = cartype.CarTypeId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Description = cartype.Description,
+                TypeName = cartype.TypeName,
+                CreatedBy = cartype.CreatedBy,
+                UpdatedBy = cartype.UpdatedBy,
+
+            });
             if (carTypes == null)
             {
                 throw new Exception("Car type list not found.");
@@ -83,7 +93,15 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("CarType does not found!");
             }
-            return _mapper.Map<CarTypeResponse>(cartype);
+            return new CarTypeResponse { 
+              CarTypeId = cartype.CarTypeId,
+              CreatedAt = DateTime.Now,
+              UpdatedAt = DateTime.Now,
+              Description = cartype.Description,
+              TypeName = cartype.TypeName,
+              CreatedBy = cartype.CreatedBy,
+              UpdatedBy = cartype.UpdatedBy
+            };
         }
 
         public async Task<bool> UpdateCarType(Guid id, CreateUpdateCarTypeRequest cartype)
@@ -96,10 +114,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // Update the fields
-            existingCarType.UpdatedBy = cartype.UpdatedBy;
-            existingCarType.UpdatedAt = DateTime.UtcNow;
-            existingCarType.CreatedBy = cartype.CreatedBy;
-            existingCarType.CreatedAt = DateTime.UtcNow;
+
             existingCarType.Description = cartype.Description;
             existingCarType.TypeName = cartype.TypeName;
 

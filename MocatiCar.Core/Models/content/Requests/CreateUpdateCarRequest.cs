@@ -9,8 +9,7 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         public string LicensePlate { get; set; } = string.Empty;
 
-        [Required]
-        public string Slug { get; set; } = string.Empty;
+      
 
 
         [Required]
@@ -35,9 +34,9 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Price per day must be a positive value.")]
         public decimal PricePerDay { get; set; }
-        [Required]
-        [JsonPropertyName("brand")]
-        public Guid BrandId { get; set; }
+        //[Required]
+        //[JsonPropertyName("brand")]
+        //public Guid BrandId { get; set; }
         [Required]
         [JsonPropertyName("owner")]
 
@@ -54,16 +53,11 @@ namespace MocatiCar.Core.Models.content.Requests
         public List<string>? Images { get; set; } = new List<string>();
 
         public List<string> Features { get; set; }
-        //[Required]
-        //public List<ReviewDto> Reviews { get; set; }
+       
         [Required]
         public string RentalStatus { get; set; }
-        [Required]
-        public bool Status { get; set; } = false;
 
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public Guid? CreatedBy { get; set; }
-        public Guid? UpdatedBy { get; set; }
+
+       
     }
 }

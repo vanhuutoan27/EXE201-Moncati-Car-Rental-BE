@@ -8,12 +8,13 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class CarResponeIdandSlug
     {
-        
+        public Guid CarId { get; set; } 
+        public Guid Owner {  get; set; }    
         public string LicensePlate { get; set; }
         public string Slug { get; set; }
         public string Brand { get; set; } // Extracted from Model or CarType
         public string Model { get; set; } // Extracted from Model entity
-
+        public ICollection<string> Features { get; set; }
         public int Seats { get; set; }
         public string Transmission { get; set; }
         public string FuelType { get; set; }

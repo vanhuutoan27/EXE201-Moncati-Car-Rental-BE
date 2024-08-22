@@ -27,7 +27,7 @@ namespace MoncatiCar.Data.Services
         {
             // Tạo 6 ký tự ngẫu nhiên
             var randomSuffix = GenerateRandomString(6);
-            var brand = await _repositoryManager.BrandRepository.GetBrandById(carRequest.BrandId);
+            var brand = await _repositoryManager.BrandRepository.GetBrandByModelId(carRequest.ModelId);
             var model1 = await _repositoryManager.ModelRepository.GetModelById(carRequest.ModelId);
             if (brand == null || model1 == null)
             {
@@ -53,9 +53,8 @@ namespace MoncatiCar.Data.Services
                 PricePerDay = carRequest.PricePerDay,
                 RentalStatus = carRequest.RentalStatus,
                 Status = false,
-                CreatedAt = DateTime.Now,
-                CreatedBy = carRequest.CreatedBy,
-                UpdatedBy = carRequest.UpdatedBy,
+
+
 
             };
 
@@ -73,15 +72,16 @@ namespace MoncatiCar.Data.Services
                 };
                 _repositoryManager.ImageRepository.Add(image);
             }
-          
+
             if (carRequest.Features != null && carRequest.Features.Any())
             {
-                foreach (var feature in carRequest.Features)
+                foreach (var featureName in carRequest.Features)
                 {
+                    var feature = await _repositoryManager.FeatureRepository.GetFeatureByFeatureNameAsync(featureName);
                     var carFeature = new CarFeature()
                     {
                         CarId = model.CarId,
-                        FeatureId = Guid.Parse(feature)
+                        FeatureId = feature != null ? feature.FeatureId : null
                     };
                     _repositoryManager.CarFeatureRepository.Add(carFeature);
 
@@ -106,10 +106,10 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
-            car.RentalStatus = status;  
+            car.RentalStatus = status;
             _repositoryManager.CarRepository.Update(car);
-            await _repositoryManager.SaveAsync();   
-            return true;    
+            await _repositoryManager.SaveAsync();
+            return true;
         }
 
         public async Task<bool> ChangeStatusAsync(Guid id)
@@ -151,10 +151,10 @@ namespace MoncatiCar.Data.Services
             var totalItems = listCar.Count();
             var carResponse = listCar.Select(car => new CarResponse
             {
+                Slug = car.Slug,
                 CarId = car.CarId,
                 Owner = car.OwnerId,
                 LicensePlate = car.licensePlate,
-                Slug = car.Slug,
                 Brand = car.Model.Brand.BrandName,
                 Model = car.Model.ModelName,
                 Location = car.Location,
@@ -164,21 +164,19 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                Images = car.Images?.Select(img => new ImageResponse
-                {
-                    ImageId = img.ImageId,
-                    Url = img.Url,
-                }).ToList() ?? new List<ImageResponse>(),
+                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
                 Features = car.CarFeatures != null
                          ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                                 : new List<string>(),
-                
+
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
-                CreatedAt = car.CreatedAt,
-                UpdatedAt = car.UpdatedAt,
-                CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = car.CreatedBy,  
+                UpdatedBy = car.UpdatedBy
+
+                
             });
 
 
@@ -209,37 +207,55 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                Images = car.Images?.Select(img => new ImageResponse
-                {
-                    ImageId = img.ImageId,
-                    Url = img.Url,
-                }).ToList() ?? new List<ImageResponse>(),
+                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
                 Features = car.CarFeatures != null
                          ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                                 : new List<string>(),
-                //Reviews = car.Reviews?.Select(review => new ReviewResponse
-                //{
-                //    ReviewId = review.ReviewId,
-                //    Author = review.Author,
-                //    Content = review.Content,
-                //    CreatedAt = (DateTime)review.CreatedAt,
-                //    UpdatedAt = (DateTime)review.UpdatedAt,
-                //}).ToList() ?? new List<ReviewResponse>(),
+
                 RentalStatus = car.RentalStatus,
-                Status = car.Status,
                 CreatedAt = car.CreatedAt,
                 UpdatedAt = car.UpdatedAt,
-                CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy,
+
             };
             return carResponse;
         }
 
         public async Task<CarResponeIdandSlug> GetCarBySlug(string slug)
         {
-            var query = await _repositoryManager.CarRepository.GetCarBySlug(slug);
-            return _mapper.Map<CarResponeIdandSlug>(query);
+            var car = await _repositoryManager.CarRepository.GetCarBySlug(slug);
+
+            if (car == null)
+            {
+                throw new Exception($"Car with slug '{slug}' not found.");
+            }
+
+            var carResponse = new CarResponeIdandSlug()
+            {
+                CarId = car.CarId,
+                Owner = car.OwnerId,
+                LicensePlate = car.licensePlate,
+         
+                Brand = car.Model?.Brand?.BrandName ?? string.Empty,
+                Model = car.Model?.ModelName ?? string.Empty,
+                Location = car.Location,
+                Seats = car.Seats,
+                Transmission = car.Transmission,
+                FuelType = car.FuelType,
+                FuelConsumption = car.FuelConsumption,
+                Description = car.Description,
+                PricePerDay = car.PricePerDay,
+                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                Features = car.CarFeatures != null
+                          ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
+                          : new List<string>(),
+                RentalStatus = car.RentalStatus,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+
+            return carResponse;
         }
+
 
         public async Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update)
         {
@@ -268,7 +284,7 @@ namespace MoncatiCar.Data.Services
             query.CarTypeId = update.CarTypeId;
             query.OwnerId = update.OwnerId;
             query.licensePlate = update.LicensePlate;
-            query.Slug = update.Slug;
+
             query.Seats = update.Seats;
             query.Transmission = update.Transmission;
             query.FuelType = update.FuelType;
@@ -277,10 +293,8 @@ namespace MoncatiCar.Data.Services
             query.Location = update.Location;
             query.PricePerDay = update.PricePerDay;
             query.RentalStatus = update.RentalStatus;
-            query.Status = update.Status;
-            query.UpdatedAt = DateTime.Now;
-            query.CreatedBy = update.CreatedBy;
-            query.UpdatedBy = update.UpdatedBy;
+
+
 
             _repositoryManager.CarRepository.UpdateCar(id, query);
             if (update.Images != null && update.Images.Any())

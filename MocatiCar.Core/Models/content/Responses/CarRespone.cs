@@ -8,7 +8,7 @@
         public string Slug { get; set; }
         public string Brand { get; set; } // Extracted from Model or CarType
         public string Model { get; set; } // Extracted from Model entity
-
+     
         public int Seats { get; set; }
         public string Transmission { get; set; }
         public string FuelType { get; set; }
@@ -16,7 +16,7 @@
         public string? Description { get; set; }
         public string Location { get; set; }
         public decimal PricePerDay { get; set; }
-        public ICollection<ImageResponse> Images { get; set; }
+       
         //public ICollection<ReviewResponse> Reviews { get; set; }
         public ICollection<string> Features { get; set; }
         public string RentalStatus { get; set; }
@@ -25,16 +25,11 @@
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
+        public List<string> Images { get; set; }
     }
 
     // ImageResponse class
-    public class ImageResponse
-    {
-        public Guid ImageId { get; set; }
 
-        public string Url { get; set; }
-
-    }
 
     // ReviewResponse class
     public class ReviewResponse

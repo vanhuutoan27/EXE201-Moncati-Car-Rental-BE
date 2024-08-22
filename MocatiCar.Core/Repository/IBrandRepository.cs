@@ -11,6 +11,7 @@ namespace MocatiCar.Core.Repository
         Task<int> GetTotalBrandCountAsync(string search);
         Task<Brand> GetBrandById(Guid id);
         void UpdateBrand(Guid id, Brand brand);
+        Task<Brand> GetBrandByModelId(Guid id);
         Task<bool> CheckBrandName(string brandName);
     }
 }
