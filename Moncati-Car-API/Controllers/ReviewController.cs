@@ -201,7 +201,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = addReview,
+              
                 Message = "Review added successfully."
             };
             return Ok(_resultModel);
@@ -225,7 +225,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = updateReview,
+              
                 Message = "Review updated successfully."
             };
             return Ok(_resultModel);
