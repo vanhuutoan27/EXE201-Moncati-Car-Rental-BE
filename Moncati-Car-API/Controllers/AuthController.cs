@@ -36,21 +36,22 @@ namespace Moncati_Car_API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ResultModel>> Login([FromBody] MocatiCar.Core.Models.auth.LoginRequest request)
         {
-            if (request == null)
-            {
-                return BadRequest("Invalid request.");
-            }
+
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user == null || !user.Status || user.LockoutEnabled)
             {
-                return Unauthorized("Invalid credentials.");
+                _resp.Status = (int)HttpStatusCode.InternalServerError;
+                _resp.Message = "Invalid Email.";
+                _resp.Success = false;
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
             if (!result.Succeeded)
             {
-                return Unauthorized("Incorrect password.");
+                _resp.Status = (int)HttpStatusCode.Unauthorized;
+                _resp.Message = "Incorrect Password. Please try again.";
+                _resp.Success = false;
             }
 
             // Authorization
@@ -99,7 +100,7 @@ namespace Moncati_Car_API.Controllers
                 PhoneNumber = request.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 LockoutEnabled = false,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
             var result = await _userManager.CreateAsync(users, request.Password);
 
@@ -135,8 +136,9 @@ namespace Moncati_Car_API.Controllers
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
-                throw new Exception("Not Found User");
-
+                _resp.Status = (int)HttpStatusCode.InternalServerError;
+                _resp.Message = "Not Found User Email";
+                _resp.Success = false;
             }
             var roles = await _userManager.GetRolesAsync(user);
             _resp.Status = (int)HttpStatusCode.OK;
@@ -153,7 +155,6 @@ namespace Moncati_Car_API.Controllers
             };
             return _resp;
         }
-        private async Task<AppUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 
 
     }
