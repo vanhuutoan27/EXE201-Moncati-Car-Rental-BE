@@ -44,6 +44,7 @@ namespace Moncati_Car_API.Controllers
                 _resp.Status = (int)HttpStatusCode.InternalServerError;
                 _resp.Message = "Invalid Email.";
                 _resp.Success = false;
+                return _resp;
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
@@ -52,6 +53,8 @@ namespace Moncati_Car_API.Controllers
                 _resp.Status = (int)HttpStatusCode.Unauthorized;
                 _resp.Message = "Incorrect Password. Please try again.";
                 _resp.Success = false;
+                return _resp;
+
             }
 
             // Authorization
@@ -59,6 +62,8 @@ namespace Moncati_Car_API.Controllers
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                 new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                 new Claim(ClaimTypes.Name, user.UserName),
                  new Claim(UserClaims.Id, user.Id.ToString()),
                  new Claim(UserClaims.FullName, user.FullName),
                  new Claim(UserClaims.Roles, string.Join(";", roles)),
