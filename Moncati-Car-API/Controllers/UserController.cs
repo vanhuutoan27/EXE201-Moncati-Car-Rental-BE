@@ -1,8 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
+using Moncati_Car_API.Services;
 using System.Net;
+using System.Security.Claims;
+
+using Microsoft.AspNetCore.Identity;
+
 
 namespace Moncati_Car_API.Controllers
 {
@@ -11,17 +17,26 @@ namespace Moncati_Car_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly UserManager<AppUser> _userManager;
+
         private ResultModel _resultModel;
-        public UserController(IServiceManager service)
+
+        public UserController(IServiceManager service, UserManager<AppUser> userManager)
         {
             _serviceManager = service;
+            _userManager = userManager;
+
             _resultModel = new ResultModel();
         }
+
+     
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
         {
-            var users = await _serviceManager.UserService.GetUsersAsync(page, limit, search);
-            if (users == null)
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _userManager.FindByEmailAsync(userEmail);  
+            var  listusers = await _serviceManager.UserService.GetUsersAsync(page, limit, search, user.Id.ToString());
+            if (listusers == null)
             {
                 _resultModel = new ResultModel
                 {
@@ -34,7 +49,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = users,
+                Data = listusers,
                 Message = "Users retrieved successfully."
             };
 
