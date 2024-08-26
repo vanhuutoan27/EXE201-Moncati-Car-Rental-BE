@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
-using Moncati_Car_API.Services;
 using System.Net;
 using System.Security.Claims;
-
-using Microsoft.AspNetCore.Identity;
 
 
 namespace Moncati_Car_API.Controllers
@@ -29,13 +28,14 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
 
-     
+
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            var user = await _userManager.FindByEmailAsync(userEmail);  
-            var  listusers = await _serviceManager.UserService.GetUsersAsync(page, limit, search, user.Id.ToString());
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var listusers = await _serviceManager.UserService.GetUsersAsync(page, limit, search, user.Id.ToString());
             if (listusers == null)
             {
                 _resultModel = new ResultModel
