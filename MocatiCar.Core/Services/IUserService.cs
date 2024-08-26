@@ -18,7 +18,7 @@ namespace MocatiCar.Core.Services
 
         Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword);
 
-
+        Task<bool> ChangeAvatar(Guid userId, ChangeAvatarRequest request);
 
     }
 }

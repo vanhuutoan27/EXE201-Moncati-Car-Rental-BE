@@ -53,6 +53,15 @@ namespace MoncatiCar.Data.Services
             return UserResponse;
         }
 
+        public async Task<bool> ChangeAvatar(Guid userId, ChangeAvatarRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null) throw new Exception("Not Found User");
+            user.Avatar = request.Avatar;
+            var identiyResult = await _userManager.UpdateAsync(user);
+            return identiyResult.Succeeded;
+        }
+
         public async Task<bool> ChangePasswordbyId(Guid id, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());

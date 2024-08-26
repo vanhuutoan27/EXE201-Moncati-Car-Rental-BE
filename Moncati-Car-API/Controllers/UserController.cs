@@ -199,5 +199,25 @@ namespace Moncati_Car_API.Controllers
 
 
         }
+        [HttpPut("{userId}/avatar")]
+        public async Task<ActionResult<ResultModel>> ChangeAvatar([FromBody] ChangeAvatarRequest request, Guid userId)
+        {
+            var result = await _serviceManager.UserService.ChangeAvatar(userId, request);
+            if (!result)
+            {
+                return BadRequest(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = "Failed to change avatar user."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Change avatar user successfully."
+            });
+        }
     }
 }
