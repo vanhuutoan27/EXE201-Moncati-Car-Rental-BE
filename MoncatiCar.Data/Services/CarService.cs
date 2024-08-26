@@ -5,6 +5,7 @@ using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.SeedWorks.Enums;
 using MocatiCar.Core.Services;
 
 
@@ -95,11 +96,16 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
-        public async Task<bool> ChangeRentalStatusAsync(Guid id, string status)
+        public async Task<bool> ChangeRentalStatusAsync(Guid id, CarRentalStatus status)
         {
-            if (string.IsNullOrWhiteSpace(status))
+            //if (string.IsNullOrWhiteSpace(status))
+            //{
+            //    return false;
+            //}
+            if (status == null)
             {
                 return false;
+
             }
             var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
             if (car == null)
@@ -173,10 +179,10 @@ namespace MoncatiCar.Data.Services
                 Status = car.Status,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                CreatedBy = car.CreatedBy,  
+                CreatedBy = car.CreatedBy,
                 UpdatedBy = car.UpdatedBy
 
-                
+
             });
 
 
@@ -234,7 +240,7 @@ namespace MoncatiCar.Data.Services
                 CarId = car.CarId,
                 Owner = car.OwnerId,
                 LicensePlate = car.licensePlate,
-         
+
                 Brand = car.Model?.Brand?.BrandName ?? string.Empty,
                 Model = car.Model?.ModelName ?? string.Empty,
                 Location = car.Location,

@@ -31,8 +31,15 @@ namespace MocatiCar.Core.Domain.Content
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
         [ForeignKey(nameof(OwnerId))]
-        public AppUser AppUser { get; set; }
+        [NotMapped]
 
+        public AppUser Owner { get; set; }
+        [ForeignKey(nameof(CustomerId))]
+        [NotMapped]
 
+        public AppUser Customer { get; set; }
+        public ICollection<Contract> Contracts { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
     }
 }

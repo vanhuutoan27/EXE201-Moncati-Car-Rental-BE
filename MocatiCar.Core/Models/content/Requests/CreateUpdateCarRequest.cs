@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MocatiCar.Core.SeedWorks.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace MocatiCar.Core.Models.content.Requests
@@ -9,7 +10,7 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         public string LicensePlate { get; set; } = string.Empty;
 
-      
+
 
 
         [Required]
@@ -17,10 +18,10 @@ namespace MocatiCar.Core.Models.content.Requests
         public int Seats { get; set; }
 
         [Required]
-        public string Transmission { get; set; } = string.Empty;
+        public Transmission Transmission { get; set; }
 
         [Required]
-        public string FuelType { get; set; } = string.Empty;
+        public FuelType FuelType { get; set; }
 
         public string FuelConsumption { get; set; }
 
@@ -53,11 +54,11 @@ namespace MocatiCar.Core.Models.content.Requests
         public List<string>? Images { get; set; } = new List<string>();
 
         public List<string> Features { get; set; }
-       
+
         [Required]
-        public string RentalStatus { get; set; }
+        public CarRentalStatus RentalStatus { get; set; }
 
 
-       
+
     }
 }

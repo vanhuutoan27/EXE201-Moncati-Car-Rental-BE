@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.SeedWorks.Enums;
 
 namespace MocatiCar.Core.Domain.Identity
 {
@@ -14,7 +15,7 @@ namespace MocatiCar.Core.Domain.Identity
         public DateTime? VipStartDate { get; set; }
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        public string? Gender { get; set; }
+        public Gender? Gender { get; set; }
         public bool Status { get; set; }
 
         public DateTime? CreatedAt { get; set; }

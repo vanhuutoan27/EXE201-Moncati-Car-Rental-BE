@@ -1,4 +1,6 @@
-﻿namespace MocatiCar.Core.Models.content.Responses
+﻿using MocatiCar.Core.SeedWorks.Enums;
+
+namespace MocatiCar.Core.Models.content.Responses
 {
     public class CarResponse
     {
@@ -8,10 +10,10 @@
         public string Slug { get; set; }
         public string Brand { get; set; } // Extracted from Model or CarType
         public string Model { get; set; } // Extracted from Model entity
-     
+
         public int Seats { get; set; }
-        public string Transmission { get; set; }
-        public string FuelType { get; set; }
+        public Transmission Transmission { get; set; }
+        public FuelType FuelType { get; set; }
         public string FuelConsumption { get; set; }
         public string? Description { get; set; }
         public string Location { get; set; }
@@ -20,7 +22,7 @@
         //public ICollection<ReviewResponse> Reviews { get; set; }
         public List<string> Images { get; set; }
         public ICollection<string> Features { get; set; }
-        public string RentalStatus { get; set; }
+        public CarRentalStatus RentalStatus { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

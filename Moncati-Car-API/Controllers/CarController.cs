@@ -2,6 +2,7 @@
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.SeedWorks.Enums;
 using System.Net;
 using System.Web;
 
@@ -208,7 +209,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
         [HttpPut("{carId}/rental-status")]
-        public async Task<ActionResult<ResultModel>> ChangeRentalStatusCar(Guid carId , [FromBody] string status)
+        public async Task<ActionResult<ResultModel>> ChangeRentalStatusCar(Guid carId, [FromBody] CarRentalStatus status)
         {
             if (carId == Guid.Empty)
             {
@@ -221,7 +222,7 @@ namespace Moncati_Car_API.Controllers
                 return NotFound(_resultModel);
             }
 
-            var result = await _serviceManager.CarService.ChangeRentalStatusAsync(carId , status);
+            var result = await _serviceManager.CarService.ChangeRentalStatusAsync(carId, status);
 
             if (!result)
             {

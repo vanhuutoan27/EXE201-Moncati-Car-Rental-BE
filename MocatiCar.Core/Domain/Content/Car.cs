@@ -1,4 +1,5 @@
 ﻿using MocatiCar.Core.Domain.Identity;
+using MocatiCar.Core.SeedWorks.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,15 +12,26 @@ namespace MocatiCar.Core.Domain.Content
         public string Slug { get; set; }
         public string licensePlate { get; set; }
         public int Seats { get; set; }
-        public string Transmission { get; set; }
-        public string FuelType { get; set; }
+        public Transmission Transmission { get; set; }
+        public FuelType FuelType { get; set; }
         public string FuelConsumption { get; set; }
         public string? Description { get; set; }
         public string? Location { get; set; }
         public decimal PricePerDay { get; set; }
         //public string? RentalOptions { get; set; }
-        public string? RentalStatus { get; set; }
+        public CarRentalStatus RentalStatus { get; set; }
         public bool Status { get; set; }
+
+        public bool? InstantBooking { get; set; }
+        public string? LocationDetails { get; set; }
+        public int? MaxDeliveryDistance { get; set; }
+        public int? DeliveryFeePerKm { get; set; }
+        public int? FreeDeliveryWithinKm { get; set; }
+        public int? LimitKilometersPerDay { get; set; }
+        public int? OverLimitFeePerKm { get; set; }
+        public string? RentalTerms { get; set; }
+
+
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
