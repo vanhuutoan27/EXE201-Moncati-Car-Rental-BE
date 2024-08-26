@@ -31,7 +31,6 @@ namespace MoncatiCar.Data.Services
             {
                 Id = Guid.NewGuid(),
                 FullName = User.FullName,
-                Avatar = User.Avatar,
                 Status = false,
                 Email = User.Email,
                 UserName = User.Username,
@@ -42,7 +41,7 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
             };
 
-            var result = await _userManager.CreateAsync(newUserRequest, User.Password);
+            var result = await _userManager.CreateAsync(newUserRequest, "123As@");
             newUserRequest = await _userManager.FindByEmailAsync(User.Email);
             if (!result.Succeeded)
             {
@@ -207,12 +206,6 @@ namespace MoncatiCar.Data.Services
             if (UserToEdit.PhoneNumber != User.PhoneNumber)
                 UserToEdit.PhoneNumber = User.PhoneNumber;
 
-            if (UserToEdit.Address != User.Address)
-                UserToEdit.Address = User.Address;
-            if (UserToEdit.Avatar != User.Avatar)
-            {
-                UserToEdit.Avatar = User.Avatar;
-            }
             var result = await _userManager.UpdateAsync(UserToEdit);
             if (!result.Succeeded)
             {

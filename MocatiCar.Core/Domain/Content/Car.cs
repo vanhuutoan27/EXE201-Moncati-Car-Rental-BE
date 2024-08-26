@@ -33,7 +33,7 @@ namespace MocatiCar.Core.Domain.Content
         public ICollection<Image> Images { get; set; }
         public ICollection<CarFeature> CarFeatures { get; set; }
         public ICollection<Review> Reviews { get; set; }
-
+        public ICollection<Rental> Rentals { get; set; }
         public Guid ModelId { get; set; }
         [ForeignKey(nameof(ModelId))]
         public Model Model { get; set; }
