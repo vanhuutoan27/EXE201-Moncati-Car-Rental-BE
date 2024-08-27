@@ -128,26 +128,40 @@ namespace Moncati_Car_API.Controllers
         [HttpPut("{carId}")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, CreateUpdateCarRequest createCarRequest)
         {
+            try
+            {
+                var updateResult = await _serviceManager.CarService.UpdateCar(carId, createCarRequest);
+                if (!updateResult)
+                {
+                    _resultModel = new ResultModel
+                    {
+                        Success = false,
+                        Status = (int)HttpStatusCode.NotFound,
+                        Message = "Failed to update car. The car with the provided ID was not found."
+                    };
+                    return NotFound(_resultModel);
+                }
 
-            var update = await _serviceManager.CarService.UpdateCar(carId, createCarRequest);
-            if (!update)
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Message = "Car updated successfully."
+                };
+                return Ok(_resultModel);
+            }
+            catch (Exception ex)
             {
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to update car."
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = $"An error occurred while updating the car: {ex.Message}"
                 };
-                return _resultModel;
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
-            _resultModel = new ResultModel
-            {
-                Success = true,
-                Status = (int)HttpStatusCode.OK,
-                Message = "Car updated successfully.",
-            };
-            return _resultModel;
         }
+
         [HttpDelete("{carId}")]
         public async Task<ActionResult<ResultModel>> Delete(Guid carId)
         {

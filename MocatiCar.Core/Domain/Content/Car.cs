@@ -14,12 +14,12 @@ namespace MocatiCar.Core.Domain.Content
         public int Seats { get; set; }
         public Transmission Transmission { get; set; }
         public FuelType FuelType { get; set; }
-        public string FuelConsumption { get; set; }
+        public float? FuelConsumption { get; set; }
         public string? Description { get; set; }
         public string? Location { get; set; }
         public decimal PricePerDay { get; set; }
         //public string? RentalOptions { get; set; }
-        public CarRentalStatus RentalStatus { get; set; }
+        public CarRentalStatus RentalStatus { get; set; } = CarRentalStatus.Unavailable;
         public bool Status { get; set; }
 
         public bool? InstantBooking { get; set; }
@@ -31,7 +31,8 @@ namespace MocatiCar.Core.Domain.Content
         public int? OverLimitFeePerKm { get; set; }
         public string? RentalTerms { get; set; }
 
-
+        public float? discount { get; set; }
+        public int year {  get; set; }  
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
