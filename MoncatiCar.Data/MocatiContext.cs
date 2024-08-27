@@ -43,6 +43,7 @@ namespace MoncatiCar.Data
                .HasKey(x => new { x.UserId });
 
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new FeatureConfiguration());
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
