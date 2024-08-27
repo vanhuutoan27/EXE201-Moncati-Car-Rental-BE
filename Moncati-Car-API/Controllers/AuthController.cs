@@ -105,7 +105,7 @@ namespace Moncati_Car_API.Controllers
                 PhoneNumber = request.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 LockoutEnabled = false,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
             var result = await _userManager.CreateAsync(users, request.Password);
 

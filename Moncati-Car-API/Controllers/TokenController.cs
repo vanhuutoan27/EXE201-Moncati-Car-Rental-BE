@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/v1/token")]
+    [Route("api/v1/tokens")]
     [ApiController]
     public class TokenController : ControllerBase
     {

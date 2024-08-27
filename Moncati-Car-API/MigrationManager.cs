@@ -13,7 +13,6 @@ namespace Moncati_Car_API
                 {
                     context.Database.Migrate();
                     new DataSeeder().SeedAsync(context).Wait();
-
                 }
             }
             return app;
