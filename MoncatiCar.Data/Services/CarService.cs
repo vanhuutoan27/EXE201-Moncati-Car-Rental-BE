@@ -93,9 +93,6 @@ namespace MoncatiCar.Data.Services
                 LimitKilometersPerDay = carRequest.LimitKilometersPerDay,
                 OverLimitFeePerKm = carRequest.OverLimitFeePerKm,
                 RentalTerms = carRequest.RentalTerms,   
-                
-                
-
             };
             // Tạo Slug với định dạng "Brand-Model-Year"
             model.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{model.year}/{randomSuffix}";
@@ -222,15 +219,13 @@ namespace MoncatiCar.Data.Services
                 CreatedBy = car.CreatedBy,
                 UpdatedBy = car.UpdatedBy,
                 InstantBooking = car.InstantBooking,
-            
+                Discount = (float)car.discount,
                 MaxDeliveryDistance = car.MaxDeliveryDistance,
                 DeliveryFeePerKm = car.DeliveryFeePerKm,
                 FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
                 LimitKilometersPerDay = car.LimitKilometersPerDay,
                 OverLimitFeePerKm = car.OverLimitFeePerKm,
                 RentalTerms = car.RentalTerms,
-
-
             });
 
 
