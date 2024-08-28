@@ -44,6 +44,12 @@ namespace MoncatiCar.Data.Repository
 
         }
 
+        public async Task<Car> GetByLicensePlateAsync(string licensePlate)
+        {
+            var check = await _context.Cars.FirstOrDefaultAsync(c => c.licensePlate == licensePlate);
+            return check;
+        }
+
         public async Task<Car> GetCarByCarId(Guid id)
         {
             var query = await _context.Cars.Where(m => m.CarId == id)
@@ -58,6 +64,9 @@ namespace MoncatiCar.Data.Repository
         public async Task<Car> GetCarBySlug(string slug)
         {
             var query = await _context.Cars.Where(c => c.Slug == slug)
+                                            .Include(m =>m.Model)
+                                            .ThenInclude(b => b.Brand)
+                                            .Include(c =>c.CarFeatures).ThenInclude(cf => cf.Feature)
                                            .Include(c => c.Images).FirstOrDefaultAsync();
             return query;
         }

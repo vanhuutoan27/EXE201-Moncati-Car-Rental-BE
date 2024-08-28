@@ -28,37 +28,74 @@ namespace MoncatiCar.Data.Services
         {
             // Tạo 6 ký tự ngẫu nhiên
             var randomSuffix = GenerateRandomString(6);
-            var brand = await _repositoryManager.BrandRepository.GetBrandByModelId(carRequest.ModelId);
-            var model1 = await _repositoryManager.ModelRepository.GetModelById(carRequest.ModelId);
-            if (brand == null || model1 == null)
+            var brand = await _repositoryManager.BrandRepository.GetBrandByNameAsync(carRequest.BrandName);
+            if (brand == null )
             {
-                throw new Exception("Brand or model not found.");
+                brand = new Brand
+                {
+                    BrandId = Guid.NewGuid(),
+                    BrandName = carRequest.BrandName,
+                    Description = "New brand created",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+                _repositoryManager.BrandRepository.Add(brand);
+                await _repositoryManager.SaveAsync(); // Lưu lại Brand mới
             }
+            var model1 = await _repositoryManager.ModelRepository.GetModelByNameAndBrandIdAsync(carRequest.ModelName, brand.BrandId);
 
-            // Tạo Slug với định dạng "Brand-Model-Year"
-            var slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{model1.Year}/{randomSuffix}";
+            if (model1 == null)
+            {
+                model1 = new Model
+                {
+                    ModelId = Guid.NewGuid(),
+                    ModelName = carRequest.ModelName,
+                    BrandId = brand.BrandId,
+                    Year = DateTime.UtcNow.Year,
+                    Description = "New model created",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _repositoryManager.ModelRepository.Add(model1);
+                await _repositoryManager.SaveAsync();
+            }
+            
+            //check bien so
+            var existingCar = await _repositoryManager.CarRepository.GetByLicensePlateAsync(carRequest.LicensePlate);
+            if(existingCar != null ) {
+                throw new Exception($"A car with license plate '{carRequest.LicensePlate}' already exists.");
+
+            }
 
             var model = new Car()
             {
-                ModelId = carRequest.ModelId,
+                ModelId = model1.ModelId,
                 CarTypeId = carRequest.CarTypeId,
                 OwnerId = carRequest.OwnerId,
                 licensePlate = carRequest.LicensePlate,
-                Slug = slug,
+                year = carRequest.Year,
+                discount = carRequest.discount,
+                Status = true,
                 Seats = carRequest.Seats,
-                Transmission = carRequest.Transmission,
-                FuelType = carRequest.FuelType,
+                Transmission = (Transmission)carRequest.Transmission,
+                FuelType = (FuelType)carRequest.FuelType,
                 FuelConsumption = carRequest.FuelConsumption,
                 Description = carRequest.Description,
                 Location = carRequest.Location,
                 PricePerDay = carRequest.PricePerDay,
-                RentalStatus = carRequest.RentalStatus,
-                Status = false,
-
-
-
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                InstantBooking = false,
+                LocationDetails = carRequest.LocationDetails,
+                MaxDeliveryDistance = carRequest.MaxDeliveryDistance,
+                DeliveryFeePerKm = carRequest.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = carRequest.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = carRequest.LimitKilometersPerDay,
+                OverLimitFeePerKm = carRequest.OverLimitFeePerKm,
+                RentalTerms = carRequest.RentalTerms,   
             };
-
+            // Tạo Slug với định dạng "Brand-Model-Year"
+            model.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{model.year}/{randomSuffix}";
             _repositoryManager.CarRepository.Add(model);
 
 
@@ -167,7 +204,7 @@ namespace MoncatiCar.Data.Services
                 Seats = car.Seats,
                 Transmission = car.Transmission,
                 FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
+                FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
@@ -180,9 +217,15 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy
-
-
+                UpdatedBy = car.UpdatedBy,
+                InstantBooking = car.InstantBooking,
+                Discount = (float)car.discount,
+                MaxDeliveryDistance = car.MaxDeliveryDistance,
+                DeliveryFeePerKm = car.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = car.LimitKilometersPerDay,
+                OverLimitFeePerKm = car.OverLimitFeePerKm,
+                RentalTerms = car.RentalTerms,
             });
 
 
@@ -210,7 +253,7 @@ namespace MoncatiCar.Data.Services
                 Seats = car.Seats,
                 Transmission = car.Transmission,
                 FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
+                FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
@@ -219,8 +262,19 @@ namespace MoncatiCar.Data.Services
                                 : new List<string>(),
 
                 RentalStatus = car.RentalStatus,
-                CreatedAt = car.CreatedAt,
-                UpdatedAt = car.UpdatedAt,
+                Status = car.Status,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = car.CreatedBy,
+                UpdatedBy = car.UpdatedBy,
+                InstantBooking = car.InstantBooking,
+                
+                MaxDeliveryDistance = car.MaxDeliveryDistance,
+                DeliveryFeePerKm = car.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = car.LimitKilometersPerDay,
+                OverLimitFeePerKm = car.OverLimitFeePerKm,
+                RentalTerms = car.RentalTerms,
 
             };
             return carResponse;
@@ -240,101 +294,140 @@ namespace MoncatiCar.Data.Services
                 CarId = car.CarId,
                 Owner = car.OwnerId,
                 LicensePlate = car.licensePlate,
-
-                Brand = car.Model?.Brand?.BrandName ?? string.Empty,
-                Model = car.Model?.ModelName ?? string.Empty,
+                Brand = car.Model.Brand.BrandName,
+                Model = car.Model.ModelName,
                 Location = car.Location,
                 Seats = car.Seats,
                 Transmission = car.Transmission,
                 FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
+                FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
                 Features = car.CarFeatures != null
-                          ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
-                          : new List<string>(),
+                  ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList() // Null check added here
+                         : new List<string>(),
                 RentalStatus = car.RentalStatus,
+                Status = car.Status,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                CreatedBy = car.CreatedBy,
+                UpdatedBy = car.UpdatedBy,
+                InstantBooking = car.InstantBooking,
+                MaxDeliveryDistance = car.MaxDeliveryDistance,
+                DeliveryFeePerKm = car.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = car.LimitKilometersPerDay,
+                OverLimitFeePerKm = car.OverLimitFeePerKm,
+                RentalTerms = car.RentalTerms,
             };
 
             return carResponse;
         }
 
 
+
         public async Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update)
         {
-            var query = await _repositoryManager.CarRepository.GetByIdAsync(id);
-            if (query == null)
+            var car = await _repositoryManager.CarRepository.GetByIdAsync(id);
+            if (car == null)
             {
                 throw new Exception("Car not found.");
             }
-            var checkCartype = await _repositoryManager.CarTypeRepository.GetByIdAsync(update.CarTypeId);
-            if (checkCartype == null || !update.CarTypeId.Equals(checkCartype.CarTypeId))
+
+            // Kiểm tra và lấy thông tin Brand và Model
+            var brand = await _repositoryManager.BrandRepository.GetBrandByNameAsync(update.BrandName);
+            if (brand == null)
             {
-                throw new Exception("Car type not found.");
+                brand = new Brand
+                {
+                    BrandId = Guid.NewGuid(),
+                    BrandName = update.BrandName,
+                    Description = "New brand created",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+                _repositoryManager.BrandRepository.Add(brand);
+                await _repositoryManager.SaveAsync(); // Lưu lại Brand mới
             }
-            var checkModel = await _repositoryManager.ModelRepository.GetByIdAsync(update.ModelId);
-            if (checkModel == null || !update.ModelId.Equals(checkModel.ModelId))
+
+            var model1 = await _repositoryManager.ModelRepository.GetModelByNameAndBrandIdAsync(update.ModelName, brand.BrandId);
+            if (model1 == null)
             {
-                throw new Exception("ModelId isn't exist");
+                model1 = new Model
+                {
+                    ModelId = Guid.NewGuid(),
+                    ModelName = update.ModelName,
+                    BrandId = brand.BrandId,
+                    Year = DateTime.UtcNow.Year,
+                    Description = "New model created",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _repositoryManager.ModelRepository.Add(model1);
+                await _repositoryManager.SaveAsync();
             }
-            var checkOwner = await _userManager.FindByIdAsync(update.OwnerId.ToString());
-            if (checkOwner == null || !update.OwnerId.Equals(checkOwner.Id))
-            {
-                throw new Exception("Owner not found.");
-            }
 
-            query.ModelId = update.ModelId;
-            query.CarTypeId = update.CarTypeId;
-            query.OwnerId = update.OwnerId;
-            query.licensePlate = update.LicensePlate;
+            // Cập nhật các trường của Car
+            car.ModelId = model1.ModelId;
+            car.CarTypeId = update.CarTypeId;
+            car.OwnerId = update.OwnerId;
+            car.licensePlate = update.LicensePlate;
+            car.year = update.Year;
+            car.discount = update.discount;
+            car.Seats = update.Seats;
+            car.Transmission = (Transmission)update.Transmission;
+            car.FuelType = (FuelType)update.FuelType;
+            car.FuelConsumption = update.FuelConsumption;
+            car.Description = update.Description;
+            car.Location = update.Location;
+            car.PricePerDay = update.PricePerDay;
+        
+            car.Status = true;
+            car.InstantBooking = update.InstantBooking;
+            car.LocationDetails = update.LocationDetails;
+            car.MaxDeliveryDistance = update.MaxDeliveryDistance;
+            car.DeliveryFeePerKm = update.DeliveryFeePerKm;
+            car.FreeDeliveryWithinKm = update.FreeDeliveryWithinKm;
+            car.LimitKilometersPerDay = update.LimitKilometersPerDay;
+            car.OverLimitFeePerKm = update.OverLimitFeePerKm;
+            car.RentalTerms = update.RentalTerms;
+            car.CreatedAt = DateTime.Now;
+            car.UpdatedAt = DateTime.Now;
+            // Tạo lại slug dựa trên thông tin cập nhật
+            var randomSuffix = GenerateRandomString(6);
+            car.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{car.year}/{randomSuffix}";
 
-            query.Seats = update.Seats;
-            query.Transmission = update.Transmission;
-            query.FuelType = update.FuelType;
-            query.FuelConsumption = update.FuelConsumption;
-            query.Description = update.Description;
-            query.Location = update.Location;
-            query.PricePerDay = update.PricePerDay;
-            query.RentalStatus = update.RentalStatus;
-
-
-
-            _repositoryManager.CarRepository.UpdateCar(id, query);
+            // Cập nhật hình ảnh
             if (update.Images != null && update.Images.Any())
             {
-                List<Image> images = (await _repositoryManager.ImageRepository.GetImagesByCarIdAsync(id)).ToList();
-                if (images != null && images.Any())
+                var existingImages = (await _repositoryManager.ImageRepository.GetImagesByCarIdAsync(id)).ToList();
+                if (existingImages != null && existingImages.Any())
                 {
-                    foreach (Image image in images)
-                    {
-                        image.CarId = null;
-                    }
+                    _repositoryManager.ImageRepository.RemoveRange(existingImages);
                 }
-                //Add iamge
-                foreach (var i in update.Images)
+
+                foreach (var imageUrl in update.Images)
                 {
                     var image = new Image()
                     {
                         CarId = id,
-                        Url = i,
+                        Url = imageUrl,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
-
                     };
                     _repositoryManager.ImageRepository.Add(image);
                 }
             }
 
-            //Handle FeatureList by name
+            // Cập nhật danh sách tính năng
             if (update.Features != null && update.Features.Any())
             {
-                //remove featureid of CarFeature
-                var carFeatureList = await _repositoryManager.CarFeatureRepository.GetALLCarFeatureByCarId(id);
-                if (carFeatureList != null && carFeatureList.Any())
-                    _repositoryManager.CarFeatureRepository.RemoveRange(carFeatureList);
+                var existingCarFeatures = await _repositoryManager.CarFeatureRepository.GetALLCarFeatureByCarId(id);
+                if (existingCarFeatures != null && existingCarFeatures.Any())
+                {
+                    _repositoryManager.CarFeatureRepository.RemoveRange(existingCarFeatures);
+                }
 
                 foreach (var featureName in update.Features)
                 {
@@ -343,18 +436,18 @@ namespace MoncatiCar.Data.Services
                     {
                         CarId = id,
                         FeatureId = feature != null ? feature.FeatureId : null
-
                     };
                     _repositoryManager.CarFeatureRepository.Add(carFeature);
                 }
             }
 
-
-
-
+            // Lưu thay đổi
+            _repositoryManager.CarRepository.UpdateCar(id, car);
             await _repositoryManager.SaveAsync();
             return true;
         }
+
+
         private string GenerateRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

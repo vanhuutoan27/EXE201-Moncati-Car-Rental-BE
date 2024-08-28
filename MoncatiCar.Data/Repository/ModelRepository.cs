@@ -49,6 +49,12 @@ namespace MoncatiCar.Data.Repository
             return await _context.Models.Where(b => b.ModelId == id).FirstOrDefaultAsync();
         }
 
+        public async Task<Model> GetModelByNameAndBrandIdAsync(string modelName, Guid brandId)
+        {
+            return await _context.Models
+                .SingleOrDefaultAsync(m => m.ModelName == modelName && m.BrandId == brandId);
+        }
+
         public async Task<int> GetTotalModelCountAsync(string search)
         {
             if(!string.IsNullOrEmpty(search))

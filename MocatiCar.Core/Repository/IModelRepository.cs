@@ -13,5 +13,6 @@ namespace MocatiCar.Core.Repository
         Task<bool> CheckModelNameExist(string modelName);
         Task<int> GetTotalModelCountAsync(string search);
         //Task<int> GetTotalModelCountBySearchAsync(string search);
+        Task<Model> GetModelByNameAndBrandIdAsync(string modelName, Guid brandId);
     }
 }
