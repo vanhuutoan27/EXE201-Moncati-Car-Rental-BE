@@ -1,4 +1,5 @@
-﻿using MocatiCar.Core.Models.content.Requests;
+﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks.Enums;
 
@@ -14,5 +15,6 @@ namespace MocatiCar.Core.Services
         Task<bool> DeleteCar(Guid id);
         Task<bool> ChangeStatusAsync(Guid id);
         Task<bool> ChangeRentalStatusAsync(Guid id, CarRentalStatus status);
+        
     }
 }

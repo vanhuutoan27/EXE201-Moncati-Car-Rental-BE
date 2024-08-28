@@ -15,9 +15,8 @@ namespace MocatiCar.Core.Models.content.Requests
         [Required]
         public int FuelType { get; set; }
 
-        [Required]
-        public int RentalStatus { get; set; }
-        public bool Status { get; set; } = true;
+    
+      
         public int Year { get; set; }   
         public float? discount { get; set; }    
         public bool? InstantBooking { get; set; } = false;

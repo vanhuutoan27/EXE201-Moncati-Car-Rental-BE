@@ -59,8 +59,14 @@ namespace MoncatiCar.Data.Services
                 _repositoryManager.ModelRepository.Add(model1);
                 await _repositoryManager.SaveAsync();
             }
-            // Tạo Slug với định dạng "Brand-Model-Year"
-           
+            
+            //check bien so
+            var existingCar = await _repositoryManager.CarRepository.GetByLicensePlateAsync(carRequest.LicensePlate);
+            if(existingCar != null ) {
+                throw new Exception($"A car with license plate '{carRequest.LicensePlate}' already exists.");
+
+            }
+
             var model = new Car()
             {
                 ModelId = model1.ModelId,
@@ -69,7 +75,7 @@ namespace MoncatiCar.Data.Services
                 licensePlate = carRequest.LicensePlate,
                 year = carRequest.Year,
                 discount = carRequest.discount,
-               
+                Status = true,
                 Seats = carRequest.Seats,
                 Transmission = (Transmission)carRequest.Transmission,
                 FuelType = (FuelType)carRequest.FuelType,
@@ -77,8 +83,8 @@ namespace MoncatiCar.Data.Services
                 Description = carRequest.Description,
                 Location = carRequest.Location,
                 PricePerDay = carRequest.PricePerDay,
-                RentalStatus = (CarRentalStatus)carRequest.RentalStatus,
-                Status = true,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 InstantBooking = false,
                 LocationDetails = carRequest.LocationDetails,
                 MaxDeliveryDistance = carRequest.MaxDeliveryDistance,
@@ -91,6 +97,7 @@ namespace MoncatiCar.Data.Services
                 
 
             };
+            // Tạo Slug với định dạng "Brand-Model-Year"
             model.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{model.year}/{randomSuffix}";
             _repositoryManager.CarRepository.Add(model);
 
@@ -292,9 +299,8 @@ namespace MoncatiCar.Data.Services
                 CarId = car.CarId,
                 Owner = car.OwnerId,
                 LicensePlate = car.licensePlate,
-
-                Brand = car.Model?.Brand?.BrandName ?? string.Empty,
-                Model = car.Model?.ModelName ?? string.Empty,
+                Brand = car.Model.Brand.BrandName,
+                Model = car.Model.ModelName,
                 Location = car.Location,
                 Seats = car.Seats,
                 Transmission = car.Transmission,
@@ -304,8 +310,8 @@ namespace MoncatiCar.Data.Services
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
                 Features = car.CarFeatures != null
-                          ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
-                          : new List<string>(),
+                  ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList() // Null check added here
+                         : new List<string>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = DateTime.Now,
@@ -313,7 +319,6 @@ namespace MoncatiCar.Data.Services
                 CreatedBy = car.CreatedBy,
                 UpdatedBy = car.UpdatedBy,
                 InstantBooking = car.InstantBooking,
-               
                 MaxDeliveryDistance = car.MaxDeliveryDistance,
                 DeliveryFeePerKm = car.DeliveryFeePerKm,
                 FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
@@ -324,6 +329,7 @@ namespace MoncatiCar.Data.Services
 
             return carResponse;
         }
+
 
 
         public async Task<bool> UpdateCar(Guid id, CreateUpdateCarRequest update)
@@ -381,7 +387,7 @@ namespace MoncatiCar.Data.Services
             car.Description = update.Description;
             car.Location = update.Location;
             car.PricePerDay = update.PricePerDay;
-            car.RentalStatus = (CarRentalStatus)update.RentalStatus;
+        
             car.Status = true;
             car.InstantBooking = update.InstantBooking;
             car.LocationDetails = update.LocationDetails;
@@ -391,7 +397,8 @@ namespace MoncatiCar.Data.Services
             car.LimitKilometersPerDay = update.LimitKilometersPerDay;
             car.OverLimitFeePerKm = update.OverLimitFeePerKm;
             car.RentalTerms = update.RentalTerms;
-
+            car.CreatedAt = DateTime.Now;
+            car.UpdatedAt = DateTime.Now;
             // Tạo lại slug dựa trên thông tin cập nhật
             var randomSuffix = GenerateRandomString(6);
             car.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{car.year}/{randomSuffix}";
