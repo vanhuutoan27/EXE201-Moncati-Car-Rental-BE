@@ -30,8 +30,7 @@ namespace MoncatiCar.Data.Configurations
                           NormalizedName = "CarOwener",
                           DisplayName = "Chủ Xe"
                       }
-
-        );
+            );
         }
     }
 }

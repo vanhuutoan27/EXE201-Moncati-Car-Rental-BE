@@ -28,11 +28,7 @@ namespace MoncatiCar.Data.Services
                 Author = carRequest.Author,
                 Rating = carRequest.Rating,
                 Content = carRequest.Content,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-
                 Flag = false,
-
             };
             _repositoryManager.ReviewRepository.Add(model);
             await _repositoryManager.SaveAsync();
@@ -84,9 +80,9 @@ namespace MoncatiCar.Data.Services
                 Author = x.User.Id,
                 Rating = x.Rating,
                 Content = x.Content,
+                Flag = x.Flag,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Flag = x.Flag,
             });
 
             return new PageResult<ReviewRespone>
@@ -124,9 +120,9 @@ namespace MoncatiCar.Data.Services
                 Author = query.Author,
                 Rating = query.Rating,
                 Content = query.Content,
+                Flag = query.Flag,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Flag = query.Flag,
             };
         }
 

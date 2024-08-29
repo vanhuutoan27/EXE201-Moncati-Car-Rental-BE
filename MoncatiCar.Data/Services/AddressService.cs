@@ -36,6 +36,7 @@ namespace MoncatiCar.Data.Services
             var createAddress = _mapper.Map<Address>(addressRequest);
             var model = new Address
             {
+                UserId = userId,
                 addressId = Guid.NewGuid(),
                 addressName = createAddress.addressName,
                 address = createAddress.address,
@@ -44,7 +45,6 @@ namespace MoncatiCar.Data.Services
                 district = createAddress.district,
                 commune = createAddress.commune,
                 isDefault = false,
-                UserId = userId,
                 createdAt = DateTime.Now,
                 updateAt = DateTime.Now,
             };
