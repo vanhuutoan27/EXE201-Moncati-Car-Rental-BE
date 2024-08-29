@@ -51,10 +51,10 @@ namespace MoncatiCar.Data.Services
                     ModelId = Guid.NewGuid(),
                     ModelName = carRequest.ModelName,
                     BrandId = brand.BrandId,
-                    Year = DateTime.UtcNow.Year,
+                    Year = DateTime.Now.Year,
                     Description = "New model created",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 };
                 _repositoryManager.ModelRepository.Add(model1);
                 await _repositoryManager.SaveAsync();
