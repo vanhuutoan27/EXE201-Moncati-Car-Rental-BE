@@ -125,7 +125,7 @@ namespace Moncati_Car_API.Controllers
         }
 
 
-        [HttpPut("{carId}-admin")]
+        [HttpPut("{carId}/admin")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, UpdateCarRequest createCarRequest)
         {
             try
@@ -161,7 +161,7 @@ namespace Moncati_Car_API.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
         }
-        [HttpPut("{carId}-customer")]
+        [HttpPut("{carId}/customer")]
         public async Task<ActionResult<ResultModel>> UpdateBycustomer(Guid carId, UpdateCarByCustomer update)
         {
             try
