@@ -14,6 +14,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public int Seats { get; set; }
         public Transmission Transmission { get; set; }
         public FuelType FuelType { get; set; }
+        public float? discount { get; set; }
 
         public bool? InstantBooking { get; set; } = false;
 

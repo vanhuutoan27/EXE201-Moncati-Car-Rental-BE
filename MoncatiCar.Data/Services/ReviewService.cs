@@ -104,7 +104,7 @@ namespace MoncatiCar.Data.Services
 
             if (reviews == null || !reviews.Any())
             {
-                throw new KeyNotFoundException($"No reviews found for car with ID '{carId}'");
+                throw new KeyNotFoundException($"No reviews found.");
             }
 
             return _mapper.Map<IEnumerable<ReviewRespone>>(reviews);
@@ -115,7 +115,7 @@ namespace MoncatiCar.Data.Services
             var query = await _repositoryManager.ReviewRepository.GetByIdAsync(id);
             if (query == null)
             {
-                throw new ArgumentException("Review not found.");
+                throw new ArgumentException("No reviews found.");
             }
             return new ReviewRespone
             {
@@ -135,7 +135,7 @@ namespace MoncatiCar.Data.Services
             var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId);
             if (user == null)
             {
-                throw new Exception($"No reviews found for user with ID '{userId}'");
+                throw new Exception($"No reviews found.");
             }
             return _mapper.Map<IEnumerable<ReviewRespone>>(user);
         }
@@ -150,12 +150,12 @@ namespace MoncatiCar.Data.Services
             var checkcarId = await _repositoryManager.CarRepository.GetCarByCarId(update.CarId);
             if (checkcarId == null || !update.CarId.Equals(checkcarId.CarId))
             {
-                throw new Exception($"No car found with ID '{update.CarId}'.");
+                throw new Exception($"No car found.");
             }
             var checkauthor = await _userManager.FindByIdAsync(update.Author.ToString());
             if (checkauthor == null || !update.Author.Equals(checkauthor.Id))
             {
-                throw new Exception($"No user found with ID '{update.Author}'.");
+                throw new Exception($"No user found.");
             }
             reviewId.Rating = update.Rating;
             reviewId.Content = update.Content;

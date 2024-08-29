@@ -10,7 +10,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string Slug { get; set; }
         public string Brand { get; set; } // Extracted from Model or CarType
         public string Model { get; set; } // Extracted from Model entity
-
+        public float? discount {  get; set; }    
         public int Seats { get; set; }
         public Transmission Transmission { get; set; }
         public FuelType FuelType { get; set; }
