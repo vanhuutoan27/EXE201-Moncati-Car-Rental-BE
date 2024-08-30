@@ -7,6 +7,7 @@ namespace MocatiCar.Core.Domain.Content
         [Key]
         public Guid FeatureId { get; set; }
         public string FeatureName { get; set; }
+        public string DisplayName { get; set; }
         public string? Description { get; set; }
         public string? Icon { get; set; }
         public DateTime? CreatedAt { get; set; }
