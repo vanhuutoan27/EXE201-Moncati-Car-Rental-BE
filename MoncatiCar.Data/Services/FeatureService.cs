@@ -23,6 +23,7 @@ namespace MoncatiCar.Data.Services
             var feature = new Feature()
             {
                 FeatureName = request.FeatureName,
+                DisplayName = request.DisplayName,
                 Description = request.Description,
                 CreatedAt = DateTime.Now,
                 Icon = request.Icon
@@ -59,8 +60,9 @@ namespace MoncatiCar.Data.Services
         {
             var query = await _repositoryManager.FeatureRepository.GetFeatureById(id);
             if (query == null) return false;
-            update.Description = query.Description;
-            update.FeatureName = query.FeatureName;
+            query.Description = update.Description;
+            query.FeatureName = update.FeatureName;
+            query.DisplayName = update.DisplayName;
             _repositoryManager.FeatureRepository.Update(query);
             await _repositoryManager.SaveAsync();
             return true;
