@@ -66,21 +66,21 @@ namespace Moncati_Car_API.Controllers
         [HttpGet("{username}")]
         public async Task<IActionResult> GetAddressByUsername(string username)
         {
-            var address = await _serviceManager.AddressService.GetAddressesByUsername(username);
-            if(address == null)
+            var listAddress = await _serviceManager.AddressService.GetAddressesByUsername(username);
+            if(listAddress == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No users found."
+                    Message = "No addresses found"
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = address,
+                Data = listAddress,
                 Message = "Address retrieved successfully."
             });
         }
