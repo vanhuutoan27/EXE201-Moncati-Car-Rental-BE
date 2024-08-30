@@ -7,10 +7,8 @@ namespace MocatiCar.Core.Domain.Content
     {
         [Key]
         public Guid ModelId { get; set; }
-
         public string ModelName { get; set; }
         public string? Description { get; set; }
-        public int Year { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }

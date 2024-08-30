@@ -37,7 +37,7 @@ namespace MocatiCar.Core.Domain.Content
         public Guid? UpdatedBy { get; set; }
 
         //FK 
-        public Guid CarTypeId { get; set; }
+        public Guid? CarTypeId { get; set; }
         [ForeignKey(nameof(CarTypeId))]
         public CarType CarType { get; set; }
         public ICollection<Image> Images { get; set; }

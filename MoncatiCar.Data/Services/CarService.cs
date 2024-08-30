@@ -51,7 +51,6 @@ namespace MoncatiCar.Data.Services
                     ModelId = Guid.NewGuid(),
                     ModelName = carRequest.ModelName,
                     BrandId = brand.BrandId,
-                    Year = DateTime.Now.Year,
                     Description = "New model created",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
@@ -208,9 +207,9 @@ namespace MoncatiCar.Data.Services
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
-                Features = car.CarFeatures != null
-                         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
-                                : new List<string>(),
+                //Features = car.CarFeatures != null
+                //         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
+                //                : new List<string>(),
 
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,

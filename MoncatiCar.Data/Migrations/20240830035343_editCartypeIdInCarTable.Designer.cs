@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoncatiCar.Data;
 
@@ -11,9 +12,11 @@ using MoncatiCar.Data;
 namespace MoncatiCar.Data.Migrations
 {
     [DbContext(typeof(MocatiContext))]
-    partial class MocatiContextModelSnapshot : ModelSnapshot
+    [Migration("20240830035343_editCartypeIdInCarTable")]
+    partial class editCartypeIdInCarTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,65 +209,65 @@ namespace MoncatiCar.Data.Migrations
                         {
                             BrandId = new Guid("c6669c8e-f8a8-443c-8446-83c010b44ec0"),
                             BrandName = "Mazda",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6699),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8385),
                             Description = "A Japanese automaker known for its stylish designs, advanced technology, and driving pleasure. Mazda’s “Kodo” design philosophy and SkyActiv technology are key highlights.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6701)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8386)
                         },
                         new
                         {
                             BrandId = new Guid("a1f14e7e-342b-4f17-b7fc-9e7ca13483b2"),
                             BrandName = "Vinfast",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6706),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8397),
                             Description = "A Vietnamese car manufacturer that quickly gained attention for its electric and gasoline vehicles. VinFast aims to bring Vietnamese-made cars to the global market with a focus on quality and innovation.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6706)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8397)
                         },
                         new
                         {
                             BrandId = new Guid("de716878-747e-4b02-9fce-46d67a13c30f"),
                             BrandName = "Peugeot",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6709),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8400),
                             Description = "A French car brand with a long history, known for producing elegant and reliable vehicles. Peugeot is recognized for its sophisticated design, comfort, and European flair.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6709)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8401)
                         },
                         new
                         {
                             BrandId = new Guid("9bb29e7a-ca23-4418-81d4-b9b66e7cf107"),
                             BrandName = "Ford",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6711),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8403),
                             Description = "An American automaker famous for its durable vehicles, including the iconic Ford Mustang and F-Series trucks. Ford has a significant influence on the global automotive industry.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6712)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8404)
                         },
                         new
                         {
                             BrandId = new Guid("1c38dc33-e4d6-4922-abc4-1fa8cfc314b2"),
                             BrandName = "Lexus",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6714),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8406),
                             Description = "The luxury division of Toyota, Lexus is renowned for its refined craftsmanship, advanced technology, and smooth, comfortable rides. It’s a symbol of reliability and premium quality.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6715)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8407)
                         },
                         new
                         {
                             BrandId = new Guid("c11c6f51-c207-4754-9372-046fb4a04c22"),
                             BrandName = "Hyundai",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6717),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8409),
                             Description = "A South Korean car manufacturer that offers a wide range of vehicles, known for their affordability, modern designs, and advanced features. Hyundai has rapidly grown to become a major global player.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6718)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8410)
                         },
                         new
                         {
                             BrandId = new Guid("b802da6e-e178-46f5-9884-442e0f1067dc"),
                             BrandName = "Mg",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6720),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8412),
                             Description = "Originally a British brand, now owned by Chinese automaker SAIC. MG is known for affordable vehicles with a focus on modern technology and youthful appeal.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6721)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8412)
                         },
                         new
                         {
                             BrandId = new Guid("4e5784bd-10a3-4fb4-ad50-fb0304da90d9"),
                             BrandName = "Toyota",
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6723),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8415),
                             Description = "One of the largest and most reliable car manufacturers in the world. Toyota is known for its long-lasting vehicles, efficiency, and innovations like hybrid technology with models like the Prius.",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6724)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8416)
                         });
                 });
 
@@ -505,182 +508,182 @@ namespace MoncatiCar.Data.Migrations
                         new
                         {
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6489),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8174),
                             Description = "Provides real-time navigation and location tracking while driving",
                             DisplayName = "Map",
                             FeatureName = "map",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fmap-icon.png?alt=media&token=ebf5968e-074f-4f5f-a20c-9020b5dfac7b",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6500)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8185)
                         },
                         new
                         {
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6505),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8190),
                             Description = "Enables wireless connection for hands-free calls and audio streaming",
                             DisplayName = "Bluetooth",
                             FeatureName = "bluetooth",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fbluetooth-icon.png?alt=media&token=422658da-d565-46e6-9e8f-b0ffccbb77dd",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6506)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8190)
                         },
                         new
                         {
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6508),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8193),
                             Description = "Offers a 360-degree view around the vehicle for safer maneuvering",
                             DisplayName = "Camera 360",
                             FeatureName = "camera360",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2F360_camera-icon.png?alt=media&token=12ef3912-ad25-4216-9d8a-aa3a10f3d956",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6509)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8193)
                         },
                         new
                         {
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6511),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8196),
                             Description = "Assists in parking by displaying rearview visuals on the screen",
                             DisplayName = "Parking Camera",
                             FeatureName = "parkingCamera",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fparking_camera-icon.png?alt=media&token=39675fd9-2e15-4275-a7e1-085a75fb491f",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6512)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8197)
                         },
                         new
                         {
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6515),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8199),
                             Description = "Records front road footage for safety and evidence during drives",
                             DisplayName = "Dash Camera",
                             FeatureName = "dashCamera",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fdash_camera-icon.png?alt=media&token=e863e966-7ce5-432f-9629-bd72fcdfcd1f",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6516)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8200)
                         },
                         new
                         {
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6520),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8204),
                             Description = "Displays rear visuals to aid in reversing safely",
                             DisplayName = "Reverse Camera",
                             FeatureName = "reverseCamera",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Freverse_camera-icon.png?alt=media&token=fff470fe-095c-4b9e-ac98-aa31827a6f91",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6521)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8205)
                         },
                         new
                         {
                             FeatureId = new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6523),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8208),
                             Description = "Monitors tire pressure to ensure optimal driving safety",
                             DisplayName = "Tire Pressure Monitor",
                             FeatureName = "tirePressureMonitor",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Ftpms-icon.png?alt=media&token=5d93995e-c886-430c-843b-a80fb6ba3f46",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6524)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8208)
                         },
                         new
                         {
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6526),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8211),
                             Description = "Detects collisions and triggers safety mechanisms during impacts",
                             DisplayName = "Impact Sensor",
                             FeatureName = "impactSensor",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fimpact_sensor-icon.png?alt=media&token=1bc9001d-e5ca-4f48-98f8-dc86934cebc0",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6526)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8211)
                         },
                         new
                         {
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6529),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8214),
                             Description = "Projects essential driving information onto the windshield",
                             DisplayName = "Head Up",
                             FeatureName = "headUp",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fhead_up-icon.png?alt=media&token=63087d56-26a4-4f72-affc-3c5d55c33f31",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6530)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8214)
                         },
                         new
                         {
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6533),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8217),
                             Description = "Provides an open roof option for natural light and ventilation",
                             DisplayName = "Sun Roof",
                             FeatureName = "sunRoof",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fsunroof-icon.png?alt=media&token=88b4101d-1fec-40c0-9534-989e39d08516",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6534)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8218)
                         },
                         new
                         {
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6537),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8220),
                             Description = "Offers satellite-based navigation and route guidance",
                             DisplayName = "GPS",
                             FeatureName = "gps",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fgps-icon.png?alt=media&token=39ae42c8-a678-4f05-b5dd-9e20eb42d31f",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6538)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8220)
                         },
                         new
                         {
                             FeatureId = new Guid("6ebf1d36-35fa-4cad-9d6f-671476d02020"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6541),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8222),
                             Description = "Secures infants in a specially designed seat for maximum safety",
                             DisplayName = "Baby Seat",
                             FeatureName = "babySeat",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fbabyseat-icon.png?alt=media&token=2ad93b19-7448-46f9-9029-19871a357eb6",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6541)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8223)
                         },
                         new
                         {
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6544),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8225),
                             Description = "Allows charging and connecting devices to the vehicle's system",
                             DisplayName = "USB Port",
                             FeatureName = "usbPort",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fusb-icon.png?alt=media&token=3fce192b-6d2f-43f5-8e0b-3546c1e50e31",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6544)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8226)
                         },
                         new
                         {
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6546),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8228),
                             Description = "A backup tire stored in the vehicle for emergency replacements",
                             DisplayName = "Spare Tire",
                             FeatureName = "spareTire",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fspare_tire-icon.png?alt=media&token=01a8dc7b-e98c-479c-943c-e337e3964e8d",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6547)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8229)
                         },
                         new
                         {
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6549),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8237),
                             Description = "Displays video content for rear-seat entertainment during trips",
                             DisplayName = "DVD Monitor",
                             FeatureName = "dvdMonitor",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fdvd-icon.png?alt=media&token=49e66de4-ec15-42d5-9787-50f23ba0c074",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6550)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8237)
                         },
                         new
                         {
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6552),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8240),
                             Description = "Covers and protects the engine compartment from external elements",
                             DisplayName = "Bonnet",
                             FeatureName = "bonnet",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fbonnet-icon.png?alt=media&token=a39d6283-4a5a-48a9-8c6a-8c2d539cd05b",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6553)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8240)
                         },
                         new
                         {
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6555),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8242),
                             Description = "Automatically processes toll payments while driving",
                             DisplayName = "Etc",
                             FeatureName = "etc",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fetc-icon.png?alt=media&token=e2494201-b1ff-4cfa-982d-4618537ce4c5",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6556)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8243)
                         },
                         new
                         {
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b"),
-                            CreatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6562),
+                            CreatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8246),
                             Description = "Deploy in collisions to protect passengers from injury",
                             DisplayName = "Air bags",
                             FeatureName = "airbags",
                             Icon = "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Car%20Features%2Fairbags-icon.png?alt=media&token=55c3c49f-1b88-4782-8124-7828a6df07f8",
-                            UpdatedAt = new DateTime(2024, 8, 30, 13, 17, 0, 218, DateTimeKind.Local).AddTicks(6562)
+                            UpdatedAt = new DateTime(2024, 8, 30, 10, 53, 43, 517, DateTimeKind.Local).AddTicks(8246)
                         });
                 });
 
@@ -743,6 +746,9 @@ namespace MoncatiCar.Data.Migrations
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("ModelId");
 

@@ -13,7 +13,6 @@ namespace MocatiCar.Core.Models.content.Responses
         public Guid ModelId { get; set; }
         public string ModelName { get; set; }
         public string? Description { get; set; }
-        public int Year { get; set; }
         public BrandResponeGetAll Brand { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
