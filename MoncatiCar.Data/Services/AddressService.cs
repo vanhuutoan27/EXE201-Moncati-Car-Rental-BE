@@ -33,6 +33,19 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Maximum number of addresses that can be added is 5");
             }
 
+            // Neu dia chi moi la default
+            if(addressRequest.isDefault)
+            {
+                foreach(var address in existingAddresses)
+                {
+                    if(address.isDefault)
+                    {
+                        address.isDefault = false;
+                        _repositoryManager.AddressRepository.Update(address);
+                    }
+                }
+            }
+            // Tao moi dia chi
             var createAddress = _mapper.Map<Address>(addressRequest);
             var model = new Address
             {
@@ -44,7 +57,7 @@ namespace MoncatiCar.Data.Services
                 province = createAddress.province,
                 district = createAddress.district,
                 commune = createAddress.commune,
-                isDefault = false,
+                isDefault = createAddress.isDefault,
                 createdAt = DateTime.Now,
                 updateAt = DateTime.Now,
             };
@@ -55,12 +68,28 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
-        public async Task<bool> DeleteAddress(Guid userId, Guid addressid)
+        public async Task<bool> DeleteAddress(Guid userId, Guid addressId)
         {
-            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressid);
+            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
             if(address == null)
             {
                 throw new Exception("Address not found.");
+            }
+            // kiem tra dia chi dang xoa la dia chi mac dinh
+            if(address.isDefault)
+            {
+                // lay tat ca dia chi cua nguoi dung
+                var existingAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
+                if(existingAddress.Count() <= 1)
+                {
+                    throw new Exception("You cannot delete the default address without setting another address as default.");
+                }
+                // chon 1 dia chi khac lam default
+                var anotherDefault = existingAddress.Any(a => a.addressId != addressId && a.isDefault);
+                if(!anotherDefault)
+                {
+                    throw new Exception("Please set another address as default before deleting this one.");
+                }
             }
             _repositoryManager.AddressRepository.Remove(address);
             await _repositoryManager.SaveAsync();
@@ -91,10 +120,9 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> SetDefaultAddress(Guid userId, Guid addressId)
         {
-            // kiem tra xem nguoi dung da ca dia chi default nao hay chua
+            // kiem tra xem nguoi dung da co dia chi default nao hay chua
             var existingDefault = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(address == null || address.UserId != userId)
+            if(existingDefault == null || existingDefault.UserId != userId)
             {
                 throw new Exception("Address not found.");
             }

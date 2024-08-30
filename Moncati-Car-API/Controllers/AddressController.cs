@@ -67,7 +67,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> GetAddressByUsername(string username)
         {
             var address = await _serviceManager.AddressService.GetAddressesByUsername(username);
-            if(address == null || !address.Any())
+            if(address == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {

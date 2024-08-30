@@ -15,5 +15,6 @@ namespace MocatiCar.Core.Models.content.Requests
         public string province { get; set; }
         public string district { get; set; }
         public string commune { get; set; }
+        public bool isDefault { get; set; }
     }
 }
