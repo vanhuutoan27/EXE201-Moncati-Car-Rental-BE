@@ -138,6 +138,24 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Address not found.");
             }
+            var existingAddresses = await _repositoryManager.AddressRepository.GetAddressesByUserId(userid);
+            // Neu dia chi moi la default
+            if (updateAddress.isDefault)
+            {
+                foreach (var address in existingAddresses)
+                {
+                    if (address.isDefault)
+                    {
+                        address.isDefault = false;
+                        _repositoryManager.AddressRepository.Update(address);
+                    }
+                }
+            }
+            // kiem tra neu nguoi dung update dia chi mac dinh thanh false thi khong cho phep cap nhat
+            if(existingAddress.isDefault)
+            {
+                throw new Exception("Cannot update the default address.");
+            }
             existingAddress.addressName = updateAddress.addressName;
             existingAddress.locationType = updateAddress.locationType;
             existingAddress.address = updateAddress.address;
