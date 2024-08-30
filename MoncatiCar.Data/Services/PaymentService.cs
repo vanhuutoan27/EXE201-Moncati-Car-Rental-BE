@@ -73,19 +73,23 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public Task<PaymentReponse> GetPaymentById(Guid rentalId)
+        public async Task<PaymentReponse> GetPaymentById(Guid rentalId)
         {
-            throw new NotImplementedException();
+            var getPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(rentalId); 
+            return _mapper.Map<PaymentReponse>(getPayment); 
         }
 
-        public Task<PaymentReponse> GetPaymentByUserId(Guid id)
+        public async Task<PaymentReponse> GetPaymentByUserId(Guid id)
         {
-            throw new NotImplementedException();
+            var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(0, 0, null);
+            var getPaymentByUser = listPayment.Where(p => p.Rental.CustomerId == id);
+            return _mapper.Map<PaymentReponse>(getPaymentByUser);
         }
 
-        public Task<PaymentReponse> GetPaymentRentalId(Guid id)
+        public async Task<PaymentReponse> GetPaymentRentalId(Guid id)
         {
-            throw new NotImplementedException();
+            var listPayment = await _repositoryManager.PaymentRepository.GetPaymentByRentalId(id);
+            return _mapper.Map<PaymentReponse>(listPayment);
         }
 
         public Task UpdatePayment(Payment payment, Guid id)

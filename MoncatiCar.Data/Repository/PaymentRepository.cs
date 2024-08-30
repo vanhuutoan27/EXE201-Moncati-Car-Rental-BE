@@ -33,21 +33,31 @@ namespace MoncatiCar.Data.Repository
                         .Skip((page - 1) * limit).Take(limit).ToListAsync();
                 }
                 return await _context.Payments
-                    .Include(r => r.Rental)
-                            .ThenInclude(r => r.Customer)
-                            .ThenInclude(r => r.Cars)
-                            .ThenInclude(r => r.CarType).ToListAsync();
+                .Include(p => p.Rental)
+                            .ThenInclude(c => c.Car)
+                            .ThenInclude(r => r.CarType)
+                        .Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
             else
             {
                 return await _context.Payments
                     .Where(s => s.PaymentStatus.ToLower().Contains(PaymentStatus.ToLower()))
-                    .Include(r => r.Rental)
-                            .ThenInclude(r => r.Customer)
-                            .ThenInclude(r => r.Cars)
+                  .Include(p => p.Rental)
+                            .ThenInclude(c => c.Car)
                             .ThenInclude(r => r.CarType)
+                        .Skip((page - 1) * limit).Take(limit)
                     .Skip((page - 1) * limit).Take(limit).ToListAsync();
             }
+        }
+
+        public async Task<Payment> GetPaymentByPaymentId(Guid id)
+        {
+            return await _context.Payments.FirstOrDefaultAsync(p => p.PaymentId == id);
+        }
+
+        public async Task<Payment> GetPaymentByRentalId(Guid id)
+        {
+            return await _context.Payments.FirstOrDefaultAsync(p => p.RentalId == id);
         }
     }
 }

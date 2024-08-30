@@ -12,5 +12,9 @@ namespace MocatiCar.Core.Repository
     {
         Task<IEnumerable<Payment>> GetAllPaymentAsync(int page, int limit, string PaymentStatus);
 
+        Task<Payment> GetPaymentByPaymentId(Guid id);
+        Task<Payment> GetPaymentByRentalId(Guid id);
+
+
     }
 }
