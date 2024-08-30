@@ -58,6 +58,28 @@ namespace Moncati_Car_API.Controllers
             return _resultModel;
         }
 
+        [HttpGet("{carId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetFeatureByCarId(Guid carId)
+        {
+            var listFeature = await _serviceManager.FeatureService.GetFeatureByCarId(carId);
+            if (listFeature == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No features found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = listFeature,
+                Message = "Features retrieved successfully."
+            });
+        }
+
         [HttpGet]
         [Route("{featureId}")]
         public async Task<ActionResult<ResultModel>> GetFeaturebyId(Guid featureId)

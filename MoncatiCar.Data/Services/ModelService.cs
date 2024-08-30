@@ -36,7 +36,6 @@ namespace MoncatiCar.Data.Services
             {
                 ModelId = Guid.NewGuid(),
                 ModelName = createModel.ModelName,
-                Year = createModel.Year,
                 Description = createModel.Description,
                 BrandId = createModel.BrandId,
                 CreatedAt = DateTime.Now,
@@ -75,7 +74,6 @@ namespace MoncatiCar.Data.Services
                     ModelId = item.ModelId,
                     ModelName = item.ModelName,
                     Description = item.Description,
-                    Year = item.Year,
                     Brand = new BrandResponeGetAll
                     {
                         BrandId = item.Brand.BrandId,
@@ -114,7 +112,6 @@ namespace MoncatiCar.Data.Services
                     ModelId = item.ModelId,
                     ModelName = item.ModelName,
                     Description = item.Description,
-                    Year = item.Year,
                     Brand = new BrandResponeGetAll
                     {
                         BrandId = item.Brand.BrandId,
@@ -171,7 +168,6 @@ namespace MoncatiCar.Data.Services
             }
 
             updateModel.ModelName = updateModelRequest.ModelName;
-            updateModel.Year = updateModelRequest.Year;
             updateModel.Description = updateModelRequest.Description;
             updateModel.UpdatedAt = DateTime.Now;
             updateModel.BrandId = updateModelRequest.BrandId;

@@ -209,9 +209,9 @@ namespace MoncatiCar.Data.Services
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
-                Features = car.CarFeatures != null
-                         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
-                                : new List<string>(),
+                //Features = car.CarFeatures != null
+                //         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
+                //                : new List<string>(),
 
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,

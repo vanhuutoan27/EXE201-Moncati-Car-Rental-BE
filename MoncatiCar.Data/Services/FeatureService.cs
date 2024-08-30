@@ -49,6 +49,12 @@ namespace MoncatiCar.Data.Services
             return _mapper.Map<IEnumerable<FeatureResponses>>(features);
         }
 
+        public async Task<IEnumerable<FeatureResponses>> GetFeatureByCarId(Guid carId)
+        {
+            var listFeature = await _repositoryManager.FeatureRepository.GetFeaturesByCarId(carId);
+            return _mapper.Map<IEnumerable<FeatureResponses>>(listFeature);
+        }
+
         public async Task<FeatureResponses> GetFeatureById(Guid id)
         {
             var featureId = await _repositoryManager.FeatureRepository.GetFeatureById(id);
