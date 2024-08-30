@@ -16,6 +16,8 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IReviewRepository> _reviewRepository;
         private readonly Lazy<IBrandRepository> _brandRepository;
         private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IPaymentRepository> _paymentRepository;
+
 
         private readonly Lazy<IAddressRepository> _addressRepository;
         public RepositoryManager(MocatiContext context)
@@ -31,6 +33,8 @@ namespace MoncatiCar.Data.SeedWork
             _brandRepository = new Lazy<IBrandRepository>(() => new BrandRepository(context));
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
             _addressRepository = new Lazy<IAddressRepository>(() => new AddressRepository(context));
+            _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
+
         }
 
         public ICarFeatureRepository CarFeatureRepository => _carFeatureRepository.Value;
@@ -51,6 +55,8 @@ namespace MoncatiCar.Data.SeedWork
         public IAddressRepository AddressRepository => _addressRepository.Value;
 
         public IUserRepository UserRepository => _userRepository.Value;
+        public IPaymentRepository PaymentRepository => _paymentRepository.Value;
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
