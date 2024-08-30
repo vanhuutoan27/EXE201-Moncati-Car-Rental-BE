@@ -35,7 +35,7 @@ namespace MoncatiCar.Data.Services
                 {
                     BrandId = Guid.NewGuid(),
                     BrandName = carRequest.BrandName,
-                    Description = "New brand created",
+                    Description = "Generated when creating a new car.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 };
@@ -52,7 +52,7 @@ namespace MoncatiCar.Data.Services
                     ModelName = carRequest.ModelName,
                     BrandId = brand.BrandId,
                     Year = DateTime.Now.Year,
-                    Description = "New model created",
+                    Description = "Generated when creating a new car.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 };

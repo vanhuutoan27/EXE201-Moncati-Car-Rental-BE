@@ -30,7 +30,7 @@ namespace MoncatiCar.Data.Services
             // neu nguoi dung da tao 5 dia chi thi khong cho tao nua
             if(existingAddresses.Count() >= 5)
             {
-                throw new Exception("Maximum number of addresses that can be added is 5");
+                throw new Exception("You have reached the maximum number of addresses (5).");
             }
 
             // Neu dia chi moi la default
@@ -88,7 +88,7 @@ namespace MoncatiCar.Data.Services
                 var anotherDefault = existingAddress.Any(a => a.addressId != addressId && a.isDefault);
                 if(!anotherDefault)
                 {
-                    throw new Exception("Please set another address as default before deleting this one.");
+                   throw new Exception("Please set another address as default before deleting this one.");
                 }
             }
             _repositoryManager.AddressRepository.Remove(address);
