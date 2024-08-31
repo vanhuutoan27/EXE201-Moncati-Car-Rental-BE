@@ -14,7 +14,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("87FFAC08-1EB6-4C3F-8EC8-977860913635"),
-                    Slug = "mazda-cx5-deluxe-2017/VQ57KP",
+                    Slug = "mazda-cx5-deluxe-2017-VQ57KP",
                     licensePlate = "15A-341.79",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
@@ -43,7 +43,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                {
                     CarId = Guid.Parse("95CF0585-B940-4AFB-926D-01D9A3A27259"),
-                    Slug = "vinfast-vf6-plus-2024/H7TJXW",
+                    Slug = "vinfast-vf6-plus-2024-H7TJXW",
                     licensePlate = "51L-216.13",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -72,7 +72,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("C0EE3730-2717-4F50-8294-CF13437BBC2B"),
-                    Slug = "peugeot-3008-2022/WLH7HM",
+                    Slug = "peugeot-3008-2022-WLH7HM",
                     licensePlate = "51K-418.61",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -101,7 +101,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("8705F403-06BC-4983-8C81-86310959CC37"),
-                    Slug = "ford-ecosport-2015/DUZ4BH",
+                    Slug = "ford-ecosport-2015-DUZ4BH",
                     licensePlate = "51F-320.56",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -130,7 +130,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("7AC71700-7A87-45B6-9120-19D4ED3933FA"),
-                    Slug = "lexus-rx450h-2010/4URH11",
+                    Slug = "lexus-rx450h-2010-4URH11",
                     licensePlate = "51A-900.56",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -159,7 +159,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("E9743276-25FD-4B47-A8AC-BE13F27D2A53"),
-                    Slug = "hyundai-creta-2022/WESU5V",
+                    Slug = "hyundai-creta-2022-WESU5V",
                     licensePlate = "51K-392.51",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -188,7 +188,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("1E83D72D-AD11-4F9F-B342-B39A2EF7A2F8"),
-                    Slug = "hyundai-tucson-premium-2021/NIXL5V",
+                    Slug = "hyundai-tucson-premium-2021-NIXL5V",
                     licensePlate = "30K-605.01",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
@@ -217,7 +217,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("06ED14A0-A17E-48D8-868F-33CF5CE916AA"),
-                    Slug = "peugeot-2008-gt-2022/X5UAC6",
+                    Slug = "peugeot-2008-gt-2022-X5UAC6",
                     licensePlate = "51H-815.11",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
@@ -246,7 +246,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("D2DA81D0-8F87-43CB-9DBA-1A0903C1871A"),
-                    Slug = "mg-zs-standard-2022/K18FHR",
+                    Slug = "mg-zs-standard-2022-K18FHR",
                     licensePlate = "21A-134.52",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
@@ -276,7 +276,7 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("35FA8298-81A2-4DDD-9312-0876455BF402"),
-                    Slug = "toyota-innova-2020/3YMD75",
+                    Slug = "toyota-innova-2020-3YMD75",
                     licensePlate = "51L-288.32",
                     Seats = 7,
                     Transmission = Transmission.Manual,
