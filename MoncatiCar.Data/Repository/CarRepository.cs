@@ -12,37 +12,35 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<IEnumerable<Car>> GetAllCarAsync(int page, int limit, string search)
+        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search)
         {
-            if (string.IsNullOrEmpty(search))
-            {
-                IQueryable<Car> query = _context.Cars.AsQueryable();
-                if (page > 0 && limit > 0)
-                {
-                    query = query.Skip((page - 1) * limit).Take(limit);
-                }
-                else
-                {
-                    query = _context.Cars;
-                }
+            search = search?.Trim();
+            IQueryable<Car> query = _context.Cars
+                                            .Include(m => m.Model)
+                                                .ThenInclude(b => b.Brand)
+                                            .Include(i => i.Images)
+                                            .Include(r => r.Reviews)
+                                            .Include(c => c.CarFeatures)
+                                                .ThenInclude(cf => cf.Feature);
 
-                return await query.Include(m => m.Model)
-                                             .ThenInclude(b => b.Brand)
-                                             .Include(i => i.Images)
-                                             .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
-                                             .Include(review => review.Reviews).ToListAsync();
-            }
-            else
+            if (!string.IsNullOrEmpty(search))
             {
-                return await _context.Cars.Where(c => c.Slug.ToLower().Contains(search.ToLower()))
-                    .Include(m => m.Model).ThenInclude(b => b.Brand)
-                    .Include(i => i.Images)
-                    .Include(r => r.Reviews)
-                    .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
-                    .Skip((page - 1) * limit).Take(limit).ToListAsync();
+                query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
             }
 
+            // Get the total count of items before applying pagination
+            int totalItems = await query.CountAsync();
+
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+
+            var cars = await query.ToListAsync();
+            return (cars, totalItems);
         }
+
+
 
         public async Task<Car> GetByLicensePlateAsync(string licensePlate)
         {

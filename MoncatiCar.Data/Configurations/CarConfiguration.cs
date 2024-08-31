@@ -14,13 +14,13 @@ namespace MoncatiCar.Data.Configurations
                 new Car
                 {
                     CarId = Guid.Parse("87FFAC08-1EB6-4C3F-8EC8-977860913635"),
-                    Slug = "mazda-cx5-deluxe-2017",
-                    licensePlate = "15A-34179",
+                    Slug = "mazda-cx5-deluxe-2017/VQ57KP",
+                    licensePlate = "15A-341.79",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
                     FuelConsumption = 7,
-                    Description = "Mazda CX5 2017-2.0 Fuel efficient\r\nNew, beautiful car, regularly maintained, clean…\r\nSpacious, comfortable car, suitable for family travel.\r\nCar has rear camera, sunroof, dash cam, entertainment system and many other amenities…",
+                    Description = "Mazda CX5 2017-2.0 Fuel efficient\nNew, beautiful car, regularly maintained, clean…\nSpacious, comfortable car, suitable for family travel.\r\nCar has rear camera, sunroof, dash cam, entertainment system and many other amenities…",
                     Location = "Quận Bình Thạnh, Thành phố Hồ Chí Minh",
                     LocationDetails = "Quận Bình Thạnh, Thành phố Hồ Chí Minh",
                     discount = 20,
@@ -35,19 +35,21 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                      UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("0ED1B055-DCD4-48EE-AEFF-7478382F9E96"),
-                    OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87")
+                    OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87"),
+                    year = 2017
                 },
                 new Car
                {
                     CarId = Guid.Parse("95CF0585-B940-4AFB-926D-01D9A3A27259"),
-                    Slug = "vinfast-vf6-plus-2024",
-                    licensePlate = "51L-21613",
+                    Slug = "vinfast-vf6-plus-2024/H7TJXW",
+                    licensePlate = "51L-216.13",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Electric,
                     FuelConsumption = 381,
-                    Description = "Beautiful new family car, original interior, clean, equipped with 3M crystalline film, the car is very cool in hot weather, coated with anti-nail and noise-proof tires.\r\n",
+                    Description = "Beautiful new family car, original interior, clean, equipped with 3M crystalline film, the car is very cool in hot weather, coated with anti-nail and noise-proof tires.\n",
                     Location = "Quận Bình Thạnh, Thành phố Hồ Chí Minh",
                     LocationDetails = "Quận Bình Thạnh, Thành phố Hồ Chí Minh",
                     discount = 15,
@@ -62,14 +64,16 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Rented,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("F660D2B0-0444-4C02-B15A-2EBC871D8F4B"),
                     OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87"),
+                    year = 2024
                 },
                 new Car
                 {
                     CarId = Guid.Parse("C0EE3730-2717-4F50-8294-CF13437BBC2B"),
-                    Slug = "peugeot-3008-2022",
-                    licensePlate = "51K-41861",
+                    Slug = "peugeot-3008-2022/WLH7HM",
+                    licensePlate = "51K-418.61",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
@@ -89,14 +93,16 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId =  Guid.Parse("4E39763C-501A-47EA-9D11-F884DE1E7E4E"),
-                    OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87")
+                    OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87"),
+                    year = 2022
                 },
                 new Car
                 {
                     CarId = Guid.Parse("8705F403-06BC-4983-8C81-86310959CC37"),
-                    Slug = "ford-ecosport-2015",
-                    licensePlate = "51F-32056",
+                    Slug = "ford-ecosport-2015/DUZ4BH",
+                    licensePlate = "51F-320.56",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
@@ -116,19 +122,21 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("1DC0A8E3-19B1-45F0-AEC8-A810722DE8F5"),
-                    OwnerId = Guid.Parse("9D7E87A9-B070-4607-A0B0-2D2322AECE9B")
+                    OwnerId = Guid.Parse("9D7E87A9-B070-4607-A0B0-2D2322AECE9B"),
+                    year = 2015
                 },
                 new Car
                 {
                     CarId = Guid.Parse("7AC71700-7A87-45B6-9120-19D4ED3933FA"),
-                    Slug = "lexus-rx450h-2010",
-                    licensePlate = "51A-90056",
+                    Slug = "lexus-rx450h-2010/4URH11",
+                    licensePlate = "51A-900.56",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
                     FuelConsumption = 7,
-                    Description = "Lexus RX 450h automatic transmission manufactured in 2010 Japan\r\nLast inspection date: 7/7/2023\r\nClean and tidy family car",
+                    Description = "Lexus RX 450h automatic transmission manufactured in 2010 Japan\nLast inspection date: 7/7/2023\nClean and tidy family car",
                     Location = "Quận 2, Thành phố Hồ Chí Minh",
                     LocationDetails = "Quận 2, Thành phố Hồ Chí Minh",
                     discount = 0,
@@ -143,19 +151,21 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("32234D9D-90F2-4011-BA7F-85EAD67A98BD"),
-                    OwnerId = Guid.Parse("9D7E87A9-B070-4607-A0B0-2D2322AECE9B")
+                    OwnerId = Guid.Parse("9D7E87A9-B070-4607-A0B0-2D2322AECE9B"),
+                    year = 2010
                 },
                 new Car
                 {
                     CarId = Guid.Parse("E9743276-25FD-4B47-A8AC-BE13F27D2A53"),
-                    Slug = "hyundai-creta-2022",
-                    licensePlate = "51K-39251",
+                    Slug = "hyundai-creta-2022/WESU5V",
+                    licensePlate = "51K-392.51",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
                     FuelConsumption = 6,
-                    Description = "Safety:\r\nHyundai Creta has familiar features such as: ABS – EBD – BA brakes, electronic balance, traction control, hill start assist, tire pressure sensor, parking assist sensor, rear camera, 6 airbags…\r\nConvenience:\r\nLeather seats, Bose standard sound system, navigation, speed warning, electronic handbrake…",
+                    Description = "Safety:\nHyundai Creta has familiar features such as: ABS – EBD – BA brakes, electronic balance, traction control, hill start assist, tire pressure sensor, parking assist sensor, rear camera, 6 airbags…\nConvenience:\nLeather seats, Bose standard sound system, navigation, speed warning, electronic handbrake…",
                     Location = "Quận 9, Thành phố Hồ Chí Minh",
                     LocationDetails = "Quận 9, Thành phố Hồ Chí Minh",
                     discount = 0,
@@ -170,14 +180,16 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("FDFDEF71-0E39-48F0-8EEC-71F5429ED285"),
                     OwnerId = Guid.Parse("0075BA2C-F60D-4F75-B9F1-F71579BC4FD2"),
+                    year =  2022,
                 },
                 new Car
                 {
                     CarId = Guid.Parse("1E83D72D-AD11-4F9F-B342-B39A2EF7A2F8"),
-                    Slug = "hyundai-tucson-premium-2021",
-                    licensePlate = "30K-60501",
+                    Slug = "hyundai-tucson-premium-2021/NIXL5V",
+                    licensePlate = "30K-605.01",
                     Seats = 5,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
@@ -197,14 +209,16 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId =  Guid.Parse("16FD3123-D971-422C-B2AF-E47978C27F35"),
                     OwnerId = Guid.Parse("0075BA2C-F60D-4F75-B9F1-F71579BC4FD2"),
+                    year = 2021
                 },
                 new Car
                 {
                     CarId = Guid.Parse("06ED14A0-A17E-48D8-868F-33CF5CE916AA"),
-                    Slug = "peugeot-2008-gt-2022",
-                    licensePlate = "51H-81511",
+                    Slug = "peugeot-2008-gt-2022/X5UAC6",
+                    licensePlate = "51H-815.11",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
@@ -224,14 +238,16 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId =  Guid.Parse("AFFEB1D2-7EB3-4410-A7CA-E3B1ADC3CC54"),
                     OwnerId = Guid.Parse("4565F47A-7239-4666-B9B4-0523B1D9BA3D"),
+                    year = 2021
                 },
                 new Car
                 {
                     CarId = Guid.Parse("D2DA81D0-8F87-43CB-9DBA-1A0903C1871A"),
-                    Slug = "mg-zs-standard-2022",
-                    licensePlate = "21A-13452",
+                    Slug = "mg-zs-standard-2022/K18FHR",
+                    licensePlate = "21A-134.52",
                     Seats = 4,
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
@@ -251,15 +267,17 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId =  Guid.Parse("542D93FD-4BC2-48DF-9E58-F12C17A96D79"),
-                    OwnerId = Guid.Parse("4565F47A-7239-4666-B9B4-0523B1D9BA3D")
+                    OwnerId = Guid.Parse("4565F47A-7239-4666-B9B4-0523B1D9BA3D"),
+                    year = 2022
                 },
 
                 new Car
                 {
                     CarId = Guid.Parse("35FA8298-81A2-4DDD-9312-0876455BF402"),
-                    Slug = "toyota-innova-2020",
-                    licensePlate = "51L-28832",
+                    Slug = "toyota-innova-2020/3YMD75",
+                    licensePlate = "51L-288.32",
                     Seats = 7,
                     Transmission = Transmission.Manual,
                     FuelType = FuelType.Gasoline,
@@ -279,8 +297,10 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId =  Guid.Parse("6E18D51E-2964-4F16-A00C-0D4544671816"),
-                    OwnerId = Guid.Parse("4565F47A-7239-4666-B9B4-0523B1D9BA3D")
+                    OwnerId = Guid.Parse("4565F47A-7239-4666-B9B4-0523B1D9BA3D"),
+                    year = 2020
                 },
 
             });

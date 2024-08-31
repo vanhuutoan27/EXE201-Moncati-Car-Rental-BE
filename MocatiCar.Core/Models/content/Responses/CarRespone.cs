@@ -10,6 +10,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string Slug { get; set; }
         public string Brand { get; set; } // Extracted from Model or CarType
         public string Model { get; set; } // Extracted from Model entity  
+        public int year { get; set; }
         public int Seats { get; set; }
         public Transmission Transmission { get; set; }
         public FuelType FuelType { get; set; }
@@ -20,7 +21,7 @@ namespace MocatiCar.Core.Models.content.Responses
 
         //public ICollection<ReviewResponse> Reviews { get; set; }
         public List<string> Images { get; set; }
-        public ICollection<string> Features { get; set; }
+        //public ICollection<string> Features { get; set; }
         public float? Discount { get; set; }
         public bool? InstantBooking { get; set; } = false;
         public int? MaxDeliveryDistance { get; set; } 
