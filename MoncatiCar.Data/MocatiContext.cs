@@ -45,6 +45,13 @@ namespace MoncatiCar.Data
             builder.ApplyConfiguration(new RoleConfiguration());
             builder.ApplyConfiguration(new FeatureConfiguration());
             builder.ApplyConfiguration(new BrandConfiguration());
+            builder.ApplyConfiguration(new ModelConfiguration());
+            builder.ApplyConfiguration(new CarConfiguration());
+            builder.ApplyConfiguration(new ImagesConfiguration());
+            builder.ApplyConfiguration(new CarFeatureConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
+
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

@@ -30,14 +30,14 @@ namespace MocatiCar.Core.Domain.Content
         public int? LimitKilometersPerDay { get; set; }
         public int? OverLimitFeePerKm { get; set; }
         public string? RentalTerms { get; set; }
-        public int year {  get; set; }  
+        public int year { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
 
         //FK 
-        public Guid CarTypeId { get; set; }
+        public Guid? CarTypeId { get; set; }
         [ForeignKey(nameof(CarTypeId))]
         public CarType CarType { get; set; }
         public ICollection<Image> Images { get; set; }
@@ -48,7 +48,7 @@ namespace MocatiCar.Core.Domain.Content
         [ForeignKey(nameof(ModelId))]
         public Model Model { get; set; }
 
-        public Guid OwnerId { get; set; }
+        public Guid? OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public AppUser User { get; set; }
 
