@@ -278,5 +278,28 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
+        [HttpPatch]
+        [Route("{rentalId:guid}/cancel")]
+        public async Task<ActionResult<ResultModel>> UpdateRentalStatustoCancel(Guid rentalId)
+        {
+            var update = await _serviceManager.RentalService.ChangeRentalStatusToCancelAsync(rentalId);
+            if (update == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Rental not found."
+
+                };
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.NoContent,
+                Message = "Change rental status successfully."
+            };
+            return Ok(_resultModel);
+        }
     }
 }

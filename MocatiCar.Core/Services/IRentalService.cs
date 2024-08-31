@@ -22,5 +22,6 @@ namespace MocatiCar.Core.Services
         Task<bool> UpdateStartTimeRentalAsync(Guid id);
         Task<bool> UpdateEndTimeRentalAsync(Guid id);
         Task<bool> ChangeRentalStatusAsync(Guid id);
+        Task<bool> ChangeRentalStatusToCancelAsync(Guid id);
     }
 }

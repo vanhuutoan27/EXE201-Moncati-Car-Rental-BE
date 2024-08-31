@@ -68,6 +68,31 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
+        public async Task<bool> ChangeRentalStatusToCancelAsync(Guid id)
+        {
+          var rental = await _repositoryManager.RentalRepository.GetRentalByIdAsync(id);
+            if (rental == null)
+            {
+                return false;
+            }
+            // Kiểm tra nếu EndDayTime đã qua và trạng thái hiện tại là Active
+            if (rental.RentalStatus == RentalStatus.Active && rental.EndDayTime < DateTime.Now)
+            {
+                rental.RentalStatus = RentalStatus.Overdue;
+            }
+            else
+            {
+                // Nếu không bị Overdue, cập nhật thành Cancelled
+                rental.RentalStatus = RentalStatus.Cancelled;
+            }
+
+            rental.UpdatedAt = DateTime.Now;
+            _repositoryManager.RentalRepository.Update(rental);
+            await _repositoryManager.SaveAsync();
+            return true;
+
+        }
+
         public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
         {
 
