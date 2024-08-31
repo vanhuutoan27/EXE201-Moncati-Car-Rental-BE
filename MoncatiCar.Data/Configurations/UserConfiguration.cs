@@ -95,24 +95,7 @@ namespace MoncatiCar.Data.Configurations
                         PasswordHash = hasher.HashPassword(null, "User@123"),
                         UpdatedAt = DateTime.Now,
                         CreatedAt = DateTime.Now,
-                    },
-                     new AppUser
-                     {
-                         Id = Guid.Parse("8F3DBC12-27B8-49AC-8049-C67E065CE7C0"),
-                         FullName = "Quang La Tui",
-                         Status = true,
-                         Email = "quangdalat@gmail.com",
-                         UserName = "quangspa09",
-                         PasswordHash = hasher.HashPassword(null, "User@123"),
-                         PhoneNumber = "=0888",
-                         LockoutEnabled = false,
-                         EmailConfirmed = true,
-                         UpdatedAt = DateTime.Now,
-                         CreatedAt = DateTime.Now,
-                     }
-
-
-
+                    }
                 ); ;
         }
     }
