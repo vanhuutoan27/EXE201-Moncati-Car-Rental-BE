@@ -51,7 +51,6 @@ namespace MoncatiCar.Data.Services
                     ModelId = Guid.NewGuid(),
                     ModelName = carRequest.ModelName,
                     BrandId = brand.BrandId,
-                    Year = DateTime.Now.Year,
                     Description = "Generated when creating a new car.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
