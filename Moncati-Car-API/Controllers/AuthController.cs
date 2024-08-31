@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.auth;
 using MocatiCar.Core.SeedWorks.Constants;
 using Moncati_Car_API.Services;
+using MoncatiCar.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -21,14 +24,15 @@ namespace Moncati_Car_API.Controllers
         private readonly RoleManager<AppRole> _roleManager;
         private readonly ITokenService _tokenService;
         private readonly ResultModel _resp;
-
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, ITokenService tokenService)
+        private readonly MocatiContext _context;
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, ITokenService tokenService, MocatiContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _resp = new ResultModel();
             _tokenService = tokenService;
+            _context = context;
         }
 
         [HttpPost]
@@ -36,8 +40,23 @@ namespace Moncati_Car_API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ResultModel>> Login([FromBody] MocatiCar.Core.Models.auth.LoginRequest request)
         {
+            AppUser user = null;
 
-            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (IsEmail(request.Email))
+            {
+                user = await _userManager.FindByEmailAsync(request.Email);
+
+            }
+            else
+            {
+                user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.Email);
+                if (user == null)
+                {
+                    throw new Exception("Invalid PhoneNumber.");
+                }
+
+            }
 
             if (user == null || !user.Status || user.LockoutEnabled)
             {
@@ -160,7 +179,11 @@ namespace Moncati_Car_API.Controllers
             };
             return _resp;
         }
-
+        private bool IsEmail(string input)
+        {
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(input, emailPattern);
+        }
 
     }
 }
