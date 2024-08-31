@@ -121,7 +121,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.NotFound,
                     Success = false,
-                    Message = "No rentals found for the specified Car ID."
+                    Message = "No rentals founds."
                 };
                 return NotFound(_resultModel);
             }
@@ -148,7 +148,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.NotFound,
                     Success = false,
-                    Message = "No rentals found for the specified User ID."
+                    Message = "No rentals found."
                 };
                 return NotFound(_resultModel);
             }
@@ -228,7 +228,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Start Day Time update successfully."
+                Message = "Rental update successfully."
             };
             return Ok(_resultModel);
         }
@@ -251,7 +251,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "End Day Time update successfully."
+                Message = "Rental update successfully."
             };
             return Ok(_resultModel);
         }
@@ -297,7 +297,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Change rental status successfully."
+                Message = "Rental cancelled successfully."
             };
             return Ok(_resultModel);
         }

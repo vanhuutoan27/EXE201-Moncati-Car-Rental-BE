@@ -39,7 +39,7 @@ namespace MoncatiCar.Data.Services
             {
                 rental.RentalStatus = RentalStatus.Overdue;
             }
-            Console.WriteLine($"Current RentalStatus: {rental.RentalStatus}");
+            Console.WriteLine($"Current rental status: {rental.RentalStatus}");
 
             switch (rental.RentalStatus)
             {
@@ -60,8 +60,6 @@ namespace MoncatiCar.Data.Services
                 default:
                     throw new Exception("Invalid status.");
             }
-
-
 
             _repositoryManager.RentalRepository.Update(rental);
             await _repositoryManager.SaveAsync();
@@ -111,10 +109,8 @@ namespace MoncatiCar.Data.Services
                 DepositAmount = rentalRequest.DepositAmount,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-
-
             };
-            create.TotalAmount = create.DepositAmount - create.RentalAmount + create.InsuranceAmount;
+            create.TotalAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
             create.CommissionAmount = create.RentalAmount * 20 / 100;
             _repositoryManager.RentalRepository.Add(create);
             await _repositoryManager.SaveAsync();
@@ -127,7 +123,7 @@ namespace MoncatiCar.Data.Services
             var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(id);
             if (rentalId == null)
             {
-                throw new Exception("Rental Id does not exist!");
+                throw new Exception("Rental not found.");
             }
             _repositoryManager.RentalRepository.Remove(rentalId);
             await _repositoryManager.SaveAsync();
@@ -177,7 +173,7 @@ namespace MoncatiCar.Data.Services
             var carId = await _repositoryManager.RentalRepository.GetRentalByCarId(id);
             if (carId == null)
             {
-                throw new Exception("Car Id does not exist!");
+                throw new Exception("Car not found.");
 
             }
             var rentalrespone = carId.Select(x => new RentalRespone
@@ -210,7 +206,7 @@ namespace MoncatiCar.Data.Services
             var rental = await _repositoryManager.RentalRepository.GetRentalByIdAsync(id);
             if (rental == null)
             {
-                throw new Exception("Rental Id does not exist!");
+                throw new Exception("Rental not found.");
             }
 
             return new RentalRespone
@@ -243,7 +239,7 @@ namespace MoncatiCar.Data.Services
             var users = await _repositoryManager.RentalRepository.GetRentalByUserId(id);
             if (users == null)
             {
-                throw new Exception("User or Owner Id does not exist!");
+                throw new Exception("Owner or Customer not found.");
             }
             var rentalrespone = users.Select(x => new RentalRespone
             {
