@@ -805,7 +805,7 @@ namespace MoncatiCar.Data.Configurations
                 {
                     CarFeatureId = Guid.NewGuid(),
                     CarId =Guid.Parse("35FA8298-81A2-4DDD-9312-0876455BF402"),
-                    FeatureId =  Guid.Parse("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c"),
+                    FeatureId =  Guid.Parse("4481e46d-e85b-4870-a210-cdfea8932641"),
                 },
                 new CarFeature
                 {
