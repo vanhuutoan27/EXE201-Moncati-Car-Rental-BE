@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Services
-{   
+{
     public class AddressService : IAddressService
     {
         private readonly IRepositoryManager _repositoryManager;
@@ -28,17 +22,17 @@ namespace MoncatiCar.Data.Services
             // check so dia chi cua nguoi dung
             var existingAddresses = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
             // neu nguoi dung da tao 5 dia chi thi khong cho tao nua
-            if(existingAddresses.Count() >= 5)
+            if (existingAddresses.Count() >= 5)
             {
                 throw new Exception("You have reached the maximum number of addresses (5).");
             }
 
             // Neu dia chi moi la default
-            if(addressRequest.isDefault)
+            if (addressRequest.isDefault)
             {
-                foreach(var address in existingAddresses)
+                foreach (var address in existingAddresses)
                 {
-                    if(address.isDefault)
+                    if (address.isDefault)
                     {
                         address.isDefault = false;
                         _repositoryManager.AddressRepository.Update(address);
@@ -71,24 +65,24 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> DeleteAddress(Guid userId, Guid addressId)
         {
             var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(address == null)
+            if (address == null)
             {
                 throw new Exception("Address not found.");
             }
             // kiem tra dia chi dang xoa la dia chi mac dinh
-            if(address.isDefault)
+            if (address.isDefault)
             {
                 // lay tat ca dia chi cua nguoi dung
                 var existingAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
-                if(existingAddress.Count() <= 1)
+                if (existingAddress.Count() <= 1)
                 {
                     throw new Exception("You cannot delete the default address without setting another address as default.");
                 }
                 // chon 1 dia chi khac lam default
                 var anotherDefault = existingAddress.Any(a => a.addressId != addressId && a.isDefault);
-                if(!anotherDefault)
+                if (!anotherDefault)
                 {
-                   throw new Exception("Please set another address as default before deleting this one.");
+                    throw new Exception("Please set another address as default before deleting this one.");
                 }
             }
             _repositoryManager.AddressRepository.Remove(address);
@@ -105,6 +99,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<IEnumerable<AddressRespone>> GetAddressesByUserId(Guid userId)
         {
+            throw new Exception("Erorrrr heehe");
             var listAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
             var listResult = _mapper.Map<IEnumerable<AddressRespone>>(listAddress);
 
@@ -122,7 +117,7 @@ namespace MoncatiCar.Data.Services
         {
             // kiem tra xem nguoi dung da co dia chi default nao hay chua
             var existingDefault = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(existingDefault == null || existingDefault.UserId != userId)
+            if (existingDefault == null || existingDefault.UserId != userId)
             {
                 throw new Exception("Address not found.");
             }
@@ -152,7 +147,7 @@ namespace MoncatiCar.Data.Services
                 }
             }
             // kiem tra neu nguoi dung update dia chi mac dinh thanh false thi khong cho phep cap nhat
-            if(existingAddress.isDefault)
+            if (existingAddress.isDefault)
             {
                 throw new Exception("Cannot update the default address.");
             }

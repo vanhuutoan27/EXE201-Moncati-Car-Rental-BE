@@ -2,6 +2,7 @@
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.error;
 using System.Net;
+using System.Text.Json;
 
 namespace Moncati_Car_API.GlobalExceptions
 {
@@ -20,11 +21,19 @@ namespace Moncati_Car_API.GlobalExceptions
                     _ => StatusCodes.Status500InternalServerError
                 };
                 //_logger.LogError($"Something went wrong: {exception.Message}");
-                await httpContext.Response.WriteAsync(new ResultModel()
+                var result = new ResultModel
                 {
                     Status = httpContext.Response.StatusCode,
-                    Message = contextFeature.Error.Message,
-                }.ToString());
+                    Message = contextFeature.Error.Message
+
+                };
+                var options = new JsonSerializerOptions //conver to CamelCase in response
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
+
+                await httpContext.Response.WriteAsync(JsonSerializer.Serialize(result, options));
+
             }
             return true;
         }
