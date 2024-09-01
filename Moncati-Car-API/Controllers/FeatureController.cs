@@ -58,7 +58,7 @@ namespace Moncati_Car_API.Controllers
             return _resultModel;
         }
 
-        [HttpGet("{carId:guid}")]
+        [HttpGet("car/{carId:guid}")]
         public async Task<ActionResult<ResultModel>> GetFeatureByCarId(Guid carId)
         {
             var listFeature = await _serviceManager.FeatureService.GetFeatureByCarId(carId);

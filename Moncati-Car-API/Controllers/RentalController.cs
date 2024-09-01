@@ -70,7 +70,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        [Route("rental/{rentalId:guid}")]
+        [Route("{rentalId:guid}")]
         public async Task<ActionResult<ResultModel>> GetRentalById(Guid rentalId)
         {
             try
