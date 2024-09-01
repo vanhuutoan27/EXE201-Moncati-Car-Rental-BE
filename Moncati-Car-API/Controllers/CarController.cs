@@ -20,9 +20,9 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null , bool? status = null)
         {
-            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search);
+            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search ,  status);
             if (cars == null)
             {
                 _resultModel = new ResultModel
@@ -124,7 +124,31 @@ namespace Moncati_Car_API.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("user/{userId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetCarbyUser(Guid userId)
+        {
+            // Giải mã slug (nếu cần)
+            
 
+            var car = await _serviceManager.CarService.GetAllCarByUser(userId);
+            if (car == null)
+            {
+                return NotFound(new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Car not found."
+                });
+            }
+            return Ok(new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Car with user retrieved successfully.",
+                Data = car
+            });
+        }
         [HttpPut("{carId}/admin")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, UpdateCarRequest createCarRequest)
         {

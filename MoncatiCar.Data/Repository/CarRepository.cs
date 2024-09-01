@@ -12,7 +12,7 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search)
+        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search, bool? status)
         {
             search = search?.Trim();
             IQueryable<Car> query = _context.Cars
@@ -27,7 +27,10 @@ namespace MoncatiCar.Data.Repository
             {
                 query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
             }
-
+            if (status.HasValue)
+            {
+                query = query.Where(c => c.Status == status.Value);
+            }
             // Get the total count of items before applying pagination
             int totalItems = await query.CountAsync();
 
@@ -40,6 +43,20 @@ namespace MoncatiCar.Data.Repository
             return (cars, totalItems);
         }
 
+        public async Task<IEnumerable<Car>> GetCarByUserAsync(Guid id)
+        {
+            var cars = await _context.Cars
+                .Where(c => c.OwnerId == id)
+                .Include(c => c.Model)
+                    .ThenInclude(m => m.Brand)
+                .Include(c => c.Images)
+                .Include(c => c.CarFeatures)
+                    .ThenInclude(cf => cf.Feature)
+                .Include(c => c.Reviews)
+                .ToListAsync();
+
+            return cars;
+        }
 
 
         public async Task<Car> GetByLicensePlateAsync(string licensePlate)
@@ -62,9 +79,9 @@ namespace MoncatiCar.Data.Repository
         public async Task<Car> GetCarBySlug(string slug)
         {
             var query = await _context.Cars.Where(c => c.Slug == slug)
-                                            .Include(m =>m.Model)
+                                            .Include(m => m.Model)
                                             .ThenInclude(b => b.Brand)
-                                            .Include(c =>c.CarFeatures).ThenInclude(cf => cf.Feature)
+                                            .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
                                            .Include(c => c.Images).FirstOrDefaultAsync();
             return query;
         }
