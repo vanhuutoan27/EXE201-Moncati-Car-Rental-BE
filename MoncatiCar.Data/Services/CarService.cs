@@ -8,7 +8,6 @@ using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.SeedWorks.Enums;
 using MocatiCar.Core.Services;
 
-
 namespace MoncatiCar.Data.Services
 {
     public class CarService : ICarService
@@ -188,9 +187,54 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search)
+        public async Task<IEnumerable<CarResponse>> GetAllCarByUser(Guid userId)
         {
-            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search);
+            var cars = await _repositoryManager.CarRepository.GetCarByUserAsync(userId);
+            if (cars == null || !cars.Any())
+            {
+                throw new Exception("No cars found for the user.");
+            }
+            var carRespone = cars.Select(car => new CarResponse
+            {
+                Slug = car.Slug,
+                CarId = car.CarId,
+                Owner = (Guid)car.OwnerId,
+                LicensePlate = car.licensePlate,
+                Brand = car.Model.Brand.BrandName,
+                Model = car.Model.ModelName,
+                year = car.year,
+                Location = car.Location,
+                Seats = car.Seats,
+                Transmission = car.Transmission,
+                FuelType = car.FuelType,
+                FuelConsumption = (float)car.FuelConsumption,
+                Description = car.Description,
+                PricePerDay = car.PricePerDay,
+                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                RentalStatus = car.RentalStatus,
+                Status = car.Status,
+                CreatedAt = car.CreatedAt,
+                UpdatedAt = car.UpdatedAt,
+                CreatedBy = car.CreatedBy,
+                UpdatedBy = car.UpdatedBy,
+                InstantBooking = car.InstantBooking,
+                Discount = (float)car.discount,
+                MaxDeliveryDistance = car.MaxDeliveryDistance,
+                DeliveryFeePerKm = car.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = car.LimitKilometersPerDay,
+                OverLimitFeePerKm = car.OverLimitFeePerKm,
+                RentalTerms = car.RentalTerms,
+
+
+            }).ToList();
+            return carRespone;
+        }
+
+
+        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search , bool? status)
+        {
+            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search , status);
 
             var carResponse = listCar.Select(car => new CarResponse
             {
