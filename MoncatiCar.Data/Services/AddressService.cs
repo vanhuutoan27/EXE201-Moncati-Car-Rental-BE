@@ -27,8 +27,12 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("You have reached the maximum number of addresses (5).");
             }
 
-            // Neu dia chi moi la default
-            if (addressRequest.isDefault)
+            // kiem tra neu nguoi dung tao dia chi lan dau tien thi dat lam dia chi mac dinh
+            if (!existingAddresses.Any())
+            {
+                addressRequest.isDefault = true;
+            }
+            else if (addressRequest.isDefault) // Neu dia chi moi la default
             {
                 foreach (var address in existingAddresses)
                 {
