@@ -252,7 +252,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = car.CreatedAt,
@@ -318,7 +318,7 @@ namespace MoncatiCar.Data.Services
                 LimitKilometersPerDay = car.LimitKilometersPerDay,
                 OverLimitFeePerKm = car.OverLimitFeePerKm,
                 RentalTerms = car.RentalTerms,
-                
+
             };
             return carResponse;
         }

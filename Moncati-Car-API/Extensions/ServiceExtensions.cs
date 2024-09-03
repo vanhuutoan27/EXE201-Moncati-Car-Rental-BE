@@ -63,6 +63,7 @@ namespace Moncati_Car_API.Extensions
                 options.SignIn.RequireConfirmedEmail = false;
             });
         }
+
         public static void ConfigureJwtSetting(this IServiceCollection services, IConfiguration configuration)
            => services.Configure<JwtTokenSettings>(configuration.GetSection(nameof(JwtTokenSettings)));
 
