@@ -69,12 +69,12 @@ namespace MoncatiCar.Data.Services
             var model = new Car()
             {
                 ModelId = model1.ModelId,
-                CarTypeId = carRequest.CarTypeId,
+                //CarTypeId = carRequest.CarTypeId,
                 OwnerId = carRequest.OwnerId,
                 licensePlate = carRequest.LicensePlate,
                 year = carRequest.Year,
                 discount = carRequest.discount,
-                Status = true,
+                Status = false,
                 Seats = carRequest.Seats,
                 Transmission = (Transmission)carRequest.Transmission,
                 FuelType = (FuelType)carRequest.FuelType,
@@ -380,8 +380,7 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Car not found.");
             }
 
-
-            car.CarTypeId = update.CarTypeId;
+            //car.CarTypeId = update.CarTypeId;
             car.OwnerId = update.OwnerId;
             car.licensePlate = update.LicensePlate;
             car.year = update.Year;
