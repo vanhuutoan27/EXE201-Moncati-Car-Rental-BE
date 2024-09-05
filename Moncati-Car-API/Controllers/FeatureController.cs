@@ -44,13 +44,13 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetAllFeature()
         {
             var features = await _serviceManager.FeatureService.GetAllFeatureAsync();
-            if (features == null)
-            {
-                _resultModel.Success = false;
-                _resultModel.Message = "No features found.";
-                _resultModel.Status = (int)HttpStatusCode.InternalServerError;
-                return _resultModel;
-            }
+            //if (features == null)
+            //{
+            //    _resultModel.Success = false;
+            //    _resultModel.Message = "No features found.";
+            //    _resultModel.Status = (int)HttpStatusCode.InternalServerError;
+            //    return _resultModel;
+            //}
             _resultModel.Success = true;
             _resultModel.Message = "Features retrieved successfully.";
             _resultModel.Status = (int)HttpStatusCode.OK;

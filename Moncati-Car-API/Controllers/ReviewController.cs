@@ -36,16 +36,16 @@ namespace Moncati_Car_API.Controllers
             var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
 
             // Check if the Items collection is null or empty
-            if (listreview == null || !listreview.Items.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Message = "No reviews found.",
-                    Status = (int)HttpStatusCode.NotFound
-                };
-                return NotFound(_resultModel);
-            }
+            //if (listreview == null || !listreview.Items.Any())
+            //{
+            //    _resultModel = new ResultModel
+            //    {
+            //        Success = false,
+            //        Message = "No reviews found.",
+            //        Status = (int)HttpStatusCode.NotFound
+            //    };
+            //    return NotFound(_resultModel);
+            //}
 
             // Return the result if reviews are found
             _resultModel = new ResultModel
