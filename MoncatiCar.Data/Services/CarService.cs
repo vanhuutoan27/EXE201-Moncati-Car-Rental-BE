@@ -94,7 +94,7 @@ namespace MoncatiCar.Data.Services
                 RentalTerms = carRequest.RentalTerms,
             };
             // Tạo Slug với định dạng "Brand-Model-Year"
-            model.Slug = $"{brand.BrandName.ToLower()}-{model1.ModelName.ToLower()}-{model.year}/{randomSuffix}";
+            model.Slug = $"{brand.BrandName.ToLower().Trim()}-{model1.ModelName.ToLower().Trim()}-{model.year}/{randomSuffix}";
             _repositoryManager.CarRepository.Add(model);
 
 
@@ -232,9 +232,9 @@ namespace MoncatiCar.Data.Services
         }
 
 
-        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search , bool? status)
+        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status)
         {
-            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search , status);
+            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status);
 
             var carResponse = listCar.Select(car => new CarResponse
             {
