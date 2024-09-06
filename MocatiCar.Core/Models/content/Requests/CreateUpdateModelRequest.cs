@@ -10,7 +10,6 @@ namespace MocatiCar.Core.Models.content.Requests
     {
         public string ModelName { get; set; }
         public string? Description { get; set; }
-        public int Year { get; set; }
         public Guid BrandId { get; set; }
     }
 }

@@ -32,20 +32,20 @@ namespace Moncati_Car_API.Controllers
                 };
                 return BadRequest(_resultModel);
             }
-           
+
             var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
 
             // Check if the Items collection is null or empty
-            if (listreview == null || !listreview.Items.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Message = "No reviews found.",
-                    Status = (int)HttpStatusCode.NotFound
-                };
-                return NotFound(_resultModel);
-            }
+            //if (listreview == null || !listreview.Items.Any())
+            //{
+            //    _resultModel = new ResultModel
+            //    {
+            //        Success = false,
+            //        Message = "No reviews found.",
+            //        Status = (int)HttpStatusCode.NotFound
+            //    };
+            //    return NotFound(_resultModel);
+            //}
 
             // Return the result if reviews are found
             _resultModel = new ResultModel
@@ -63,10 +63,83 @@ namespace Moncati_Car_API.Controllers
         [Route("{reviewId:guid}")]
         public async Task<ActionResult<ResultModel>> GetReviewById(Guid reviewId)
         {
-            try
-            {
-                var reviews = await _serviceManager.ReviewService.GetReviewById(reviewId);
 
+
+            var reviews = await _serviceManager.ReviewService.GetReviewById(reviewId);
+
+            if (reviews == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Data = null,
+                    Message = "Id does not exist!."
+
+                };
+            }
+            else
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status= (int)HttpStatusCode.OK,
+                    Data = reviews,
+                    Message = "Review retrieved successfully."
+                };
+
+            return Ok(_resultModel);
+
+
+        }
+        [HttpGet]
+        [Route("car/{carId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId)
+        {
+
+            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId);
+
+            if (reviews == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Data= null,
+                    Message = "Id does not exist!."
+
+                };
+            }
+            else
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status= (int)HttpStatusCode.OK,
+                    Data = reviews,
+                    Message = "Review retrieved successfully."
+                };
+
+            return Ok(_resultModel);
+
+        }
+
+        [HttpGet]
+        [Route("user/{userId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId)
+        {
+            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId);
+
+            if (reviews == null || !reviews.Any())
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Data = null,
+                    Message = "Id does not exist!"
+                };
+            }
+            else
+            {
                 _resultModel = new ResultModel
                 {
                     Success = true,
@@ -74,115 +147,13 @@ namespace Moncati_Car_API.Controllers
                     Data = reviews,
                     Message = "Review retrieved successfully."
                 };
-
-                return Ok(_resultModel);
             }
-            catch (KeyNotFoundException)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Review not found."
-                };
 
-                return NotFound(_resultModel);
-            }
-            catch (Exception ex)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.InternalServerError,
-                    Message = $"An error occurred: {ex.Message}"
-                };
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
-            }
-        }
-        [HttpGet]
-        [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId)
-        {
-            try
-            {
-                var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId);
-
-                _resultModel = new ResultModel
-                {
-                    Success = true,
-                    Status = (int)HttpStatusCode.OK,
-                    Data = reviews,
-                    Message = "Car reviews retrieved successfully."
-                };
-
-                return Ok(_resultModel);
-            }
-            catch (KeyNotFoundException)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "No reviews found for the specified car."
-                };
-
-                return NotFound(_resultModel);
-            }
-            catch (Exception ex)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.InternalServerError,
-                    Message = $"An error occurred: {ex.Message}"
-                };
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
-            }
+            return Ok(_resultModel);
         }
 
-        [HttpGet]
-        [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId)
-        {
-            try
-            {
-                var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId);
 
-                _resultModel = new ResultModel
-                {
-                    Success = true,
-                    Status = (int)HttpStatusCode.OK,
-                    Data = reviews,
-                    Message = "User reviews retrieved successfully."
-                };
 
-                return Ok(_resultModel);
-            }
-            catch (KeyNotFoundException)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "No reviews found for the specified user."
-                };
-
-                return NotFound(_resultModel);
-            }
-            catch (Exception ex)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.InternalServerError,
-                    Message = $"An error occurred: {ex.Message}"
-                };
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
-            }
-        }
 
         [HttpPost]
         public async Task<ActionResult<ResultModel>> AddReview(CreateUpdateReviewRequest createUpdateReviewRequest)
@@ -201,7 +172,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-              
+
                 Message = "Review added successfully."
             };
             return Ok(_resultModel);
@@ -225,7 +196,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-              
+
                 Message = "Review updated successfully."
             };
             return Ok(_resultModel);

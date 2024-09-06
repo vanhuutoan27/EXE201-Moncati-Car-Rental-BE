@@ -1,22 +1,20 @@
-﻿using MocatiCar.Core.SeedWorks.Enums;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
-    public class CreateUpdateCarRequest
+    public class UpdateCarRequest
     {
         [JsonPropertyName("owner")]
         public Guid OwnerId { get; set; }
         //[JsonPropertyName("carType")]
         //public Guid CarTypeId { get; set; }
         public string LicensePlate { get; set; } = string.Empty;
-        [Required]
-        [JsonPropertyName("brand")]
-        public string BrandName { get; set; }
-        [Required]
-        [JsonPropertyName("model")]
-        public string ModelName { get; set; }
         public int Seats { get; set; }
         public int Year { get; set; }
         [Required]
@@ -29,7 +27,7 @@ namespace MocatiCar.Core.Models.content.Requests
         public decimal PricePerDay { get; set; }
         public string Location { get; set; } = string.Empty;
         public string? LocationDetails { get; set; }
-        public float? discount { get; set; }    
+        public float? discount { get; set; }
         public bool? InstantBooking { get; set; } = false;
         public int? MaxDeliveryDistance { get; set; } = 0;
         public int? DeliveryFeePerKm { get; set; } = 0;

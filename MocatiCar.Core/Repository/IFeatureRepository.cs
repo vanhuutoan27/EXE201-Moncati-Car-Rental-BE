@@ -8,5 +8,6 @@ namespace MocatiCar.Core.Repository
     {
         Task<Feature> GetFeatureByFeatureNameAsync(string featureName);
         Task<Feature> GetFeatureById(Guid id);
+        Task<IEnumerable<Feature>> GetFeaturesByCarId(Guid carId);
     }
 }

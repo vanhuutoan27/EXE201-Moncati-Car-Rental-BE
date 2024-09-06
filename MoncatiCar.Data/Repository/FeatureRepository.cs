@@ -20,5 +20,13 @@ namespace MoncatiCar.Data.Repository
         {
           return _context.Features.FirstOrDefaultAsync(f => f.FeatureId == id);
         }
+
+        public async Task<IEnumerable<Feature>> GetFeaturesByCarId(Guid carId)
+        {
+            return await _context.CarFeatures
+                .Where(x => x.CarId == carId)
+                .Select(x => x.Feature)
+                .ToListAsync();
+        }
     }
 }

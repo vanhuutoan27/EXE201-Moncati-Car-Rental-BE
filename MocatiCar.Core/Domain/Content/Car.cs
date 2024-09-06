@@ -21,7 +21,7 @@ namespace MocatiCar.Core.Domain.Content
         //public string? RentalOptions { get; set; }
         public CarRentalStatus RentalStatus { get; set; } = CarRentalStatus.Unavailable;
         public bool Status { get; set; }
-
+        public float? discount { get; set; }
         public bool? InstantBooking { get; set; }
         public string? LocationDetails { get; set; }
         public int? MaxDeliveryDistance { get; set; }
@@ -30,19 +30,16 @@ namespace MocatiCar.Core.Domain.Content
         public int? LimitKilometersPerDay { get; set; }
         public int? OverLimitFeePerKm { get; set; }
         public string? RentalTerms { get; set; }
-
-        public float? discount { get; set; }
-        public int year {  get; set; }  
+        public int year { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
 
         //FK 
-        public Guid CarTypeId { get; set; }
+        public Guid? CarTypeId { get; set; }
         [ForeignKey(nameof(CarTypeId))]
         public CarType CarType { get; set; }
-
         public ICollection<Image> Images { get; set; }
         public ICollection<CarFeature> CarFeatures { get; set; }
         public ICollection<Review> Reviews { get; set; }
@@ -51,7 +48,7 @@ namespace MocatiCar.Core.Domain.Content
         [ForeignKey(nameof(ModelId))]
         public Model Model { get; set; }
 
-        public Guid OwnerId { get; set; }
+        public Guid? OwnerId { get; set; }
         [ForeignKey(nameof(OwnerId))]
         public AppUser User { get; set; }
 

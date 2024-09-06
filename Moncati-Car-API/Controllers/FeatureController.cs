@@ -44,18 +44,40 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetAllFeature()
         {
             var features = await _serviceManager.FeatureService.GetAllFeatureAsync();
-            if (features == null)
-            {
-                _resultModel.Success = false;
-                _resultModel.Message = "No features found.";
-                _resultModel.Status = (int)HttpStatusCode.InternalServerError;
-                return _resultModel;
-            }
+            //if (features == null)
+            //{
+            //    _resultModel.Success = false;
+            //    _resultModel.Message = "No features found.";
+            //    _resultModel.Status = (int)HttpStatusCode.InternalServerError;
+            //    return _resultModel;
+            //}
             _resultModel.Success = true;
             _resultModel.Message = "Features retrieved successfully.";
             _resultModel.Status = (int)HttpStatusCode.OK;
             _resultModel.Data = features;
             return _resultModel;
+        }
+
+        [HttpGet("car/{carId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetFeatureByCarId(Guid carId)
+        {
+            var listFeature = await _serviceManager.FeatureService.GetFeatureByCarId(carId);
+            if (listFeature == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No features found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = listFeature,
+                Message = "Features retrieved successfully."
+            });
         }
 
         [HttpGet]

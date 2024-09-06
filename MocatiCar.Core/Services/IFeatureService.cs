@@ -11,5 +11,6 @@ namespace MocatiCar.Core.Services
         Task<bool> UpdateFeature(Guid id, CreateFeatureRequest update);
         Task<FeatureResponses> GetFeatureById(Guid id);
         Task<bool> DeleteFeature(Guid id);
+        Task<IEnumerable<FeatureResponses>> GetFeatureByCarId(Guid carId);
     }
 }

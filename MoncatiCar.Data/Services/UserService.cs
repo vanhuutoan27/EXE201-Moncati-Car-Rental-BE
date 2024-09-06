@@ -75,7 +75,7 @@ namespace MoncatiCar.Data.Services
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (currentPassword == newPassword)
             {
-                throw new Exception("Current password is equal with new pasword");
+                throw new Exception("Current password is equal with new password");
             }
             if (user == null)
             {

@@ -21,6 +21,7 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IAddressService> _addressService;
         private readonly Lazy<IPaymentService> _paymentService;
+        private readonly Lazy<IRentalService> _rentalService;
         
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
         {
@@ -36,6 +37,7 @@ namespace MoncatiCar.Data.SeedWork
             _addressService = new Lazy<IAddressService>(() => new AddressService(repositoryManager, mapper));
             _paymentService = new Lazy<IPaymentService>(() => new PaymentService(repositoryManager, mapper));
 
+            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper ,userManager));
         }
 
         public ICarFeatureService CarFeatureService => _carFeatureService.Value;
@@ -59,5 +61,6 @@ namespace MoncatiCar.Data.SeedWork
         public IAddressService AddressService => _addressService.Value;
 
         public IPaymentService paymentService => _paymentService.Value;
+        public IRentalService RentalService => _rentalService.Value;
     }
 }

@@ -17,7 +17,6 @@ namespace MocatiCar.Core.Domain.Identity
         public DateTime? LastLoginDate { get; set; }
         public Gender? Gender { get; set; }
         public bool Status { get; set; }
-
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
@@ -27,7 +26,5 @@ namespace MocatiCar.Core.Domain.Identity
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Rental> Rentals { get; set; }
-
-
     }
 }

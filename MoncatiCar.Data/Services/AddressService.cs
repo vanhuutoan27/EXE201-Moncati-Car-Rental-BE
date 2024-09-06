@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Services
-{   
+{
     public class AddressService : IAddressService
     {
         private readonly IRepositoryManager _repositoryManager;
@@ -28,14 +22,32 @@ namespace MoncatiCar.Data.Services
             // check so dia chi cua nguoi dung
             var existingAddresses = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
             // neu nguoi dung da tao 5 dia chi thi khong cho tao nua
-            if(existingAddresses.Count() >= 5)
+            if (existingAddresses.Count() >= 5)
             {
-                throw new Exception("Maximum number of addresses that can be added is 5");
+                throw new Exception("You have reached the maximum number of addresses (5).");
             }
 
+            // kiem tra neu nguoi dung tao dia chi lan dau tien thi dat lam dia chi mac dinh
+            if (!existingAddresses.Any())
+            {
+                addressRequest.isDefault = true;
+            }
+            else if (addressRequest.isDefault) // Neu dia chi moi la default
+            {
+                foreach (var address in existingAddresses)
+                {
+                    if (address.isDefault)
+                    {
+                        address.isDefault = false;
+                        _repositoryManager.AddressRepository.Update(address);
+                    }
+                }
+            }
+            // Tao moi dia chi
             var createAddress = _mapper.Map<Address>(addressRequest);
             var model = new Address
             {
+                UserId = userId,
                 addressId = Guid.NewGuid(),
                 addressName = createAddress.addressName,
                 address = createAddress.address,
@@ -43,8 +55,7 @@ namespace MoncatiCar.Data.Services
                 province = createAddress.province,
                 district = createAddress.district,
                 commune = createAddress.commune,
-                isDefault = false,
-                UserId = userId,
+                isDefault = createAddress.isDefault,
                 createdAt = DateTime.Now,
                 updateAt = DateTime.Now,
             };
@@ -55,12 +66,28 @@ namespace MoncatiCar.Data.Services
             return result;
         }
 
-        public async Task<bool> DeleteAddress(Guid userId, Guid addressid)
+        public async Task<bool> DeleteAddress(Guid userId, Guid addressId)
         {
-            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressid);
-            if(address == null)
+            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
+            if (address == null)
             {
                 throw new Exception("Address not found.");
+            }
+            // kiem tra dia chi dang xoa la dia chi mac dinh
+            if (address.isDefault)
+            {
+                // lay tat ca dia chi cua nguoi dung
+                var existingAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
+                if (existingAddress.Count() <= 1)
+                {
+                    throw new Exception("You cannot delete the default address without setting another address as default.");
+                }
+                // chon 1 dia chi khac lam default
+                var anotherDefault = existingAddress.Any(a => a.addressId != addressId && a.isDefault);
+                if (!anotherDefault)
+                {
+                    throw new Exception("Please set another address as default before deleting this one.");
+                }
             }
             _repositoryManager.AddressRepository.Remove(address);
             await _repositoryManager.SaveAsync();
@@ -76,6 +103,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<IEnumerable<AddressRespone>> GetAddressesByUserId(Guid userId)
         {
+            throw new Exception("Erorrrr heehe");
             var listAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
             var listResult = _mapper.Map<IEnumerable<AddressRespone>>(listAddress);
 
@@ -91,10 +119,9 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> SetDefaultAddress(Guid userId, Guid addressId)
         {
-            // kiem tra xem nguoi dung da ca dia chi default nao hay chua
+            // kiem tra xem nguoi dung da co dia chi default nao hay chua
             var existingDefault = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            var address = await _repositoryManager.AddressRepository.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(address == null || address.UserId != userId)
+            if (existingDefault == null || existingDefault.UserId != userId)
             {
                 throw new Exception("Address not found.");
             }
@@ -109,6 +136,24 @@ namespace MoncatiCar.Data.Services
             if (existingAddress == null)
             {
                 throw new Exception("Address not found.");
+            }
+            var existingAddresses = await _repositoryManager.AddressRepository.GetAddressesByUserId(userid);
+            // Neu dia chi moi la default
+            if (updateAddress.isDefault)
+            {
+                foreach (var address in existingAddresses)
+                {
+                    if (address.isDefault)
+                    {
+                        address.isDefault = false;
+                        _repositoryManager.AddressRepository.Update(address);
+                    }
+                }
+            }
+            // kiem tra neu nguoi dung update dia chi mac dinh thanh false thi khong cho phep cap nhat
+            if (existingAddress.isDefault)
+            {
+                throw new Exception("Cannot update the default address.");
             }
             existingAddress.addressName = updateAddress.addressName;
             existingAddress.locationType = updateAddress.locationType;

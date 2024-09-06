@@ -20,10 +20,8 @@ namespace MoncatiCar.Data
                     DisplayName = "Quản trị viên"
                 });
                 await context.SaveChangesAsync();
-            }
 
-            if (!context.Users.Any())
-            {
+                //add user
                 var userId = Guid.NewGuid();
                 var user = new AppUser()
                 {
@@ -50,6 +48,10 @@ namespace MoncatiCar.Data
                 });
                 await context.SaveChangesAsync();
             }
+
+
+
         }
     }
 }
+

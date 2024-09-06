@@ -16,6 +16,6 @@ namespace MocatiCar.Core.SeedWorks
         IPaymentService paymentService { get; } 
 
         IUserService UserService { get; }
-
+        IRentalService RentalService { get; }
     }
 }

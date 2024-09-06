@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 using System.Net;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -25,7 +23,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> GetAll(Guid userId)
         {
             var listAddress = await _serviceManager.AddressService.GetAddressesByUserId(userId);
-            if(listAddress == null)
+            if (listAddress == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
@@ -46,7 +44,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> GetByUserIdAndAddressId(Guid userId, Guid addressId)
         {
             var address = await _serviceManager.AddressService.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(address == null)
+            if (address == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
@@ -66,27 +64,27 @@ namespace Moncati_Car_API.Controllers
         [HttpGet("{username}")]
         public async Task<IActionResult> GetAddressByUsername(string username)
         {
-            var address = await _serviceManager.AddressService.GetAddressesByUsername(username);
-            if(address == null || !address.Any())
+            var listAddress = await _serviceManager.AddressService.GetAddressesByUsername(username);
+            if (listAddress == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No users found."
+                    Message = "No addresses found"
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = address,
+                Data = listAddress,
                 Message = "Address retrieved successfully."
             });
         }
         [HttpPost("{userId}")]
         public async Task<IActionResult> Create(Guid userId, [FromBody] CreateAddressRequest addAddress)
-        {         
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(_resultModel = new ResultModel
@@ -114,9 +112,9 @@ namespace Moncati_Car_API.Controllers
             });
         }
         [HttpPut("{userId}/{addressId}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid userId, Guid addressId, [FromBody]UpdateAddressRequest updateAddress)
+        public async Task<ActionResult<ResultModel>> Update(Guid userId, Guid addressId, [FromBody] UpdateAddressRequest updateAddress)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(_resultModel = new ResultModel
                 {
@@ -126,7 +124,7 @@ namespace Moncati_Car_API.Controllers
                 });
             }
             var result = await _serviceManager.AddressService.UpdateAddress(userId, addressId, updateAddress);
-            if(!result)
+            if (!result)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
@@ -146,7 +144,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> Delete(Guid userId, Guid addressId)
         {
             var address = await _serviceManager.AddressService.GetAddressByUserIdAndAddressId(userId, addressId);
-            if(address == null)
+            if (address == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
@@ -167,7 +165,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> SetAsDefault(Guid userId, Guid addressId)
         {
             var result = await _serviceManager.AddressService.SetDefaultAddress(userId, addressId);
-            if(!result)
+            if (!result)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
