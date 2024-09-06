@@ -1,4 +1,5 @@
 ﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace MocatiCar.Core.Services
         Task <PaymentReponse> GetPaymentById(Guid rentalId);
         Task<PaymentReponse> GetPaymentByUserId(Guid id);
         Task<PaymentReponse> GetPaymentRentalId(Guid id);
-        Task <bool> AddPayment(Payment payment);
+        Task <bool> AddPayment(CreatePaymentRequest payment);
         Task <bool>UpdatePayment(Payment payment, Guid id);
 
         Task <bool> DeletePayment(Guid id);

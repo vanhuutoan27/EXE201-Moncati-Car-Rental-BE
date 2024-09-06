@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
@@ -22,7 +23,12 @@ namespace MoncatiCar.Data.Services
             _mapper = mapper;
         }
 
-        public Task AddPayment(Payment payment)
+        public Task<bool> AddPayment(CreatePaymentRequest payment)
+        {
+            throw new NotImplementedException(); // chua co rentals 
+        }
+
+        public Task<bool> DeletePayment(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -92,7 +98,12 @@ namespace MoncatiCar.Data.Services
             return _mapper.Map<PaymentReponse>(listPayment);
         }
 
-        public Task UpdatePayment(Payment payment, Guid id)
+        public Task<bool> UpdatePayment(Payment payment, Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateStatus(Payment payment, Guid id)
         {
             throw new NotImplementedException();
         }
