@@ -26,7 +26,7 @@ namespace MoncatiCar.Data.Services
         public async Task<CreateUpdateCarRequest> AddCar(CreateUpdateCarRequest carRequest)
         {
             // Tạo 6 ký tự ngẫu nhiên
-            var randomSuffix = GenerateRandomString(6);
+            var randomSuffix = GenerateRandomString(6).ToLower();
             var brand = await _repositoryManager.BrandRepository.GetBrandByNameAsync(carRequest.BrandName);
             if (brand == null)
             {
@@ -94,7 +94,7 @@ namespace MoncatiCar.Data.Services
                 RentalTerms = carRequest.RentalTerms,
             };
             // Tạo Slug với định dạng "Brand-Model-Year"
-            model.Slug = $"{brand.BrandName.ToLower().Trim()}-{model1.ModelName.ToLower().Trim()}-{model.year}/{randomSuffix}";
+            model.Slug = $"{brand.BrandName.ToLower().Trim()}-{model1.ModelName.ToLower().Trim()}-{model.year}-{randomSuffix}";
             _repositoryManager.CarRepository.Add(model);
 
 
@@ -210,7 +210,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = car.CreatedAt,
@@ -299,7 +299,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 //Features = car.CarFeatures != null
                 //         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                 //                : new List<string>(),
@@ -348,7 +348,7 @@ namespace MoncatiCar.Data.Services
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 discount = (float)car.discount,
-                Images = car.Images?.Select(img => img.Url).ToList() ?? new List<string>(),
+                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 //Features = car.CarFeatures != null
                 //  ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList() // Null check added here
                 //         : new List<string>(),
