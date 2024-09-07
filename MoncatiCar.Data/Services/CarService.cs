@@ -192,7 +192,7 @@ namespace MoncatiCar.Data.Services
             var cars = await _repositoryManager.CarRepository.GetCarByUserAsync(userId);
             if (cars == null || !cars.Any())
             {
-                throw new Exception("No cars found for the user.");
+                return null;
             }
             var carRespone = cars.Select(car => new CarResponse
             {

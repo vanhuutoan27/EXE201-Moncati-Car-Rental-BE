@@ -83,9 +83,9 @@ namespace Moncati_Car_API.Controllers
                  new Claim(JwtRegisteredClaimNames.Email, user.Email),
                  new Claim(ClaimTypes.NameIdentifier, user.UserName),
                  new Claim(ClaimTypes.Name, user.UserName),
-                 new Claim(UserClaims.Id, user.Id.ToString()),
+                 new Claim(UserClaims.UserId, user.Id.ToString()),
                  new Claim(UserClaims.FullName, user.FullName),
-                 new Claim(UserClaims.Roles, string.Join(";", roles)),
+                 new Claim(UserClaims.Role, string.Join(";", roles)),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var accessToken = _tokenService.GenerateAccessToken(claims);
