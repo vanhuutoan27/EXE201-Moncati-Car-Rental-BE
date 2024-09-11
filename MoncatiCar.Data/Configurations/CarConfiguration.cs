@@ -165,7 +165,7 @@ namespace MoncatiCar.Data.Configurations
                     Transmission = Transmission.Automatic,
                     FuelType = FuelType.Gasoline,
                     FuelConsumption = 6,
-                    Description = "Safety:\nHyundai Creta has familiar features such as: ABS – EBD – BA brakes, electronic balance, traction control, hill start assist, tire pressure sensor, parking assist sensor, rear camera, 6 airbags…<br/>Convenience:<br/>Leather seats, Bose standard sound system, navigation, speed warning, electronic handbrake…",
+                    Description = "Safety:\nHyundai Creta has familiar features such as: ABS – EBD – BA brakes, electronic balance, traction control, hill start assist, tire pressure sensor, parking assist sensor, rear camera, 6 airbags…<br/>Convenience: Leather seats, Bose standard sound system, navigation, speed warning, electronic handbrake…",
                     Location = "Quận 9, Thành phố Hồ Chí Minh",
                     LocationDetails = "Quận 9, Thành phố Hồ Chí Minh",
                     discount = 0,
