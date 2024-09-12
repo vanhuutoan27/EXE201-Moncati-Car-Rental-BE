@@ -1,4 +1,5 @@
 ﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.SeedWorks.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,7 +30,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string TypeName { get; set; }*/
         //
         public string PaymentMethod { get; set; }
-        public string PaymentStatus { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
         public string Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

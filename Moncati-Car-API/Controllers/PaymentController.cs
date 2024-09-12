@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
+using System;
 using System.Net;
+using System.Security.Claims;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -10,19 +15,24 @@ namespace Moncati_Car_API.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly UserManager<AppUser> _userManager;
+
         private ResultModel _resultModel;
 
-        public PaymentController(IServiceManager service)
+
+        public PaymentController(IServiceManager service, UserManager<AppUser> userManager)
         {
             _serviceManager = service;
+            _userManager = userManager;
+
             _resultModel = new ResultModel();
         }
 
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string Status = null)
         {
-            var models = await _serviceManager.paymentService.GetAllBaseStatus(page, limit, Status);
-            if (models == null)
+            var getAll = await _serviceManager.paymentService.GetAllBaseStatus(page, limit, Status);
+            if (getAll == null)
             {
                 _resultModel = new ResultModel
                 {
@@ -36,12 +46,203 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = models,
+                Data = getAll,
                 Message = "Payment retrieved successfully."
             };
 
             return Ok(_resultModel);
         }
 
+        /*     [HttpGet("{id:guid}")]*/
+        [HttpGet]
+        [Route("Payment/{id:guid}")]
+
+
+        public async Task<ActionResult<ResultModel>> getPaymentbyId(Guid id)
+        {
+            var getPayment = await _serviceManager.paymentService.GetPaymentById(id);
+            if (getPayment == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No Payment found."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = getPayment,
+                Message = "Payment retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+        [HttpGet("user/{Userid:guid}")]
+
+        public async Task<ActionResult<ResultModel>> getPaymentbyUserId(Guid Userid)
+        {
+            var getPayment = await _serviceManager.paymentService.GetPaymentByUserId(Userid);
+            if (getPayment == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No Payment found."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = getPayment,
+                Message = "Payment retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+
+        [HttpGet("rental/{rentalId:guid}")]
+
+        public async Task<ActionResult<ResultModel>> GetPaymentRentalId(Guid rentalId)
+        {
+            var getPayment = await _serviceManager.paymentService.GetPaymentRentalId(rentalId);
+            if (getPayment == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No Payment found."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = getPayment,
+                Message = "Payment retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+
+        [HttpPost]
+
+        public async Task<ActionResult<ResultModel>> AddPayment([FromBody] CreatePaymentRequest payment)
+        {
+            var Payment = await _serviceManager.paymentService.AddPayment(payment);
+            if (Payment == false)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No Payment found."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = Payment,
+                Message = "Payment retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+        [HttpPut]
+        public async Task<ActionResult<ResultModel>> UpdatePaymentById([FromBody] CreateUpdateAllFieldPaymentRequest payment)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var Payment = await _serviceManager.paymentService.UpdatePayment(payment, user.Id);
+
+            if (Payment == false)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Update Payment fail."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = Payment,
+                Message = "Update Payment  successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+
+        [HttpDelete("Payment/{PaymentId:guid}")]
+        public async Task<ActionResult<ResultModel>> DeletePaymentById(Guid PaymentId)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var Payment = await _serviceManager.paymentService.DeletePayment(PaymentId, user.Id);
+
+            if (Payment == false)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Delete Payment fail."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = Payment,
+                Message = "Delete Payment  successfully."
+            };
+
+            return Ok(_resultModel);
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult<ResultModel>> UpdatePaymentStatus(CreateUpdatePaymentRequest payment)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var Payment = await _serviceManager.paymentService.UpdateStatus(payment, user.Id);
+
+            if (Payment == false)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Status Payment Change fail."
+                };
+                return NotFound(_resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = Payment,
+                Message = "Status Payment change  successfully."
+            };
+
+            return Ok(_resultModel);
+        }
     }
 }

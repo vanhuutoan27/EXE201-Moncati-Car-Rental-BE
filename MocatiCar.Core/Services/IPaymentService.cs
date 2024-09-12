@@ -13,15 +13,15 @@ namespace MocatiCar.Core.Services
     {
         Task<PageResult<PaymentReponse>> GetAllBaseStatus(int page, int limit, string PaymentStatus);
 
-        Task <PaymentReponse> GetPaymentById(Guid rentalId);
+        Task <PaymentReponse> GetPaymentById(Guid id);
         Task<PaymentReponse> GetPaymentByUserId(Guid id);
         Task<PaymentReponse> GetPaymentRentalId(Guid id);
         Task <bool> AddPayment(CreatePaymentRequest payment);
-        Task <bool>UpdatePayment(Payment payment, Guid id);
+        Task<bool> UpdatePayment(CreateUpdateAllFieldPaymentRequest payment, Guid userUpdate); 
 
-        Task <bool> DeletePayment(Guid id);
+        Task <bool> DeletePayment(Guid id, Guid UserId);
 
-        Task <bool> UpdateStatus(Payment payment, Guid id);
+        Task <bool> UpdateStatus( CreateUpdatePaymentRequest payment, Guid userUpdate);
 
     }
 }

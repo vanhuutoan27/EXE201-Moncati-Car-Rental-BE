@@ -41,7 +41,7 @@ namespace MoncatiCar.Data.Repository
             else
             {
                 return await _context.Payments
-                    .Where(s => s.PaymentStatus.ToLower().Contains(PaymentStatus.ToLower()))
+                    .Where(s => s.PaymentStatus.ToString().Contains(PaymentStatus.ToLower()))
                   .Include(p => p.Rental)
                             .ThenInclude(c => c.Car)
                             .ThenInclude(r => r.CarType)
