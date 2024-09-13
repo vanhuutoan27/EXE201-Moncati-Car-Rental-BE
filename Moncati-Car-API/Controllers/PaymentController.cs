@@ -153,7 +153,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = Payment,
-                Message = "Payment retrieved successfully."
+                Message = "Payment Add successfully."
             };
 
             return Ok(_resultModel);

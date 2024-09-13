@@ -15,6 +15,7 @@ namespace MocatiCar.Core.Repository
         Task<Payment> GetPaymentByPaymentId(Guid id);
         Task<Payment> GetPaymentByRentalId(Guid id);
 
+        Task<IEnumerable< Payment>> getPaymentByUserId(Guid userId);
 
     }
 }

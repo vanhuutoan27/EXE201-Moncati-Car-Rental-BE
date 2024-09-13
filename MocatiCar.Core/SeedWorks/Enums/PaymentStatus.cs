@@ -8,9 +8,9 @@ namespace MocatiCar.Core.SeedWorks.Enums
 {
     public enum PaymentStatus
     {
-        Pending ,
-        DepositPaid ,
-        FullyPaid,
-        Deleted 
+        Pending =0 ,
+        DepositPaid =1 ,
+        FullyPaid =2,
+        Deleted =3  
     }
 }

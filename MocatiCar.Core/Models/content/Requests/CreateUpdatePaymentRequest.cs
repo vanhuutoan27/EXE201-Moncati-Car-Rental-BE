@@ -22,7 +22,7 @@ namespace MocatiCar.Core.Models.content.Requests
 
         public Guid? RentalId { get; set; }
         public string PaymentMethod { get; set; }
-        public PaymentStatus PaymentStatus { get; set; } // su dung enum 
+        public PaymentStatus PaymentStatus { get; set; } 
         public string Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
         public Guid? UpdatedBy { get; set; }

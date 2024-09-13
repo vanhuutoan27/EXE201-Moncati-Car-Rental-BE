@@ -31,6 +31,8 @@ namespace MocatiCar.Core.Models.content.Responses
         //
         public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public string PaymentStatusString => PaymentStatus.ToString();
+
         public string Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -131,11 +131,13 @@ namespace MoncatiCar.Data.Services
             return _mapper.Map<PaymentReponse>(getPayment); 
         }
 
-        public async Task<PaymentReponse> GetPaymentByUserId(Guid id)
+        public async Task<IEnumerable<PaymentReponse>> GetPaymentByUserId(Guid id)
         {
-            var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(0, 0, null);
-            var getPaymentByUser = listPayment.Where(p => p.Rental.CustomerId == id);
-            return _mapper.Map<PaymentReponse>(getPaymentByUser);
+           /* var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(1, 10, null);
+            var getPaymentByUser =  listPayment.Where(p => p.Rental.CustomerId == id);*/
+           var getPaymentByUser = await _repositoryManager.PaymentRepository.getPaymentByUserId(id);    
+            return _mapper.Map<IEnumerable<PaymentReponse>>(getPaymentByUser);
+
         }
 
         public async Task<PaymentReponse> GetPaymentRentalId(Guid id)
@@ -157,7 +159,7 @@ namespace MoncatiCar.Data.Services
             existingPayment.CreatedAt = existingPayment.CreatedAt;
             existingPayment.CreatedBy = existingPayment.CreatedBy;
             existingPayment.PaymentMethod = payment.PaymentMethod;
-            existingPayment.PaymentStatus = payment.PaymentStatus.ToString();
+            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus).ToString();
             existingPayment.UpdatedAt = DateTime.Now;
             _repositoryManager.PaymentRepository.Update(existingPayment);
               await _repositoryManager.SaveAsync();
@@ -176,7 +178,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // Cập nhật trạng thái thanh toán của Payment
-            existingPayment.PaymentStatus = payment.PaymentStatus.ToString();
+            existingPayment.PaymentStatus =((PaymentStatus)payment.PaymentStatus).ToString();
             existingPayment.UpdatedAt = DateTime.Now;        // Cập nhật thời gian cập nhật
             existingPayment.UpdatedBy = userUpdate;   // Cập nhật người thực hiện thay đổi
 

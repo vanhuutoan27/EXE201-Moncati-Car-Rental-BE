@@ -59,5 +59,12 @@ namespace MoncatiCar.Data.Repository
         {
             return await _context.Payments.FirstOrDefaultAsync(p => p.RentalId == id);
         }
+
+        public async Task<IEnumerable<Payment>> getPaymentByUserId(Guid userId)
+        {
+            return await _context.Payments
+                
+                .Where(p=> p.Rental.CustomerId == userId).ToListAsync();
+        }
     }
 }

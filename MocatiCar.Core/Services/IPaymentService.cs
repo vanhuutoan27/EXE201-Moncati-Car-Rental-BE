@@ -14,7 +14,7 @@ namespace MocatiCar.Core.Services
         Task<PageResult<PaymentReponse>> GetAllBaseStatus(int page, int limit, string PaymentStatus);
 
         Task <PaymentReponse> GetPaymentById(Guid id);
-        Task<PaymentReponse> GetPaymentByUserId(Guid id);
+        Task<IEnumerable<PaymentReponse>> GetPaymentByUserId(Guid id);
         Task<PaymentReponse> GetPaymentRentalId(Guid id);
         Task <bool> AddPayment(CreatePaymentRequest payment);
         Task<bool> UpdatePayment(CreateUpdateAllFieldPaymentRequest payment, Guid userUpdate); 
