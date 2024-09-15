@@ -73,12 +73,12 @@ namespace MoncatiCar.Data.Repository
                     // Kiểm tra null cho Owner và Customer để tránh lỗi NullReferenceException
                     if (rental.Owner == null)
                     {
-                        throw new Exception($"Owner   does not exist.");
+                        throw new Exception($"Owner does not exist.");
                     }
 
                     if (rental.Customer == null)
                     {
-                        throw new Exception($"Customer  does not exist.");
+                        throw new Exception($"Customer does not exist.");
                     }
                 }
                 return rentals;

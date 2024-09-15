@@ -10,7 +10,7 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class RentalRespone
     {
-        [JsonPropertyName("rental")]
+       
         public Guid RentalId { get; set; }
         [JsonPropertyName("car")]
         public Guid? CarId { get; set; }

@@ -206,7 +206,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Rental update successfully."
+                Message = "Rental updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -229,7 +229,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Rental update successfully."
+                Message = "Rental updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -252,7 +252,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Rental update successfully."
+                Message = "Rental updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -275,7 +275,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.NoContent,
-                Message = "Change rental status successfully."
+                Message = "Changed rental status successfully."
             };
             return Ok(_resultModel);
         }

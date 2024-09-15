@@ -56,7 +56,7 @@ namespace MoncatiCar.Data.Services
                     throw new Exception("Cannot update status from 'Completed'.");
                 case RentalStatus.Cancelled:
                 case RentalStatus.Overdue:
-                    throw new Exception("Cannot update status from the current state.");
+                    throw new Exception("Cannot update status from the 'Cancel'.");
                 default:
                     throw new Exception("Invalid status.");
             }
