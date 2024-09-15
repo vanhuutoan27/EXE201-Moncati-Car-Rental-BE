@@ -20,9 +20,10 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null, bool? status = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null, bool? status = null , string brand = null,
+            string model = null , string transmission = null, string fuelType = null , string location = null , string sortedBy = null, string order = null)
         {
-            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status);
+            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status, fuelType, brand , model , transmission , location , sortedBy,order  );
             if (cars == null)
             {
                 _resultModel = new ResultModel

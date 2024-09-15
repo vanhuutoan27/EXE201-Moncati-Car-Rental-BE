@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Repository;
+using MocatiCar.Core.SeedWorks.Enums;
 using MoncatiCar.Data.SeedWork;
 
 namespace MoncatiCar.Data.Repository
@@ -12,9 +13,16 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search, bool? status)
+        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search, bool? status, string modelname, string brandname, string transmission, string fuelType, string location, string sortedBy, string order)
         {
             search = search?.Trim();
+            modelname = modelname?.Trim();
+            brandname = brandname?.Trim();
+            transmission = transmission?.Trim();
+            location = location?.Trim();
+            sortedBy = sortedBy?.Trim();
+            order = order?.Trim();
+
             IQueryable<Car> query = _context.Cars
                                             .Include(m => m.Model)
                                                 .ThenInclude(b => b.Brand)
@@ -23,17 +31,78 @@ namespace MoncatiCar.Data.Repository
                                             .Include(c => c.CarFeatures)
                                                 .ThenInclude(cf => cf.Feature);
 
+            // Search slug
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
             }
+
+            // Filter by model name
+            if (!string.IsNullOrEmpty(modelname))
+            {
+                query = query.Where(c => c.Model.ModelName.ToLower().Contains(modelname.ToLower()));
+            }
+
+            // Filter by brand name
+            if (!string.IsNullOrEmpty(brandname))
+            {
+                query = query.Where(c => c.Model.Brand.BrandName.ToLower().Contains(brandname.ToLower()));
+            }
+
+            // Filter by status
             if (status.HasValue)
             {
                 query = query.Where(c => c.Status == status.Value);
             }
-            // Get the total count of items before applying pagination
+
+            // Filter by transmission
+            if (!string.IsNullOrEmpty(transmission))
+            {
+                if (Enum.TryParse(transmission, true, out Transmission transmissionEnum))
+                {
+                    query = query.Where(c => c.Transmission == transmissionEnum);
+                }
+            }
+
+            // Filter by fuel type (fuelType)
+            if (!string.IsNullOrEmpty(fuelType))
+            {
+                if(Enum.TryParse(fuelType , true , out FuelType fuelTypeEnum))
+                {
+                    query = query.Where(c =>c.FuelType == fuelTypeEnum);
+                }
+            }
+
+            // Filter by location
+            if (!string.IsNullOrEmpty(location))
+            {
+                query = query.Where(c => c.Location.ToLower().Contains(location.ToLower()));
+            }
+
+            // Sorting logic based on 'price' and 'year'
+            if (!string.IsNullOrEmpty(sortedBy))
+            {
+                if (sortedBy.Equals("price", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Sắp xếp theo PricePerDay (decimal)
+                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                            ? query.OrderByDescending(c => c.PricePerDay)
+                            : query.OrderBy(c => c.PricePerDay);
+                }
+                else if (sortedBy.Equals("year", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Sắp xếp theo year (int)
+                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                            ? query.OrderByDescending(c => c.year)  // Sắp xếp theo year giảm dần
+                            : query.OrderBy(c => c.year);  // Sắp xếp theo year tăng dần
+                }
+            }
+
+
+            // Get total count
             int totalItems = await query.CountAsync();
 
+            // Apply pagination
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
