@@ -144,7 +144,7 @@ namespace MoncatiCar.Data.Services
         }
 
 
-        public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search, string currentUserId)
+        public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search, string currentUserId, bool? status)
         {
             /*var httpContext = _httpContextAccessor.HttpContext;
             var currentUserId = httpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -158,7 +158,7 @@ namespace MoncatiCar.Data.Services
             var currentUserRoles = (await _userManager.GetRolesAsync(currentUser)).FirstOrDefault();//chi co 1 role
 
 
-            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search);
+            var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search, status);
 
             var filteredUsers = new List<AppUser>();
             foreach (var user in listUser)

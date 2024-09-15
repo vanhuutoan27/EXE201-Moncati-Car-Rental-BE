@@ -33,16 +33,20 @@ namespace MoncatiCar.Data.Repository
                       .Where(p => p.UserName == username).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search)
+        public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search, bool? status)
         {
             IQueryable<AppUser> query = _context.Users;
-
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(s => s.UserName.ToLower().Contains(search.ToLower()) ||
+                query = query.Where((s => s.UserName.ToLower().Contains(search.ToLower()) ||
                     s.Email.ToLower().Contains(search.ToLower())
-                    || s.FullName.ToLower().Contains(search.ToLower()));
+                    || s.FullName.ToLower().Contains(search.ToLower()) && s.Status == status));
+            }
+            // check status
+            if(status.HasValue)
+            {
+                query = query.Where(s => s.Status == status.Value);
             }
             if (page > 0 && limit > 0)
             {
