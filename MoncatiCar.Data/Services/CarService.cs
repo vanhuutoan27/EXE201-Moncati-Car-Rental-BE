@@ -310,8 +310,8 @@ namespace MoncatiCar.Data.Services
                 //Features = car.CarFeatures != null
                 //         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
                 //                : new List<string>(),
-
                 RentalStatus = car.RentalStatus,
+                Status = car.Status,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = car.CreatedBy,

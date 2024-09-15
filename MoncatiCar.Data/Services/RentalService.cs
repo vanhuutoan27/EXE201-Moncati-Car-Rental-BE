@@ -110,7 +110,7 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
-            create.TotalAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
+            create.TotalAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount + create.CommissionAmount);
             create.CommissionAmount = create.RentalAmount * 20 / 100;
             _repositoryManager.RentalRepository.Add(create);
             await _repositoryManager.SaveAsync();
@@ -291,12 +291,11 @@ namespace MoncatiCar.Data.Services
             updateRental.RentalAmount = update.RentalAmount;
             updateRental.InsuranceAmount = update.InsuranceAmount;
             updateRental.DepositAmount = update.DepositAmount;
-            updateRental.TotalAmount = update.DepositAmount - update.RentalAmount +update.InsuranceAmount;
-            updateRental.CommissionAmount = update.RentalAmount * 20 /100;
+            updateRental.TotalAmount = update.DepositAmount - (update.RentalAmount + update.InsuranceAmount + update.CommissionAmount);
+            updateRental.CommissionAmount = update.RentalAmount * 0.2;
             _repositoryManager.RentalRepository.Update(updateRental);
             await _repositoryManager.SaveAsync();
             return true;
-
         }
 
         public async Task<bool> UpdateStartTimeRentalAsync(Guid id)
