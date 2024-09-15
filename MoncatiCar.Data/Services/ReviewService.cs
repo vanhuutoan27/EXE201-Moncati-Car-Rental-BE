@@ -94,16 +94,24 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<IEnumerable<ReviewRespone>> GetReviewByCarId(Guid carId)
+        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit)
         {
-            var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId);
-
+            var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit);
+            int totalItems = reviews.Count();
             if (reviews == null || !reviews.Any())
+
             {
                 throw new KeyNotFoundException($"No reviews found.");
             }
 
-            return _mapper.Map<IEnumerable<ReviewRespone>>(reviews);
+            var result = _mapper.Map<IEnumerable<ReviewRespone>>(reviews);
+            return new PageResult<ReviewRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = result
+            };
         }
 
         public async Task<ReviewRespone> GetReviewById(Guid id)
@@ -126,14 +134,22 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<IEnumerable<ReviewRespone>> GetReviewByUserId(Guid userId)
+        public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit)
         {
-            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId);
+            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit);
+            var totalItems = user.Count();
             if (user == null)
             {
                 throw new Exception($"No reviews found.");
             }
-            return _mapper.Map<IEnumerable<ReviewRespone>>(user);
+            var result = _mapper.Map<IEnumerable<ReviewRespone>>(user);
+            return new PageResult<ReviewRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = result
+            };
         }
 
         public async Task<bool> UpdateReview(Guid id, CreateUpdateReviewRequest update)

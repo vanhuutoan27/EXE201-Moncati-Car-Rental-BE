@@ -43,9 +43,9 @@ namespace MoncatiCar.Data.Repository
             return (cars, totalItems);
         }
 
-        public async Task<IEnumerable<Car>> GetCarByUserAsync(Guid id)
+        public async Task<IEnumerable<Car>> GetCarByUserAsync(int page, int limit, bool? status, Guid id)
         {
-            var cars = await _context.Cars
+            IQueryable<Car> query = _context.Cars
                 .Where(c => c.OwnerId == id)
                 .Include(c => c.Model)
                     .ThenInclude(m => m.Brand)
@@ -53,8 +53,17 @@ namespace MoncatiCar.Data.Repository
                 .Include(c => c.CarFeatures)
                     .ThenInclude(cf => cf.Feature)
                 .Include(c => c.Reviews)
-                .ToListAsync();
-
+                .AsQueryable();
+            if (status.HasValue)
+            {
+                query = query.Where(c => c.Status == status.Value);
+            }
+            int totalItems = await query.CountAsync();
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+            var cars = await query.ToListAsync();
             return cars;
         }
 

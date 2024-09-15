@@ -187,9 +187,10 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<IEnumerable<CarResponse>> GetAllCarByUser(Guid userId)
+        public async Task<PageResult<CarResponse>> GetAllCarByUser(int page, int limit, bool? status, Guid userId)
         {
-            var cars = await _repositoryManager.CarRepository.GetCarByUserAsync(userId);
+            var cars = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
+            int totalItems = cars.Count();
             if (cars == null || !cars.Any())
             {
                 return null;
@@ -228,7 +229,13 @@ namespace MoncatiCar.Data.Services
 
 
             }).ToList();
-            return carRespone;
+            return new PageResult<CarResponse>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = carRespone
+            }; ;
         }
 
 

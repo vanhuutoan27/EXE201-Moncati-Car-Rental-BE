@@ -2,7 +2,6 @@
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Repository;
 using MoncatiCar.Data.SeedWork;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MoncatiCar.Data.Repository
 {
@@ -27,16 +26,26 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId)
+        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit)
         {
-            var query = await _context.Reviews.Where(c => c.CarId == carId).ToListAsync();
-            return query;
+            IQueryable<Review> query = _context.Reviews.AsQueryable();
+
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId)
+        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit)
         {
-            var query = await _context.Reviews.Where(u => u.Author == userId).ToListAsync();
-            return query;
+            IQueryable<Review> query = _context.Reviews.AsQueryable();
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<Review> GetReviewId(Guid id)

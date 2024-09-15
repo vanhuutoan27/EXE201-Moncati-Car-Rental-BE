@@ -126,12 +126,12 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetCarbyUser(Guid userId)
+        public async Task<ActionResult<ResultModel>> GetCarbyUser(Guid userId, int page = 1, int limit = 10, bool? status = null)
         {
             // Giải mã slug (nếu cần)
 
 
-            var car = await _serviceManager.CarService.GetAllCarByUser(userId);
+            var car = await _serviceManager.CarService.GetAllCarByUser(page, limit, status, userId);
             //if (car == null)
             //{
             //    return NotFound(new ResultModel

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -15,8 +14,8 @@ namespace Moncati_Car_API.Controllers
         private ResultModel _resultModel;
         public ReviewController(IServiceManager serviceManager)
         {
-            _serviceManager=serviceManager;
-            _resultModel= new ResultModel();
+            _serviceManager = serviceManager;
+            _resultModel = new ResultModel();
         }
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, int? star = null)
@@ -33,7 +32,7 @@ namespace Moncati_Car_API.Controllers
                 return BadRequest(_resultModel);
             }
 
-            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star??0);
+            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star ?? 0);
 
             // Check if the Items collection is null or empty
             //if (listreview == null || !listreview.Items.Any())
@@ -82,7 +81,7 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = true,
-                    Status= (int)HttpStatusCode.OK,
+                    Status = (int)HttpStatusCode.OK,
                     Data = reviews,
                     Message = "Review retrieved successfully."
                 };
@@ -93,30 +92,18 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId)
+        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page, int limit)
         {
 
-            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId);
+            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit);
 
-            if (reviews == null)
+            _resultModel = new ResultModel
             {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Data= null,
-                    Message = "Id does not exist!."
-
-                };
-            }
-            else
-                _resultModel = new ResultModel
-                {
-                    Success = true,
-                    Status= (int)HttpStatusCode.OK,
-                    Data = reviews,
-                    Message = "Review retrieved successfully."
-                };
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = reviews,
+                Message = "Review retrieved successfully."
+            };
 
             return Ok(_resultModel);
 
@@ -124,30 +111,18 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId)
+        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page, int limit)
         {
-            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId);
+            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit);
 
-            if (reviews == null || !reviews.Any())
+            _resultModel = new ResultModel
             {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Data = null,
-                    Message = "Id does not exist!"
-                };
-            }
-            else
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = true,
-                    Status = (int)HttpStatusCode.OK,
-                    Data = reviews,
-                    Message = "Review retrieved successfully."
-                };
-            }
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = reviews,
+                Message = "Review retrieved successfully."
+            };
+
 
             return Ok(_resultModel);
         }
