@@ -239,15 +239,17 @@ namespace MoncatiCar.Data.Services
         }
 
 
-        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status)
+        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status, string fuelType, string brandName, string modelName, string transmission, string location, string sortedBy, string order)
         {
-            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status);
+            // Gọi repository để lấy danh sách xe và tổng số mục
+            (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName, brandName, transmission, fuelType, location, sortedBy, order);
 
+            // Chuyển đổi dữ liệu từ Car thành CarResponse
             var carResponse = listCar.Select(car => new CarResponse
             {
                 Slug = car.Slug,
                 CarId = car.CarId,
-                Owner = (Guid)car.OwnerId,
+                Owner = car.OwnerId ?? Guid.Empty,
                 LicensePlate = car.licensePlate,
                 Brand = car.Model.Brand.BrandName,
                 Model = car.Model.ModelName,
@@ -256,7 +258,7 @@ namespace MoncatiCar.Data.Services
                 Seats = car.Seats,
                 Transmission = car.Transmission,
                 FuelType = car.FuelType,
-                FuelConsumption = (float)car.FuelConsumption,
+                FuelConsumption = (float?)car.FuelConsumption ?? 0,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
                 Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
@@ -284,7 +286,6 @@ namespace MoncatiCar.Data.Services
                 Items = carResponse
             };
         }
-
 
         public async Task<CarResponse> GetCarByCarId(Guid id)
         {
