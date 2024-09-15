@@ -130,9 +130,9 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter)
+        public async Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter , DateTime? createAt)
         {
-            var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter);
+            var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter , createAt);
             var totalItems = listrental.Count();
 
             var rentalResponses = listrental.Select(x => new RentalRespone

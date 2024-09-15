@@ -16,7 +16,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public Guid? CarId { get; set; }
         [JsonPropertyName("owner")]
         public Guid? OwnerId { get; set; }
-        [JsonPropertyName("customer")]
+        [JsonPropertyName("customer")]   
         public Guid? CustomerId { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }

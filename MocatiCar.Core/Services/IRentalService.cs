@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Services
 {
     public interface IRentalService
     {
-        Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter);
+        Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter , DateTime? createAt);
         Task<RentalRespone> GetRentalById (Guid id);
         Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest);
         Task<IEnumerable<RentalRespone>> GetRentalByCarId(Guid id);

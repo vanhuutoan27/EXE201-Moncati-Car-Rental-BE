@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Repository
 {
     public interface IRentalRepository : IRepositoryBase<Rental , Guid>
     {
-        Task<IEnumerable<Rental>> GetAllRentalAsync(int page , int limit ,RentalStatus? filter );
+        Task<IEnumerable<Rental>> GetAllRentalAsync(int page , int limit ,RentalStatus? filter, DateTime? createAt);
         Task<Rental> GetRentalByIdAsync(Guid id);
         Task<IEnumerable<Rental>> GetRentalByCarId(Guid id);
         Task<IEnumerable<Rental>> GetRentalByUserId(Guid id);

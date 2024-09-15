@@ -19,7 +19,7 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter)
+        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? createAt)
         {
             IQueryable<Rental> query = _context.Rentals
                                                .Include(r => r.Car)
@@ -29,6 +29,12 @@ namespace MoncatiCar.Data.Repository
             if (filter.HasValue)
             {
                 query = query.Where(r => r.RentalStatus == filter.Value);
+            }
+            if (createAt.HasValue)
+            {
+                var startDate = new DateTime(createAt.Value.Year, createAt.Value.Month, 1);
+                var endDate = createAt.Value;
+                query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
             }
 
             query = query.Skip((page - 1) * limit)
