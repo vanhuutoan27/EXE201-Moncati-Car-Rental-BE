@@ -31,11 +31,11 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null,[FromQuery] bool? status = null)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _userManager.FindByEmailAsync(userEmail);
-            var listusers = await _serviceManager.UserService.GetUsersAsync(page, limit, search, user.Id.ToString());
+            var listusers = await _serviceManager.UserService.GetUsersAsync(page, limit, search, user.Id.ToString(), status);
             if (listusers == null)
             {
                 _resultModel = new ResultModel

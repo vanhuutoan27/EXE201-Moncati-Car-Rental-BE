@@ -291,8 +291,8 @@ namespace MoncatiCar.Data.Services
             updateRental.RentalAmount = update.RentalAmount;
             updateRental.InsuranceAmount = update.InsuranceAmount;
             updateRental.DepositAmount = update.DepositAmount;
-            updateRental.TotalAmount = update.DepositAmount - (update.RentalAmount + update.InsuranceAmount + update.CommissionAmount);
-            updateRental.CommissionAmount = update.RentalAmount * 0.2;
+            //updateRental.TotalAmount = update.DepositAmount - (update.RentalAmount + update.InsuranceAmount + update.CommissionAmount);
+            //updateRental.CommissionAmount = update.RentalAmount * 0.2;
             _repositoryManager.RentalRepository.Update(updateRental);
             await _repositoryManager.SaveAsync();
             return true;
