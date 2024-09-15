@@ -11,6 +11,6 @@ namespace MocatiCar.Core.Repository
         void UpdateCar(Guid id, Car car);
         Task<int> GetTotalCarAsync();
         Task<Car> GetByLicensePlateAsync(string licensePlate);
-        Task<IEnumerable<Car>> GetCarByUserAsync(int page, int limit, bool? status, Guid id);
+        Task<(IEnumerable<Car> Cars, int TotalItems)> GetCarByUserAsync(int page, int limit, bool? status, Guid id);
     }
 }
