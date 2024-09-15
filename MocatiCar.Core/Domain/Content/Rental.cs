@@ -12,8 +12,8 @@ namespace MocatiCar.Core.Domain.Content
         public Guid? CarId { get; set; }
         public Guid? OwnerId { get; set; }
         public Guid? CustomerId { get; set; }
-        public DateTime StartDayTime { get; set; }
-        public DateTime EndDayTime { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public string PickupLocation { get; set; }
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }
@@ -21,7 +21,7 @@ namespace MocatiCar.Core.Domain.Content
         public decimal RentalAmount { get; set; }
         public decimal InsuranceAmount { get; set; }
         public decimal DepositAmount { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal RemainAmount { get; set; }
         public decimal CommissionAmount { get; set; }
 
         public DateTime? CreatedAt { get; set; }
