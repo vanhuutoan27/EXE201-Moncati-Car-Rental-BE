@@ -189,13 +189,21 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<CarResponse>> GetAllCarByUser(int page, int limit, bool? status, Guid userId)
         {
-            var cars = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
-            int totalItems = cars.Count();
-            if (cars == null || !cars.Any())
+            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
+
+            // Check if there are no cars available
+            if (listCar == null || !listCar.Any())
             {
-                return null;
+                return new PageResult<CarResponse>
+                {
+                    CurrentPage = page,
+                    TotalPages = 0,
+                    TotalItems = 0,
+                    Items = new List<CarResponse>()
+                };
             }
-            var carRespone = cars.Select(car => new CarResponse
+
+            var carResponse = listCar.Select(car => new CarResponse
             {
                 Slug = car.Slug,
                 CarId = car.CarId,
@@ -226,16 +234,15 @@ namespace MoncatiCar.Data.Services
                 LimitKilometersPerDay = car.LimitKilometersPerDay,
                 OverLimitFeePerKm = car.OverLimitFeePerKm,
                 RentalTerms = car.RentalTerms,
-
-
             }).ToList();
+
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
                 TotalItems = totalItems,
-                Items = carRespone
-            }; ;
+                Items = carResponse
+            };
         }
 
 
