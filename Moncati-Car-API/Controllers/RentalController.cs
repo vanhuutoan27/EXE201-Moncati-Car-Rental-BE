@@ -21,12 +21,11 @@ namespace Moncati_Car_API.Controllers
             _resultModel= new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null , DateTime? rentalDate = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? rentalDate = null)
         {
+            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, rentalDate);
 
-            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status.GetValueOrDefault() , rentalDate);
-
-            if (listrental == null)
+            if (listrental == null || listrental.Items == null || !listrental.Items.Any())
             {
                 _resultModel = new ResultModel
                 {
@@ -36,6 +35,7 @@ namespace Moncati_Car_API.Controllers
                 };
                 return NotFound(_resultModel);
             }
+
             _resultModel = new ResultModel
             {
                 Success = true,
@@ -46,6 +46,7 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
+
         [HttpPost]
         public async Task<ActionResult<ResultModel>> CreateRental(CreateRentalRequest createRentalRequest)
         {
