@@ -14,7 +14,8 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star)
         {
             IQueryable<Review> query = _context.Reviews.Include(a => a.User)
-                                                       .Include(c => c.Car);
+                                                       .Include(c => c.Car)
+                                                       .Include(r => r.Rental);
             if (star > 0)
             {
                 query = query.Where(r => r.Rating == star);
@@ -32,7 +33,7 @@ namespace MoncatiCar.Data.Repository
 
             if (page > 0 && limit > 0)
             {
-                query = query.Skip((page - 1) * limit).Take(limit);
+                query = query.Where(c => c.CarId == carId).Skip((page - 1) * limit).Take(limit);
             }
 
             return await query.ToListAsync();
@@ -43,7 +44,7 @@ namespace MoncatiCar.Data.Repository
             IQueryable<Review> query = _context.Reviews.AsQueryable();
             if (page > 0 && limit > 0)
             {
-                query = query.Skip((page - 1) * limit).Take(limit);
+                query = query.Where(u => u.Author == userId).Skip((page - 1) * limit).Take(limit);
             }
             return await query.ToListAsync();
         }
