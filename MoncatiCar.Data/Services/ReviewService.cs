@@ -29,6 +29,7 @@ namespace MoncatiCar.Data.Services
                 Rating = carRequest.Rating,
                 Content = carRequest.Content,
                 Flag = false,
+                RentalId = carRequest.RentalId
             };
             _repositoryManager.ReviewRepository.Add(model);
             await _repositoryManager.SaveAsync();
@@ -81,6 +82,7 @@ namespace MoncatiCar.Data.Services
                 Rating = x.Rating,
                 Content = x.Content,
                 Flag = x.Flag,
+                RentalId = x.RentalId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             });
@@ -98,7 +100,7 @@ namespace MoncatiCar.Data.Services
         {
             var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit);
             int totalItems = reviews.Count();
-            if (reviews == null || !reviews.Any())
+            if (reviews == null)
 
             {
                 throw new KeyNotFoundException($"No reviews found.");
@@ -129,6 +131,7 @@ namespace MoncatiCar.Data.Services
                 Rating = query.Rating,
                 Content = query.Content,
                 Flag = query.Flag,
+                RentalId = query.RentalId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
@@ -175,7 +178,7 @@ namespace MoncatiCar.Data.Services
             reviewId.CreatedAt = DateTime.Now;
             _repositoryManager.ReviewRepository.Update(reviewId);
 
-            var updateReview = _mapper.Map<Review>(reviewId);
+            //var updateReview = _mapper.Map<Review>(reviewId);
             await _repositoryManager.SaveAsync();
             return true;
 

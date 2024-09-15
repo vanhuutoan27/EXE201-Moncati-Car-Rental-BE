@@ -92,7 +92,7 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page = 1, int limit = 10)
         {
 
             var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit);
@@ -111,7 +111,7 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page, int limit)
+        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page = 1, int limit = 10)
         {
             var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit);
 

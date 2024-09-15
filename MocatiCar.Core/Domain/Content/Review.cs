@@ -22,5 +22,8 @@ namespace MocatiCar.Core.Domain.Content
         public AppUser User { get; set; }
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
+        public Guid RentalId { get; set; }
+        [ForeignKey("RentalId")]
+        public Rental Rental { get; set; }
     }
 }

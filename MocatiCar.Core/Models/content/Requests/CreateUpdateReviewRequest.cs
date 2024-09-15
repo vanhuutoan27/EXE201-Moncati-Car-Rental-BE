@@ -7,6 +7,6 @@
         public Guid Author { get; set; }
         public int Rating { get; set; }
         public string? Content { get; set; }
-
+        public Guid RentalId { get; set; }
     }
 }

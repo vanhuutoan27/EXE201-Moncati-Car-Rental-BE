@@ -16,5 +16,6 @@ namespace MocatiCar.Core.Models.content.Responses
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool Flag {  get; set; }
+        public Guid RentalId { get; set; }
     }
 }

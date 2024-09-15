@@ -41,5 +41,6 @@ namespace MocatiCar.Core.Domain.Content
         public ICollection<Contract> Contracts { get; set; }
 
         public ICollection<Payment> Payments { get; set; }
+        public Review Review { get; set; }
     }
 }
