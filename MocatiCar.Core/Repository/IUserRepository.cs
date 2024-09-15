@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Repository
 
         Task<AppUser> GetUserName(string username);
         Task<int> GetTotalUserCountAsync(string search);
-
+        Task<AppUser> GetUserByPhoneAsync(string phoneNumber);
 
     }
 }

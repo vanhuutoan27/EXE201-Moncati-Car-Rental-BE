@@ -73,5 +73,10 @@ namespace MoncatiCar.Data.Repository
             }
 
         }
+
+        public async Task<AppUser> GetUserByPhoneAsync(string phoneNumber)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        }
     }
 }

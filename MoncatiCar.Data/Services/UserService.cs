@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 
 namespace MoncatiCar.Data.Services
 {
@@ -142,7 +139,7 @@ namespace MoncatiCar.Data.Services
             user.Role = roles.FirstOrDefault();
             return user;
         }
-     
+
 
         public async Task<PageResult<UserReponse>> GetUsersAsync(int page, int limit, string search, string currentUserId)
         {
@@ -153,6 +150,7 @@ namespace MoncatiCar.Data.Services
             {
                 throw new UnauthorizedAccessException("User is not authenticated.");
             }*/
+
             var currentUser = await _userManager.FindByIdAsync(currentUserId);
             var currentUserRoles = (await _userManager.GetRolesAsync(currentUser)).FirstOrDefault();//chi co 1 role
 
@@ -288,5 +286,10 @@ namespace MoncatiCar.Data.Services
 
         }
 
+        public async Task<bool> CheckPhoneNumerAsync(string phoneNumber)
+        {
+            var user = await _repositoryManager.UserRepository.GetUserByPhoneAsync(phoneNumber);
+            return user != null;
+        }
     }
 }

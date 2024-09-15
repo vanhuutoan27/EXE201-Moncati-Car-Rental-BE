@@ -43,7 +43,7 @@ namespace Moncati_Car_API.Extensions
 
             services.Configure<IdentityOptions>(options =>
             {
-                // Password settings.
+                // Password settings.   
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;

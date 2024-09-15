@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.auth;
+using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.SeedWorks.Constants;
 using Moncati_Car_API.Services;
 using MoncatiCar.Data;
@@ -25,7 +26,8 @@ namespace Moncati_Car_API.Controllers
         private readonly ITokenService _tokenService;
         private readonly ResultModel _resp;
         private readonly MocatiContext _context;
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, ITokenService tokenService, MocatiContext context)
+        private readonly IServiceManager _serviceManager;
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, ITokenService tokenService, MocatiContext context, IServiceManager serviceManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -33,6 +35,7 @@ namespace Moncati_Car_API.Controllers
             _resp = new ResultModel();
             _tokenService = tokenService;
             _context = context;
+            _serviceManager = serviceManager;
         }
 
         [HttpPost]
@@ -114,6 +117,17 @@ namespace Moncati_Car_API.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            //check phone
+            var phoneNumberExist = await _serviceManager.UserService.CheckPhoneNumerAsync(request.PhoneNumber);
+            if (phoneNumberExist)
+            {
+                return new ResultModel
+                {
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Your Phone Number Existed.",
+                    Success = false
+                };
             }
             var users = new AppUser
             {
