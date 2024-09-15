@@ -35,7 +35,7 @@ namespace MoncatiCar.Data.Configurations
                     RentalStatus = CarRentalStatus.Available,
                     Status = true,
                     CreatedAt = DateTime.Now,
-                      UpdatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     ModelId = Guid.Parse("0ED1B055-DCD4-48EE-AEFF-7478382F9E96"),
                     OwnerId = Guid.Parse("277EA066-D041-40FF-9DAE-6271DBD6FD87"),
                     year = 2017
