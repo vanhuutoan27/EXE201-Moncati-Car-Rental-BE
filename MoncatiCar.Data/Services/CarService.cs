@@ -312,7 +312,6 @@ namespace MoncatiCar.Data.Services
                 //                : new List<string>(),
 
                 RentalStatus = car.RentalStatus,
-                Status = car.Status,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedBy = car.CreatedBy,
