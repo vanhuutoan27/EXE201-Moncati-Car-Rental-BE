@@ -32,6 +32,9 @@ namespace MoncatiCar.Data.Services
         {
             // var userModel = _mapper.Map<AppUser>(User);
 
+            // check phone existed
+            var phoneExisted = CheckPhoneNumerAsync(User.PhoneNumber);
+
             var newUserRequest = new AppUser()
             {
                 Id = Guid.NewGuid(),

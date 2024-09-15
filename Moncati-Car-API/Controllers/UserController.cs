@@ -110,6 +110,7 @@ namespace Moncati_Car_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUpdateUserRequest request)
         {
+
             if (!ModelState.IsValid)
             {
                 _resultModel = new ResultModel
@@ -118,6 +119,19 @@ namespace Moncati_Car_API.Controllers
                     Status = (int)HttpStatusCode.BadRequest
                 };
             }
+
+            var checkUserExisted = await _serviceManager.UserService.CheckPhoneNumerAsync(request.PhoneNumber);
+            if (checkUserExisted)
+            {
+                return Ok(new ResultModel
+                {
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Success = false,
+                    Message = "Your Phone Number Existed."
+                });
+            }
+
+
             var result = await _serviceManager.UserService.AddUser(request);
             if (result == null)
             {
