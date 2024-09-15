@@ -56,9 +56,8 @@ namespace Moncati_Car_API.Controllers
                 user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.Email);
                 if (user == null)
                 {
-                    throw new Exception("Invalid PhoneNumber.");
+                    throw new Exception("Incorrect phone number.");
                 }
-
             }
 
             if (user == null || !user.Status || user.LockoutEnabled)
@@ -76,7 +75,6 @@ namespace Moncati_Car_API.Controllers
                 _resp.Message = "Incorrect Password. Please try again.";
                 _resp.Success = false;
                 return _resp;
-
             }
 
             // Authorization
@@ -125,7 +123,7 @@ namespace Moncati_Car_API.Controllers
                 return new ResultModel
                 {
                     Status = (int)HttpStatusCode.BadRequest,
-                    Message = "Your Phone Number Existed.",
+                    Message = "Phone number already in use.",
                     Success = false
                 };
             }
@@ -175,7 +173,7 @@ namespace Moncati_Car_API.Controllers
             if (user == null)
             {
                 _resp.Status = (int)HttpStatusCode.InternalServerError;
-                _resp.Message = "Not Found User Email";
+                _resp.Message = "User not found.";
                 _resp.Success = false;
             }
             var roles = await _userManager.GetRolesAsync(user);

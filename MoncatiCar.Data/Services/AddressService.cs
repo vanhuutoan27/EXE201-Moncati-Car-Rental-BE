@@ -103,7 +103,6 @@ namespace MoncatiCar.Data.Services
 
         public async Task<IEnumerable<AddressRespone>> GetAddressesByUserId(Guid userId)
         {
-            throw new Exception("Erorrrr heehe");
             var listAddress = await _repositoryManager.AddressRepository.GetAddressesByUserId(userId);
             var listResult = _mapper.Map<IEnumerable<AddressRespone>>(listAddress);
 
