@@ -20,6 +20,7 @@ namespace MocatiCar.Core.Services
 
         Task<bool> ChangeAvatar(Guid userId, ChangeAvatarRequest request);
         Task<bool> CheckPhoneNumerAsync(string phoneNumber);
+        Task<bool> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest updateCustomer);
 
     }
 }

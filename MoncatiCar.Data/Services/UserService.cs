@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
@@ -293,6 +294,52 @@ namespace MoncatiCar.Data.Services
         {
             var user = await _repositoryManager.UserRepository.GetUserByPhoneAsync(phoneNumber);
             return user != null;
+        }
+
+        public async Task<bool> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest updateCustomer)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            // kiem tra role cua nguoi dung
+            var roleUser = await _userManager.GetRolesAsync(user);
+            if (!roleUser.Contains("Customer"))
+            {
+                throw new Exception("Only customers can update profile.");
+            }
+            user.FullName = updateCustomer.FullName;
+
+            // check username exist
+            var existingUserByUsername = await _userManager.FindByNameAsync(updateCustomer.Username);          
+            if(existingUserByUsername != null && existingUserByUsername.Id != user.Id)
+            {
+                throw new Exception("Username already exists.");
+            }
+            // check email exist
+            var existingEmail = await _userManager.FindByEmailAsync(updateCustomer.Email);
+            if (existingEmail != null && existingEmail.Id != user.Id)
+            {
+                throw new Exception("Email already exists.");
+            }
+            // check phone exist
+            var existingPhone = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == updateCustomer.PhoneNumber);
+            if(existingPhone != null && existingPhone.PhoneNumber != user.PhoneNumber)
+            {
+                throw new Exception("Phone number already exists.");
+            }
+            user.UserName = updateCustomer.Username;
+            user.NormalizedUserName = updateCustomer.Username.ToUpper();
+            user.Email = updateCustomer.Email;
+            user.NormalizedEmail = updateCustomer.Email.ToUpper();
+            user.PhoneNumber = updateCustomer.PhoneNumber;
+            user.Dob = updateCustomer.Dob;
+            user.Gender = updateCustomer.Gender;
+
+            await _userManager.UpdateAsync(user);
+            await _repositoryManager.SaveAsync();
+            return true;
         }
     }
 }

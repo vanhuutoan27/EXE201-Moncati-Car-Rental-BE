@@ -248,5 +248,25 @@ namespace Moncati_Car_API.Controllers
                 Message = "Change avatar user successfully."
             });
         }
+        [HttpPut("{userId}/customer")]
+        public async Task<IActionResult> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest request)
+        {
+            var update = await _serviceManager.UserService.UpdateUserRoleCustomer(userId, request);
+            if (update == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Failed to update."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Updated successfully."
+            });
+        }
     }
 }
