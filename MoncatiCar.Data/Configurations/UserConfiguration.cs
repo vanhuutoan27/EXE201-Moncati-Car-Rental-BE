@@ -26,8 +26,8 @@ namespace MoncatiCar.Data.Configurations
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "User@123"),
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UpdatedAt = DateTime.Now,
-                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Parse("2024-8-27"),
+                    CreatedAt = DateTime.Parse("2024-8-27"),
                 },
                  new AppUser
                  {
@@ -43,8 +43,8 @@ namespace MoncatiCar.Data.Configurations
                      PasswordHash = hasher.HashPassword(null, "User@123"),
                      SecurityStamp = Guid.NewGuid().ToString(),
 
-                     UpdatedAt = DateTime.Now,
-                     CreatedAt = DateTime.Now,
+                     UpdatedAt = DateTime.Parse("2024-8-27"),
+                     CreatedAt = DateTime.Parse("2024-8-27"),
                  },
                   new AppUser
                   {
@@ -60,8 +60,8 @@ namespace MoncatiCar.Data.Configurations
                       PasswordHash = hasher.HashPassword(null, "User@123"),
                       SecurityStamp = Guid.NewGuid().ToString(),
 
-                      UpdatedAt = DateTime.Now,
-                      CreatedAt = DateTime.Now,
+                      UpdatedAt = DateTime.Parse("2024-8-27"),
+                      CreatedAt = DateTime.Parse("2024-8-27"),
                   },
                    new AppUser
                    {
@@ -77,8 +77,8 @@ namespace MoncatiCar.Data.Configurations
                        SecurityStamp = Guid.NewGuid().ToString(),
 
                        EmailConfirmed = true,
-                       UpdatedAt = DateTime.Now,
-                       CreatedAt = DateTime.Now,
+                       UpdatedAt = DateTime.Parse("2024-8-27"),
+                       CreatedAt = DateTime.Parse("2024-8-27"),
                    },
                     new AppUser
                     {
@@ -94,8 +94,8 @@ namespace MoncatiCar.Data.Configurations
                         SecurityStamp = Guid.NewGuid().ToString(),
 
                         EmailConfirmed = true,
-                        UpdatedAt = DateTime.Now,
-                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Parse("2024-8-27"),
+                        CreatedAt = DateTime.Parse("2024-8-27"),
                     },
                     new AppUser
                     {
@@ -111,8 +111,8 @@ namespace MoncatiCar.Data.Configurations
                         PasswordHash = hasher.HashPassword(null, "User@123"),
                         SecurityStamp = Guid.NewGuid().ToString(),
 
-                        UpdatedAt = DateTime.Now,
-                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Parse("2024-8-27"),
+                        CreatedAt = DateTime.Parse("2024-8-27"),
                     }
                 ); ;
         }

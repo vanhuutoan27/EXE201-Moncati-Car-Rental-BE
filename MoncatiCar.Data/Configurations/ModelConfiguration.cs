@@ -16,8 +16,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "CX5 Deluxe",
                     Description = null,
                     BrandId = Guid.Parse("c6669c8e-f8a8-443c-8446-83c010b44ec0"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -26,8 +26,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "VF6 Plus",
                     Description = null,
                     BrandId = Guid.Parse("a1f14e7e-342b-4f17-b7fc-9e7ca13483b2"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -36,8 +36,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "3008",
                     Description = null,
                     BrandId = Guid.Parse("de716878-747e-4b02-9fce-46d67a13c30f"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -46,8 +46,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "Ecosport",
                     Description = null,
                     BrandId = Guid.Parse("9bb29e7a-ca23-4418-81d4-b9b66e7cf107"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -56,8 +56,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "RX450H",
                     Description = null,
                     BrandId = Guid.Parse("1c38dc33-e4d6-4922-abc4-1fa8cfc314b2"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -66,8 +66,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "Creta",
                     Description = null,
                     BrandId = Guid.Parse("c11c6f51-c207-4754-9372-046fb4a04c22"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -76,8 +76,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "Tucson Premium",
                     Description = null,
                     BrandId = Guid.Parse("c11c6f51-c207-4754-9372-046fb4a04c22"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -86,8 +86,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "2008 GT",
                     Description = null,
                     BrandId = Guid.Parse("de716878-747e-4b02-9fce-46d67a13c30f"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -96,8 +96,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "ZS Standard",
                     Description = null,
                     BrandId = Guid.Parse("b802da6e-e178-46f5-9884-442e0f1067dc"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 },
                 new Model
@@ -106,8 +106,8 @@ namespace MoncatiCar.Data.Configurations
                     ModelName = "Innova",
                     Description = null,
                     BrandId = Guid.Parse("4e5784bd-10a3-4fb4-ad50-fb0304da90d9"),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt =  DateTime.Parse("2024-8-27"),
+                    UpdatedAt =  DateTime.Parse("2024-8-27")
 
                 }
 

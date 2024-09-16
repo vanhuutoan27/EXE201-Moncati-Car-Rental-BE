@@ -18,10 +18,10 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, int? star = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, int? rating = null)
         {
             // Check if star rating is provided and if so, validate it
-            if (star.HasValue && (star < 1 || star > 5))
+            if (rating.HasValue && (rating < 1 || rating > 5))
             {
                 _resultModel = new ResultModel
                 {
@@ -32,7 +32,7 @@ namespace Moncati_Car_API.Controllers
                 return BadRequest(_resultModel);
             }
 
-            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, star ?? 0);
+            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, rating ?? 0);
 
             // Check if the Items collection is null or empty
             //if (listreview == null || !listreview.Items.Any())

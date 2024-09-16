@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MocatiCar.Core.Domain.Content;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -17,24 +15,13 @@ namespace Moncati_Car_API.Controllers
         private ResultModel _resultModel;
         public RentalController(IServiceManager serviceManager)
         {
-            _serviceManager=serviceManager;
-            _resultModel= new ResultModel();
+            _serviceManager = serviceManager;
+            _resultModel = new ResultModel();
         }
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? rentalDate = null)
         {
             var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, rentalDate);
-
-            if (listrental == null || listrental.Items == null || !listrental.Items.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Message = "No rentals found.",
-                    Status = (int)HttpStatusCode.NotFound
-                };
-                return NotFound(_resultModel);
-            }
 
             _resultModel = new ResultModel
             {
@@ -169,7 +156,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> DeleteRental(Guid rentalId)
         {
             var query = await _serviceManager.RentalService.DeleteRental(rentalId);
-            if(query == null)
+            if (query == null)
             {
                 _resultModel = new ResultModel
                 {
@@ -189,10 +176,10 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpPut]
         [Route("{rentalId:guid}")]
-        public async Task<ActionResult<ResultModel>>UpdateRental(Guid rentalId , UpdateRentalRequest updateRental)
+        public async Task<ActionResult<ResultModel>> UpdateRental(Guid rentalId, UpdateRentalRequest updateRental)
         {
-            var update = await _serviceManager.RentalService.UpdateRentalAsync(rentalId , updateRental);
-            if(update == null)
+            var update = await _serviceManager.RentalService.UpdateRentalAsync(rentalId, updateRental);
+            if (update == null)
             {
                 _resultModel = new ResultModel
                 {
@@ -258,7 +245,7 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpPatch]
         [Route("{rentalId:guid}/status")]
-        public async Task<ActionResult<ResultModel>>UpdateRentalStatus(Guid rentalId)
+        public async Task<ActionResult<ResultModel>> UpdateRentalStatus(Guid rentalId)
         {
             var update = await _serviceManager.RentalService.ChangeRentalStatusAsync(rentalId);
             if (update == null)
