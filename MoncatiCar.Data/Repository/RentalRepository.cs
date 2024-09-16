@@ -19,24 +19,36 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter)
+        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? createAt)
         {
             IQueryable<Rental> query = _context.Rentals
                                                .Include(r => r.Car)
                                                .Include(r => r.Contracts)
                                                .Include(r => r.Payments);
 
+            // Thêm log để kiểm tra filter và createAt
+            Console.WriteLine($"Filter: {filter}, CreateAt: {createAt}");
+
+            // Chỉ lọc theo RentalStatus nếu filter có giá trị
             if (filter.HasValue)
             {
                 query = query.Where(r => r.RentalStatus == filter.Value);
             }
 
+            if (createAt.HasValue)
+            {
+                var startDate = new DateTime(createAt.Value.Year, createAt.Value.Month, 1);
+                var endDate = createAt.Value;
+                query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
+            }
+
+            // Phân trang
             query = query.Skip((page - 1) * limit)
                          .Take(limit);
 
             var rentals = await query.ToListAsync();
 
-            // Nạp dữ liệu thủ công cho Owner và Customer
+            // Nạp dữ liệu thủ công cho Owner và Customer nếu cần
             foreach (var rental in rentals)
             {
                 rental.Owner = await _context.Users.FindAsync(rental.OwnerId);
@@ -46,7 +58,8 @@ namespace MoncatiCar.Data.Repository
             return rentals;
         }
 
-            public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id)
+
+        public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id)
             {
                 var rentals = await _context.Rentals.Include(c =>c.Car).Where(c => c.CarId == id).Include(r => r.Contracts)
                                                                            .Include(p => p.Payments)
@@ -60,12 +73,12 @@ namespace MoncatiCar.Data.Repository
                     // Kiểm tra null cho Owner và Customer để tránh lỗi NullReferenceException
                     if (rental.Owner == null)
                     {
-                        throw new Exception($"Owner   does not exist.");
+                        throw new Exception($"Owner does not exist.");
                     }
 
                     if (rental.Customer == null)
                     {
-                        throw new Exception($"Customer  does not exist.");
+                        throw new Exception($"Customer does not exist.");
                     }
                 }
                 return rentals;

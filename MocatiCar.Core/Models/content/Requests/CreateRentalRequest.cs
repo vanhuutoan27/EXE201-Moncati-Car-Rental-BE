@@ -18,8 +18,8 @@ namespace MocatiCar.Core.Models.content.Requests
         public Guid? CustomerId { get; set; }
         [JsonPropertyName("car")]
         public Guid? CarId { get; set; }
-        public DateTime StartDayTime { get; set; }
-        public DateTime EndDayTime { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public string PickupLocation { get; set; }
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }

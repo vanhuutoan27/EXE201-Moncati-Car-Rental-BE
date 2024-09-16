@@ -35,7 +35,7 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
-            if (rental.RentalStatus == RentalStatus.Completed &&  rental.EndDayTime < DateTime.Now)
+            if (rental.RentalStatus == RentalStatus.Completed &&  rental.EndDateTime < DateTime.Now)
             {
                 rental.RentalStatus = RentalStatus.Overdue;
             }
@@ -56,7 +56,7 @@ namespace MoncatiCar.Data.Services
                     throw new Exception("Cannot update status from 'Completed'.");
                 case RentalStatus.Cancelled:
                 case RentalStatus.Overdue:
-                    throw new Exception("Cannot update status from the current state.");
+                    throw new Exception("Cannot update status from the 'Cancel'.");
                 default:
                     throw new Exception("Invalid status.");
             }
@@ -74,7 +74,7 @@ namespace MoncatiCar.Data.Services
                 return false;
             }
             // Kiểm tra nếu EndDayTime đã qua và trạng thái hiện tại là Active
-            if (rental.RentalStatus == RentalStatus.Active && rental.EndDayTime < DateTime.Now)
+            if (rental.RentalStatus == RentalStatus.Active && rental.EndDateTime < DateTime.Now)
             {
                 rental.RentalStatus = RentalStatus.Overdue;
             }
@@ -99,8 +99,8 @@ namespace MoncatiCar.Data.Services
                 CarId = rentalRequest.CarId,
                 OwnerId = rentalRequest.OwnerId,
                 CustomerId = rentalRequest.CustomerId,
-                StartDayTime = rentalRequest.StartDayTime,
-                EndDayTime = rentalRequest.EndDayTime,
+                StartDateTime = rentalRequest.StartDateTime,
+                EndDateTime = rentalRequest.EndDateTime,
                 PickupLocation = rentalRequest.PickupLocation,
                 ReturnLocation = rentalRequest.ReturnLocation,
                 Note = rentalRequest.Note,
@@ -110,7 +110,7 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
-            create.TotalAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
+            create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
             create.CommissionAmount = create.RentalAmount * 20 / 100;
             _repositoryManager.RentalRepository.Add(create);
             await _repositoryManager.SaveAsync();
@@ -130,9 +130,9 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter)
+        public async Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter , DateTime? createAt)
         {
-            var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter);
+            var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter , createAt);
             var totalItems = listrental.Count();
 
             var rentalResponses = listrental.Select(x => new RentalRespone
@@ -143,8 +143,8 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 CreatedBy = x.CreatedBy,
                 UpdatedAt = DateTime.Now,
-                StartDayTime = x.StartDayTime,
-                EndDayTime = x.EndDayTime,
+                StartDateTime = x.StartDateTime,
+                EndDateTime = x.EndDateTime,
                 DepositAmount = x.DepositAmount,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
@@ -154,7 +154,7 @@ namespace MoncatiCar.Data.Services
                 RentalId = x.RentalId,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                TotalAmount = x.TotalAmount,
+                RemainAmount = x.RemainAmount,
                 UpdatedBy = x.UpdatedBy,
 
             });
@@ -183,7 +183,7 @@ namespace MoncatiCar.Data.Services
                 CommissionAmount = x.CommissionAmount,
                 CreatedAt = DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDayTime = x.EndDayTime,
+                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
                 InsuranceAmount = x.InsuranceAmount,
@@ -193,8 +193,8 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDayTime = x.StartDayTime,
-                TotalAmount = x.TotalAmount,
+                StartDateTime = x.StartDateTime,
+                RemainAmount = x.RemainAmount,
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = x.UpdatedBy
             });
@@ -218,8 +218,8 @@ namespace MoncatiCar.Data.Services
                 CreatedBy = rental.CreatedBy,
                 CustomerId = rental.Customer?.Id,
                 DepositAmount = rental.DepositAmount,
-                EndDayTime = rental.EndDayTime,
-                StartDayTime = rental.StartDayTime,
+                EndDateTime = rental.EndDateTime,
+                StartDateTime = rental.StartDateTime,
                 InsuranceAmount = rental.InsuranceAmount,
                 Note = rental.Note,
                 OwnerId = rental.Owner?.Id,
@@ -227,7 +227,7 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = rental.RentalAmount,
                 RentalStatus = rental.RentalStatus,
                 ReturnLocation = rental.ReturnLocation,
-                TotalAmount = rental.TotalAmount,
+                RemainAmount = rental.RemainAmount,
                 UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
                 UpdatedBy = rental.UpdatedBy,
             };
@@ -248,7 +248,7 @@ namespace MoncatiCar.Data.Services
                 CommissionAmount = x.CommissionAmount,
                 CreatedAt = DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDayTime = x.EndDayTime,
+                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
                 InsuranceAmount = x.InsuranceAmount,
@@ -258,8 +258,8 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDayTime = x.StartDayTime,
-                TotalAmount = x.TotalAmount,
+                StartDateTime = x.StartDateTime,
+                RemainAmount = x.RemainAmount,
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = x.UpdatedBy
             });
@@ -273,7 +273,7 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
-            query.EndDayTime = DateTime.Now;
+            query.EndDateTime = DateTime.Now;
             await _repositoryManager.SaveAsync();
             return true;
         }
@@ -291,8 +291,8 @@ namespace MoncatiCar.Data.Services
             updateRental.RentalAmount = update.RentalAmount;
             updateRental.InsuranceAmount = update.InsuranceAmount;
             updateRental.DepositAmount = update.DepositAmount;
-            updateRental.TotalAmount = update.DepositAmount - (update.RentalAmount + update.InsuranceAmount);
-            updateRental.CommissionAmount = update.RentalAmount * 20/100;
+            updateRental.RemainAmount = update.DepositAmount - update.RentalAmount +update.InsuranceAmount;
+            updateRental.CommissionAmount = update.RentalAmount * 20 /100;
             _repositoryManager.RentalRepository.Update(updateRental);
             await _repositoryManager.SaveAsync();
             return true;
@@ -305,7 +305,7 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
-            query.StartDayTime = DateTime.Now;
+            query.StartDateTime = DateTime.Now;
             await _repositoryManager.SaveAsync();
             return true;
         }

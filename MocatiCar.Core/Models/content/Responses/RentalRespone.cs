@@ -3,18 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MocatiCar.Core.Models.content.Responses
 {
     public class RentalRespone
     {
+       
         public Guid RentalId { get; set; }
+        [JsonPropertyName("car")]
         public Guid? CarId { get; set; }
+        [JsonPropertyName("owner")]
         public Guid? OwnerId { get; set; }
+        [JsonPropertyName("customer")]   
         public Guid? CustomerId { get; set; }
-        public DateTime StartDayTime { get; set; }
-        public DateTime EndDayTime { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public string PickupLocation { get; set; }
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }
@@ -22,7 +27,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public decimal RentalAmount { get; set; }
         public decimal InsuranceAmount { get; set; }
         public decimal DepositAmount { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal RemainAmount { get; set; }
         public decimal CommissionAmount { get; set; }
 
         public DateTime? CreatedAt { get; set; }
