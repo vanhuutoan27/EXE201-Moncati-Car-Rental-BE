@@ -309,7 +309,6 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Only customers can update profile.");
             }
-            user.FullName = updateCustomer.FullName;
 
             // check username exist
             var existingUserByUsername = await _userManager.FindByNameAsync(updateCustomer.Username);          
@@ -329,6 +328,7 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Phone number already exists.");
             }
+            user.FullName = updateCustomer.FullName;
             user.UserName = updateCustomer.Username;
             user.NormalizedUserName = updateCustomer.Username.ToUpper();
             user.Email = updateCustomer.Email;
