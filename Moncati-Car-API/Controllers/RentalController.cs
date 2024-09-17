@@ -19,9 +19,9 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? rentalDate = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, rentalDate);
+            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, startDate, endDate);
 
             _resultModel = new ResultModel
             {
@@ -99,20 +99,9 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByCarId(Guid carId)
+        public async Task<ActionResult<ResultModel>> GetRentalByCarId(Guid carId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDay = null, DateTime? endDay = null)
         {
-            var rentals = await _serviceManager.RentalService.GetRentalByCarId(carId);
-
-            if (rentals == null || !rentals.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Status = (int)HttpStatusCode.NotFound,
-                    Success = false,
-                    Message = "No rentals founds."
-                };
-                return NotFound(_resultModel);
-            }
+            var rentals = await _serviceManager.RentalService.GetRentalByCarId(carId, page, limit, status, startDay, endDay);
 
             _resultModel = new ResultModel
             {
@@ -126,20 +115,10 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByUserId(Guid userId)
+        public async Task<ActionResult<ResultModel>> GetRentalByUserId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDay = null, DateTime? endDay = null)
         {
-            var rentals = await _serviceManager.RentalService.GetRentalByUserId(userId);
+            var rentals = await _serviceManager.RentalService.GetRentalByUserId(userId, page, limit, status, startDay, endDay);
 
-            if (rentals == null || !rentals.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Status = (int)HttpStatusCode.NotFound,
-                    Success = false,
-                    Message = "No rentals found."
-                };
-                return NotFound(_resultModel);
-            }
 
             _resultModel = new ResultModel
             {

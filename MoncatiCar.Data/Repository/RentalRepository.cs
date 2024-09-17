@@ -1,15 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
-using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.Repository;
 using MocatiCar.Core.SeedWorks.Enums;
 using MoncatiCar.Data.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Repository
 {
@@ -19,15 +12,20 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? createAt)
+        public Task<int> CountRecord()
+        {
+            return _context.Rentals.CountAsync();
+        }
+
+        public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals
                                                .Include(r => r.Car)
                                                .Include(r => r.Contracts)
-                                               .Include(r => r.Payments);
+                                               .Include(r => r.Payments).AsQueryable();
 
             // Thêm log để kiểm tra filter và createAt
-            Console.WriteLine($"Filter: {filter}, CreateAt: {createAt}");
+            //Console.WriteLine($"Filter: {filter}, CreateAt: {createAt}");
 
             // Chỉ lọc theo RentalStatus nếu filter có giá trị
             if (filter.HasValue)
@@ -35,54 +33,56 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(r => r.RentalStatus == filter.Value);
             }
 
-            if (createAt.HasValue)
+            if (startDate.HasValue && endDate.HasValue)
             {
-                var startDate = new DateTime(createAt.Value.Year, createAt.Value.Month, 1);
-                var endDate = createAt.Value;
                 query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
             }
 
-            // Phân trang
-            query = query.Skip((page - 1) * limit)
+            if (page > 0 && limit > 0)
+            {
+                // Phân trang
+                query = query.Skip((page - 1) * limit)
                          .Take(limit);
+            }
+
+
 
             var rentals = await query.ToListAsync();
 
             // Nạp dữ liệu thủ công cho Owner và Customer nếu cần
-            foreach (var rental in rentals)
-            {
-                rental.Owner = await _context.Users.FindAsync(rental.OwnerId);
-                rental.Customer = await _context.Users.FindAsync(rental.CustomerId);
-            }
+            //foreach (var rental in rentals)
+            //{
+            //    rental.Owner = await _context.Users.FindAsync(rental.OwnerId);
+            //    rental.Customer = await _context.Users.FindAsync(rental.CustomerId);
+            //}
 
             return rentals;
         }
 
 
-        public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id)
+        public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        {
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.CarId == id).Include(r => r.Car)
+                .Include(r => r.Contracts)
+                .Include(r => r.Payments).AsQueryable();
+
+            if (filter.HasValue)
             {
-                var rentals = await _context.Rentals.Include(c =>c.Car).Where(c => c.CarId == id).Include(r => r.Contracts)
-                                                                           .Include(p => p.Payments)
-                                                                           .Include(c => c.Contracts)
-                                                                          .ToListAsync();
-                foreach (var rental in rentals)
-                {
-                    rental.Owner = await _context.Users.FindAsync(rental.OwnerId);
-                    rental.Customer = await _context.Users.FindAsync(rental.CustomerId);
-
-                    // Kiểm tra null cho Owner và Customer để tránh lỗi NullReferenceException
-                    if (rental.Owner == null)
-                    {
-                        throw new Exception($"Owner does not exist.");
-                    }
-
-                    if (rental.Customer == null)
-                    {
-                        throw new Exception($"Customer does not exist.");
-                    }
-                }
-                return rentals;
+                query = query.Where(r => r.RentalStatus == filter.Value);
             }
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
+
+            }
+            if (page > 0 && limit > 0)
+            {
+                // Phân trang
+                query = query.Skip((page - 1) * limit)
+                         .Take(limit);
+            }
+            return await query.ToListAsync();
+        }
 
         public async Task<Rental> GetRentalByIdAsync(Guid id)
         {
@@ -115,29 +115,28 @@ namespace MoncatiCar.Data.Repository
 
 
 
-        public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id)
+        public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            var users = await _context.Rentals.Include(c => c.Car).Where(u => u.CustomerId == id || u.OwnerId == id)
-                                          .Include(r => r.Contracts)
-                                          .Include(r => r.Payments).ToListAsync();
-                                                                    
-            foreach (var rental in users)
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id || r.OwnerId == id).Include(r => r.Car)
+               .Include(r => r.Contracts)
+               .Include(r => r.Payments).AsQueryable();
+
+            if (filter.HasValue)
             {
-                rental.Owner = await _context.Users.FindAsync(rental.OwnerId);
-                rental.Customer = await _context.Users.FindAsync(rental.CustomerId);
-
-                // Kiểm tra null cho Owner và Customer để tránh lỗi NullReferenceException
-                if (rental.Owner == null)
-                {
-                    throw new Exception($"Owner does not exist.");
-                }
-
-                if (rental.Customer == null)
-                {
-                    throw new Exception($"Customer does not exist.");
-                }
+                query = query.Where(r => r.RentalStatus == filter.Value);
             }
-            return users;
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
+
+            }
+            if (page > 0 && limit > 0)
+            {
+                // Phân trang
+                query = query.Skip((page - 1) * limit)
+                         .Take(limit);
+            }
+            return await query.ToListAsync();
         }
     }
 }
