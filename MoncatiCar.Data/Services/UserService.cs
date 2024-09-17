@@ -311,8 +311,8 @@ namespace MoncatiCar.Data.Services
             }
 
             // check username exist
-            var existingUserByUsername = await _userManager.FindByNameAsync(updateCustomer.Username);          
-            if(existingUserByUsername != null && existingUserByUsername.Id != user.Id)
+            var existingUserByUsername = await _userManager.FindByNameAsync(updateCustomer.Username);
+            if (existingUserByUsername != null && existingUserByUsername.Id != user.Id)
             {
                 throw new Exception("Username already exists.");
             }
@@ -324,7 +324,7 @@ namespace MoncatiCar.Data.Services
             }
             // check phone exist
             var existingPhone = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == updateCustomer.PhoneNumber);
-            if(existingPhone != null && existingPhone.PhoneNumber != user.PhoneNumber)
+            if (existingPhone != null && existingPhone.PhoneNumber != user.PhoneNumber)
             {
                 throw new Exception("Phone number already exists.");
             }
