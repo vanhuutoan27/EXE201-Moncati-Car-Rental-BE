@@ -11,11 +11,13 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star)
+        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star, Boolean flag)
         {
             IQueryable<Review> query = _context.Reviews.Include(a => a.User)
                                                        .Include(c => c.Car)
-                                                       .Include(r => r.Rental);
+                                                       .Include(r => r.Rental)
+                                                       .Where(p=> p.Flag == flag)
+                                                       ;
             if (star > 0)
             {
                 query = query.Where(r => r.Rating == star);
@@ -27,9 +29,10 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit)
+        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, Boolean flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable();
+            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag)
+;
 
             if (page > 0 && limit > 0)
             {
@@ -39,9 +42,9 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit)
+        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable();
+            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag);
             if (page > 0 && limit > 0)
             {
                 query = query.Where(u => u.Author == userId).Skip((page - 1) * limit).Take(limit);
