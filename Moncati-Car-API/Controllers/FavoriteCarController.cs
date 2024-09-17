@@ -21,6 +21,18 @@ public class FavoriteCarController : ControllerBase
         _serviceManager = serviceManager;
         _resultModel = new ResultModel();
     }
+     [HttpGet]
+    [Route("user/{userId:guid}")]
+    public async Task<ActionResult<ResultModel>> GetfavoritebyUser(Guid userId , int page = 1 , int limit =10){
+        var favoritecar = await _serviceManager.FavoriteCarService.GetAllCarByUser(page , limit ,userId);
+        return Ok(new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Favorite Car with user retrieved successfully.",
+                Data = favoritecar
+            });
+    }
     [HttpPost]
     public async Task<ActionResult<ResultModel>> CreateFavoriteCarAsync([FromBody] CreateFavoriteCarRequest request)
     {
@@ -42,30 +54,7 @@ public class FavoriteCarController : ControllerBase
         };
         return Ok(_resultModel);
     }
-    [HttpPatch]
-    [Route("{favoriteId:guid}")]
-    public async Task<ActionResult<ResultModel>> Update([FromBody] UpdateFavoriteCarRequest request, Guid favoriteId)
-    {
-        var query = await _serviceManager.FavoriteCarService.UpdateFavoriteCarAsync(request, favoriteId);
-        if (!query)
-        {
-            _resultModel = new ResultModel
-            {
-                Success = false,
-                Status = (int)HttpStatusCode.NotFound,
-                Message = "Failed to update favorite car. The favorite car with the provided ID was not found."
-            };
-            return NotFound(_resultModel);
-        }
-
-        _resultModel = new ResultModel
-        {
-            Success = true,
-            Status = (int)HttpStatusCode.OK,
-            Message = "Favorite Car updated successfully."
-        };
-        return Ok(_resultModel);
-    }
+   
     [HttpDelete]
     [Route("{favoriteId:guid}")]
     public async Task<ActionResult<ResultModel>> Delete(Guid favoriteId)
@@ -87,4 +76,5 @@ public class FavoriteCarController : ControllerBase
         };
         return NoContent();
     }
+   
 }

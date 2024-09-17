@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Domain.Content;
 using System.Runtime.CompilerServices;
+using MocatiCar.Core.Models.content.Responses;
 
 namespace MoncatiCar.Data.Services
 {
@@ -44,6 +45,52 @@ namespace MoncatiCar.Data.Services
       return result;
     }
 
+    public async Task<PageResult<FavoriteCarRespone>> GetAllCarByUser(int page, int limit, Guid userId)
+    {
+      var (listFavoriteCar, totalItems) = await _repositoryManager.FavoriteCarRepository.GetFavoriteCarByUserAsync(page, limit, userId);
+      if (listFavoriteCar == null || !listFavoriteCar.Any())
+      {
+        return new PageResult<FavoriteCarRespone>
+        {
+          CurrentPage = page,
+          TotalPages = 0,
+          TotalItems = 0,
+          Items = new List<FavoriteCarRespone>()
+        };
+      }
+      var favoritecarRespone = listFavoriteCar.Select(car => new FavoriteCarRespone
+      {
+        FavoriteCarId = car.FavoriteCarId,
+        CarId = car.CarId,
+        
+        OwnerId = car.Car?.OwnerId, 
+        licensePlate = car.Car?.licensePlate, 
+        slug = car.Car?.Slug, 
+        brand = car.Car?.Model?.Brand?.BrandName, 
+        model = car.Car?.Model?.ModelName, 
+        year = car.Car?.year ?? 0, 
+        seats = car.Car?.Seats ?? 0, 
+        transmission = car.Car?.Transmission ?? default(MocatiCar.Core.SeedWorks.Enums.Transmission), 
+        fuelType = car.Car?.FuelType ?? default(MocatiCar.Core.SeedWorks.Enums.FuelType), 
+        fuelConsumption = car.Car?.FuelConsumption ?? 0, 
+        description = car.Car?.Description,
+        location = car.Car?.Location,
+        pricePerDay = car.Car?.PricePerDay ?? 0,
+        image = car.Car?.Images?
+                   .OrderBy(img => img.ImageId)
+                   .Select(img => img.Url)
+                   .FirstOrDefault() ?? string.Empty, 
+      }).ToList();
+
+      return new PageResult<FavoriteCarRespone>
+      {
+        CurrentPage = page,
+        TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+        TotalItems = totalItems,
+        Items = favoritecarRespone
+      };
+    }
+
     public async Task<bool> RemoveFavoriteCarAsync(Guid id)
     {
       var faId = await _repositoryManager.FavoriteCarRepository.GetFavoriteCarById(id);
@@ -68,9 +115,9 @@ namespace MoncatiCar.Data.Services
         throw new Exception("Car does not found.");
       }
 
-    
+
       faId.CarId = request.CarId;
-     
+
       _repositoryManager.FavoriteCarRepository.Update(faId);
       await _repositoryManager.SaveAsync();
       return true;

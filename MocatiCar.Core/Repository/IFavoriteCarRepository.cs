@@ -11,6 +11,6 @@ namespace MocatiCar.Core.Repository
     public interface IFavoriteCarRepository : IRepositoryBase<FavoriteCar,Guid>
     {
       Task<FavoriteCar>GetFavoriteCarById(Guid id);
-    //   Task<FavoriteCar>GetFavoriteCarByUser(Guid Id);
+     Task<(IEnumerable<FavoriteCar> FavoriteCarsCars, int TotalItems)> GetFavoriteCarByUserAsync(int page, int limit, Guid id);
     }
 }
