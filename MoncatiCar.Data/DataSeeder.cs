@@ -35,7 +35,7 @@ namespace MoncatiCar.Data
                     Status = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LockoutEnabled = false,
-                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Parse("2024-7-27"),
                     EmailConfirmed = true,
                 };
                 user.PasswordHash = passwordHasher.HashPassword(user, "123As@");

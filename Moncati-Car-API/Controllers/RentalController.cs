@@ -19,9 +19,9 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
         {
-            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, startDate, endDate);
+            var listrental = await _serviceManager.RentalService.GetAllRentalsAsync(page, limit, status, start, end);
 
             _resultModel = new ResultModel
             {
@@ -99,9 +99,9 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByCarId(Guid carId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDay = null, DateTime? endDay = null)
+        public async Task<ActionResult<ResultModel>> GetRentalByCarId(Guid carId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
         {
-            var rentals = await _serviceManager.RentalService.GetRentalByCarId(carId, page, limit, status, startDay, endDay);
+            var rentals = await _serviceManager.RentalService.GetRentalByCarId(carId, page, limit, status, start, end);
 
             _resultModel = new ResultModel
             {
@@ -115,9 +115,9 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByUserId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? startDay = null, DateTime? endDay = null)
+        public async Task<ActionResult<ResultModel>> GetRentalByUserId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
         {
-            var rentals = await _serviceManager.RentalService.GetRentalByUserId(userId, page, limit, status, startDay, endDay);
+            var rentals = await _serviceManager.RentalService.GetRentalByUserId(userId, page, limit, status, start, end);
 
 
             _resultModel = new ResultModel
