@@ -42,6 +42,7 @@ namespace MocatiCar.Core.Domain.Content
         public CarType CarType { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<CarFeature> CarFeatures { get; set; }
+        public ICollection<FavoriteCar> FavoriteCars { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Rental> Rentals { get; set; }
         public Guid ModelId { get; set; }
