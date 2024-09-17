@@ -1,4 +1,5 @@
-﻿using MocatiCar.Core.Domain.Content;
+﻿using Microsoft.EntityFrameworkCore;
+using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Repository;
 using MoncatiCar.Data.SeedWork;
 using System;
@@ -15,5 +16,16 @@ namespace MoncatiCar.Data.Repository
         {
         
         }
+
+        public async Task<FavoriteCar> GetFavoriteCarById(Guid id)
+        {
+            var query = await _context.FavoriteCars.FirstOrDefaultAsync(f => f.FavoriteCarId == id);
+            return query;
+        }
+
+        // public async Task<FavoriteCar> GetFavoriteCarByUser(Guid Id)
+        // {
+        //    var userId = await _context.FavoriteCars.Where(f => f.UserId == id).FirstOrDefaultAsync();
+        // }
     }
 }
