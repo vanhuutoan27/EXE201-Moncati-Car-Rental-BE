@@ -25,6 +25,7 @@ namespace MoncatiCar.Data
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<CitizenId> CitizenIds { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

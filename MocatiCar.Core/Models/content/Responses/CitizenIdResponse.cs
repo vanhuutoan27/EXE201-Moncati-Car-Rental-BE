@@ -1,13 +1,9 @@
-﻿using MocatiCar.Core.Domain.Identity;
-using MocatiCar.Core.SeedWorks.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using MocatiCar.Core.SeedWorks.Enums;
 
-namespace MocatiCar.Core.Domain.Content
+namespace MocatiCar.Core.Models.content.Responses
 {
-    public class CitizenId
+    public class CitizenIdResponse
     {
-        [Key]
         public Guid Citizen_Id { get; set; }
         public string IdNumber { get; set; }
         public DateTime Dob { get; set; }
@@ -24,9 +20,5 @@ namespace MocatiCar.Core.Domain.Content
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-
-        public Guid UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
-        public AppUser User { get; set; }
     }
 }
