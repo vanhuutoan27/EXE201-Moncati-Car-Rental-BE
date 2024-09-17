@@ -70,9 +70,9 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star)
+        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star, Boolean flag)
         {
-            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit, star);
+            var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit, star, flag);
             var totalItems = listreview.Count();
             var reviewRespone = listreview.Select(x => new ReviewRespone
             {
@@ -96,9 +96,9 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit)
+        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean flag)
         {
-            var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit);
+            var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit, flag);
             int totalItems = reviews.Count();
             if (reviews == null)
 
@@ -137,9 +137,9 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit)
+        public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean flag)
         {
-            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit);
+            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit,flag);
             var totalItems = user.Count();
             if (user == null)
             {

@@ -18,7 +18,7 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, int? rating = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, bool? flag = null, int? rating = null)
         {
             // Check if star rating is provided and if so, validate it
             if (rating.HasValue && (rating < 1 || rating > 5))
@@ -32,7 +32,7 @@ namespace Moncati_Car_API.Controllers
                 return BadRequest(_resultModel);
             }
 
-            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, rating ?? 0);
+            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, rating ?? 0, (bool)flag);
 
             // Check if the Items collection is null or empty
             //if (listreview == null || !listreview.Items.Any())
@@ -92,10 +92,10 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         [Route("car/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page = 1, int limit = 10)
+        public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page = 1, int limit = 10, bool? flag = null)
         {
 
-            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit);
+            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit, (bool)flag);
 
             _resultModel = new ResultModel
             {
@@ -111,9 +111,9 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page = 1, int limit = 10)
+        public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page = 1, int limit = 10, bool? flag = null)
         {
-            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit);
+            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit, (bool)flag);
 
             _resultModel = new ResultModel
             {
