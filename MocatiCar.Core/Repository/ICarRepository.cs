@@ -1,6 +1,5 @@
 ﻿using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.SeedWorks;
-using MocatiCar.Core.SeedWorks.Enums;
 
 namespace MocatiCar.Core.Repository
 {
@@ -13,6 +12,7 @@ namespace MocatiCar.Core.Repository
         Task<int> GetTotalCarAsync();
         Task<Car> GetByLicensePlateAsync(string licensePlate);
         Task<(IEnumerable<Car> Cars, int TotalItems)> GetCarByUserAsync(int page, int limit, bool? status, Guid id);
-        Task<Car>GetLocationDetailByCarId(Guid carId);
+        Task<Car> GetLocationDetailByCarId(Guid carId);
+        Task<IEnumerable<Car>> GetAllCarByUsername(string userName);
     }
 }

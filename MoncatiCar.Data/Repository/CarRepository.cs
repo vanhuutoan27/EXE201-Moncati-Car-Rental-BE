@@ -67,9 +67,9 @@ namespace MoncatiCar.Data.Repository
             // Filter by fuel type (fuelType)
             if (!string.IsNullOrEmpty(fuelType))
             {
-                if(Enum.TryParse(fuelType , true , out FuelType fuelTypeEnum))
+                if (Enum.TryParse(fuelType, true, out FuelType fuelTypeEnum))
                 {
-                    query = query.Where(c =>c.FuelType == fuelTypeEnum);
+                    query = query.Where(c => c.FuelType == fuelTypeEnum);
                 }
             }
 
@@ -182,8 +182,21 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<Car> GetLocationDetailByCarId(Guid carId)
         {
-          var query = await _context.Cars.Where(c => c.CarId == carId).FirstOrDefaultAsync();
-          return query;
+            var query = await _context.Cars.Where(c => c.CarId == carId).FirstOrDefaultAsync();
+            return query;
+        }
+
+        public async Task<IEnumerable<Car>> GetAllCarByUsername(string userName)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (user == null) return null;
+
+            return await _context.Cars.Where(c => c.OwnerId == user.Id)
+                                                       .Include(m => m.Model)
+                                                         .ThenInclude(b => b.Brand)
+                                                         .Include(i => i.Images)
+                                                         .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
+                                                         .Include(review => review.Reviews).ToListAsync();
         }
     }
 }

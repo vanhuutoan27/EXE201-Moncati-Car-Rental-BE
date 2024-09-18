@@ -20,10 +20,10 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null, bool? status = null , string brand = null,
-            string model = null , string transmission = null, string fuel = null , string location = null , string sortedBy = null, string order = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null, bool? status = null, string brand = null,
+            string model = null, string transmission = null, string fuel = null, string location = null, string sortedBy = null, string order = null)
         {
-            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status, fuel, brand , model , transmission , location , sortedBy,order  );
+            var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status, fuel, brand, model, transmission, location, sortedBy, order);
             if (cars == null)
             {
                 _resultModel = new ResultModel
@@ -151,10 +151,25 @@ namespace Moncati_Car_API.Controllers
             });
         }
         [HttpGet]
+        [Route("user/{userName}")]
+        public async Task<ActionResult<ResultModel>> GetAllCarByOwnerUsername(string userName, int page = 1, int limit = 10, bool? status = null)
+        {
+            var result = await _serviceManager.CarService.GetAllCarByUserNameOfOwner(page, limit, status, userName);
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Cars retrieved successfully.",
+                Data = result
+            });
+        }
+
+        [HttpGet]
         [Route("cars/location/{carId:guid}")]
-        public async Task<ActionResult<ResultModel>>GetLocationDetailBycarId(Guid carId){
-         var query = await _serviceManager.CarService.GetLocationDetailbyCarId(carId);
-         if (query == null)
+        public async Task<ActionResult<ResultModel>> GetLocationDetailBycarId(Guid carId)
+        {
+            var query = await _serviceManager.CarService.GetLocationDetailbyCarId(carId);
+            if (query == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
@@ -170,7 +185,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Location details retrieved successfully.",
                 Data = query
             });
-         
+
         }
         [HttpPut("{carId}/admin")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, UpdateCarRequest createCarRequest)

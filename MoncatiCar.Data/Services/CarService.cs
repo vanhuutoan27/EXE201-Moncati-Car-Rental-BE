@@ -245,6 +245,52 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+        public async Task<PageResult<CarResponse>> GetAllCarByUserNameOfOwner(int page, int limit, bool? status, string username)
+        {
+            var carList = await _repositoryManager.CarRepository.GetAllCarByUsername(username);
+            var totalItems = await _repositoryManager.CarRepository.GetTotalCarAsync();
+
+
+            var carResponse = carList.Select(car => new CarResponse
+            {
+                Slug = car.Slug,
+                CarId = car.CarId,
+                Owner = (Guid)car.OwnerId,
+                LicensePlate = car.licensePlate,
+                Brand = car.Model.Brand.BrandName,
+                Model = car.Model.ModelName,
+                year = car.year,
+                Location = car.Location,
+                Seats = car.Seats,
+                Transmission = car.Transmission,
+                FuelType = car.FuelType,
+                FuelConsumption = (float)car.FuelConsumption,
+                Description = car.Description,
+                PricePerDay = car.PricePerDay,
+                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
+                RentalStatus = car.RentalStatus,
+                Status = car.Status,
+                CreatedAt = car.CreatedAt,
+                UpdatedAt = car.UpdatedAt,
+                CreatedBy = car.CreatedBy,
+                UpdatedBy = car.UpdatedBy,
+                InstantBooking = car.InstantBooking,
+                Discount = (float)car.discount,
+                MaxDeliveryDistance = car.MaxDeliveryDistance,
+                DeliveryFeePerKm = car.DeliveryFeePerKm,
+                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                LimitKilometersPerDay = car.LimitKilometersPerDay,
+                OverLimitFeePerKm = car.OverLimitFeePerKm,
+                RentalTerms = car.RentalTerms,
+            }).ToList();
+            return new PageResult<CarResponse>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = carResponse
+            };
+        }
 
         public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status, string fuelType, string brandName, string modelName, string transmission, string location, string sortedBy, string order)
         {
@@ -386,12 +432,13 @@ namespace MoncatiCar.Data.Services
 
         public async Task<LocationDetailRespone> GetLocationDetailbyCarId(Guid id)
         {
-           var car = await _repositoryManager.CarRepository.GetLocationDetailByCarId(id);
-           var carRespone = new LocationDetailRespone(){
-                  location = car.Location,
-                  locationDetails = car.LocationDetails
-           };
-           return carRespone;
+            var car = await _repositoryManager.CarRepository.GetLocationDetailByCarId(id);
+            var carRespone = new LocationDetailRespone()
+            {
+                location = car.Location,
+                locationDetails = car.LocationDetails
+            };
+            return carRespone;
         }
 
         public async Task<bool> UpdateCar(Guid id, UpdateCarRequest update)
