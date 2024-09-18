@@ -28,7 +28,7 @@ namespace MoncatiCar.Data.Repository
         {
             // Thực hiện truy vấn lấy danh sách FavoriteCar từ cơ sở dữ liệu và bao gồm các bảng liên quan
             var favoriteCarsQuery = _context.FavoriteCars
-                .Where(f => f.Car.OwnerId == userId && f.Car.Status == true)
+                .Where(f => f.UserId == userId && f.Car.Status == true)
                 .Include(f => f.Car) // Include Car
                 .ThenInclude(c => c.Model) // Include Model in Car
                 .ThenInclude(m => m.Brand) // Include Brand in Model
@@ -42,6 +42,10 @@ namespace MoncatiCar.Data.Repository
             return (favoriteCars, totalItems);
         }
 
-
+        public async Task<bool> IsCarAlreadyFavorited(Guid userId, Guid carId)
+        {
+            return await _context.FavoriteCars
+         .AnyAsync(f => f.UserId == userId && f.CarId == carId);
+        }
     }
 }

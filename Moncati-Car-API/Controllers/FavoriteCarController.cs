@@ -21,21 +21,35 @@ public class FavoriteCarController : ControllerBase
         _serviceManager = serviceManager;
         _resultModel = new ResultModel();
     }
-     [HttpGet]
+    [HttpGet]
     [Route("user/{userId:guid}")]
-    public async Task<ActionResult<ResultModel>> GetfavoritebyUser(Guid userId , int page = 1 , int limit =10){
-        var favoritecar = await _serviceManager.FavoriteCarService.GetAllCarByUser(page , limit ,userId);
+    public async Task<ActionResult<ResultModel>> GetfavoritebyUser(Guid userId, int page = 1, int limit = 10)
+    {
+        var favoritecar = await _serviceManager.FavoriteCarService.GetAllCarByUser(page, limit, userId);
         return Ok(new ResultModel
-            {
-                Success = true,
-                Status = (int)HttpStatusCode.OK,
-                Message = "Favorite Car with user retrieved successfully.",
-                Data = favoritecar
-            });
+        {
+            Success = true,
+            Status = (int)HttpStatusCode.OK,
+            Message = "Favorite Car with user retrieved successfully.",
+            Data = favoritecar
+        });
     }
     [HttpPost]
     public async Task<ActionResult<ResultModel>> CreateFavoriteCarAsync([FromBody] CreateFavoriteCarRequest request)
     {
+        var isAlreadyFavorited = await _serviceManager.FavoriteCarService.IsCarAlreadyFavorited(request.userId, request.carId);
+
+        if (isAlreadyFavorited)
+        {
+            // Nếu xe đã được thích trước đó, trả về thông báo lỗi
+            _resultModel = new ResultModel
+            {
+                Success = false,
+                Status = (int)HttpStatusCode.BadRequest,
+                Message = "This car is already favorited by the user."
+            };
+            return BadRequest(_resultModel);
+        }
         var query = await _serviceManager.FavoriteCarService.AddFavoriteCarAsync(request);
         if (query is null)
         {
@@ -54,7 +68,7 @@ public class FavoriteCarController : ControllerBase
         };
         return Ok(_resultModel);
     }
-   
+
     [HttpDelete]
     [Route("{favoriteId:guid}")]
     public async Task<ActionResult<ResultModel>> Delete(Guid favoriteId)
@@ -69,12 +83,13 @@ public class FavoriteCarController : ControllerBase
                 Message = "Favorite Car not found."
             };
         }
-        _resultModel = new ResultModel{
-                Success = true,
-                Status = (int)HttpStatusCode.NoContent,
-                Message = "Favorite Car deleted successfully.",
+        _resultModel = new ResultModel
+        {
+            Success = true,
+            Status = (int)HttpStatusCode.NoContent,
+            Message = "Favorite Car deleted successfully.",
         };
         return NoContent();
     }
-   
+
 }

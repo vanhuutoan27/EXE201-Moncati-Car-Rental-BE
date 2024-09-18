@@ -12,5 +12,6 @@ namespace MocatiCar.Core.Repository
     {
       Task<FavoriteCar>GetFavoriteCarById(Guid id);
      Task<(IEnumerable<FavoriteCar> FavoriteCarsCars, int TotalItems)> GetFavoriteCarByUserAsync(int page, int limit, Guid id);
+     Task<bool> IsCarAlreadyFavorited(Guid userId, Guid carId);
     }
 }

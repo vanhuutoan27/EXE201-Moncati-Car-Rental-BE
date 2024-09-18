@@ -91,7 +91,12 @@ namespace MoncatiCar.Data.Services
       };
     }
 
-    public async Task<bool> RemoveFavoriteCarAsync(Guid id)
+        public async Task<bool> IsCarAlreadyFavorited(Guid userId, Guid carId)
+        {
+           return await _repositoryManager.FavoriteCarRepository.IsCarAlreadyFavorited(userId , carId);
+        }
+
+        public async Task<bool> RemoveFavoriteCarAsync(Guid id)
     {
       var faId = await _repositoryManager.FavoriteCarRepository.GetFavoriteCarById(id);
       if (faId != null)
