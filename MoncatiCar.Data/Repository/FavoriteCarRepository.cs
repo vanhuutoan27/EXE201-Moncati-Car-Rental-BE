@@ -2,12 +2,6 @@
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Repository;
 using MoncatiCar.Data.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Repository
 {
@@ -31,7 +25,7 @@ namespace MoncatiCar.Data.Repository
                 .Where(f => f.UserId == userId && f.Car.Status == true)
                 .Include(u => u.User)
                 .Include(f => f.Car)
-                 // Include Car
+                // Include Car
                 .ThenInclude(c => c.Model) // Include Model in Car
                 .ThenInclude(m => m.Brand) // Include Brand in Model
                 .Include(f => f.Car.Images) // Include Images in Car
@@ -49,5 +43,7 @@ namespace MoncatiCar.Data.Repository
             return await _context.FavoriteCars
          .AnyAsync(f => f.UserId == userId && f.CarId == carId);
         }
+
+
     }
 }

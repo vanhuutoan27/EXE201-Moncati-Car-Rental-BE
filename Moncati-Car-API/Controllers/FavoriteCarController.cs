@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
+using System.Net;
 
 namespace Moncati_Car_API.Controllers;
 
@@ -49,6 +45,11 @@ public class FavoriteCarController : ControllerBase
                 Message = "This car is already favorited by the user."
             };
             return BadRequest(_resultModel);
+        }
+        var IsOwnerOfCar = await _serviceManager.FavoriteCarService.IsOwnerOfCar(request.userId, request.carId);
+        if (IsOwnerOfCar)
+        {
+            return BadRequest(new ResultModel { Success = false, Status = (int)HttpStatusCode.BadRequest, Message = "You can't add this car to favorite." });
         }
         var query = await _serviceManager.FavoriteCarService.AddFavoriteCarAsync(request);
         if (query is null)
