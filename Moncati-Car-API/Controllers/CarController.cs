@@ -150,6 +150,28 @@ namespace Moncati_Car_API.Controllers
                 Data = car
             });
         }
+        [HttpGet]
+        [Route("cars/location/{carId:guid}")]
+        public async Task<ActionResult<ResultModel>>GetLocationDetailBycarId(Guid carId){
+         var query = await _serviceManager.CarService.GetLocationDetailbyCarId(carId);
+         if (query == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Location details not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Location details retrieved successfully.",
+                Data = query
+            });
+         
+        }
         [HttpPut("{carId}/admin")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, UpdateCarRequest createCarRequest)
         {

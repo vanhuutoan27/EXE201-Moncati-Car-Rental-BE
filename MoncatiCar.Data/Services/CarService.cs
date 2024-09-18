@@ -384,7 +384,15 @@ namespace MoncatiCar.Data.Services
             return carResponse;
         }
 
-
+        public async Task<LocationDetailRespone> GetLocationDetailbyCarId(Guid id)
+        {
+           var car = await _repositoryManager.CarRepository.GetLocationDetailByCarId(id);
+           var carRespone = new LocationDetailRespone(){
+                  location = car.Location,
+                  locationDetails = car.LocationDetails
+           };
+           return carRespone;
+        }
 
         public async Task<bool> UpdateCar(Guid id, UpdateCarRequest update)
         {

@@ -179,5 +179,11 @@ namespace MoncatiCar.Data.Repository
         {
             _context.Cars.Update(car);
         }
+
+        public async Task<Car> GetLocationDetailByCarId(Guid carId)
+        {
+          var query = await _context.Cars.Where(c => c.CarId == carId).FirstOrDefaultAsync();
+          return query;
+        }
     }
 }

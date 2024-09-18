@@ -17,7 +17,7 @@ namespace MocatiCar.Core.Services
         Task<bool> ChangeStatusAsync(Guid id);
         Task<bool> ChangeRentalStatusAsync(Guid id, CarRentalStatus status);
         Task<bool> UpdateCarByCustomer(Guid id, UpdateCarByCustomer update);
-
+        Task<LocationDetailRespone>GetLocationDetailbyCarId(Guid id);
 
     }
 }
