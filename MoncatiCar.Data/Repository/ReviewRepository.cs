@@ -52,7 +52,7 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(c => c.CarId == carId).Skip((page - 1) * limit).Take(limit);
             }
 
-            
+
 
             return await query.ToListAsync();
         }
@@ -61,8 +61,9 @@ namespace MoncatiCar.Data.Repository
         {
             IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag);
 
-            if(flag.HasValue){
-                query = query.Where(f =>f.Flag == flag);
+            if (flag.HasValue)
+            {
+                query = query.Where(f => f.Flag == flag);
             }
             if (page > 0 && limit > 0)
             {
@@ -82,6 +83,11 @@ namespace MoncatiCar.Data.Repository
             return await _context.Reviews
          .Where(r => r.Car.CarTypeId == carTypeId)
          .ToListAsync();
+        }
+
+        public async Task<Review> HasReview(Guid author, Guid carId)
+        {
+            return await _context.Reviews.FirstOrDefaultAsync(r => r.CarId == carId && r.Author == author);
         }
 
         public void UpdateReview(Guid id, Review review)

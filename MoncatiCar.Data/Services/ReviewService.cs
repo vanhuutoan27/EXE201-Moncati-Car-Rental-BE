@@ -22,6 +22,12 @@ namespace MoncatiCar.Data.Services
         }
         public async Task<CreateUpdateReviewRequest> AddReview(CreateUpdateReviewRequest carRequest)
         {
+            //check user was reviewed 
+            var review = await _repositoryManager.ReviewRepository.HasReview(carRequest.Author, carRequest.CarId);
+            if (review != null)
+            {
+                throw new Exception("You have reviewed this car.");
+            }
             var model = new Review
             {
                 CarId = carRequest.CarId,
