@@ -63,10 +63,10 @@ namespace MoncatiCar.Data.Services
         FavoriteCarId = car.FavoriteCarId,
         CarId = car.CarId,
         
-        OwnerId = car.Car?.OwnerId, 
-        ownerAvatar = car.User?.Avatar,
+        OwnerId = car.Car.OwnerId, 
         ownerName = car.User?.UserName,
-        licensePlate = car.Car?.licensePlate, 
+        ownerAvatar = car.User?.Avatar,
+        licensePlate = car.Car?.licensePlate,
         slug = car.Car?.Slug, 
         brand = car.Car?.Model?.Brand?.BrandName, 
         model = car.Car?.Model?.ModelName, 

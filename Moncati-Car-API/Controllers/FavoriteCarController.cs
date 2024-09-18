@@ -30,7 +30,7 @@ public class FavoriteCarController : ControllerBase
         {
             Success = true,
             Status = (int)HttpStatusCode.OK,
-            Message = "Favorite Car with user retrieved successfully.",
+            Message = "Favorite cars retrieved successfully.",
             Data = favoritecar
         });
     }
@@ -64,7 +64,7 @@ public class FavoriteCarController : ControllerBase
         {
             Success = true,
             Status = (int)HttpStatusCode.OK,
-            Message = "Favorite Car added successfully."
+            Message = "Favorite car added successfully."
         };
         return Ok(_resultModel);
     }
@@ -80,16 +80,16 @@ public class FavoriteCarController : ControllerBase
             {
                 Success = false,
                 Status = (int)HttpStatusCode.NotFound,
-                Message = "Favorite Car not found."
+                Message = "Favorite car not found."
             };
         }
         _resultModel = new ResultModel
         {
             Success = true,
             Status = (int)HttpStatusCode.NoContent,
-            Message = "Favorite Car deleted successfully.",
+            Message = "Favorite car deleted successfully.",
         };
-        return NoContent();
+        return Ok(_resultModel);
     }
 
 }

@@ -44,7 +44,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.BadRequest,
-                    Message = "Unable to add rental. Please try again."
+                    Message = "Failed to rental."
                 };
             }
             _resultModel = new ResultModel

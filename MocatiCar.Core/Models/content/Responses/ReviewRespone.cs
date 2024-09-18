@@ -8,6 +8,7 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class ReviewRespone
     {
+        public Guid RentalId { get; set; }
         public Guid? ReviewId {  get; set; } 
         public Guid? CarId { get; set; }
         public Guid? Author { get; set; }
@@ -16,6 +17,5 @@ namespace MocatiCar.Core.Models.content.Responses
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool Flag {  get; set; }
-        public Guid RentalId { get; set; }
     }
 }
