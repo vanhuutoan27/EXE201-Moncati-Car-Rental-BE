@@ -29,7 +29,9 @@ namespace MoncatiCar.Data.Services
                 Rating = carRequest.Rating,
                 Content = carRequest.Content,
                 Flag = false,
-                RentalId = carRequest.RentalId
+                RentalId = carRequest.RentalId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
             };
             _repositoryManager.ReviewRepository.Add(model);
             await _repositoryManager.SaveAsync();
