@@ -14,8 +14,8 @@ namespace MocatiCar.Core.Models.content.Responses
         public Guid? Author { get; set; }
         public int Rating { get; set; }
         public string? Content { get; set; }
+        public bool Flag {  get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public bool Flag {  get; set; }
     }
 }

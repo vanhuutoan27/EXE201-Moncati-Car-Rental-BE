@@ -35,6 +35,7 @@ namespace MoncatiCar.Data
                     Status = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LockoutEnabled = false,
+                    CreatedAt = DateTime.Parse("2024-7-27"),
                     UpdatedAt = DateTime.Parse("2024-7-27"),
                     EmailConfirmed = true,
                 };

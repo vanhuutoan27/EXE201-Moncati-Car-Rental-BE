@@ -104,7 +104,7 @@ namespace Moncati_Car_API.Controllers
                 ExpiredAt = user.RefreshTokenExpiryTime
             };
             _resp.Status = (int)HttpStatusCode.OK;
-            _resp.Message = "Login successful.";
+            _resp.Message = "Login successfully.";
             return _resp;
         }
         [HttpPost]
@@ -151,7 +151,7 @@ namespace Moncati_Car_API.Controllers
 
                 await _userManager.AddToRoleAsync(users, Roles.Customer);
                 _resp.Status = (int)HttpStatusCode.OK;
-                _resp.Message = "Register successful.";
+                _resp.Message = "Register successfully.";
                 _resp.Success = true;
 
                 return _resp;
@@ -196,6 +196,5 @@ namespace Moncati_Car_API.Controllers
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(input, emailPattern);
         }
-
     }
 }
