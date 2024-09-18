@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.SeedWorks;
@@ -22,6 +21,7 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IAddressService> _addressService;
         private readonly Lazy<IRentalService> _rentalService;
         private readonly Lazy<IFavoriteCarService> _favoriteCarService;
+
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
         {
             _carFeatureService = new Lazy<ICarFeatureService>(() => new CarFeatureService(repositoryManager, mapper));
@@ -54,7 +54,7 @@ namespace MoncatiCar.Data.SeedWork
         public IBrandService BrandService => _brandService.Value;
 
         public IUserService UserService => _userService.Value;
-        
+
         public IAddressService AddressService => _addressService.Value;
 
         public IRentalService RentalService => _rentalService.Value;

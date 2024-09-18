@@ -131,24 +131,31 @@ namespace MoncatiCar.Data.Services
 
             var rentalResponses = listrental.Select(x => new RentalRespone
             {
+                RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
                 CarId = x.Car?.CarId,
                 CommissionAmount = x.CommissionAmount,
-                CustomerId = x.Customer?.Id,
-                CreatedAt = DateTime.Now,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                UpdatedAt = DateTime.Now,
-                StartDateTime = x.StartDateTime,
-                EndDateTime = x.EndDateTime,
+                CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
                 OwnerId = x.Owner?.Id,
                 PickupLocation = x.PickupLocation,
                 RentalAmount = x.RentalAmount,
-                RentalId = x.RentalId,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
                 RemainAmount = x.RemainAmount,
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
                 UpdatedBy = x.UpdatedBy,
 
             });
@@ -162,7 +169,7 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<RentalRespone>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        public async Task<PageResult<RentalResponseForGetById>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             var carId = await _repositoryManager.RentalRepository.GetRentalByCarId(id, page, limit, filter, startDate, endDate);
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
@@ -171,7 +178,7 @@ namespace MoncatiCar.Data.Services
             {
                 return null;
             }
-            var rentalrespone = carId.Select(x => new RentalRespone
+            var rentalrespone = carId.Select(x => new RentalResponseForGetById
             {
                 RentalId = x.RentalId,
                 CarId = x.Car?.CarId,
@@ -193,7 +200,7 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = x.UpdatedBy
             });
-            return new PageResult<RentalRespone>
+            return new PageResult<RentalResponseForGetById>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
@@ -204,15 +211,23 @@ namespace MoncatiCar.Data.Services
 
         public async Task<RentalRespone> GetRentalById(Guid id)
         {
+            // Lấy rental từ repository
             var rental = await _repositoryManager.RentalRepository.GetRentalByIdAsync(id);
             if (rental == null)
             {
                 throw new Exception("Rental not found.");
             }
 
-            return new RentalRespone
+            var rentalResponse = new RentalRespone
             {
                 RentalId = rental.RentalId,
+                CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",
+                CarPlate = rental.Car?.licensePlate,
+                CarImage = rental.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = rental.Owner?.FullName,
+                OnwerPhone = rental.Owner?.PhoneNumber,
+                CustomerName = rental.Customer?.FullName,
+                CustomerPhone = rental.Customer?.PhoneNumber,
                 CarId = rental.Car?.CarId,
                 CommissionAmount = rental.CommissionAmount,
                 CreatedAt = rental.CreatedAt ?? DateTime.Now,
@@ -231,11 +246,12 @@ namespace MoncatiCar.Data.Services
                 RemainAmount = rental.RemainAmount,
                 UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
                 UpdatedBy = rental.UpdatedBy,
+
             };
+            return rentalResponse;
         }
 
-
-        public async Task<PageResult<RentalRespone>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        public async Task<PageResult<RentalResponseForGetById>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             var users = await _repositoryManager.RentalRepository.GetRentalByUserId(id, page, limit, filter, startDate, endDate);
             if (users == null)
@@ -244,7 +260,7 @@ namespace MoncatiCar.Data.Services
                 return null;
             }
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
-            var rentalrespone = users.Select(x => new RentalRespone
+            var rentalrespone = users.Select(x => new RentalResponseForGetById
             {
                 RentalId = x.RentalId,
                 CarId = x.Car?.CarId,
@@ -266,7 +282,7 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = x.UpdatedBy
             });
-            return new PageResult<RentalRespone>
+            return new PageResult<RentalResponseForGetById>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),

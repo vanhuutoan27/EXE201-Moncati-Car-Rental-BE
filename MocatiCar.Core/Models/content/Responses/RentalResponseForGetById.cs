@@ -3,27 +3,26 @@ using System.Text.Json.Serialization;
 
 namespace MocatiCar.Core.Models.content.Responses
 {
-    public class RentalRespone
+    public class RentalResponseForGetById
     {
-
         public Guid RentalId { get; set; }
         [JsonPropertyName("car")]
         public Guid? CarId { get; set; }
-        public string? CarName { get; set; }
-        public string? CarPlate { get; set; }
-        public string? CarImage { get; set; }
+        //public string? CarName { get; set; }
+        //public string? CarPlate { get; set; }
+        //public string? CarImage { get; set; }
 
 
         [JsonPropertyName("owner")]
         public Guid? OwnerId { get; set; }
-        public string? OwnerName { get; set; }
-        public string? OnwerPhone { get; set; }
+        //public string? OwnerName { get; set; }
+        //public string? OnwerPhone { get; set; }
         [JsonPropertyName("customer")]
         public Guid? CustomerId { get; set; }
 
 
-        public string? CustomerName { get; set; }
-        public string? CustomerPhone { get; set; }
+        //public string? CustomerName { get; set; }
+        //public string? CustomerPhone { get; set; }
 
         public DateTime StartDateTime
         { get; set; }

@@ -59,41 +59,42 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("{rentalId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalById(Guid rentalId)
+        public async Task<ActionResult<ResultModel>> GetRentalBy_Id(Guid rentalId)
         {
             try
             {
+                // Gọi service để lấy thông tin rental
                 var rental = await _serviceManager.RentalService.GetRentalById(rentalId);
+
+                // Nếu rental không tồn tại, trả về NotFound
                 if (rental == null)
                 {
-                    _resultModel = new ResultModel
+                    return NotFound(new ResultModel
                     {
                         Status = (int)HttpStatusCode.NotFound,
                         Success = false,
                         Message = "Rental not found."
-                    };
-                    return NotFound(_resultModel);
+                    });
                 }
 
-                _resultModel = new ResultModel
+                // Trả về kết quả thành công
+                return Ok(new ResultModel
                 {
                     Status = (int)HttpStatusCode.OK,
                     Success = true,
                     Message = "Rental retrieved successfully.",
                     Data = rental
-                };
-                return Ok(_resultModel);
+                });
             }
             catch (Exception ex)
             {
-                _resultModel = new ResultModel
+                // Xử lý ngoại lệ và trả về thông báo lỗi
+                return StatusCode((int)HttpStatusCode.InternalServerError, new ResultModel
                 {
                     Status = (int)HttpStatusCode.InternalServerError,
                     Success = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
+                    Message = ex.Message
+                });
             }
         }
 

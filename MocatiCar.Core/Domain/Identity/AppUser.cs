@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.SeedWorks.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MocatiCar.Core.Domain.Identity
 {
@@ -25,7 +26,11 @@ namespace MocatiCar.Core.Domain.Identity
         public ICollection<Car> Cars { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Address> Addresses { get; set; }
-        public ICollection<Rental> Rentals { get; set; }
+        [InverseProperty(nameof(Rental.Customer))]
+        public ICollection<Rental> CustomerRentals { get; set; }
+        [InverseProperty(nameof(Rental.Owner))]
+        public ICollection<Rental> OwnerRentals { get; set; }
+
         public ICollection<FavoriteCar> FavoriteCars { get; set; }
     }
 }

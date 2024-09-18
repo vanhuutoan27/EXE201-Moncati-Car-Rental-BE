@@ -20,9 +20,12 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals
-                                               .Include(r => r.Car)
-                                               .Include(r => r.Contracts)
-                                               .Include(r => r.Payments).AsQueryable();
+                                                .Include(r => r.Car).ThenInclude(r => r.Model).ThenInclude(m => m.Brand)
+                                        .Include(r => r.Car).ThenInclude(c => c.Images)
+                                        .Include(r => r.Owner)
+                                        .Include(r => r.Customer)
+                                        .Include(r => r.Contracts)
+                                        .Include(r => r.Payments).AsQueryable();
 
             // Thêm log để kiểm tra filter và createAt
             //Console.WriteLine($"Filter: {filter}, CreateAt: {createAt}");
@@ -63,6 +66,8 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals.Where(r => r.CarId == id).Include(r => r.Car)
+                 .Include(r => r.Owner)
+                .Include(r => r.Customer)
                 .Include(r => r.Contracts)
                 .Include(r => r.Payments).AsQueryable();
 
@@ -87,18 +92,23 @@ namespace MoncatiCar.Data.Repository
         public async Task<Rental> GetRentalByIdAsync(Guid id)
         {
             var rental = await _context.Rentals
-                                       .Include(r => r.Car)
-                                       .Include(r => r.Contracts)
-                                       .Include(r => r.Payments)
-                                       .FirstOrDefaultAsync(r => r.RentalId == id);
+                                        .Include(r => r.Car).ThenInclude(r => r.Model).ThenInclude(m => m.Brand)
+                                        .Include(r => r.Car).ThenInclude(c => c.Images)
+                                        .Include(r => r.Owner)
+                                        .Include(r => r.Customer)
+                                        .Include(r => r.Contracts)
+                                        .Include(r => r.Payments)
+                                        .FirstOrDefaultAsync(r => r.RentalId == id);
 
+            // Kiểm tra nếu không tìm thấy rental
             if (rental == null)
             {
                 throw new Exception("Rental does not exist.");
             }
 
+            // Lấy thông tin chủ sở hữu và khách hàng từ bảng Users
             rental.Owner = await _context.Users.FirstOrDefaultAsync(u => u.Id == rental.OwnerId);
-            rental.Customer = await _context.Users.FirstOrDefaultAsync(o => o.Id == rental.CustomerId);
+            rental.Customer = await _context.Users.FirstOrDefaultAsync(c => c.Id == rental.CustomerId);
 
             if (rental.Owner == null)
             {
@@ -114,10 +124,11 @@ namespace MoncatiCar.Data.Repository
         }
 
 
-
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id || r.OwnerId == id).Include(r => r.Car)
+                .Include(r => r.Owner)
+                .Include(r => r.Customer)
                .Include(r => r.Contracts)
                .Include(r => r.Payments).AsQueryable();
 

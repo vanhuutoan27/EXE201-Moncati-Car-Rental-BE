@@ -1,4 +1,5 @@
-﻿using MocatiCar.Core.Domain.Identity;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.SeedWorks.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,12 +31,12 @@ namespace MocatiCar.Core.Domain.Content
         public Guid? UpdatedBy { get; set; }
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
-        [ForeignKey(nameof(OwnerId))]
-        [NotMapped]
+        [ForeignKey(nameof(OwnerId)), Column(Order = 0)]
+        //[NotMapped]
 
         public AppUser Owner { get; set; }
-        [ForeignKey(nameof(CustomerId))]
-        [NotMapped]
+        [ForeignKey(nameof(CustomerId)), Column(Order = 1)]
+        //[NotMapped]
 
         public AppUser Customer { get; set; }
         public ICollection<Contract> Contracts { get; set; }
