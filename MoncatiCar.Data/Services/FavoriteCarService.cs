@@ -64,6 +64,8 @@ namespace MoncatiCar.Data.Services
         CarId = car.CarId,
         
         OwnerId = car.Car?.OwnerId, 
+        ownerAvatar = car.User?.Avatar,
+        ownerName = car.User?.UserName,
         licensePlate = car.Car?.licensePlate, 
         slug = car.Car?.Slug, 
         brand = car.Car?.Model?.Brand?.BrandName, 
@@ -72,7 +74,7 @@ namespace MoncatiCar.Data.Services
         seats = car.Car?.Seats ?? 0, 
         transmission = car.Car?.Transmission ?? default(MocatiCar.Core.SeedWorks.Enums.Transmission), 
         fuelType = car.Car?.FuelType ?? default(MocatiCar.Core.SeedWorks.Enums.FuelType), 
-        fuelConsumption = car.Car?.FuelConsumption ?? 0, 
+       
         description = car.Car?.Description,
         location = car.Car?.Location,
         pricePerDay = car.Car?.PricePerDay ?? 0,
