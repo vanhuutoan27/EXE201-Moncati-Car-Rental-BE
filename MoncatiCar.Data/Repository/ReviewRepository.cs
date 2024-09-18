@@ -11,40 +11,59 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star, Boolean flag)
+        public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star, Boolean? flag)
         {
             IQueryable<Review> query = _context.Reviews.Include(a => a.User)
                                                        .Include(c => c.Car)
-                                                       .Include(r => r.Rental)
-                                                       .Where(p=> p.Flag == flag)
-                                                       ;
+                                                       .Include(r => r.Rental);
+
+            // Apply flag filter only if flag has a value
+            if (flag.HasValue)
+            {
+                query = query.Where(p => p.Flag == flag.Value);
+            }
+
+            // Apply star filter if star > 0
             if (star > 0)
             {
                 query = query.Where(r => r.Rating == star);
             }
+
+            // Pagination
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
             }
+
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, Boolean flag)
+
+        public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, bool? flag)
         {
             IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag)
-;
+; if (flag.HasValue)
+            {
+                query = query.Where(f => f.Flag == flag);
+            }
 
             if (page > 0 && limit > 0)
             {
                 query = query.Where(c => c.CarId == carId).Skip((page - 1) * limit).Take(limit);
             }
 
+            
+
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean flag)
+        public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
             IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag);
+
+            if(flag.HasValue){
+                query = query.Where(f =>f.Flag == flag);
+            }
             if (page > 0 && limit > 0)
             {
                 query = query.Where(u => u.Author == userId).Skip((page - 1) * limit).Take(limit);

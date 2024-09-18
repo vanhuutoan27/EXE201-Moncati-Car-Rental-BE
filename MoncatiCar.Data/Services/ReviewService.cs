@@ -70,10 +70,15 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star, Boolean flag)
+        public async Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star, bool? flag)
         {
+            // Call the repository to get reviews
             var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit, star, flag);
+
+            // Total items for pagination
             var totalItems = listreview.Count();
+
+            // Map the reviews to the response model
             var reviewRespone = listreview.Select(x => new ReviewRespone
             {
                 ReviewId = x.ReviewId,
@@ -87,6 +92,7 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
             });
 
+            // Return a paginated result
             return new PageResult<ReviewRespone>
             {
                 CurrentPage = page,
@@ -96,7 +102,7 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean flag)
+        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean? flag)
         {
             var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit, flag);
             int totalItems = reviews.Count();
@@ -137,9 +143,9 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean flag)
+        public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
-            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit,flag);
+            var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit, flag);
             var totalItems = user.Count();
             if (user == null)
             {

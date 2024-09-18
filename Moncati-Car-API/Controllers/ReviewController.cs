@@ -20,7 +20,7 @@ namespace Moncati_Car_API.Controllers
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, bool? flag = null, int? rating = null)
         {
-            // Check if star rating is provided and if so, validate it
+            // Check if rating is provided and if so, validate it
             if (rating.HasValue && (rating < 1 || rating > 5))
             {
                 _resultModel = new ResultModel
@@ -32,19 +32,8 @@ namespace Moncati_Car_API.Controllers
                 return BadRequest(_resultModel);
             }
 
-            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, rating ?? 0, (bool)flag);
-
-            // Check if the Items collection is null or empty
-            //if (listreview == null || !listreview.Items.Any())
-            //{
-            //    _resultModel = new ResultModel
-            //    {
-            //        Success = false,
-            //        Message = "No reviews found.",
-            //        Status = (int)HttpStatusCode.NotFound
-            //    };
-            //    return NotFound(_resultModel);
-            //}
+            // Call the service to get reviews, handle nullable flag correctly
+            var listreview = await _serviceManager.ReviewService.GetAllReviewAsync(page, limit, rating ?? 0, flag);
 
             // Return the result if reviews are found
             _resultModel = new ResultModel
@@ -54,8 +43,10 @@ namespace Moncati_Car_API.Controllers
                 Data = listreview,
                 Message = "Reviews retrieved successfully."
             };
+
             return Ok(_resultModel);
         }
+
 
 
         [HttpGet]
@@ -95,7 +86,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetReviewByCarId(Guid carId, int page = 1, int limit = 10, bool? flag = null)
         {
 
-            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit, (bool)flag);
+            var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit, flag);
 
             _resultModel = new ResultModel
             {
@@ -113,7 +104,7 @@ namespace Moncati_Car_API.Controllers
         [Route("user/{userId:guid}")]
         public async Task<ActionResult<ResultModel>> GetReviewByUserId(Guid userId, int page = 1, int limit = 10, bool? flag = null)
         {
-            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit, (bool)flag);
+            var reviews = await _serviceManager.ReviewService.GetReviewByUserId(userId, page, limit, flag);
 
             _resultModel = new ResultModel
             {
