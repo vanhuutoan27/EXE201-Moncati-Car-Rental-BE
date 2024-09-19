@@ -151,7 +151,7 @@ namespace Moncati_Car_API.Controllers
             });
         }
         [HttpGet]
-        [Route("user/{userName}")]
+        [Route("user/{username}")]
         public async Task<ActionResult<ResultModel>> GetAllCarByOwnerUsername(string userName, int page = 1, int limit = 10, bool? status = null)
         {
             var result = await _serviceManager.CarService.GetAllCarByUserNameOfOwner(page, limit, status, userName);
