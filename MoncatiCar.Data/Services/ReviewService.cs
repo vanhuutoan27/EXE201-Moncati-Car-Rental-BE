@@ -183,6 +183,36 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+        public async Task<PageResult<GetReviewandUserbyOwnerRespone>> GetUserAndReviewByOwner(string ownerName, int page, int limit)
+        {
+            var reviews = await _repositoryManager.ReviewRepository.GetUserByOwnerName(ownerName, page, limit);
+            var totalItems = reviews.Count();
+
+            if (totalItems == 0) // Check for empty collection
+            {
+                throw new Exception($"No reviews and users found.");
+            }
+
+            var reviewResponse = reviews.Select(review => new GetReviewandUserbyOwnerRespone
+            {
+                customerName = review.User?.UserName, // Access User from each Review
+                customerAvatar = review.User?.Avatar,
+                rating = review.Rating,
+                createdAt = review.CreatedAt,
+                updatedAt = review.UpdatedAt
+            });
+
+            return new PageResult<GetReviewandUserbyOwnerRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = reviewResponse
+            };
+        }
+
+
+
         public async Task<bool> UpdateReview(Guid id, CreateUpdateReviewRequest update)
         {
             var reviewId = await _repositoryManager.ReviewRepository.GetByIdAsync(id);
