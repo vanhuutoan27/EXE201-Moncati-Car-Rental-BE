@@ -27,5 +27,6 @@ namespace MocatiCar.Core.Domain.Identity
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Rental> Rentals { get; set; }
         public ICollection<FavoriteCar> FavoriteCars { get; set; }
+        public DrivingLicense DrivingLicenses { get; set; }
     }
 }
