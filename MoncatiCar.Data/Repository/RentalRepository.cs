@@ -12,6 +12,11 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
+        public Task<int> CountAsync(Guid carId)
+        {
+           return _context.Rentals.CountAsync(r => r.CarId == carId);
+        }
+
         public Task<int> CountRecord()
         {
             return _context.Rentals.CountAsync();

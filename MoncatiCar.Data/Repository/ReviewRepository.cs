@@ -11,6 +11,11 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
+        public async Task<int> CountAsync(Guid carId)
+        {
+            return await _context.Reviews.CountAsync(c => c.CarId == carId);
+        }
+
         public async Task<IEnumerable<Review>> GetAllReviewAsync(int page, int limit, int star, Boolean? flag)
         {
             IQueryable<Review> query = _context.Reviews.Include(a => a.User)
@@ -49,13 +54,26 @@ namespace MoncatiCar.Data.Repository
             if (page > 0 && limit > 0) { query = query.Skip((page - 1) * limit).Take(limit); }
             return await query.ToListAsync();
         }
+        public async Task<double> GetAverageRatingByCarId(Guid carId)
+        {
+            var reviews = await _context.Reviews.Where(c => c.CarId == carId).ToListAsync();
+
+            // Nếu không có review nào, trả về 0
+            if (!reviews.Any())
+            {
+                return 0.0;
+            }
+
+            // Tính trung bình rating
+            return reviews.Average(r => r.Rating);
+        }
 
         public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, bool? flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag)
-; if (flag.HasValue)
+            IQueryable<Review> query = _context.Reviews.AsQueryable()
+            ; if (flag.HasValue)
             {
-                query = query.Where(f => f.Flag == flag);
+                query = query.Where(f => f.Flag == flag.Value);
             }
 
             if (page > 0 && limit > 0)
@@ -70,11 +88,11 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag);
+            IQueryable<Review> query = _context.Reviews.AsQueryable();
 
             if (flag.HasValue)
             {
-                query = query.Where(f => f.Flag == flag);
+                query = query.Where(f => f.Flag == flag.Value);
             }
             if (page > 0 && limit > 0)
             {
