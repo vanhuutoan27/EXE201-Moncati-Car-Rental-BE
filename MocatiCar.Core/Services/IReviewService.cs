@@ -13,6 +13,7 @@ namespace MocatiCar.Core.Services
         Task<bool> DeleteReview(Guid id);
         Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean? flag);
         Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag);
+        Task<PageResult<ReviewRespone>> GetAllReviewByUsername(string username, int page, int limit, bool? flag);
         Task<bool> ChangeFlagAsync(Guid id);
     }
 }

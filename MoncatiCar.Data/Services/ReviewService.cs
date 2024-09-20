@@ -110,6 +110,20 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+        public async Task<PageResult<ReviewRespone>> GetAllReviewByUsername(string username, int page, int limit, bool? flag)
+        {
+            var reviewList = await _repositoryManager.ReviewRepository.GetAllReviewByUsername(username, page, limit, flag);
+            var totalItems = reviewList.Count();
+            var result = _mapper.Map<IEnumerable<ReviewRespone>>(reviewList);
+            return new PageResult<ReviewRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = result
+            };
+        }
+
         public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean? flag)
         {
             var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit, flag);
