@@ -265,7 +265,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Updated successfully."
+                Message = "User information updated successfully."
             });
         }
     }
