@@ -30,15 +30,15 @@ namespace MocatiCar.Core.Models.content.Responses
         public int? LimitKilometersPerDay { get; set; } 
         public int? OverLimitFeePerKm { get; set; } 
         public string? RentalTerms { get; set; }
+        public int totalRentals {get; set;}
+        public int totalReviews{get ; set;}
+        public double averageRating {get;set;}
         public CarRentalStatus RentalStatus { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-        public int totalRentals {get; set;}
-        public int totalReviews{get ; set;}
-        public double averageRating {get;set;}
     }
 
     // ImageResponse class
