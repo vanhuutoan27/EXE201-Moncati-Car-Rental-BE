@@ -1,0 +1,127 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Requests;
+using MocatiCar.Core.Models.content.Responses;
+using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MoncatiCar.Data.Services
+{
+    public class DrivingLicenseService : IDrivingLicenseService
+    {
+        private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
+        public DrivingLicenseService(IRepositoryManager repositoryManager, IMapper mapper)
+        {
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
+        }
+        public async Task<CreateDrivingLicenseRequest> AddDrivingLicense(Guid userId, CreateDrivingLicenseRequest drivingLicenseRequest)
+        {
+            var user = await _repositoryManager.UserRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                throw new Exception($"User not found.");
+            }
+
+            // kiem tra user co drivinglisence hay chua
+            var checkDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(userId);
+            if (checkDrivingLisence != null)
+            {
+                throw new Exception("You have a driver's license.");
+            }
+            var createLicense = _mapper.Map<DrivingLicense>(drivingLicenseRequest);
+            // check length of LicenseNumber
+            if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
+            {
+                throw new Exception("LicenseNumber invalid.");
+            }
+
+            // check license duplicate
+            var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
+            if (existingLicense != null)
+            {
+                throw new Exception("LisenceNumber existed.");
+            }
+
+            var modelLicense = new DrivingLicense
+            {
+                DrivingLicenseId = Guid.NewGuid(),
+                LicenseNumber = createLicense.LicenseNumber,
+                IssueDate = createLicense.IssueDate,
+                Verified = false,
+                ExpiryDate = createLicense.ExpiryDate,
+                UserId = createLicense.UserId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            _repositoryManager.DrivingLicenseRepository.Add(modelLicense);
+            await _repositoryManager.SaveAsync();
+            var result = _mapper.Map<CreateDrivingLicenseRequest>(modelLicense);
+            return result;
+        }
+
+        public async Task<bool> DeleteDrivingLisence(Guid lisenceId)
+        {
+            var drivingLisence = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(lisenceId);
+            if (drivingLisence == null)
+            {
+                throw new Exception($"Driving Lisence with ID '{drivingLisence}' does not exist.");
+            }
+            _repositoryManager.DrivingLicenseRepository.Remove(drivingLisence);
+            await _repositoryManager.SaveAsync();
+            return true;
+
+        }
+
+        public async Task<DrivingLicenseRespone> GetDrivingLicenseById(Guid licenseId)
+        {
+            var license = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(licenseId);
+            return _mapper.Map<DrivingLicenseRespone>(license);
+        }
+
+        public async Task<DrivingLicenseRespone> GetDrivingLicenseUserId(Guid userId)
+        {
+            var license = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(userId);
+            return _mapper.Map<DrivingLicenseRespone>(license);
+        }
+
+        public async Task<bool> UpdateDrivingLicense(Guid lisenceId, UpdateDrivingLicenseRequest drivingLicenseRequest)
+        {
+            var updateLicense = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(lisenceId);
+            if (updateLicense == null)
+            {
+                throw new Exception($"DrivingLisence with ID '{lisenceId}' does not exist.");
+            }
+            var createLicense = _mapper.Map<DrivingLicense>(drivingLicenseRequest);
+
+            // check length of LicenseNumber
+            if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
+            {
+                throw new Exception("LicenseNumber invalid.");
+            }
+
+            // check license duplicate
+            var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
+            if (existingLicense != null)
+            {
+                throw new Exception("LisenceNumber existed.");
+            }
+            updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
+            updateLicense.IssueDate = drivingLicenseRequest.IssueDate;
+            updateLicense.ExpiryDate = drivingLicenseRequest.ExpiryDate;
+            updateLicense.Verified = drivingLicenseRequest.Verified;
+            updateLicense.UpdatedAt = DateTime.Now;
+
+            _repositoryManager.DrivingLicenseRepository.Update(updateLicense);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
+    }
+}

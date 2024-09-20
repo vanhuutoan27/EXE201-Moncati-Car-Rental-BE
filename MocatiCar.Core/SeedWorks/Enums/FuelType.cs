@@ -5,6 +5,6 @@
         Gasoline,
         Diesel,
         Electric,
-        Other
+        Hybrid
     }
 }

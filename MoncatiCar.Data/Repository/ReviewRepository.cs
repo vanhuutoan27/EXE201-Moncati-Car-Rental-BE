@@ -38,6 +38,17 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<Review>> GetAllReviewByUsername(string username, int page, int limit, bool? flag)
+        {
+            IQueryable<Review> query = _context.Reviews.AsQueryable();
+            query = query.Where(r => r.User.UserName == username);
+            if (flag.HasValue)
+            {
+                query = query.Where(r => r.Flag == flag);
+            }
+            if (page > 0 && limit > 0) { query = query.Skip((page - 1) * limit).Take(limit); }
+            return await query.ToListAsync();
+        }
 
         public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, bool? flag)
         {

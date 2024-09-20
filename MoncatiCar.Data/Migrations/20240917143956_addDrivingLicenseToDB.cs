@@ -8,19 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MoncatiCar.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateRelationRentals : Migration
+    public partial class addDrivingLicenseToDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rentals_Users_AppUserId",
-                table: "Rentals");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Rentals_AppUserId",
-                table: "Rentals");
-
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
@@ -706,152 +698,174 @@ namespace MoncatiCar.Data.Migrations
                 keyColumn: "CarFeatureId",
                 keyValue: new Guid("f6bdb9d2-b935-4901-bf3a-2c22d0447d8e"));
 
-            migrationBuilder.DropColumn(
-                name: "AppUserId",
-                table: "Rentals");
+            migrationBuilder.CreateTable(
+                name: "DrivingLicenses",
+                columns: table => new
+                {
+                    DrivingLicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LicenseNumber = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
+                    IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Verified = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DrivingLicenses", x => x.DrivingLicenseId);
+                    table.ForeignKey(
+                        name: "FK_DrivingLicenses_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "CarFeatures",
                 columns: new[] { "CarFeatureId", "CarId", "FeatureId" },
                 values: new object[,]
                 {
-                    { new Guid("03a4cac6-2550-4e72-8006-e7d6081a83a4"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("06d5e7f8-3785-4380-ba7d-9204e6d4f6d9"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("0849455d-001a-48aa-87ca-fabb23af0316"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("0b6a472e-15ba-49e2-88c5-e48700b4807c"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("0b750b8d-1d67-4f12-8750-d23fbaf4e987"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("0bc0a44c-433d-4af3-84fe-b4fad986e9b1"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("0df21f8b-87a3-4fe1-bca8-c5556c41db5d"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("0f4e42d7-81f4-4f55-9b6f-d2bdfdfb12b1"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("100f9222-2611-464a-bb62-9e7ceb32d7cd"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("10825169-2614-4113-846d-4125e2c06518"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("109daf0f-ae6f-4b8b-93d3-80bdd7e49c5b"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("10b1a1fc-eb51-41e5-9dd4-aabffe8e99ac"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("118e0fb5-d79a-4357-995b-799cdba8536b"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("160526b8-a14c-4ea1-a567-a63cbc64c349"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("19e0e467-9925-44d2-9531-64eae9624b9f"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("1a787405-28d5-4bed-a8e5-69a0a0d718e5"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("1b8bfb11-bd6d-49df-9080-543eb9cff74d"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("1b8cee74-e6fe-410c-a283-92bef3481409"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
-                    { new Guid("1cd2b280-a99e-441f-96cc-ce744f64fa3c"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("1e3906d0-9fbd-4c95-aa53-42dd12843205"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("1e766828-34e1-422f-90f0-d560224408a9"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("1ee945eb-0adf-49df-8642-183f0393c65b"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("206db8e0-5f37-4b53-875e-841de33e5be4"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("219860e8-f3f8-44ed-960d-58408cf3f4cd"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("22e9e139-cb09-467c-b496-c9f30f78cfcf"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("2394694e-1540-41f8-a66d-0092e1c67b89"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("254facee-bc11-486c-ab46-79d6d020e264"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("293ee292-8e80-4f70-a4ce-097e6c6589d5"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("2a417037-ee2b-4b39-8360-0a8006621674"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("2ced0653-f7eb-46cc-a151-09af4c7cd3dc"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("31b3626d-09c7-4411-aafb-f88c921cd2e6"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("32a9d6a2-a1e2-4b03-a9d1-82528bbb2c75"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("335ee6ff-f71a-489f-a6b4-baf2d1cb1b65"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("35787b3e-aae0-4a82-8297-690435491ce9"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("3ab65769-a30e-4cb4-a4fe-6a833c2a323b"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("3e768477-b9ae-423d-91f8-39c12783706b"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("41a45c16-a106-446b-8718-ce8cbc789191"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("41fdf7d3-a915-4e96-8331-fc6829cdd73c"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("4265655b-d4b0-4c3b-b0e0-2b85de16643a"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("42a4f45c-f5cd-4c88-8280-7db5785e150b"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("42b8fb8d-2c2c-4bad-af59-0d2c472d304b"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
-                    { new Guid("47c9e92c-1892-4d0d-b14c-399cb21a5f4d"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("49821129-f3ca-473d-aa95-ea91fc308008"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("4a1ead19-e024-40b8-a0e8-ee7fc748c419"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
-                    { new Guid("4ccea9c8-744c-4793-b40a-00e5e4d499ec"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("4d52863a-1c20-4f3c-98f2-7648a13eace8"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("4eed945c-3521-423e-aa67-a732e385d3e1"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("507cd690-8701-41e5-9db4-c25462c94b5e"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("546a0009-094b-4fc6-872b-76bfc36e0e10"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("5820d89a-75f0-49f9-a59b-c79c0f8caf8c"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("5a73a516-ef46-46fd-837b-cc4910763087"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("5b47796e-e854-4de3-bdbe-ac01f3a4024a"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("5c4f88d1-9f77-45a2-8bda-9c3358509caf"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("64255e89-98fd-482b-8553-dabf19b82cb4"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("659e7f74-791e-4d73-8b38-7cdca30bd3d6"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("669a400d-d918-4b15-bf28-1e3a1d489809"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("66ed8af5-c045-4b7d-b24e-40c594681d75"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("6743d852-6a0e-42ac-94b4-f0d59ad7231b"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("6758df37-d010-4dcb-bb99-1c5ade98f6e0"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("6848a6b3-49f0-4603-bf16-bfeb454d7045"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("68b41397-98f1-4bea-bed9-16d0bf03aef2"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("6ebf1d36-35fa-4cad-9d6f-671476d02020") },
-                    { new Guid("6c3f86cb-7a5d-43ca-bf06-a6226b8d803c"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("6d537fe5-ffde-4177-b570-a529ecf12b2a"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("6debee3b-a97b-41ea-8b87-2ced1f9d3d4d"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("7081a378-a797-4675-bfb9-8fea681f78bf"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("72569651-521b-4dcc-b8f7-e8e336a93231"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("786b4053-6774-4d23-b344-8fe6064cb9a1"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("78818716-8a89-48c9-b1af-04c1014febbd"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("7bd104ad-ae46-49d6-98c1-0b532c40707e"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("7d71ddfd-3c66-4e29-b838-83708a719de5"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("7dba6ab7-0580-4cc6-a655-2ab12ab40023"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("80461aa6-a823-4942-8a9f-7a3ab6c3d888"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("8107b593-2d5e-4e25-92f8-10a441fb36ff"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("83a596e9-d2bf-4c27-81b1-b33ef6174b08"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("849e63fe-cce8-4662-9cd7-4c0f7652cbf8"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("86f8acac-2b16-40c9-92bc-8b5405781ec5"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("8789ed48-f48f-499a-b229-e1bba678c360"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("8911e579-f6ee-4ea1-ad01-d4ce652a7147"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("8963285a-7c99-41aa-9c37-520e0ba805a4"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("8bc97ae1-c35a-4553-912e-532d61adfdfe"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("8c865318-7a92-49e6-8a98-78bd5ca4f391"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("8f124635-b8ba-419f-936c-6fb6eb324dde"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("8f5e1a00-b3e7-487f-96f2-a30c401e0648"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("912080bb-4922-46a0-b02f-944a9a75c9d0"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("92ca809a-d41c-4fd1-bb40-400e725ccf16"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
-                    { new Guid("945c3c05-4df2-43e9-b2da-98fe71c7a006"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("95b3a3c4-b863-41f5-af79-cef8fe069ed6"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("9939d90a-12e1-4d80-8c22-7dfed142118e"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("9a95480c-c7e2-4551-af84-beca978af27a"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("9f110c70-6b53-4f51-b71a-c534d9e48dec"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("a672ee93-4702-4415-8ce5-8cfc31c8fae1"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("a69b3649-c9bd-4a72-a9be-3ab2f629b0bf"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("a6bebeb2-b628-4514-95f7-e82245b44215"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("a6ead088-b443-4f70-acc4-e0253ba1897b"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("a8ece500-eb6c-4aec-b566-0e65bcdf1247"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("a9ecff97-03b4-445c-b629-27bc4ccdc600"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("aa8184bc-55f1-4a11-9211-cef1cf012bf7"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("ab0bcad3-40cf-4118-a069-9a8d9293b89d"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("abcd7698-9767-41f0-becc-4b7ba11a5d1b"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("b3f4612f-fd2a-492b-828b-8664bdea131e"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("b448876d-ba27-471c-8cf2-b7ee30ef74f2"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("b5d2b78e-7504-4278-af49-0bba08418e96"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("b5db139a-e696-4e2e-874e-9ba10ec6d254"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("b8627648-9ff2-463e-b9cb-7a4c72ca9859"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("b99e983b-8f08-423f-bdab-69b388e5ccc9"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("bba915da-6f09-4597-adcf-75877f83cbb3"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("bbce5fe2-ffb0-4745-b1e1-c4cdae4877f4"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("be1e687b-c6d8-4066-ade0-83d5eea4ba57"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("c13a6413-bcf0-4a7f-a76a-d00e787d57b2"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
-                    { new Guid("c6985a49-a1af-4d31-8489-e308a086b643"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("c7d6d44a-eb11-4adc-816a-3c024d492b7e"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("c84c20b7-7591-4918-8101-6b84fd779355"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("cc3e1915-6009-4cc1-be11-ee366b725e03"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
-                    { new Guid("cccf02b2-a161-4b3d-aeff-493debd51036"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("ce9dfd1f-6729-4d63-ba3c-0aa603f1d966"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("d3b4adb2-88bf-4550-812d-44f4ea3f44b9"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("d4e78da0-be78-4fe9-8554-73b5578e09fc"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("d5907d89-f275-4038-b818-0b11ec43c9d9"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("d987cf51-efb2-4d1c-bd9c-3ef8178243b0"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("dc56aaae-e049-4439-98c2-ba79238546c0"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
-                    { new Guid("dcd517b0-9857-45ea-ba9e-35829207b4b9"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
-                    { new Guid("dd6d75c3-b77c-4396-b510-d8cc28d306b7"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
-                    { new Guid("de6a2339-64b0-4183-af3d-ccdfc0bb894c"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
-                    { new Guid("dffabc17-3b91-4cbc-a490-76b511ea24b3"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("e39452d3-17ac-4c41-8703-b529697dbc0c"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
-                    { new Guid("e3b4c590-aa4b-42a5-902f-e1022d251805"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
-                    { new Guid("e40ce7d5-eda5-4664-806d-8015225806e2"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
-                    { new Guid("e8aa35bd-525d-444b-8d6d-72b907df8636"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
-                    { new Guid("e9e1285d-66e8-484a-9cf8-29bbe9af8814"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("eb56b9e9-745c-469e-996b-3dcf45713c89"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
-                    { new Guid("ebd6c39f-e1cd-4c53-92f5-2a42df4a1190"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
-                    { new Guid("ebe1eded-2611-468e-a959-c4ae4bb1f3e1"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
-                    { new Guid("ec81e221-5d70-469e-9f3e-12367e427c0a"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
-                    { new Guid("eced8a21-f0b3-4a9b-a754-01a8cc94c472"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("f06bc3f0-cc95-4cf9-9318-65217eb564a1"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
-                    { new Guid("fac2701c-d84a-477b-a90e-1d72e51d6c6b"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
-                    { new Guid("fe5c7855-dc31-48b8-aef4-b1673bfe06ef"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") }
+                    { new Guid("0784073d-ef62-4a12-a38a-14dae8d9c807"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("0958cedc-1ad1-4a95-9bc0-b8e0db9e4886"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("0a07274f-594f-449c-a792-7e00509bea8d"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("0bb434c5-22b9-4250-a622-d920c029920a"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("0d282fdd-338d-4bee-8e5f-8c85c10f00e6"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("0ef5f22f-3df2-4c13-a43b-fd615c5982d6"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("0f278325-72e1-4b3b-88d8-c5369d7b0c96"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("0f6651d3-02c5-4a53-8441-3e1bd4bbb64a"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("11041202-871f-40be-a9b3-7b4b4cb4f2e3"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("14bb00dd-10df-4fa3-bef2-99a227398a64"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("1676faff-d4a7-4378-bee1-0ddf41c23a5a"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("17449251-ce35-4e35-9aaa-a7cdb50b75c9"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("18d47dbc-50fa-4ae4-8ce8-11989c2ee317"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("19c45617-3bec-4217-9bad-aa09ad6c7ce2"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("1ab77a6c-a88e-4070-81de-be271a5120d8"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("1b845f4c-d8bc-4eef-b0a6-18b810212844"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("1bbc5643-5615-454b-9030-82cbc7976fce"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("1c7eac5f-d631-454b-a4d0-cc53ce277f32"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("1ee0bcd7-ff5d-4791-ae11-8fed972dc485"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("2078376e-aaa5-4b6a-88a8-a3a6ee59cf06"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("24174ec0-6e86-499a-85d9-e246c04cf50f"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("27d6e035-82dd-459e-bd7a-5188dac94687"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("2878857d-31ef-437a-927a-384d7b926377"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("297a2675-303a-4689-888c-0188e836a01e"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("2da7022a-48d0-4081-aee9-217c4fca2978"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("2e054250-1b89-4d2c-9c7f-dac80ee7db80"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("300c8d23-6a14-41f8-bd92-8b7646946d98"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("6ebf1d36-35fa-4cad-9d6f-671476d02020") },
+                    { new Guid("3664b12f-9966-44ba-a612-39e783eeb555"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("36837897-6c7a-426c-91d2-24e203e73d53"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("38325337-677a-41ee-8eda-f7701af591d1"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("3895ec62-f374-46a3-9225-1c231e1719ee"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("395ff057-3b4d-4a26-8030-b9aebde6b6b9"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("39cebcbd-216b-4021-a9d3-53a44f35ef35"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("3ccb834a-5b4f-4fbb-b1db-b60b46dfbeac"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("3f408cda-e385-4011-8907-85e6eca15b64"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("3f88db06-a687-4b64-9ab4-b694f791ef36"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("3f909fe5-a8f9-48be-85c0-f810eff6c022"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("40e2f3e3-bb43-477d-b3cb-12c243c97e7f"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("439ab4d4-c75e-47bd-a59d-b6cc26052447"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("4bb89d39-8fdf-4050-8941-9708fc96845c"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("4ea95505-9661-4155-90ba-4468b747f8ab"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("51030b95-262c-48f8-81ff-35710369eb7b"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("51ad89c9-5336-4681-bbee-ea8c98f6558f"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("51e6a3ff-6d40-4248-8f91-6239554f13c8"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("52d5611e-8ad8-4b81-a74e-2209973aa185"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("555aa785-3b1e-4528-b839-a041721426d9"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("5a3a3508-f4cb-4aee-aafd-0883dfc52aa6"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("5c24046d-ea7c-45ce-a33b-9c304f3776f8"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("5f80a1f3-9593-4290-bd31-a738df97e0a7"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
+                    { new Guid("6088011e-5367-4a57-8fa8-71c03dca5947"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("65e7dd73-eb2b-4023-b9b4-f04d5df003ba"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("67239266-a189-4ec2-899a-41f12b492993"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("68081db8-2c02-4901-9bfa-16d9366f5a2b"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("69259a53-dab5-42c3-b4b5-93b842d47249"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("6994d8f2-7375-4430-be0b-de4d4111449d"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("6b2b94f0-bc1b-4e92-bf1e-9669050827c4"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("6b7671eb-5608-4ed0-a485-429618549fb4"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("71bf1c61-1841-49ad-87cd-612752fcaabf"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("78f50703-bd42-435f-a81b-cf6b3e5a9ec2"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("7ba31673-ece4-44a2-be6b-90fa9307d6b8"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("7c21f183-ef50-4a5d-a1aa-551b6cdfbf93"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("7e85f9bb-7b2e-47d5-9549-2b40c3326974"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("7e9f8ed3-006c-4776-b955-e9897070f6eb"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("804a8b0e-619f-4955-a08a-c851e825bb31"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("80c2fe64-e9ac-423d-a371-3f65ab758a7b"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("86ca3c42-5b4a-4b3c-900f-d0f3e312d2b9"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("86d89c23-beb8-458e-a0f0-705ba55ebda5"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("88e54531-59b5-4afc-9a2c-818e59b72783"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("8d6e4e75-c102-4d81-b85c-efcb569d35a0"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("8e78f15d-87a8-48b1-8b72-16f80aff5342"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("8ed735c2-cdfa-4386-8a48-5091c53172a0"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("90a9d274-18f4-43c6-b573-b2d3324ce5bf"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("94628aab-2673-400c-ba94-1123a771ce35"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("94850892-4e64-422b-b158-635276d83d39"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("96013921-d9e3-4f12-9314-fd09c72aac36"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("97170188-8fa5-4f9f-bd1e-d2376d1559c7"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("97ba9bd1-a588-4a91-80f3-60d49429bb80"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("981b4073-ebc7-48c7-ac88-c49445e44731"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("9b143abd-12c4-4055-b888-abe9a4047d12"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
+                    { new Guid("9bed7391-bf60-45b3-aca0-085956f4f038"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("9c554dc7-8353-48f9-b216-8f81290096b5"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("9d59e19d-9df3-4bca-a771-838479652fc4"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("a194d128-a810-4648-b71f-928b2ca8cc70"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("a1adcd7e-b814-4fb7-b9fd-75b983c4760c"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("a1dcd821-3084-43fc-beeb-58bbd9f045dc"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("a4b10a61-3416-4f83-82b2-7a0a55deca1a"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("a4d2572d-12e5-4afa-adf7-5c9595fb27cb"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("a6b34d7c-2bfa-4bcf-b56b-580b539749f7"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("a76d3ab6-cb21-42c9-940b-39c2a14cf9a1"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0") },
+                    { new Guid("a848917c-1827-4f49-bfb0-0700015efd99"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("ab8926ba-8d2c-49e8-93e7-2c61b5dcc65d"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("ac7d58cb-2e60-43c2-bad1-720597de15aa"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("ad98827e-8992-46e8-898e-ba9064e94c18"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
+                    { new Guid("b049f2b4-cfcf-4ee6-b5a5-b8c26cc917ac"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("b40bb801-cd82-4a9f-a329-167a2bd49cce"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("b493d3b8-9c7a-4978-9c7f-b856d23b1082"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("b7f58b4d-aa06-427b-b63b-4264fd1e5cb8"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("b83be62e-e002-4405-8085-643a00f40ca1"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("b88f4630-5f65-47a5-99d8-1de870bae0ad"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("b9fc7b85-015f-4c65-9fb7-bd392b0a4960"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("ba6a3e9c-bfc5-4b50-beaa-70e86715d485"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("ba99935b-fa1a-461a-b8cb-7651166b31b6"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("baa92cc1-8433-46bb-8543-d95f2527d4e8"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("06653486-dec4-4054-ba49-c3a63490453e") },
+                    { new Guid("bb61a73a-7fb7-4f58-87f9-4f31f1956eb4"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("bd434d71-f998-42e0-a252-b12356169c5b"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("beba16d0-e9df-4134-a24c-9040db4246fe"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("c04b87a1-3568-4f0e-95b1-2bd40ebfe8a7"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("c3c4d4c5-96e2-427f-a8a8-5b9deaec0a6e"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("cb0e9581-62ba-4fd1-90c4-794e60217f44"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("ccdeead0-f099-4643-b146-e70f6eee7a62"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac") },
+                    { new Guid("cd36a2ea-fd9b-44ca-b549-17d5ed3e0254"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("ce200150-867e-4002-9843-1ddc65bda37b"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("cedc6d7c-b2f5-4fa6-a264-ca7c11127cf8"), new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("d12702a4-bec9-4171-bf9b-5ee72a33b207"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("d355025f-81b9-40c4-b52a-25e43db65979"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1") },
+                    { new Guid("d39c7d5d-9852-4e8a-a8ba-ce0f98c07fb9"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("da6af2af-c871-4e4f-9cdd-4af592cfd8b7"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("dbe5a8f8-5000-442e-a620-72e55e2adef6"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5") },
+                    { new Guid("dc2841ff-a8a9-4e44-a280-872f1651da30"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("e081d78f-56d8-4fed-9b03-9c4b1b5ce208"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c") },
+                    { new Guid("e2c4b52f-1e29-4e5d-b868-f8616db2cc88"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("e3aa3c92-230f-4150-addb-0e2f5135d6b1"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("e59effd7-a157-448f-8d90-3db9704694df"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("f761d066-304f-49f7-b988-3aca64536d9b") },
+                    { new Guid("e7e913be-f098-419c-831a-8bffd44862ab"), new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"), new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9") },
+                    { new Guid("e8f5a3ca-2576-49c3-85f4-17a3535ca04c"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") },
+                    { new Guid("e9203ec0-54e6-45b9-9a21-0ff8583032b3"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485") },
+                    { new Guid("ee522de6-fe91-46ce-8dea-7f8fea31396e"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("f350dd4e-d9fc-4430-aa64-0d45759a7ae6"), new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"), new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167") },
+                    { new Guid("f388f008-a07b-4965-bb9d-8dfd65be8e1d"), new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"), new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d") },
+                    { new Guid("f4671f0b-2a05-44b8-976e-611612708607"), new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"), new Guid("be392eff-ef38-4039-94ec-7922f315ea6a") },
+                    { new Guid("f4bb1f16-ed55-450d-b181-0ddbe649b625"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("f5309da0-be34-4176-a483-718d18044799"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("533a7038-190b-4830-8125-5d2aacb7174e") },
+                    { new Guid("f5979fd7-5e5a-467a-9a52-d02a138295b8"), new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"), new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3") },
+                    { new Guid("f5ee49ae-bcb8-4f05-91df-4cf71ea9b1d8"), new Guid("8705f403-06bc-4983-8c81-86310959cc37"), new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63") },
+                    { new Guid("f72668cc-4e24-4b88-8a96-1ff212235cdc"), new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("f99b671c-1429-4dd1-92c9-f51b3948988d"), new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"), new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c") },
+                    { new Guid("fca49620-14c1-4180-aab8-b6cba87dfc00"), new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"), new Guid("4481e46d-e85b-4870-a210-cdfea8932641") }
                 });
 
             migrationBuilder.UpdateData(
@@ -859,777 +873,740 @@ namespace MoncatiCar.Data.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("0075ba2c-f60d-4f75-b9f1-f71579bc4fd2"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "88d83f47-1afa-4505-838c-3bf08f6b3570", "AQAAAAIAAYagAAAAEAefxNwHnL/Ybgh9XLenEvSA53bNgurOqydSGmFSOCTilf+VOMNlahXmny/+vmUQog==", "cf7f157a-0d4f-41b7-9946-23cfea704d2d" });
+                values: new object[] { "17d7f9d3-5051-45da-9ee5-0371965b0883", "AQAAAAIAAYagAAAAEOWSUWja4FULa/LxU/JtzwmO6PfUN5sexysE9Qy4HlUB9217oYZs1ccBjf2U72+aOw==", "18932a6b-c73c-4588-b995-7b1944b44679" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("1246b8e5-af73-4aa3-bdef-b8815e21a78b"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "fd440701-e1d3-4fb8-9017-f1b8fd0357b0", "AQAAAAIAAYagAAAAELeO2aBmK4mFDiitNn+DLScbzsEfCtjaK2KfJOUhfQ2n1b3h9/mU8PtoCLQo1KUtDQ==", "2d7d0fee-611c-4027-9ead-5a852506dd89" });
+                values: new object[] { "4c4c69f9-9ecc-49e0-95fe-9a6bd0ee4c3d", "AQAAAAIAAYagAAAAELXvqA/cbMeXLbcuKt44ILcmwpSYqCSxkMGnXffBS/nYERoEgI1N9Y/suHPqE0caLQ==", "af62e704-3268-481e-a7ef-1966d9e487a1" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("277ea066-d041-40ff-9dae-6271dbd6fd87"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "e119d6f6-ed69-401a-a1ea-96c02b7ac508", "AQAAAAIAAYagAAAAEP5RRhb82L5nEX8+ui70PxlbbIxpkpD0qdkBj82nLx9jEqVThWOFxKK8pJN/x3qq9Q==", "60ab211d-e870-4574-9183-20eab5d1ec0a" });
+                values: new object[] { "2c4ddeff-318a-4665-989b-c0a12ae19ce7", "AQAAAAIAAYagAAAAEOtVq5bIkU6hwxqesQjBRqgYfzvH0afmE4Tygb0zvXYQReDImPL7UL1KbUAppA+TsQ==", "bca6e1ba-99d6-4bfa-9a0b-6a29535bf26f" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("3b1a8845-765f-4d91-984a-4e8a9d7d376e"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "8e4448be-c6c7-44dc-ad85-fec7d1c95553", "AQAAAAIAAYagAAAAEAPJuDuT4dfULrMd8g8tjhbJbkHHUDFYDZdBr1JnAKrcUzZIkFvn/Op+RmM1nobzIw==", "6e4140ae-4df6-4b26-91ef-ede0391007df" });
+                values: new object[] { "3e9fa6cf-d622-463c-b314-a42fb4ea8a38", "AQAAAAIAAYagAAAAEG7VeoV42cUq+wFLutOYJ+7VwmCgtaoTGVhZ82SMVAVAHnj/x/QaV/RpmtE4fmnk7Q==", "7396e2d1-e5ac-439a-a372-701d083460d5" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("4565f47a-7239-4666-b9b4-0523b1d9ba3d"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "efb4b34c-3d17-47ff-8a49-79e7af32c7ee", "AQAAAAIAAYagAAAAEJoB55GZzi2BAAl4z1nj2Zc+Z2IFCkpubylRFw+Gax9ac/XVB9HLbCh78lwpQOBPkA==", "375dd1a9-99dc-4f68-bdff-8b6cf4c47f70" });
+                values: new object[] { "a5f3997a-aa26-423b-b6bd-e3de7ea5b509", "AQAAAAIAAYagAAAAENqIF0uAPzDSBztQISGrmsUZtxmV/DNod2YDUXnsUmY3QhLKe/XbITF9rRPnkcmstQ==", "18b2055a-72ed-4076-a001-f68fab2765ef" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("9d7e87a9-b070-4607-a0b0-2d2322aece9b"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "bec95b78-6a10-4f95-93e4-566c9b2445df", "AQAAAAIAAYagAAAAEJkk5Or3gYjs5pnngx3MgmDqYWjKwF07/kHqotO9eI0O2XQGSH8kuaxWdWN6kdavTA==", "4c4da892-19a3-4aaa-9cdf-7bafc5cafb2c" });
+                values: new object[] { "e0013b3c-6491-4fab-89af-3c7b439f2348", "AQAAAAIAAYagAAAAEISmFItAMW42uWG2YslvUQ/5rbvyXaOS1QloKUIQpYxmCAw/kGaFZynFHxt/Fyrk5A==", "f8364421-0c13-454b-8cb6-7771b0cd599c" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rentals_CustomerId",
-                table: "Rentals",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rentals_OwnerId",
-                table: "Rentals",
-                column: "OwnerId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Rentals_Users_CustomerId",
-                table: "Rentals",
-                column: "CustomerId",
-                principalTable: "Users",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Rentals_Users_OwnerId",
-                table: "Rentals",
-                column: "OwnerId",
-                principalTable: "Users",
-                principalColumn: "Id");
+                name: "IX_DrivingLicenses_UserId",
+                table: "DrivingLicenses",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rentals_Users_CustomerId",
-                table: "Rentals");
+            migrationBuilder.DropTable(
+                name: "DrivingLicenses");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rentals_Users_OwnerId",
-                table: "Rentals");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Rentals_CustomerId",
-                table: "Rentals");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Rentals_OwnerId",
-                table: "Rentals");
-
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("03a4cac6-2550-4e72-8006-e7d6081a83a4"));
+                keyValue: new Guid("0784073d-ef62-4a12-a38a-14dae8d9c807"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("06d5e7f8-3785-4380-ba7d-9204e6d4f6d9"));
+                keyValue: new Guid("0958cedc-1ad1-4a95-9bc0-b8e0db9e4886"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0849455d-001a-48aa-87ca-fabb23af0316"));
+                keyValue: new Guid("0a07274f-594f-449c-a792-7e00509bea8d"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0b6a472e-15ba-49e2-88c5-e48700b4807c"));
+                keyValue: new Guid("0bb434c5-22b9-4250-a622-d920c029920a"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0b750b8d-1d67-4f12-8750-d23fbaf4e987"));
+                keyValue: new Guid("0d282fdd-338d-4bee-8e5f-8c85c10f00e6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0bc0a44c-433d-4af3-84fe-b4fad986e9b1"));
+                keyValue: new Guid("0ef5f22f-3df2-4c13-a43b-fd615c5982d6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0df21f8b-87a3-4fe1-bca8-c5556c41db5d"));
+                keyValue: new Guid("0f278325-72e1-4b3b-88d8-c5369d7b0c96"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("0f4e42d7-81f4-4f55-9b6f-d2bdfdfb12b1"));
+                keyValue: new Guid("0f6651d3-02c5-4a53-8441-3e1bd4bbb64a"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("100f9222-2611-464a-bb62-9e7ceb32d7cd"));
+                keyValue: new Guid("11041202-871f-40be-a9b3-7b4b4cb4f2e3"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("10825169-2614-4113-846d-4125e2c06518"));
+                keyValue: new Guid("14bb00dd-10df-4fa3-bef2-99a227398a64"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("109daf0f-ae6f-4b8b-93d3-80bdd7e49c5b"));
+                keyValue: new Guid("1676faff-d4a7-4378-bee1-0ddf41c23a5a"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("10b1a1fc-eb51-41e5-9dd4-aabffe8e99ac"));
+                keyValue: new Guid("17449251-ce35-4e35-9aaa-a7cdb50b75c9"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("118e0fb5-d79a-4357-995b-799cdba8536b"));
+                keyValue: new Guid("18d47dbc-50fa-4ae4-8ce8-11989c2ee317"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("160526b8-a14c-4ea1-a567-a63cbc64c349"));
+                keyValue: new Guid("19c45617-3bec-4217-9bad-aa09ad6c7ce2"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("19e0e467-9925-44d2-9531-64eae9624b9f"));
+                keyValue: new Guid("1ab77a6c-a88e-4070-81de-be271a5120d8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1a787405-28d5-4bed-a8e5-69a0a0d718e5"));
+                keyValue: new Guid("1b845f4c-d8bc-4eef-b0a6-18b810212844"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1b8bfb11-bd6d-49df-9080-543eb9cff74d"));
+                keyValue: new Guid("1bbc5643-5615-454b-9030-82cbc7976fce"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1b8cee74-e6fe-410c-a283-92bef3481409"));
+                keyValue: new Guid("1c7eac5f-d631-454b-a4d0-cc53ce277f32"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1cd2b280-a99e-441f-96cc-ce744f64fa3c"));
+                keyValue: new Guid("1ee0bcd7-ff5d-4791-ae11-8fed972dc485"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1e3906d0-9fbd-4c95-aa53-42dd12843205"));
+                keyValue: new Guid("2078376e-aaa5-4b6a-88a8-a3a6ee59cf06"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1e766828-34e1-422f-90f0-d560224408a9"));
+                keyValue: new Guid("24174ec0-6e86-499a-85d9-e246c04cf50f"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("1ee945eb-0adf-49df-8642-183f0393c65b"));
+                keyValue: new Guid("27d6e035-82dd-459e-bd7a-5188dac94687"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("206db8e0-5f37-4b53-875e-841de33e5be4"));
+                keyValue: new Guid("2878857d-31ef-437a-927a-384d7b926377"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("219860e8-f3f8-44ed-960d-58408cf3f4cd"));
+                keyValue: new Guid("297a2675-303a-4689-888c-0188e836a01e"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("22e9e139-cb09-467c-b496-c9f30f78cfcf"));
+                keyValue: new Guid("2da7022a-48d0-4081-aee9-217c4fca2978"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("2394694e-1540-41f8-a66d-0092e1c67b89"));
+                keyValue: new Guid("2e054250-1b89-4d2c-9c7f-dac80ee7db80"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("254facee-bc11-486c-ab46-79d6d020e264"));
+                keyValue: new Guid("300c8d23-6a14-41f8-bd92-8b7646946d98"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("293ee292-8e80-4f70-a4ce-097e6c6589d5"));
+                keyValue: new Guid("3664b12f-9966-44ba-a612-39e783eeb555"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("2a417037-ee2b-4b39-8360-0a8006621674"));
+                keyValue: new Guid("36837897-6c7a-426c-91d2-24e203e73d53"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("2ced0653-f7eb-46cc-a151-09af4c7cd3dc"));
+                keyValue: new Guid("38325337-677a-41ee-8eda-f7701af591d1"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("31b3626d-09c7-4411-aafb-f88c921cd2e6"));
+                keyValue: new Guid("3895ec62-f374-46a3-9225-1c231e1719ee"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("32a9d6a2-a1e2-4b03-a9d1-82528bbb2c75"));
+                keyValue: new Guid("395ff057-3b4d-4a26-8030-b9aebde6b6b9"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("335ee6ff-f71a-489f-a6b4-baf2d1cb1b65"));
+                keyValue: new Guid("39cebcbd-216b-4021-a9d3-53a44f35ef35"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("35787b3e-aae0-4a82-8297-690435491ce9"));
+                keyValue: new Guid("3ccb834a-5b4f-4fbb-b1db-b60b46dfbeac"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("3ab65769-a30e-4cb4-a4fe-6a833c2a323b"));
+                keyValue: new Guid("3f408cda-e385-4011-8907-85e6eca15b64"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("3e768477-b9ae-423d-91f8-39c12783706b"));
+                keyValue: new Guid("3f88db06-a687-4b64-9ab4-b694f791ef36"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("41a45c16-a106-446b-8718-ce8cbc789191"));
+                keyValue: new Guid("3f909fe5-a8f9-48be-85c0-f810eff6c022"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("41fdf7d3-a915-4e96-8331-fc6829cdd73c"));
+                keyValue: new Guid("40e2f3e3-bb43-477d-b3cb-12c243c97e7f"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("4265655b-d4b0-4c3b-b0e0-2b85de16643a"));
+                keyValue: new Guid("439ab4d4-c75e-47bd-a59d-b6cc26052447"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("42a4f45c-f5cd-4c88-8280-7db5785e150b"));
+                keyValue: new Guid("4bb89d39-8fdf-4050-8941-9708fc96845c"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("42b8fb8d-2c2c-4bad-af59-0d2c472d304b"));
+                keyValue: new Guid("4ea95505-9661-4155-90ba-4468b747f8ab"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("47c9e92c-1892-4d0d-b14c-399cb21a5f4d"));
+                keyValue: new Guid("51030b95-262c-48f8-81ff-35710369eb7b"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("49821129-f3ca-473d-aa95-ea91fc308008"));
+                keyValue: new Guid("51ad89c9-5336-4681-bbee-ea8c98f6558f"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("4a1ead19-e024-40b8-a0e8-ee7fc748c419"));
+                keyValue: new Guid("51e6a3ff-6d40-4248-8f91-6239554f13c8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("4ccea9c8-744c-4793-b40a-00e5e4d499ec"));
+                keyValue: new Guid("52d5611e-8ad8-4b81-a74e-2209973aa185"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("4d52863a-1c20-4f3c-98f2-7648a13eace8"));
+                keyValue: new Guid("555aa785-3b1e-4528-b839-a041721426d9"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("4eed945c-3521-423e-aa67-a732e385d3e1"));
+                keyValue: new Guid("5a3a3508-f4cb-4aee-aafd-0883dfc52aa6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("507cd690-8701-41e5-9db4-c25462c94b5e"));
+                keyValue: new Guid("5c24046d-ea7c-45ce-a33b-9c304f3776f8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("546a0009-094b-4fc6-872b-76bfc36e0e10"));
+                keyValue: new Guid("5f80a1f3-9593-4290-bd31-a738df97e0a7"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("5820d89a-75f0-49f9-a59b-c79c0f8caf8c"));
+                keyValue: new Guid("6088011e-5367-4a57-8fa8-71c03dca5947"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("5a73a516-ef46-46fd-837b-cc4910763087"));
+                keyValue: new Guid("65e7dd73-eb2b-4023-b9b4-f04d5df003ba"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("5b47796e-e854-4de3-bdbe-ac01f3a4024a"));
+                keyValue: new Guid("67239266-a189-4ec2-899a-41f12b492993"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("5c4f88d1-9f77-45a2-8bda-9c3358509caf"));
+                keyValue: new Guid("68081db8-2c02-4901-9bfa-16d9366f5a2b"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("64255e89-98fd-482b-8553-dabf19b82cb4"));
+                keyValue: new Guid("69259a53-dab5-42c3-b4b5-93b842d47249"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("659e7f74-791e-4d73-8b38-7cdca30bd3d6"));
+                keyValue: new Guid("6994d8f2-7375-4430-be0b-de4d4111449d"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("669a400d-d918-4b15-bf28-1e3a1d489809"));
+                keyValue: new Guid("6b2b94f0-bc1b-4e92-bf1e-9669050827c4"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("66ed8af5-c045-4b7d-b24e-40c594681d75"));
+                keyValue: new Guid("6b7671eb-5608-4ed0-a485-429618549fb4"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6743d852-6a0e-42ac-94b4-f0d59ad7231b"));
+                keyValue: new Guid("71bf1c61-1841-49ad-87cd-612752fcaabf"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6758df37-d010-4dcb-bb99-1c5ade98f6e0"));
+                keyValue: new Guid("78f50703-bd42-435f-a81b-cf6b3e5a9ec2"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6848a6b3-49f0-4603-bf16-bfeb454d7045"));
+                keyValue: new Guid("7ba31673-ece4-44a2-be6b-90fa9307d6b8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("68b41397-98f1-4bea-bed9-16d0bf03aef2"));
+                keyValue: new Guid("7c21f183-ef50-4a5d-a1aa-551b6cdfbf93"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6c3f86cb-7a5d-43ca-bf06-a6226b8d803c"));
+                keyValue: new Guid("7e85f9bb-7b2e-47d5-9549-2b40c3326974"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6d537fe5-ffde-4177-b570-a529ecf12b2a"));
+                keyValue: new Guid("7e9f8ed3-006c-4776-b955-e9897070f6eb"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("6debee3b-a97b-41ea-8b87-2ced1f9d3d4d"));
+                keyValue: new Guid("804a8b0e-619f-4955-a08a-c851e825bb31"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("7081a378-a797-4675-bfb9-8fea681f78bf"));
+                keyValue: new Guid("80c2fe64-e9ac-423d-a371-3f65ab758a7b"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("72569651-521b-4dcc-b8f7-e8e336a93231"));
+                keyValue: new Guid("86ca3c42-5b4a-4b3c-900f-d0f3e312d2b9"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("786b4053-6774-4d23-b344-8fe6064cb9a1"));
+                keyValue: new Guid("86d89c23-beb8-458e-a0f0-705ba55ebda5"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("78818716-8a89-48c9-b1af-04c1014febbd"));
+                keyValue: new Guid("88e54531-59b5-4afc-9a2c-818e59b72783"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("7bd104ad-ae46-49d6-98c1-0b532c40707e"));
+                keyValue: new Guid("8d6e4e75-c102-4d81-b85c-efcb569d35a0"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("7d71ddfd-3c66-4e29-b838-83708a719de5"));
+                keyValue: new Guid("8e78f15d-87a8-48b1-8b72-16f80aff5342"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("7dba6ab7-0580-4cc6-a655-2ab12ab40023"));
+                keyValue: new Guid("8ed735c2-cdfa-4386-8a48-5091c53172a0"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("80461aa6-a823-4942-8a9f-7a3ab6c3d888"));
+                keyValue: new Guid("90a9d274-18f4-43c6-b573-b2d3324ce5bf"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8107b593-2d5e-4e25-92f8-10a441fb36ff"));
+                keyValue: new Guid("94628aab-2673-400c-ba94-1123a771ce35"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("83a596e9-d2bf-4c27-81b1-b33ef6174b08"));
+                keyValue: new Guid("94850892-4e64-422b-b158-635276d83d39"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("849e63fe-cce8-4662-9cd7-4c0f7652cbf8"));
+                keyValue: new Guid("96013921-d9e3-4f12-9314-fd09c72aac36"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("86f8acac-2b16-40c9-92bc-8b5405781ec5"));
+                keyValue: new Guid("97170188-8fa5-4f9f-bd1e-d2376d1559c7"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8789ed48-f48f-499a-b229-e1bba678c360"));
+                keyValue: new Guid("97ba9bd1-a588-4a91-80f3-60d49429bb80"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8911e579-f6ee-4ea1-ad01-d4ce652a7147"));
+                keyValue: new Guid("981b4073-ebc7-48c7-ac88-c49445e44731"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8963285a-7c99-41aa-9c37-520e0ba805a4"));
+                keyValue: new Guid("9b143abd-12c4-4055-b888-abe9a4047d12"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8bc97ae1-c35a-4553-912e-532d61adfdfe"));
+                keyValue: new Guid("9bed7391-bf60-45b3-aca0-085956f4f038"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8c865318-7a92-49e6-8a98-78bd5ca4f391"));
+                keyValue: new Guid("9c554dc7-8353-48f9-b216-8f81290096b5"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8f124635-b8ba-419f-936c-6fb6eb324dde"));
+                keyValue: new Guid("9d59e19d-9df3-4bca-a771-838479652fc4"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("8f5e1a00-b3e7-487f-96f2-a30c401e0648"));
+                keyValue: new Guid("a194d128-a810-4648-b71f-928b2ca8cc70"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("912080bb-4922-46a0-b02f-944a9a75c9d0"));
+                keyValue: new Guid("a1adcd7e-b814-4fb7-b9fd-75b983c4760c"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("92ca809a-d41c-4fd1-bb40-400e725ccf16"));
+                keyValue: new Guid("a1dcd821-3084-43fc-beeb-58bbd9f045dc"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("945c3c05-4df2-43e9-b2da-98fe71c7a006"));
+                keyValue: new Guid("a4b10a61-3416-4f83-82b2-7a0a55deca1a"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("95b3a3c4-b863-41f5-af79-cef8fe069ed6"));
+                keyValue: new Guid("a4d2572d-12e5-4afa-adf7-5c9595fb27cb"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("9939d90a-12e1-4d80-8c22-7dfed142118e"));
+                keyValue: new Guid("a6b34d7c-2bfa-4bcf-b56b-580b539749f7"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("9a95480c-c7e2-4551-af84-beca978af27a"));
+                keyValue: new Guid("a76d3ab6-cb21-42c9-940b-39c2a14cf9a1"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("9f110c70-6b53-4f51-b71a-c534d9e48dec"));
+                keyValue: new Guid("a848917c-1827-4f49-bfb0-0700015efd99"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a672ee93-4702-4415-8ce5-8cfc31c8fae1"));
+                keyValue: new Guid("ab8926ba-8d2c-49e8-93e7-2c61b5dcc65d"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a69b3649-c9bd-4a72-a9be-3ab2f629b0bf"));
+                keyValue: new Guid("ac7d58cb-2e60-43c2-bad1-720597de15aa"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a6bebeb2-b628-4514-95f7-e82245b44215"));
+                keyValue: new Guid("ad98827e-8992-46e8-898e-ba9064e94c18"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a6ead088-b443-4f70-acc4-e0253ba1897b"));
+                keyValue: new Guid("b049f2b4-cfcf-4ee6-b5a5-b8c26cc917ac"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a8ece500-eb6c-4aec-b566-0e65bcdf1247"));
+                keyValue: new Guid("b40bb801-cd82-4a9f-a329-167a2bd49cce"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("a9ecff97-03b4-445c-b629-27bc4ccdc600"));
+                keyValue: new Guid("b493d3b8-9c7a-4978-9c7f-b856d23b1082"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("aa8184bc-55f1-4a11-9211-cef1cf012bf7"));
+                keyValue: new Guid("b7f58b4d-aa06-427b-b63b-4264fd1e5cb8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("ab0bcad3-40cf-4118-a069-9a8d9293b89d"));
+                keyValue: new Guid("b83be62e-e002-4405-8085-643a00f40ca1"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("abcd7698-9767-41f0-becc-4b7ba11a5d1b"));
+                keyValue: new Guid("b88f4630-5f65-47a5-99d8-1de870bae0ad"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b3f4612f-fd2a-492b-828b-8664bdea131e"));
+                keyValue: new Guid("b9fc7b85-015f-4c65-9fb7-bd392b0a4960"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b448876d-ba27-471c-8cf2-b7ee30ef74f2"));
+                keyValue: new Guid("ba6a3e9c-bfc5-4b50-beaa-70e86715d485"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b5d2b78e-7504-4278-af49-0bba08418e96"));
+                keyValue: new Guid("ba99935b-fa1a-461a-b8cb-7651166b31b6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b5db139a-e696-4e2e-874e-9ba10ec6d254"));
+                keyValue: new Guid("baa92cc1-8433-46bb-8543-d95f2527d4e8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b8627648-9ff2-463e-b9cb-7a4c72ca9859"));
+                keyValue: new Guid("bb61a73a-7fb7-4f58-87f9-4f31f1956eb4"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("b99e983b-8f08-423f-bdab-69b388e5ccc9"));
+                keyValue: new Guid("bd434d71-f998-42e0-a252-b12356169c5b"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("bba915da-6f09-4597-adcf-75877f83cbb3"));
+                keyValue: new Guid("beba16d0-e9df-4134-a24c-9040db4246fe"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("bbce5fe2-ffb0-4745-b1e1-c4cdae4877f4"));
+                keyValue: new Guid("c04b87a1-3568-4f0e-95b1-2bd40ebfe8a7"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("be1e687b-c6d8-4066-ade0-83d5eea4ba57"));
+                keyValue: new Guid("c3c4d4c5-96e2-427f-a8a8-5b9deaec0a6e"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("c13a6413-bcf0-4a7f-a76a-d00e787d57b2"));
+                keyValue: new Guid("cb0e9581-62ba-4fd1-90c4-794e60217f44"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("c6985a49-a1af-4d31-8489-e308a086b643"));
+                keyValue: new Guid("ccdeead0-f099-4643-b146-e70f6eee7a62"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("c7d6d44a-eb11-4adc-816a-3c024d492b7e"));
+                keyValue: new Guid("cd36a2ea-fd9b-44ca-b549-17d5ed3e0254"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("c84c20b7-7591-4918-8101-6b84fd779355"));
+                keyValue: new Guid("ce200150-867e-4002-9843-1ddc65bda37b"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("cc3e1915-6009-4cc1-be11-ee366b725e03"));
+                keyValue: new Guid("cedc6d7c-b2f5-4fa6-a264-ca7c11127cf8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("cccf02b2-a161-4b3d-aeff-493debd51036"));
+                keyValue: new Guid("d12702a4-bec9-4171-bf9b-5ee72a33b207"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("ce9dfd1f-6729-4d63-ba3c-0aa603f1d966"));
+                keyValue: new Guid("d355025f-81b9-40c4-b52a-25e43db65979"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("d3b4adb2-88bf-4550-812d-44f4ea3f44b9"));
+                keyValue: new Guid("d39c7d5d-9852-4e8a-a8ba-ce0f98c07fb9"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("d4e78da0-be78-4fe9-8554-73b5578e09fc"));
+                keyValue: new Guid("da6af2af-c871-4e4f-9cdd-4af592cfd8b7"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("d5907d89-f275-4038-b818-0b11ec43c9d9"));
+                keyValue: new Guid("dbe5a8f8-5000-442e-a620-72e55e2adef6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("d987cf51-efb2-4d1c-bd9c-3ef8178243b0"));
+                keyValue: new Guid("dc2841ff-a8a9-4e44-a280-872f1651da30"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("dc56aaae-e049-4439-98c2-ba79238546c0"));
+                keyValue: new Guid("e081d78f-56d8-4fed-9b03-9c4b1b5ce208"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("dcd517b0-9857-45ea-ba9e-35829207b4b9"));
+                keyValue: new Guid("e2c4b52f-1e29-4e5d-b868-f8616db2cc88"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("dd6d75c3-b77c-4396-b510-d8cc28d306b7"));
+                keyValue: new Guid("e3aa3c92-230f-4150-addb-0e2f5135d6b1"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("de6a2339-64b0-4183-af3d-ccdfc0bb894c"));
+                keyValue: new Guid("e59effd7-a157-448f-8d90-3db9704694df"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("dffabc17-3b91-4cbc-a490-76b511ea24b3"));
+                keyValue: new Guid("e7e913be-f098-419c-831a-8bffd44862ab"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("e39452d3-17ac-4c41-8703-b529697dbc0c"));
+                keyValue: new Guid("e8f5a3ca-2576-49c3-85f4-17a3535ca04c"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("e3b4c590-aa4b-42a5-902f-e1022d251805"));
+                keyValue: new Guid("e9203ec0-54e6-45b9-9a21-0ff8583032b3"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("e40ce7d5-eda5-4664-806d-8015225806e2"));
+                keyValue: new Guid("ee522de6-fe91-46ce-8dea-7f8fea31396e"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("e8aa35bd-525d-444b-8d6d-72b907df8636"));
+                keyValue: new Guid("f350dd4e-d9fc-4430-aa64-0d45759a7ae6"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("e9e1285d-66e8-484a-9cf8-29bbe9af8814"));
+                keyValue: new Guid("f388f008-a07b-4965-bb9d-8dfd65be8e1d"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("eb56b9e9-745c-469e-996b-3dcf45713c89"));
+                keyValue: new Guid("f4671f0b-2a05-44b8-976e-611612708607"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("ebd6c39f-e1cd-4c53-92f5-2a42df4a1190"));
+                keyValue: new Guid("f4bb1f16-ed55-450d-b181-0ddbe649b625"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("ebe1eded-2611-468e-a959-c4ae4bb1f3e1"));
+                keyValue: new Guid("f5309da0-be34-4176-a483-718d18044799"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("ec81e221-5d70-469e-9f3e-12367e427c0a"));
+                keyValue: new Guid("f5979fd7-5e5a-467a-9a52-d02a138295b8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("eced8a21-f0b3-4a9b-a754-01a8cc94c472"));
+                keyValue: new Guid("f5ee49ae-bcb8-4f05-91df-4cf71ea9b1d8"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("f06bc3f0-cc95-4cf9-9318-65217eb564a1"));
+                keyValue: new Guid("f72668cc-4e24-4b88-8a96-1ff212235cdc"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("fac2701c-d84a-477b-a90e-1d72e51d6c6b"));
+                keyValue: new Guid("f99b671c-1429-4dd1-92c9-f51b3948988d"));
 
             migrationBuilder.DeleteData(
                 table: "CarFeatures",
                 keyColumn: "CarFeatureId",
-                keyValue: new Guid("fe5c7855-dc31-48b8-aef4-b1673bfe06ef"));
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "AppUserId",
-                table: "Rentals",
-                type: "uniqueidentifier",
-                nullable: true);
+                keyValue: new Guid("fca49620-14c1-4180-aab8-b6cba87dfc00"));
 
             migrationBuilder.InsertData(
                 table: "CarFeatures",
@@ -1816,18 +1793,6 @@ namespace MoncatiCar.Data.Migrations
                 keyValue: new Guid("9d7e87a9-b070-4607-a0b0-2d2322aece9b"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
                 values: new object[] { "52117b61-e9b2-46f8-8022-b311591100ec", "AQAAAAIAAYagAAAAELygl+QFbUGaW5NnADVzk8LDbIoDbsdvU3QQemlgQF0QpeJn6CTmBBmqTZhPJai40g==", "e6ffd6ec-72cf-44a6-80c0-c5f7d3c23259" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rentals_AppUserId",
-                table: "Rentals",
-                column: "AppUserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Rentals_Users_AppUserId",
-                table: "Rentals",
-                column: "AppUserId",
-                principalTable: "Users",
-                principalColumn: "Id");
         }
     }
 }

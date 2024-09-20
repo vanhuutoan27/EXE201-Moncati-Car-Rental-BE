@@ -46,6 +46,9 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Rental ,CreateRentalRequest>().ReverseMap();
             CreateMap<Car , CarResponse>().ReverseMap();
             CreateMap<FavoriteCar , CreateFavoriteCarRequest>().ReverseMap();
+            CreateMap<DrivingLicense, CreateDrivingLicenseRequest>().ReverseMap();
+            CreateMap<DrivingLicense, UpdateDrivingLicenseRequest>().ReverseMap();
+            CreateMap<DrivingLicense, DrivingLicenseRespone>().ReverseMap();
         }
     }
 }

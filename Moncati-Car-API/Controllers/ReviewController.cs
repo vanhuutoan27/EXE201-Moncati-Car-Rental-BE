@@ -47,7 +47,21 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
+        [HttpGet]
+        [Route("user/{username}")]
+        public async Task<ActionResult<ResultModel>> GetAllReviewByUsername(string username, int page = 1, int limit = 10, bool? flag = null)
+        {
+            var result = await _serviceManager.ReviewService.GetAllReviewByUsername(username, page, limit, flag);
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = result,
+                Message = "Reviews retrieved successfully."
+            };
+            return Ok(_resultModel);
 
+        }
 
         [HttpGet]
         [Route("{reviewId:guid}")]

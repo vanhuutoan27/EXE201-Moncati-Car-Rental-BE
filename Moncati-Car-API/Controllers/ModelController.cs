@@ -71,17 +71,17 @@ namespace Moncati_Car_API.Controllers
         [Route("brand/{brandId:guid}")]
         public async Task<ActionResult<ResultModel>> GetModelByBrandId(Guid brandId)
         {
-            var models = await _serviceManager.ModelService.GetModelByBrandId(brandId);
-            if (models == null || !models.Any())
+            var checkBrandId = await _serviceManager.BrandService.GetBrandById(brandId);
+            if(checkBrandId == null)
             {
-                _resultModel = new ResultModel
+                return BadRequest(_resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "No models found."
-                };
-                return NotFound(_resultModel);
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "BrandId doesn't exist."
+                });
             }
+            var models = await _serviceManager.ModelService.GetModelByBrandId(brandId);
             _resultModel = new ResultModel
             {
                 Success = true,
@@ -96,17 +96,7 @@ namespace Moncati_Car_API.Controllers
         [HttpGet("brand/{brandName}")]
         public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
         {
-            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
-            if (model == null || !model.Any())
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "No models found."
-                };
-                return NotFound(_resultModel);
-            }
+            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);           
             _resultModel = new ResultModel
             {
                 Success = true,

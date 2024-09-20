@@ -24,9 +24,9 @@ namespace MoncatiCar.Data.Repository
             var favoriteCarsQuery = _context.FavoriteCars
                 .Where(f => f.UserId == userId && f.Car.Status == true)
                 .Include(u => u.User)
-                .Include(f => f.Car)
-                // Include Car
-                .ThenInclude(c => c.Model) // Include Model in Car
+                .Include(f => f.Car).ThenInclude(c => c.User)
+                 // Include Car
+                 .Include(f => f.Car).ThenInclude(c => c.Model) // Include Model in Car
                 .ThenInclude(m => m.Brand) // Include Brand in Model
                 .Include(f => f.Car.Images) // Include Images in Car
                 .Skip((page - 1) * limit)
