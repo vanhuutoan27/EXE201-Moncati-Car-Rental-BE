@@ -311,11 +311,12 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit,
          string search, bool? status, string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking ,string brandName, string modelName, 
-        string transmission, string location, string sortedBy, string order)
+        string transmission, string location, string sortedBy, string order ,int? minYear, int? maxYear , 
+        int? minPrice ,int? maxPrice)
         {
             // Gọi repository để lấy danh sách xe và tổng số mục
             (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
-             brandName, transmission, fuelType, seats, electric, discount, instantBooking , location, sortedBy, order);
+             brandName, transmission, fuelType, seats, electric, discount, instantBooking , location, sortedBy, order , minYear , maxYear , minPrice , maxPrice);
 
             // Khai báo biến carResponse trước vòng lặp foreach
             var carResponse = new List<CarResponse>();
