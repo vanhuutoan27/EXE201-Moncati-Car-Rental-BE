@@ -191,7 +191,7 @@ namespace MoncatiCar.Data.Services
         {
             var (listCar, totalItems) = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
 
-           var carResponse = new List<CarResponse>();
+            var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
             foreach (var car in listCar)
@@ -200,7 +200,7 @@ namespace MoncatiCar.Data.Services
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
                 int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
                 double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
-           
+
                 carResponse.Add(new CarResponse
                 {
                     Slug = car.Slug,
@@ -262,7 +262,7 @@ namespace MoncatiCar.Data.Services
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
                 int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
                 double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
-           
+
                 carResponse.Add(new CarResponse
                 {
                     Slug = car.Slug,
@@ -308,10 +308,14 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status, string fuelType, string brandName, string modelName, string transmission, string location, string sortedBy, string order)
+        public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit,
+         string search, bool? status, string fuelType, int? seats,
+        bool? electric, bool? discount, bool? instantBooking ,string brandName, string modelName, 
+        string transmission, string location, string sortedBy, string order)
         {
             // Gọi repository để lấy danh sách xe và tổng số mục
-            (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName, brandName, transmission, fuelType, location, sortedBy, order);
+            (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
+             brandName, transmission, fuelType, seats, electric, discount, instantBooking , location, sortedBy, order);
 
             // Khai báo biến carResponse trước vòng lặp foreach
             var carResponse = new List<CarResponse>();
@@ -323,7 +327,7 @@ namespace MoncatiCar.Data.Services
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
                 int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
                 double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
-           
+
                 carResponse.Add(new CarResponse
                 {
                     Slug = car.Slug,

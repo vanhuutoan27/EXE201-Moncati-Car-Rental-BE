@@ -110,7 +110,7 @@ namespace MoncatiCar.Data.Services
             };
         }
 
-        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, Boolean? flag)
+        public async Task<PageResult<ReviewRespone>> GetReviewByCarId(Guid carId, int page, int limit, bool? flag)
         {
             var reviews = await _repositoryManager.ReviewRepository.GetReviewByCarId(carId, page, limit, flag);
             int totalItems = reviews.Count();

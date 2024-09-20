@@ -59,10 +59,10 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, bool? flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag)
+            IQueryable<Review> query = _context.Reviews.AsQueryable()
             ; if (flag.HasValue)
             {
-                query = query.Where(f => f.Flag == flag);
+                query = query.Where(f => f.Flag == flag.Value);
             }
 
             if (page > 0 && limit > 0)
@@ -77,11 +77,11 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
-            IQueryable<Review> query = _context.Reviews.AsQueryable().Where(p => p.Flag == flag);
+            IQueryable<Review> query = _context.Reviews.AsQueryable();
 
             if (flag.HasValue)
             {
-                query = query.Where(f => f.Flag == flag);
+                query = query.Where(f => f.Flag == flag.Value);
             }
             if (page > 0 && limit > 0)
             {

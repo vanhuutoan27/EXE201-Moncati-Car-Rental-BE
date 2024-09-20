@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MocatiCar.Core.Models.content.Responses
@@ -10,6 +11,7 @@ namespace MocatiCar.Core.Models.content.Responses
     {
         public Guid RentalId { get; set; }
         public Guid? ReviewId {  get; set; } 
+        [JsonPropertyName("car")]
         public Guid? CarId { get; set; }
         public Guid? Author { get; set; }
         public int Rating { get; set; }
