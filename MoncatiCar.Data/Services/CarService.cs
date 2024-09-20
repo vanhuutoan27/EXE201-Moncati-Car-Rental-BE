@@ -191,50 +191,52 @@ namespace MoncatiCar.Data.Services
         {
             var (listCar, totalItems) = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
 
-            // Check if there are no cars available
-            if (listCar == null || !listCar.Any())
-            {
-                return new PageResult<CarResponse>
-                {
-                    CurrentPage = page,
-                    TotalPages = 0,
-                    TotalItems = 0,
-                    Items = new List<CarResponse>()
-                };
-            }
+           var carResponse = new List<CarResponse>();
 
-            var carResponse = listCar.Select(car => new CarResponse
+            // Chuyển đổi dữ liệu từ Car thành CarResponse
+            foreach (var car in listCar)
             {
-                Slug = car.Slug,
-                CarId = car.CarId,
-                Owner = (Guid)car.OwnerId,
-                LicensePlate = car.licensePlate,
-                Brand = car.Model.Brand.BrandName,
-                Model = car.Model.ModelName,
-                year = car.year,
-                Location = car.Location,
-                Seats = car.Seats,
-                Transmission = car.Transmission,
-                FuelType = car.FuelType,
-                FuelConsumption = (float)car.FuelConsumption,
-                Description = car.Description,
-                PricePerDay = car.PricePerDay,
-                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
-                RentalStatus = car.RentalStatus,
-                Status = car.Status,
-                CreatedAt = car.CreatedAt,
-                UpdatedAt = car.UpdatedAt,
-                CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy,
-                InstantBooking = car.InstantBooking,
-                Discount = (float)car.discount,
-                MaxDeliveryDistance = car.MaxDeliveryDistance,
-                DeliveryFeePerKm = car.DeliveryFeePerKm,
-                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
-                LimitKilometersPerDay = car.LimitKilometersPerDay,
-                OverLimitFeePerKm = car.OverLimitFeePerKm,
-                RentalTerms = car.RentalTerms,
-            }).ToList();
+
+                int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+                int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
+                double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
+           
+                carResponse.Add(new CarResponse
+                {
+                    Slug = car.Slug,
+                    CarId = car.CarId,
+                    Owner = car.OwnerId ?? Guid.Empty,
+                    LicensePlate = car.licensePlate,
+                    Brand = car.Model.Brand.BrandName,
+                    Model = car.Model.ModelName,
+                    year = car.year,
+                    Location = car.Location,
+                    Seats = car.Seats,
+                    Transmission = car.Transmission,
+                    FuelType = car.FuelType,
+                    FuelConsumption = (float?)car.FuelConsumption ?? 0,
+                    Description = car.Description,
+                    PricePerDay = car.PricePerDay,
+                    Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
+                    RentalStatus = car.RentalStatus,
+                    Status = car.Status,
+                    CreatedAt = car.CreatedAt,
+                    UpdatedAt = car.UpdatedAt,
+                    CreatedBy = car.CreatedBy,
+                    UpdatedBy = car.UpdatedBy,
+                    InstantBooking = car.InstantBooking,
+                    Discount = (float)car.discount,
+                    MaxDeliveryDistance = car.MaxDeliveryDistance,
+                    DeliveryFeePerKm = car.DeliveryFeePerKm,
+                    FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                    LimitKilometersPerDay = car.LimitKilometersPerDay,
+                    OverLimitFeePerKm = car.OverLimitFeePerKm,
+                    RentalTerms = car.RentalTerms,
+                    totalRentals = totalRental,
+                    totalReviews = totalReview,
+                    averageRating = avarageRating
+                });
+            }
 
             return new PageResult<CarResponse>
             {
@@ -251,38 +253,52 @@ namespace MoncatiCar.Data.Services
             var totalItems = await _repositoryManager.CarRepository.GetTotalCarAsync();
 
 
-            var carResponse = carList.Select(car => new CarResponse
+            var carResponse = new List<CarResponse>();
+
+            // Chuyển đổi dữ liệu từ Car thành CarResponse
+            foreach (var car in carList)
             {
-                Slug = car.Slug,
-                CarId = car.CarId,
-                Owner = (Guid)car.OwnerId,
-                LicensePlate = car.licensePlate,
-                Brand = car.Model.Brand.BrandName,
-                Model = car.Model.ModelName,
-                year = car.year,
-                Location = car.Location,
-                Seats = car.Seats,
-                Transmission = car.Transmission,
-                FuelType = car.FuelType,
-                FuelConsumption = (float)car.FuelConsumption,
-                Description = car.Description,
-                PricePerDay = car.PricePerDay,
-                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
-                RentalStatus = car.RentalStatus,
-                Status = car.Status,
-                CreatedAt = car.CreatedAt,
-                UpdatedAt = car.UpdatedAt,
-                CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy,
-                InstantBooking = car.InstantBooking,
-                Discount = (float)car.discount,
-                MaxDeliveryDistance = car.MaxDeliveryDistance,
-                DeliveryFeePerKm = car.DeliveryFeePerKm,
-                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
-                LimitKilometersPerDay = car.LimitKilometersPerDay,
-                OverLimitFeePerKm = car.OverLimitFeePerKm,
-                RentalTerms = car.RentalTerms,
-            }).ToList();
+
+                int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+                int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
+                double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
+           
+                carResponse.Add(new CarResponse
+                {
+                    Slug = car.Slug,
+                    CarId = car.CarId,
+                    Owner = car.OwnerId ?? Guid.Empty,
+                    LicensePlate = car.licensePlate,
+                    Brand = car.Model.Brand.BrandName,
+                    Model = car.Model.ModelName,
+                    year = car.year,
+                    Location = car.Location,
+                    Seats = car.Seats,
+                    Transmission = car.Transmission,
+                    FuelType = car.FuelType,
+                    FuelConsumption = (float?)car.FuelConsumption ?? 0,
+                    Description = car.Description,
+                    PricePerDay = car.PricePerDay,
+                    Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
+                    RentalStatus = car.RentalStatus,
+                    Status = car.Status,
+                    CreatedAt = car.CreatedAt,
+                    UpdatedAt = car.UpdatedAt,
+                    CreatedBy = car.CreatedBy,
+                    UpdatedBy = car.UpdatedBy,
+                    InstantBooking = car.InstantBooking,
+                    Discount = (float)car.discount,
+                    MaxDeliveryDistance = car.MaxDeliveryDistance,
+                    DeliveryFeePerKm = car.DeliveryFeePerKm,
+                    FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                    LimitKilometersPerDay = car.LimitKilometersPerDay,
+                    OverLimitFeePerKm = car.OverLimitFeePerKm,
+                    RentalTerms = car.RentalTerms,
+                    totalRentals = totalRental,
+                    totalReviews = totalReview,
+                    averageRating = avarageRating
+                });
+            }
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
@@ -297,40 +313,55 @@ namespace MoncatiCar.Data.Services
             // Gọi repository để lấy danh sách xe và tổng số mục
             (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName, brandName, transmission, fuelType, location, sortedBy, order);
 
-            // Chuyển đổi dữ liệu từ Car thành CarResponse
-            var carResponse = listCar.Select(car => new CarResponse
-            {
-                Slug = car.Slug,
-                CarId = car.CarId,
-                Owner = car.OwnerId ?? Guid.Empty,
-                LicensePlate = car.licensePlate,
-                Brand = car.Model.Brand.BrandName,
-                Model = car.Model.ModelName,
-                year = car.year,
-                Location = car.Location,
-                Seats = car.Seats,
-                Transmission = car.Transmission,
-                FuelType = car.FuelType,
-                FuelConsumption = (float?)car.FuelConsumption ?? 0,
-                Description = car.Description,
-                PricePerDay = car.PricePerDay,
-                Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
-                RentalStatus = car.RentalStatus,
-                Status = car.Status,
-                CreatedAt = car.CreatedAt,
-                UpdatedAt = car.UpdatedAt,
-                CreatedBy = car.CreatedBy,
-                UpdatedBy = car.UpdatedBy,
-                InstantBooking = car.InstantBooking,
-                Discount = (float)car.discount,
-                MaxDeliveryDistance = car.MaxDeliveryDistance,
-                DeliveryFeePerKm = car.DeliveryFeePerKm,
-                FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
-                LimitKilometersPerDay = car.LimitKilometersPerDay,
-                OverLimitFeePerKm = car.OverLimitFeePerKm,
-                RentalTerms = car.RentalTerms,
-            }).ToList();
+            // Khai báo biến carResponse trước vòng lặp foreach
+            var carResponse = new List<CarResponse>();
 
+            // Chuyển đổi dữ liệu từ Car thành CarResponse
+            foreach (var car in listCar)
+            {
+
+                int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+                int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
+                double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
+           
+                carResponse.Add(new CarResponse
+                {
+                    Slug = car.Slug,
+                    CarId = car.CarId,
+                    Owner = car.OwnerId ?? Guid.Empty,
+                    LicensePlate = car.licensePlate,
+                    Brand = car.Model.Brand.BrandName,
+                    Model = car.Model.ModelName,
+                    year = car.year,
+                    Location = car.Location,
+                    Seats = car.Seats,
+                    Transmission = car.Transmission,
+                    FuelType = car.FuelType,
+                    FuelConsumption = (float?)car.FuelConsumption ?? 0,
+                    Description = car.Description,
+                    PricePerDay = car.PricePerDay,
+                    Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
+                    RentalStatus = car.RentalStatus,
+                    Status = car.Status,
+                    CreatedAt = car.CreatedAt,
+                    UpdatedAt = car.UpdatedAt,
+                    CreatedBy = car.CreatedBy,
+                    UpdatedBy = car.UpdatedBy,
+                    InstantBooking = car.InstantBooking,
+                    Discount = (float)car.discount,
+                    MaxDeliveryDistance = car.MaxDeliveryDistance,
+                    DeliveryFeePerKm = car.DeliveryFeePerKm,
+                    FreeDeliveryWithinKm = car.FreeDeliveryWithinKm,
+                    LimitKilometersPerDay = car.LimitKilometersPerDay,
+                    OverLimitFeePerKm = car.OverLimitFeePerKm,
+                    RentalTerms = car.RentalTerms,
+                    totalRentals = totalRental,
+                    totalReviews = totalReview,
+                    averageRating = avarageRating
+                });
+            }
+
+            // Trả về kết quả phân trang
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
@@ -340,9 +371,13 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+
         public async Task<CarResponse> GetCarByCarId(Guid id)
         {
             var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
+            int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            int totalReview = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
             var carResponse = new CarResponse()
             {
                 CarId = car.CarId,
@@ -378,6 +413,9 @@ namespace MoncatiCar.Data.Services
                 LimitKilometersPerDay = car.LimitKilometersPerDay,
                 OverLimitFeePerKm = car.OverLimitFeePerKm,
                 RentalTerms = car.RentalTerms,
+                totalRentals = totalRental,
+                totalReviews = totalReview,
+                averageRating = avarageRating
 
             };
             return carResponse;
@@ -386,7 +424,9 @@ namespace MoncatiCar.Data.Services
         public async Task<CarResponeIdandSlug> GetCarBySlug(string slug)
         {
             var car = await _repositoryManager.CarRepository.GetCarBySlug(slug);
-
+            int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            int totalReview = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
             if (car == null)
             {
                 throw new Exception($"Car with slug '{slug}' not found.");
@@ -425,6 +465,9 @@ namespace MoncatiCar.Data.Services
                 LimitKilometersPerDay = car.LimitKilometersPerDay,
                 OverLimitFeePerKm = car.OverLimitFeePerKm,
                 RentalTerms = car.RentalTerms,
+                totalRentals = totalRental,
+                totalReviews = totalReview,
+                averageRating = avarageRating
             };
 
             return carResponse;
