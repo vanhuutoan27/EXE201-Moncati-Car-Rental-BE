@@ -7,7 +7,8 @@ namespace MocatiCar.Core.Services
     public interface ICarService
     {
         Task<CreateUpdateCarRequest> AddCar(CreateUpdateCarRequest carRequest);
-        Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status, string fuel, string brandName,
+        Task<PageResult<CarResponse>> GetAllCars(int page, int limit, string search, bool? status, string fuel,int? seats,
+        bool? electric, bool? discount, bool? instantBooking, string brandName,
             string modelName, string transmission, string location, string sortedBy, string order);
         Task<CarResponse> GetCarByCarId(Guid id);
         Task<CarResponeIdandSlug> GetCarBySlug(string slug);

@@ -101,7 +101,13 @@ namespace Moncati_Car_API.Controllers
         {
 
             var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit, flag);
-
+            if(reviews == null){
+                _resultModel = new ResultModel{
+                   Success = false,
+                   Status = (int)HttpStatusCode.NotFound,
+                   Message = "Reviews not found."
+                };
+            }
             _resultModel = new ResultModel
             {
                 Success = true,

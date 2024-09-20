@@ -13,6 +13,7 @@ namespace MocatiCar.Core.Repository
         Task<IEnumerable<Review>> GetReviewsByCarTypeIdAsync(Guid carTypeId);
         Task<IEnumerable<Review>> GetAllReviewByUsername(string username, int page, int limit, bool? flag);
         Task<Review> HasReview(Guid author, Guid CarId);
-
+        Task<int> CountAsync(Guid carId);
+        Task<double> GetAverageRatingByCarId(Guid carId);
     }
 }

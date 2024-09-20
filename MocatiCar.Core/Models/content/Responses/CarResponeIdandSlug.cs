@@ -30,6 +30,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string Location { get; set; }
         public decimal PricePerDay { get; set; }
 
+
         //public ICollection<ReviewResponse> Reviews { get; set; }
         public List<string> Images { get; set; }
         //public ICollection<string> Features { get; set; }
@@ -40,6 +41,9 @@ namespace MocatiCar.Core.Models.content.Responses
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
         public bool Status { get; set; }
+        public int totalRentals { get; set; }
+        public int totalReviews { get; set; }
+        public double averageRating  {get ; set;}
     }
 }
 

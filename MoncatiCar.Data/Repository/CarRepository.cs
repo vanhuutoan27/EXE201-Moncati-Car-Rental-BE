@@ -13,7 +13,12 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search, bool? status, string modelname, string brandname, string transmission, string fuelType, string location, string sortedBy, string order)
+        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search,
+         bool? status, string modelname,
+        string brandname, string transmission,
+        string fuelType, int? seats,
+        bool? electric, bool? discount, bool? instantBooking,
+        string location, string sortedBy, string order)
         {
             search = search?.Trim();
             modelname = modelname?.Trim();
@@ -25,16 +30,20 @@ namespace MoncatiCar.Data.Repository
 
             IQueryable<Car> query = _context.Cars
                                             .Include(m => m.Model)
-                                                .ThenInclude(b => b.Brand)
+                                            .ThenInclude(b => b.Brand)
                                             .Include(i => i.Images)
                                             .Include(r => r.Reviews)
                                             .Include(c => c.CarFeatures)
-                                                .ThenInclude(cf => cf.Feature);
+                                            .ThenInclude(cf => cf.Feature);
 
             // Search slug
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
+            }
+            //filter instantBooking
+            if(instantBooking.HasValue){
+                query = query.Where(c => c.InstantBooking == instantBooking.Value);
             }
 
             // Filter by model name
@@ -79,6 +88,40 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(c => c.Location.ToLower().Contains(location.ToLower()));
             }
 
+            //filer by seats
+            if (seats.HasValue)
+            {
+                query = query.Where(c => c.Seats == seats.Value);
+            }
+            //filter by discount
+
+            if (discount.HasValue)
+            {
+                if (discount.Value)
+                {
+                    // Lọc xe có discount (giảm giá > 0)
+                    query = query.Where(c => c.discount.HasValue && c.discount.Value > 0);
+                }
+                else
+                {
+                    // Lọc xe không có discount (giảm giá bằng 0 hoặc null)
+                    query = query.Where(c => !c.discount.HasValue || c.discount.Value == 0);
+                }
+            }
+            //filter by electric
+            if (electric.HasValue)
+            {
+                if (electric.Value)
+                {
+                    // Lọc các xe chạy bằng điện (Electric)
+                    query = query.Where(c => c.FuelType == FuelType.Electric);
+                }
+                else
+                {
+                    // Lọc các xe không phải chạy bằng điện (các loại khác)
+                    query = query.Where(c => c.FuelType != FuelType.Electric);
+                }
+            }
             // Sorting logic based on 'price' and 'year'
             if (!string.IsNullOrEmpty(sortedBy))
             {

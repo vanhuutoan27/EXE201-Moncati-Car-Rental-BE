@@ -5,7 +5,12 @@ namespace MocatiCar.Core.Repository
 {
     public interface ICarRepository : IRepositoryBase<Car, Guid>
     {
-        Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search, bool? status, string modelname, string brandname, string transmission, string fuel, string location, string sortedBy, string order);
+        Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit,
+        string search, bool? status,
+        string modelname, string brandname,
+        string transmission, string fuel, int? seats,
+        bool? electric, bool? discount, bool? instantBooking,
+        string location, string sortedBy, string order);
         Task<Car> GetCarByCarId(Guid id);
         Task<Car> GetCarBySlug(string slug);
         void UpdateCar(Guid id, Car car);
