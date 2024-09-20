@@ -1,0 +1,138 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.content.Requests;
+using MocatiCar.Core.SeedWorks;
+using System.Net;
+
+namespace Moncati_Car_API.Controllers
+{
+    [Route("api/v1/driving-licenses/")]
+    [ApiController]
+    public class DrivingLicenseController : ControllerBase
+    {
+        private readonly IServiceManager _serviceManager;
+        private ResultModel _resultModel;
+
+        public DrivingLicenseController(IServiceManager service)
+        {
+            _serviceManager = service;
+            _resultModel = new ResultModel();
+        }
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(Guid userId)
+        {
+            var license = await _serviceManager.DrivingLicenseService.GetDrivingLicenseUserId(userId);
+            if (license == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "License not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = license,
+                Message = "License retrieved successfully."
+            });
+        }
+        [HttpGet("{licenseId}")]
+        public async Task<IActionResult> GetById(Guid licenseId)
+        {
+            var license = await _serviceManager.DrivingLicenseService.GetDrivingLicenseById(licenseId);
+            if (license == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "License not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = license,
+                Message = "License retrieved successfully."
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(Guid userId, [FromBody]CreateDrivingLicenseRequest createLicense)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Invalid data."
+                });
+            }
+            var result = await _serviceManager.DrivingLicenseService.AddDrivingLicense(userId, createLicense);
+            if (result == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Failed to add license."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Status = (int)HttpStatusCode.OK,
+                Success = true,
+                Message = "License added successfully."
+            });
+        }
+        [HttpPut("{lisenceId}")]
+        public async Task<IActionResult> UpdateDrivingLisence(Guid lisenceId, UpdateDrivingLicenseRequest updateDrivingLicenseRequest)
+        {
+            var update = await _serviceManager.DrivingLicenseService.UpdateDrivingLicense(lisenceId, updateDrivingLicenseRequest);
+            if (!update)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.InternalServerError,
+                    Message = "Failed to update driving lisence."
+                };
+                return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Driving Lisence updated successfully."
+            };
+            return Ok(_resultModel);
+        }
+        [HttpDelete("{lisencedId}")]
+        public async Task<IActionResult> DeleteDrivingLisence(Guid lisencedId)
+        {
+            var checkExistDrivingLisence = await _serviceManager.DrivingLicenseService.GetDrivingLicenseById(lisencedId);
+            if (checkExistDrivingLisence == null)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Driving Lisence not found."
+                });
+            }
+            await _serviceManager.DrivingLicenseService.DeleteDrivingLisence(lisencedId);
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Driving Lisence deleted successfully."
+            });
+        }
+    }
+}
