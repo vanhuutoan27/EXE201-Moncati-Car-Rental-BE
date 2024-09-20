@@ -58,7 +58,7 @@ namespace MoncatiCar.Data.Services
                 CarId = car.CarId,
 
                 OwnerId = car.Car.User.Id,
-                ownerName = car.Car.User.FullName,
+                ownerName = car.Car.User.UserName,
                 ownerAvatar = car.Car?.User?.Avatar,
                 licensePlate = car.Car?.licensePlate,
                 slug = car.Car?.Slug,
