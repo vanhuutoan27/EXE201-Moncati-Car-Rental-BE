@@ -14,5 +14,6 @@ namespace MocatiCar.Core.Repository
         Task<Review> HasReview(Guid author, Guid CarId);
         Task<int> CountAsync(Guid carId);
         Task<double> GetAverageRatingByCarId(Guid carId);
+        Task<IEnumerable<Review>>GetUserByOwnerName(string ownerName ,int page, int limit);
     }
 }

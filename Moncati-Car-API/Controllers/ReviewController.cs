@@ -105,6 +105,31 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
 
         }
+         [HttpGet]
+        [Route("owner/{username}")]
+        public async Task<ActionResult<ResultModel>> GetUserandReviewByOwner(string username , int page = 1, int limit = 10)
+        {
+
+            var reviews = await _serviceManager.ReviewService.GetUserAndReviewByOwner(username, page, limit);
+            if(reviews == null){
+                _resultModel = new ResultModel{
+                   Success = false,
+                   Status = (int)HttpStatusCode.NotFound,
+                   Message = "Reviews not found."
+                };
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Data = reviews,
+                Message = "Review and User retrieved successfully."
+            };
+
+            return Ok(_resultModel);
+
+        }
+
 
         [HttpGet]
         [Route("user/{userId:guid}")]
