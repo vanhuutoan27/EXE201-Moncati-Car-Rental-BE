@@ -53,6 +53,7 @@ namespace MoncatiCar.Data.Repository
             }
             if (page > 0 && limit > 0) { query = query.Skip((page - 1) * limit).Take(limit); }
             return await query.ToListAsync();
+        }
         public async Task<double> GetAverageRatingByCarId(Guid carId)
         {
             var reviews = await _context.Reviews.Where(c => c.CarId == carId).ToListAsync();
