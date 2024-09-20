@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection.PortableExecutable;
+using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Repository;
 using MocatiCar.Core.SeedWorks.Enums;
@@ -18,7 +19,8 @@ namespace MoncatiCar.Data.Repository
         string brandname, string transmission,
         string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
-        string location, string sortedBy, string order)
+        string location, string sortedBy, string order , int? minYear, int? maxYear , 
+        int? minPrice ,int? maxPrice)
         {
             search = search?.Trim();
             modelname = modelname?.Trim();
@@ -35,7 +37,20 @@ namespace MoncatiCar.Data.Repository
                                             .Include(r => r.Reviews)
                                             .Include(c => c.CarFeatures)
                                             .ThenInclude(cf => cf.Feature);
-
+             //filter year
+             if(minYear.HasValue){
+                query = query.Where(c => c.year >= minYear.Value);
+             }
+             if(maxYear.HasValue){
+                query = query.Where(c => c.year <= maxYear.Value);
+             }                               
+            //filter price
+            if(minPrice.HasValue){
+                query = query.Where(c => c.PricePerDay >= minPrice.Value);
+            }
+            if(maxPrice.HasValue){
+                query = query.Where(c => c.PricePerDay <= maxPrice.Value);
+            }
             // Search slug
             if (!string.IsNullOrEmpty(search))
             {
