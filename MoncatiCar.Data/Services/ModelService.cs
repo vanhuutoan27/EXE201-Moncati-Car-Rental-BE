@@ -98,10 +98,6 @@ namespace MoncatiCar.Data.Services
         public async Task<IEnumerable<ModelRespone>> GetModelByBrandId(Guid id)
         {
             var models = await _repositoryManager.ModelRepository.GetModelByBrandId(id);
-            if (models == null || !models.Any())
-            {
-                throw new Exception($"No models found for brand with ID '{id}'.");
-            }
             var listResult = _mapper.Map<IEnumerable<ModelRespone>>(models);
 
             var resultJson = new List<ModelRespone>();
@@ -129,10 +125,6 @@ namespace MoncatiCar.Data.Services
         public async Task<IEnumerable<ModelRespone>> GetModelByBrandName(string brandName)
         {
             var models = await _repositoryManager.ModelRepository.GetModelByBrandName(brandName);
-            if (models == null || !models.Any())
-            {
-                throw new Exception($"No models found for brand with name '{brandName}'.");
-            }
             return _mapper.Map<IEnumerable<ModelRespone>>(models);
         }
 
