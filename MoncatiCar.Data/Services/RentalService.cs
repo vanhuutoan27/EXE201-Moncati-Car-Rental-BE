@@ -105,7 +105,7 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
             };
             create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
-            create.CommissionAmount = create.RentalAmount * 20 / 100;
+            create.CommissionAmount = create.RentalAmount * 15 / 100;
             _repositoryManager.RentalRepository.Add(create);
             await _repositoryManager.SaveAsync();
             var result = _mapper.Map<CreateRentalRequest>(create);
