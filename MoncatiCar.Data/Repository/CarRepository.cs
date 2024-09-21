@@ -19,7 +19,7 @@ namespace MoncatiCar.Data.Repository
         string brandname, string transmission,
         string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
-        string location, string sortedBy, string? order, int? minYear, int? maxYear,
+        string location, string sortedBy, string order, int? minYear, int? maxYear,
         int? minPrice, int? maxPrice)
         {
             search = search?.Trim();
@@ -147,27 +147,15 @@ namespace MoncatiCar.Data.Repository
             {
                 if (sortedBy.Equals("price", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Sắp xếp theo PricePerDay (decimal)
-                    if (!string.IsNullOrEmpty(order) && order.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        query = query.OrderByDescending(c => c.PricePerDay);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.PricePerDay);
-                    }
+                     query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                            ? query.OrderByDescending(c => c.PricePerDay)
+                            : query.OrderBy(c => c.PricePerDay);
                 }
                 else if (sortedBy.Equals("year", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Sắp xếp theo year (int)
-                    if (!string.IsNullOrEmpty(order) && order.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        query = query.OrderByDescending(c => c.year); // Sắp xếp theo year giảm dần
-                    }
-                    else
-                    {
-                        query = query.OrderBy(c => c.year); // Sắp xếp theo year tăng dần
-                    }
+                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                            ? query.OrderByDescending(c => c.year)  // Sắp xếp theo year giảm dần
+                            : query.OrderBy(c => c.year);  // Sắp xếp theo year tăng dần
                 }
             }
 
