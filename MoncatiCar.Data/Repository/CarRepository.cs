@@ -19,8 +19,8 @@ namespace MoncatiCar.Data.Repository
         string brandname, string transmission,
         string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
-        string location, string sortedBy, string order , int? minYear, int? maxYear , 
-        int? minPrice ,int? maxPrice)
+        string location, string sortedBy, string? order, int? minYear, int? maxYear,
+        int? minPrice, int? maxPrice)
         {
             search = search?.Trim();
             modelname = modelname?.Trim();
@@ -37,18 +37,22 @@ namespace MoncatiCar.Data.Repository
                                             .Include(r => r.Reviews)
                                             .Include(c => c.CarFeatures)
                                             .ThenInclude(cf => cf.Feature);
-             //filter year
-             if(minYear.HasValue){
+            //filter year
+            if (minYear.HasValue)
+            {
                 query = query.Where(c => c.year >= minYear.Value);
-             }
-             if(maxYear.HasValue){
+            }
+            if (maxYear.HasValue)
+            {
                 query = query.Where(c => c.year <= maxYear.Value);
-             }                               
+            }
             //filter price
-            if(minPrice.HasValue){
+            if (minPrice.HasValue)
+            {
                 query = query.Where(c => c.PricePerDay >= minPrice.Value);
             }
-            if(maxPrice.HasValue){
+            if (maxPrice.HasValue)
+            {
                 query = query.Where(c => c.PricePerDay <= maxPrice.Value);
             }
             // Search slug
@@ -57,7 +61,8 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
             }
             //filter instantBooking
-            if(instantBooking.HasValue){
+            if (instantBooking.HasValue)
+            {
                 query = query.Where(c => c.InstantBooking == instantBooking.Value);
             }
 
@@ -143,18 +148,30 @@ namespace MoncatiCar.Data.Repository
                 if (sortedBy.Equals("price", StringComparison.OrdinalIgnoreCase))
                 {
                     // Sắp xếp theo PricePerDay (decimal)
-                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
-                            ? query.OrderByDescending(c => c.PricePerDay)
-                            : query.OrderBy(c => c.PricePerDay);
+                    if (!string.IsNullOrEmpty(order) && order.Equals("desc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        query = query.OrderByDescending(c => c.PricePerDay);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.PricePerDay);
+                    }
                 }
                 else if (sortedBy.Equals("year", StringComparison.OrdinalIgnoreCase))
                 {
                     // Sắp xếp theo year (int)
-                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
-                            ? query.OrderByDescending(c => c.year)  // Sắp xếp theo year giảm dần
-                            : query.OrderBy(c => c.year);  // Sắp xếp theo year tăng dần
+                    if (!string.IsNullOrEmpty(order) && order.Equals("desc", StringComparison.OrdinalIgnoreCase))
+                    {
+                        query = query.OrderByDescending(c => c.year); // Sắp xếp theo year giảm dần
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.year); // Sắp xếp theo year tăng dần
+                    }
                 }
             }
+
+
 
 
             // Get total count

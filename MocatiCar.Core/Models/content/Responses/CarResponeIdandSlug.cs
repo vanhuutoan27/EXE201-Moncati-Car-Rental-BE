@@ -29,7 +29,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string? Description { get; set; }
         public string Location { get; set; }
         public decimal PricePerDay { get; set; }
-
+        public decimal CommissionAmount  { get; set; }
 
         //public ICollection<ReviewResponse> Reviews { get; set; }
         public List<string> Images { get; set; }

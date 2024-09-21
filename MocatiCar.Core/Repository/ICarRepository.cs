@@ -10,7 +10,7 @@ namespace MocatiCar.Core.Repository
         string modelname, string brandname,
         string transmission, string fuel, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
-        string location, string sortedBy, string order ,int? minYear, int? maxYear , 
+        string location, string sortedBy, string? order ,int? minYear, int? maxYear , 
         int? minPrice ,int? maxPrice);
         Task<Car> GetCarByCarId(Guid id);
         Task<Car> GetCarBySlug(string slug);
