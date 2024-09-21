@@ -18,6 +18,7 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IAddressRepository> _addressRepository;
         private readonly Lazy<IRentalRepository> _rentalRepository;
+        private readonly Lazy<ICitizendIdRepository> _citizendIdRepository;
         private readonly Lazy<IFavoriteCarRepository> _favoriteCarRepository;
         private readonly Lazy<IDrivingLicenseRepository> _drivingLicenseRepository;
         public RepositoryManager(MocatiContext context)
@@ -34,6 +35,7 @@ namespace MoncatiCar.Data.SeedWork
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
             _addressRepository = new Lazy<IAddressRepository>(() => new AddressRepository(context));
             _rentalRepository = new Lazy<IRentalRepository>(() => new RentalRepository(context));
+            _citizendIdRepository = new Lazy<ICitizendIdRepository>(() => new CitizenIdRepository(context));
             _favoriteCarRepository = new Lazy<IFavoriteCarRepository>(() => new FavoriteCarRepository(context));
             _drivingLicenseRepository = new Lazy<IDrivingLicenseRepository>(() => new DrivingLicenseRepository(context));
         }
@@ -61,6 +63,8 @@ namespace MoncatiCar.Data.SeedWork
         public IFavoriteCarRepository FavoriteCarRepository => _favoriteCarRepository.Value;
 
         public IDrivingLicenseRepository DrivingLicenseRepository => _drivingLicenseRepository.Value;
+        public ICitizendIdRepository CitizendIdRepository => _citizendIdRepository.Value;
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

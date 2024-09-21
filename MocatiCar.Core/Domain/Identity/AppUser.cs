@@ -33,5 +33,9 @@ namespace MocatiCar.Core.Domain.Identity
 
         public ICollection<FavoriteCar> FavoriteCars { get; set; }
         public DrivingLicense DrivingLicenses { get; set; }
+        public ICollection<Rental> Rentals { get; set; }
+
+        public CitizenId CitizenId { get; set; } //one to ones
+
     }
 }
