@@ -345,6 +345,7 @@ namespace MoncatiCar.Data.Services
                     FuelConsumption = (float?)car.FuelConsumption ?? 0,
                     Description = car.Description,
                     PricePerDay = car.PricePerDay,
+                    commissionAmount = car.PricePerDay * 15 / 100,
                     Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                     RentalStatus = car.RentalStatus,
                     Status = car.Status,
@@ -362,7 +363,8 @@ namespace MoncatiCar.Data.Services
                     RentalTerms = car.RentalTerms,
                     totalRentals = totalRental,
                     totalReviews = totalReview,
-                    averageRating = avarageRating
+                    averageRating = avarageRating,
+                   
                 });
             }
 
@@ -400,6 +402,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
+                commissionAmount = car.PricePerDay * 15 / 100,
                 Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 //Features = car.CarFeatures != null
                 //         ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList()
@@ -452,6 +455,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
+                CommissionAmount = car.PricePerDay * 15/100 ,
                 discount = (float)car.discount,
                 Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 //Features = car.CarFeatures != null
