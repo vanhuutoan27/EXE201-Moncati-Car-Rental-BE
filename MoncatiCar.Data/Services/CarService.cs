@@ -321,7 +321,7 @@ namespace MoncatiCar.Data.Services
              brandName, transmission, fuelType, seats, electric, discount, instantBooking , location, sortedBy, order , minYear , maxYear , minPrice , maxPrice);
 
             // Khai báo biến carResponse trước vòng lặp foreach
-            var carResponse = new List<CarResponse>();
+        var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
             foreach (var car in listCar)

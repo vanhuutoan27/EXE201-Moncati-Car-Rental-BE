@@ -129,10 +129,10 @@ namespace Moncati_Car_API.Controllers
             });
         }
         [HttpGet]
-        [Route("user/{userName}")]
-        public async Task<ActionResult<ResultModel>> GetAllCarByOwnerUsername(string userName, int page = 1, int limit = 10, bool? status = null)
+        [Route("user/{username}")]
+        public async Task<ActionResult<ResultModel>> GetAllCarByOwnerUsername(string username, int page = 1, int limit = 10, bool? status = null)
         {
-            var result = await _serviceManager.CarService.GetAllCarByUserNameOfOwner(page, limit, status, userName);
+            var result = await _serviceManager.CarService.GetAllCarByUserNameOfOwner(page, limit, status, username);
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
@@ -173,7 +173,8 @@ namespace Moncati_Car_API.Controllers
                 _resultModel = new ResultModel
                 {
                     Success = false,
-                    Status = (int)HttpStatusCode.BadRequest
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Message = "Invalid car data."
 
                 };
                 return BadRequest(_resultModel);

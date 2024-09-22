@@ -55,6 +55,7 @@ namespace Moncati_Car_API.Controllers
 
             return Ok(_resultModel);
         }
+
         [HttpGet("{userId:guid}")]
         public async Task<ActionResult<ResultModel>> GetUserById(Guid userId)
         {
@@ -153,7 +154,7 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut("admin/{userId}")]
         public async Task<ActionResult<ResultModel>> Update(Guid userId, UpdateUserRequest request)
         {
             var update = await _serviceManager.UserService.UpdateUser(userId, request);
@@ -175,30 +176,26 @@ namespace Moncati_Car_API.Controllers
                 Message = "User updated successfully."
             });
         }
-        [HttpPatch("{userId}/status")]
-        public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
-        {
-            // Gọi dịch vụ để tìm người dùng theo ID
-            var update = await _serviceManager.UserService.ChangeStatusbyId(userId);
 
-            if (!update)
+        [HttpPut("customer/{userId}")]
+        public async Task<IActionResult> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest request)
+        {
+            var update = await _serviceManager.UserService.UpdateUserRoleCustomer(userId, request);
+            if (update == null)
             {
-                //update fail
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to update user."
+                    Message = "Failed to update."
                 });
             }
-            // update success
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "User updated successfully."
+                Message = "User information updated successfully."
             });
-
         }
 
         [HttpPut("{userId}/password")]
@@ -225,9 +222,8 @@ namespace Moncati_Car_API.Controllers
                     Message = "Failed to change password user."
                 });
             }
-
-
         }
+
         [HttpPut("{userId}/avatar")]
         public async Task<ActionResult<ResultModel>> ChangeAvatar([FromBody] ChangeAvatarRequest request, Guid userId)
         {
@@ -248,25 +244,34 @@ namespace Moncati_Car_API.Controllers
                 Message = "Change avatar user successfully."
             });
         }
-        [HttpPut("{userId}/customer")]
-        public async Task<IActionResult> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest request)
+
+        [HttpPatch("{userId}/status")]
+        public async Task<ActionResult<ResultModel>> ChangeUserStatus(Guid userId)
         {
-            var update = await _serviceManager.UserService.UpdateUserRoleCustomer(userId, request);
-            if (update == null)
+            // Gọi dịch vụ để tìm người dùng theo ID
+            var update = await _serviceManager.UserService.ChangeStatusbyId(userId);
+
+            if (!update)
             {
+                //update fail
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to update."
+                    Message = "Failed to update user."
                 });
             }
+            // update success
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "User information updated successfully."
+                Message = "User updated successfully."
             });
+
         }
+
+
+       
     }
 }

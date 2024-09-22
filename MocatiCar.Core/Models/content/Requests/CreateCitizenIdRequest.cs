@@ -7,7 +7,6 @@ namespace MocatiCar.Core.Models.content.Requests
     {
         [JsonPropertyName("user")]
         public Guid UserId { get; set; }
-
         public string IdNumber { get; set; }
         public DateTime Dob { get; set; }
         public Gender Gender { get; set; }
@@ -15,7 +14,5 @@ namespace MocatiCar.Core.Models.content.Requests
         public string Address { get; set; }
         public DateTime IssueDate { get; set; }
         public string IssuingAuthority { get; set; }
-     
-
     }
 }

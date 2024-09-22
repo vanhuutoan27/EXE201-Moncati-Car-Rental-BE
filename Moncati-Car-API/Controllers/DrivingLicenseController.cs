@@ -42,7 +42,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "License not found."
+                     Message = "Driving license not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -50,7 +50,7 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = license,
-                Message = "License retrieved successfully."
+                  Message = "Driving license retrieved successfully."
             });
         }
         [HttpPost]
@@ -72,14 +72,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to add license."
+                     Message = "Failed to create driving license."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "License added successfully."
+                  Message = "Driving license created successfully.",
             });
         }
         [HttpPut("{lisenceId}")]
@@ -92,7 +92,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = "Failed to update driving lisence."
+                     Message = "Failed to update driving license."
                 };
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
@@ -100,7 +100,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Driving Lisence updated successfully."
+               Message = "Driving license updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -114,7 +114,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Driving Lisence not found."
+                    Message = "Driving license not found."
                 });
             }
             await _serviceManager.DrivingLicenseService.DeleteDrivingLisence(lisencedId);
@@ -122,7 +122,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Driving Lisence deleted successfully."
+                Message = "Driving license deleted successfully."
             });
         }
         [HttpPatch("{drivingLicenseId}/verify")]
@@ -135,14 +135,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Driving Lisence not found."
+                     Message = "Driving license not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Verify successfully"
+                Message = "Driving license verified successfully."
             });
             
         }

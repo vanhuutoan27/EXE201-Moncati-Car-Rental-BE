@@ -27,27 +27,27 @@ namespace MoncatiCar.Data.Services
             var user = await _repositoryManager.UserRepository.GetByIdAsync(userId);
             if (user == null)
             {
-                throw new Exception($"User not found.");
+                throw new Exception("User not found.");
             }
 
             // kiem tra user co drivinglisence hay chua
             var checkDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(userId);
             if (checkDrivingLisence != null)
             {
-                throw new Exception("You have a driver's license.");
+                throw new Exception("The user already has a driving license.");
             }
             var createLicense = _mapper.Map<DrivingLicense>(drivingLicenseRequest);
             // check length of LicenseNumber
             if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
             {
-                throw new Exception("LicenseNumber invalid.");
+                throw new Exception("Invalid license number. It must be 12 digits.");
             }
 
             // check license duplicate
             var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
             if (existingLicense != null)
             {
-                throw new Exception("LisenceNumber existed.");
+                 throw new Exception("License number already exists.");
             }
 
             var modelLicense = new DrivingLicense
@@ -111,14 +111,14 @@ namespace MoncatiCar.Data.Services
             // check length of LicenseNumber
             if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
             {
-                throw new Exception("LicenseNumber invalid.");
+                 throw new Exception("Invalid license number. It must be 12 digits.");
             }
 
             // check license duplicate
             var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
             if (existingLicense != null)
             {
-                throw new Exception("LisenceNumber existed.");
+                 throw new Exception("License number already exists.");
             }
            
             updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
@@ -136,11 +136,11 @@ namespace MoncatiCar.Data.Services
             var existingDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(lisenceId);
             if(existingDrivingLisence == null)
             {
-                throw new Exception("Driving lisence not found.");
+                throw new Exception("Driving license not found.");
             }
             if(existingDrivingLisence.Verified == true)
             {
-                throw new Exception("Driver's license has been verified.");
+                throw new Exception("Driving license is already verified.");
             }
             existingDrivingLisence.Verified = true;
             await _repositoryManager.SaveAsync();

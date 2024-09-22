@@ -22,18 +22,18 @@ namespace MoncatiCar.Data.Services
         {
             if (!HasAtleast12Digits(request.IdNumber))
             {
-                throw new Exception("IdNumber must to have at least 12 digits.");
+                throw new Exception("ID number must contain at least 12 digits.");
             }
             bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber);
             if (checkExisedIdNumber)
             {
-                throw new Exception("IdNumber already Existed");
+                throw new Exception("ID number already exists.");
 
             }
             var user = await _repositoryManager.UserRepository.GetByIdAsync(request.UserId);
             if (user == null)
             {
-                throw new Exception("Invalid UserId.");
+                throw new Exception("Invalid user ID.");
             }
             var citizenId = new CitizenId
             {
@@ -59,7 +59,7 @@ namespace MoncatiCar.Data.Services
         {
             var query = await _repositoryManager.CitizendIdRepository.GetbyId(id);
             if(query == null){
-                throw new Exception("CitizenId not found.");
+                throw new Exception("Citizen ID not found.");
             }
              _repositoryManager.CitizendIdRepository.Remove(query);
              await _repositoryManager.SaveAsync();
@@ -101,7 +101,7 @@ namespace MoncatiCar.Data.Services
             var citizenId = await _repositoryManager.CitizendIdRepository.GetbyId(id);
             if (citizenId == null)
             {
-                throw new ArgumentException("No citizenId found.");
+                throw new ArgumentException("Citizen ID not found.");
             };
             return new CitizenIdResponse
             {
@@ -126,7 +126,7 @@ namespace MoncatiCar.Data.Services
            var query = await _repositoryManager.CitizendIdRepository.GetbyUserIdAsyn(id);
            if (query == null)
             {
-                throw new ArgumentException("No user found.");
+                throw new ArgumentException("User not found.");
             };
             return new CitizenIdResponse
             {
@@ -151,17 +151,17 @@ namespace MoncatiCar.Data.Services
             var query = await _repositoryManager.CitizendIdRepository.GetbyId(id);
            if (!HasAtleast12Digits(request.IdNumber))
             {
-                throw new Exception("IdNumber must to have at least 12 digits.");
+                throw new Exception("ID number must contain at least 12 digits.");
             }
             bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber);
             if (checkExisedIdNumber)
             {
-                throw new Exception("IdNumber already Existed");
+                throw new Exception("ID number already exists.");
 
             }
             if (query == null)
             {
-                throw new Exception("No CitizenId found.");
+                throw new Exception("Citizen ID not found.");
             }
             query.Address = request.Address;
             query.Dob = request.Dob;

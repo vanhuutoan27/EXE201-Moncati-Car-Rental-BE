@@ -131,7 +131,7 @@ namespace MoncatiCar.Data.Services
             if (reviews == null)
 
             {
-                throw new KeyNotFoundException($"No reviews found.");
+                throw new KeyNotFoundException("No reviews found.");
             }
 
             var result = _mapper.Map<IEnumerable<ReviewRespone>>(reviews);
@@ -171,7 +171,7 @@ namespace MoncatiCar.Data.Services
             var totalItems = user.Count();
             if (user == null)
             {
-                throw new Exception($"No reviews found.");
+                throw new Exception("No reviews found.");
             }
             var result = _mapper.Map<IEnumerable<ReviewRespone>>(user);
             return new PageResult<ReviewRespone>
@@ -190,7 +190,7 @@ namespace MoncatiCar.Data.Services
 
             if (totalItems == 0) // Check for empty collection
             {
-                throw new Exception($"No reviews and users found.");
+                throw new Exception("No reviews and users found.");
             }
 
             var reviewResponse = reviews.Select(review => new GetReviewandUserbyOwnerRespone
@@ -223,12 +223,12 @@ namespace MoncatiCar.Data.Services
             var checkcarId = await _repositoryManager.CarRepository.GetCarByCarId(update.CarId);
             if (checkcarId == null || !update.CarId.Equals(checkcarId.CarId))
             {
-                throw new Exception($"No car found.");
+                throw new Exception("No car found.");
             }
             var checkauthor = await _userManager.FindByIdAsync(update.Author.ToString());
             if (checkauthor == null || !update.Author.Equals(checkauthor.Id))
             {
-                throw new Exception($"No user found.");
+                throw new Exception("No user found.");
             }
             reviewId.Rating = update.Rating;
             reviewId.Content = update.Content;
