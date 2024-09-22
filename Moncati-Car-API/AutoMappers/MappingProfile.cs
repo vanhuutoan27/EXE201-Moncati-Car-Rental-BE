@@ -57,6 +57,7 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<DrivingLicense, CreateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, UpdateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, DrivingLicenseRespone>().ReverseMap();
+            CreateMap<CitizenId,CitizenIdResponse>().ReverseMap();
         }
     }
 }
