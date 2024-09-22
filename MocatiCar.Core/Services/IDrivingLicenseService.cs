@@ -15,5 +15,6 @@ namespace MocatiCar.Core.Services
         Task<CreateDrivingLicenseRequest> AddDrivingLicense(Guid userId, CreateDrivingLicenseRequest drivingLicenseRequest);
         Task<bool> UpdateDrivingLicense(Guid userId, UpdateDrivingLicenseRequest drivingLicenseRequest);
         Task<bool> DeleteDrivingLisence(Guid lisenceId);
+        Task<bool> VeryfyDrivingLisence(Guid lisenceId);
     }
 }
