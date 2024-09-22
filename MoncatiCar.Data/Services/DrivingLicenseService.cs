@@ -99,6 +99,13 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception($"DrivingLisence with ID '{lisenceId}' does not exist.");
             }
+
+            // check verify
+            if(updateLicense.Verified == true)
+            {
+                updateLicense.Verified = false;
+            }
+
             var createLicense = _mapper.Map<DrivingLicense>(drivingLicenseRequest);
 
             // check length of LicenseNumber
@@ -113,13 +120,29 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("LisenceNumber existed.");
             }
+           
             updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
             updateLicense.IssueDate = drivingLicenseRequest.IssueDate;
             updateLicense.ExpiryDate = drivingLicenseRequest.ExpiryDate;
-            updateLicense.Verified = drivingLicenseRequest.Verified;
             updateLicense.UpdatedAt = DateTime.Now;
 
             _repositoryManager.DrivingLicenseRepository.Update(updateLicense);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
+
+        public async Task<bool> VeryfyDrivingLisence(Guid lisenceId)
+        {
+            var existingDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(lisenceId);
+            if(existingDrivingLisence == null)
+            {
+                throw new Exception("Driving lisence not found.");
+            }
+            if(existingDrivingLisence.Verified == true)
+            {
+                throw new Exception("Driver's license has been verified.");
+            }
+            existingDrivingLisence.Verified = true;
             await _repositoryManager.SaveAsync();
             return true;
         }

@@ -134,5 +134,26 @@ namespace Moncati_Car_API.Controllers
                 Message = "Driving Lisence deleted successfully."
             });
         }
+        [HttpPatch("{drivingLicenseId}/verify")]
+        public async Task<IActionResult> VerifyDrivingLisence(Guid drivingLicenseId)
+        {
+            var drivingLisence = await _serviceManager.DrivingLicenseService.VeryfyDrivingLisence(drivingLicenseId);
+            if(!drivingLisence)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Driving Lisence not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Verify successfully"
+            });
+            
+        }
     }
 }

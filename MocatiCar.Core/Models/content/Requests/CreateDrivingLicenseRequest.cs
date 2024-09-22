@@ -13,7 +13,6 @@ namespace MocatiCar.Core.Models.content.Requests
         public string LicenseNumber { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public bool Verified { get; set; }
         public Guid UserId { get; set; }
     }
 }
