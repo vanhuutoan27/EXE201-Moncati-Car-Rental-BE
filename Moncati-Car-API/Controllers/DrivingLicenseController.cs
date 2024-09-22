@@ -24,21 +24,12 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
             var license = await _serviceManager.DrivingLicenseService.GetDrivingLicenseUserId(userId);
-            if (license == null)
-            {
-                return NotFound(_resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "License not found."
-                });
-            }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = license,
-                Message = "License retrieved successfully."
+                Message = "Driving license retrieved successfully."
             });
         }
         [HttpGet("{licenseId}")]
