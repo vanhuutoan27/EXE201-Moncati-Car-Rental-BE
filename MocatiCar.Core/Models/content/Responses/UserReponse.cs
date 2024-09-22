@@ -10,6 +10,8 @@
                 public DateTime? VipExpireDate { get; set; }*/
         public string? Gender { get; set; }
         public bool Status { get; set; }
+        public bool CitizenId  {get ;set;}
+        public bool DrivingLicense  { get; set; }
         public string? Username { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
