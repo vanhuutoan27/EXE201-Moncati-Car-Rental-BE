@@ -70,23 +70,13 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetCitizenIdByUserID(Guid userId)
         {
             var query = await _serviceManager.CitizenIdService.GetcitizenIdbyUserAsync(userId);
-            if (query == null)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Message = "Citizen ID not found for the user.",
-                    Status = (int)HttpStatusCode.NotFound
-                };
-            }
-            _resultModel = new ResultModel
+            return Ok(new ResultModel
             {
                 Success = true,
-                Message = "Citizen ID retrieved successfully for the user.",
-                Data = query,
-                Status = (int)HttpStatusCode.OK
-            };
-            return Ok(_resultModel);
+                Status = (int)HttpStatusCode.OK,
+                Message = "Citizen ID with user retrieved successfully.",
+                Data = query
+            });
         }
 
         [HttpPost]

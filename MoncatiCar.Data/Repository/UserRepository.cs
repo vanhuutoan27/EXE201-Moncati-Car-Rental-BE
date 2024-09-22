@@ -13,7 +13,8 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<AppUser> GetUserById(Guid id)
         {
-            return await _context.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _context.Users.Include(dr => dr.DrivingLicenses)
+                 .Include(ct => ct.CitizenId).Where(p => p.Id == id).FirstOrDefaultAsync();
         }
         public async Task<int> GetTotalUserCountAsync(string search)
         {
@@ -29,31 +30,45 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<AppUser> GetUserName(string username)
         {
-            return await _context.Users
+            return await _context.Users.Include(dr => dr.DrivingLicenses)
+                 .Include(ct => ct.CitizenId)
                       .Where(p => p.UserName == username).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search, bool? status)
-        {
-            IQueryable<AppUser> query = _context.Users;
-            if (!string.IsNullOrEmpty(search))
-            {
-                search = search.ToLower();
-                query = query.Where((s => s.UserName.ToLower().Contains(search.ToLower()) ||
-                    s.Email.ToLower().Contains(search.ToLower())
-                    || s.FullName.ToLower().Contains(search.ToLower()) && s.Status == status));
-            }
-            // check status
-            if (status.HasValue)
-            {
-                query = query.Where(s => s.Status == status.Value);
-            }
-            if (page > 0 && limit > 0)
-            {
-                query = query.Skip((page - 1) * limit).Take(limit);
-            }
-            return await query.ToListAsync();
-        }
+     public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search, bool? status)
+{
+    IQueryable<AppUser> query = _context.Users;
+
+    // Thêm các bảng liên quan
+    query = query.Include(dr => dr.DrivingLicenses)
+                 .Include(ct => ct.CitizenId);
+
+    // Tìm kiếm theo từ khóa
+    if (!string.IsNullOrEmpty(search))
+    {
+        search = search.ToLower();
+        query = query.Where(s => (s.UserName.ToLower().Contains(search) ||
+                                  s.Email.ToLower().Contains(search) ||
+                                  s.FullName.ToLower().Contains(search)) &&
+                                  (!status.HasValue || s.Status == status.Value));
+    }
+
+    // Lọc theo status nếu có giá trị
+    if (status.HasValue)
+    {
+        query = query.Where(s => s.Status == status.Value);
+    }
+
+    // Phân trang
+    if (page > 0 && limit > 0)
+    {
+        query = query.Skip((page - 1) * limit).Take(limit);
+    }
+
+    // Trả về danh sách người dùng
+    return await query.ToListAsync();
+}
+
 
         public async Task RemoveUserFromRoleAsync(Guid userId, string[] roles)
         {

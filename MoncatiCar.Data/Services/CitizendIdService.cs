@@ -128,27 +128,11 @@ namespace MoncatiCar.Data.Services
         public async Task<CitizenIdResponse> GetcitizenIdbyUserAsync(Guid id)
         {
             var query = await _repositoryManager.CitizendIdRepository.GetbyUserIdAsyn(id);
-            if (query == null)
-            {
-                throw new ArgumentException("User not found.");
-            };
-            return new CitizenIdResponse
-            {
-                CitizenId = query.Citizen_Id,
-                FullName = query.FullName,
-                Address = query.Address,
-                CreatedAt = DateTime.Now,
-                CreatedBy = query.CreatedBy,
-                Dob = query.Dob,
-                Gender = query.Gender,
-                IdNumber = query.IdNumber,
-                IssueDate = query.IssueDate,
-                IssuingAuthority = query.IssuingAuthority,
-                Nationality = query.Nationality,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = query.UpdatedBy,
-                Verified = query.Verify
-            };
+            if(query == null ){
+                throw new Exception("User not found.");
+            }
+           return _mapper.Map<CitizenIdResponse>(query);
+           
         }
 
         public async Task<bool> UpdateCitizenIdAsync(UpdateCitizenIdRequest request, Guid id)

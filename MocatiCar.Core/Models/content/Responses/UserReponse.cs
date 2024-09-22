@@ -10,6 +10,8 @@
         public string? Avatar { get; set; }
         public DateTime? Dob { get; set; }
         public string? Gender { get; set; }
+        public bool CitizenId  {get ;set;}
+        public bool DrivingLicense  { get; set; }
         public string Role { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }
