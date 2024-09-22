@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using Microsoft.OpenApi.Models;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
 using Moncati_Car_API;
@@ -39,6 +40,7 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddCustomSwagger();
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
