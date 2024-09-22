@@ -23,7 +23,7 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IFavoriteCarService> _favoriteCarService;
         private readonly Lazy<IDrivingLicenseService> _drivingLicenseService;
         private readonly Lazy<IContactService> _contactService;
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService)
         {
             _carFeatureService = new Lazy<ICarFeatureService>(() => new CarFeatureService(repositoryManager, mapper));
             _carService = new Lazy<ICarService>(() => new CarService(repositoryManager, mapper, userManager));
@@ -35,7 +35,7 @@ namespace MoncatiCar.Data.SeedWork
             _brandService = new Lazy<IBrandService>(() => new BrandService(repositoryManager, mapper));
             _userService = new Lazy<IUserService>(() => new UserService(userManager, repositoryManager, mapper));
             _addressService = new Lazy<IAddressService>(() => new AddressService(repositoryManager, mapper));
-            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper, userManager));
+            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper, userManager, contactService));
             _favoriteCarService = new Lazy<IFavoriteCarService>(() => new FavoriteCarService(repositoryManager, mapper, userManager));
             _drivingLicenseService = new Lazy<IDrivingLicenseService>(() => new DrivingLicenseService(repositoryManager, mapper));
             _contactService = new Lazy<IContactService>(() => new ContactService(repositoryManager, mapper));

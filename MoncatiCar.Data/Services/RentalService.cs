@@ -15,11 +15,13 @@ namespace MoncatiCar.Data.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
+        private readonly IContactService _contactService;
+        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
             _userManager = userManager;
+            _contactService = contactService;
         }
 
         public async Task<bool> ChangeRentalStatusAsync(Guid id)
@@ -107,6 +109,40 @@ namespace MoncatiCar.Data.Services
             create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
             create.CommissionAmount = create.RentalAmount * 15 / 100;
             _repositoryManager.RentalRepository.Add(create);
+
+            //add contact
+            var owner = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.OwnerId);
+            var customer = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.CustomerId);
+            var replacements = new Dictionary<string, string>
+            {
+                {"{ownerName}", owner.FullName },
+                {"{ownerIdnumber}", null },
+                {"{ownerAddress}", null },
+                {"{ownerPhoneNumber}", owner.PhoneNumber },
+                {"{customerName}",  customer.FullName},
+                {"{customerAddress}", null },
+                {"{customerIdnumber}", null },
+                {"{customerPhoneNumber}", customer.PhoneNumber },
+                {"{citizenProvideDay}", null },
+                {"{citzenProvideDay}", null },
+                {"{driveLicense}", null },
+                {"{driveProvideDay}", null },
+
+            };
+            string templateFilePath = "F:/GitSource/ContactForRental.docx";
+            string tempFilePath = Path.Combine("F:/GitSource/", $"{create.RentalId}.docx");
+            System.IO.File.Copy(templateFilePath, tempFilePath, true);
+
+            _contactService.InsertDataInFile(tempFilePath, replacements);
+            // var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
+            //System.IO.File.Delete(tempFilePath);
+
+
+
+
+
+
+
             await _repositoryManager.SaveAsync();
             var result = _mapper.Map<CreateRentalRequest>(create);
             return result;
