@@ -147,9 +147,9 @@ namespace MoncatiCar.Data.Repository
             {
                 if (sortedBy.Equals("price", StringComparison.OrdinalIgnoreCase))
                 {
-                     query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
-                            ? query.OrderByDescending(c => c.PricePerDay)
-                            : query.OrderBy(c => c.PricePerDay);
+                    query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                           ? query.OrderByDescending(c => c.PricePerDay)
+                           : query.OrderBy(c => c.PricePerDay);
                 }
                 else if (sortedBy.Equals("year", StringComparison.OrdinalIgnoreCase))
                 {

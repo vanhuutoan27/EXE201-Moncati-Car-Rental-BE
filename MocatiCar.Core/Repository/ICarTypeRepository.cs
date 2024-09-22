@@ -7,6 +7,6 @@ namespace MocatiCar.Core.Repository
     {
         Task<IEnumerable<CarType>> GetAllCarTypeAsync(int page, int limit);
         Task<CarType> GetCarTypeByIdAsync(Guid id);
-        
+
     }
 }

@@ -26,6 +26,6 @@ namespace MocatiCar.Core.Models.content.Requests
         public decimal RentalAmount { get; set; }
         public decimal InsuranceAmount { get; set; }
         public decimal DepositAmount { get; set; }
-       
-     }
+
+    }
 }

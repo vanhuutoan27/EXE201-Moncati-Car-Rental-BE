@@ -13,11 +13,12 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<CitizenId>> GetAllCitizendIdAsync(int page, int limit, long? citizendId, bool? verify, string? search)
         {
-             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
-             if(page > 0 && limit > 0){
-                query = query.Skip((page -1 )* limit).Take(limit);
-             }
-             return await query.ToListAsync();
+            IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<CitizenId> GetbyId(Guid citizenId)
@@ -28,8 +29,8 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<CitizenId> GetbyUserIdAsyn(Guid id)
         {
-           var query = await _context.CitizenIds.Where(c => c.UserId == id).FirstOrDefaultAsync();
-           return query;
+            var query = await _context.CitizenIds.Where(c => c.UserId == id).FirstOrDefaultAsync();
+            return query;
         }
 
         public async Task<bool> HasIdNumberAsync(string idNumber)

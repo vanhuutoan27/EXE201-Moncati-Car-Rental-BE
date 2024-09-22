@@ -101,11 +101,13 @@ namespace Moncati_Car_API.Controllers
         {
 
             var reviews = await _serviceManager.ReviewService.GetReviewByCarId(carId, page, limit, flag);
-            if(reviews == null){
-                _resultModel = new ResultModel{
-                   Success = false,
-                   Status = (int)HttpStatusCode.NotFound,
-                   Message = "Reviews not found."
+            if (reviews == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Reviews not found."
                 };
             }
             _resultModel = new ResultModel
@@ -119,17 +121,19 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
 
         }
-         [HttpGet]
+        [HttpGet]
         [Route("owner/{username}")]
-        public async Task<ActionResult<ResultModel>> GetUserandReviewByOwner(string username , int page = 1, int limit = 10)
+        public async Task<ActionResult<ResultModel>> GetUserandReviewByOwner(string username, int page = 1, int limit = 10)
         {
 
             var reviews = await _serviceManager.ReviewService.GetUserAndReviewByOwner(username, page, limit);
-            if(reviews == null){
-                _resultModel = new ResultModel{
-                   Success = false,
-                   Status = (int)HttpStatusCode.NotFound,
-                   Message = "Reviews not found."
+            if (reviews == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Reviews not found."
                 };
             }
             _resultModel = new ResultModel

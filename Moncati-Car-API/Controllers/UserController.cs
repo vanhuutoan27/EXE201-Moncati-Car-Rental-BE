@@ -31,7 +31,7 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null,[FromQuery] bool? status = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string search = null, [FromQuery] bool? status = null)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _userManager.FindByEmailAsync(userEmail);
@@ -272,6 +272,6 @@ namespace Moncati_Car_API.Controllers
         }
 
 
-       
+
     }
 }

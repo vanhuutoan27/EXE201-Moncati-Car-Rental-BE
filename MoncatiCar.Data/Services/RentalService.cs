@@ -269,7 +269,7 @@ namespace MoncatiCar.Data.Services
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
             var rentalrespone = users.Select(x => new RentalResponseForGetById
             {
-               RentalId = x.RentalId,
+                RentalId = x.RentalId,
                 CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
                 CarPlate = x.Car?.licensePlate,
                 CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),

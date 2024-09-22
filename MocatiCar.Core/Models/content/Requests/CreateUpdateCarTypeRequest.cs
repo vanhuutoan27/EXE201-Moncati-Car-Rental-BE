@@ -10,6 +10,6 @@ namespace MocatiCar.Core.Models.content.Requests
     {
         public string TypeName { get; set; }
         public string Description { get; set; }
-       
+
     }
 }

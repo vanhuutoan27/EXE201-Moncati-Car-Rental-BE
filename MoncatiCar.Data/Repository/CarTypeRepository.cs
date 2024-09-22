@@ -13,12 +13,12 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<CarType>> GetAllCarTypeAsync(int page, int limit)
         {
-           IQueryable<CarType> query = _context.CarTypes.AsQueryable(); 
-           if(page > 0 && limit > 0)
+            IQueryable<CarType> query = _context.CarTypes.AsQueryable();
+            if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
             }
-            query=_context.CarTypes;
+            query = _context.CarTypes;
             return await query.ToListAsync();
         }
 
@@ -27,6 +27,6 @@ namespace MoncatiCar.Data.Repository
             return await _context.CarTypes.FirstOrDefaultAsync(ct => ct.CarTypeId == id);
         }
 
-       
+
     }
 }

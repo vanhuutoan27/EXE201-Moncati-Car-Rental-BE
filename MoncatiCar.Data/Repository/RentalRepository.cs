@@ -14,7 +14,7 @@ namespace MoncatiCar.Data.Repository
 
         public Task<int> CountAsync(Guid carId)
         {
-           return _context.Rentals.CountAsync(r => r.CarId == carId);
+            return _context.Rentals.CountAsync(r => r.CarId == carId);
         }
 
         public Task<int> CountRecord()
@@ -72,7 +72,7 @@ namespace MoncatiCar.Data.Repository
         {
             IQueryable<Rental> query = _context.Rentals.Where(r => r.CarId == id)
                 .Include(r => r.Car).
-                ThenInclude( i=> i.Images)
+                ThenInclude(i => i.Images)
                 .Include(r => r.Car).ThenInclude(m => m.Model)
                 .ThenInclude(b => b.Brand)
                 .Include(r => r.Owner)

@@ -93,14 +93,15 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("CarType does not found!");
             }
-            return new CarTypeResponse { 
-              CarTypeId = cartype.CarTypeId,
-              CreatedAt = DateTime.Now,
-              UpdatedAt = DateTime.Now,
-              Description = cartype.Description,
-              TypeName = cartype.TypeName,
-              CreatedBy = cartype.CreatedBy,
-              UpdatedBy = cartype.UpdatedBy
+            return new CarTypeResponse
+            {
+                CarTypeId = cartype.CarTypeId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Description = cartype.Description,
+                TypeName = cartype.TypeName,
+                CreatedBy = cartype.CreatedBy,
+                UpdatedBy = cartype.UpdatedBy
             };
         }
 

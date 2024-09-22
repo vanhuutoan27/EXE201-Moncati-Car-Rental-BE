@@ -10,9 +10,9 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class DrivingLicenseRespone
     {
-        public Guid DrivingLicenseId { get; set; }    
-        [JsonPropertyName("user")]  
-         public Guid UserId { get; set; }
+        public Guid DrivingLicenseId { get; set; }
+        [JsonPropertyName("user")]
+        public Guid UserId { get; set; }
         public string LicenseNumber { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime ExpiryDate { get; set; }
@@ -21,6 +21,6 @@ namespace MocatiCar.Core.Models.content.Responses
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-       
+
     }
 }

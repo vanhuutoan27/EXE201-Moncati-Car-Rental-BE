@@ -102,7 +102,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPut("{brandId}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid brandId, [FromBody]CreateUpdateBrandRequest updateBrandRequest)
+        public async Task<ActionResult<ResultModel>> Update(Guid brandId, [FromBody] CreateUpdateBrandRequest updateBrandRequest)
         {
             var update = await _serviceManager.BrandService.UpdateBrand(brandId, updateBrandRequest);
             if (!update)

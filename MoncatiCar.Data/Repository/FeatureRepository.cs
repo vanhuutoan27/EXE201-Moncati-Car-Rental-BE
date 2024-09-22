@@ -18,7 +18,7 @@ namespace MoncatiCar.Data.Repository
 
         public Task<Feature> GetFeatureById(Guid id)
         {
-          return _context.Features.FirstOrDefaultAsync(f => f.FeatureId == id);
+            return _context.Features.FirstOrDefaultAsync(f => f.FeatureId == id);
         }
 
         public async Task<IEnumerable<Feature>> GetFeaturesByCarId(Guid carId)

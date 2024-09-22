@@ -21,8 +21,6 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IAddressService> _addressService;
         private readonly Lazy<IRentalService> _rentalService;
         private readonly Lazy<ICitizenIdService> _citizenIdService;
-
-
         private readonly Lazy<IFavoriteCarService> _favoriteCarService;
         private readonly Lazy<IDrivingLicenseService> _drivingLicenseService;
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)

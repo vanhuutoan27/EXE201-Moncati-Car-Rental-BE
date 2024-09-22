@@ -21,20 +21,20 @@ namespace Moncati_Car_API.Controllers
         }
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAll(
-        int page = 1, int limit = 10, string search = null, 
-        bool? status = null, string brand = null, 
-        string model = null, int? minYear = null, 
-        int? maxYear = null, string transmission = null, 
+        int page = 1, int limit = 10, string search = null,
+        bool? status = null, string brand = null,
+        string model = null, int? minYear = null,
+        int? maxYear = null, string transmission = null,
         string fuel = null,
         int? seats = null, bool? electric = null, bool?
         discount = null, bool? instantBooking = null,
-        string location = null, int? minPrice = null,int? 
+        string location = null, int? minPrice = null, int?
         maxPrice = null, string sortedBy = null,
-        string order = null )
+        string order = null)
         {
             var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status, fuel, seats,
              electric, discount, instantBooking, brand, model,
-             transmission, location, sortedBy, order , minYear , maxYear , minPrice , maxPrice);
+             transmission, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice);
             if (cars == null)
             {
                 _resultModel = new ResultModel
@@ -200,7 +200,7 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
-        
+
         [HttpDelete("{carId}")]
         public async Task<ActionResult<ResultModel>> Delete(Guid carId)
         {

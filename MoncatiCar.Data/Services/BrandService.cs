@@ -22,7 +22,7 @@ namespace MoncatiCar.Data.Services
             var createBrand = _mapper.Map<Brand>(brandRequest);
 
             // check brandName exist
-            if(await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
+            if (await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
             {
                 throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
             }

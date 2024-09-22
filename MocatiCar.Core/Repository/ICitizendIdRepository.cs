@@ -7,7 +7,7 @@ namespace MocatiCar.Core.Repository
     {
         Task<IEnumerable<CitizenId>> GetAllCitizendIdAsync(int page, int limit, long? citizendId, bool? verify, string? search);
         Task<bool> HasIdNumberAsync(string idNumber);
-        Task<CitizenId>GetbyId(Guid citizenId);
-         Task<CitizenId>GetbyUserIdAsyn(Guid id);
+        Task<CitizenId> GetbyId(Guid citizenId);
+        Task<CitizenId> GetbyUserIdAsyn(Guid id);
     }
 }

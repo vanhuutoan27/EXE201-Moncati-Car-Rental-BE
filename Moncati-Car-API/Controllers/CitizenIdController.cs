@@ -19,71 +19,80 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>>GetAll(int page = 1, int limit =10 , long? citizendId = null, bool? verify = null, string? search = null )
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, long? citizendId = null, bool? verify = null, string? search = null)
         {
-            var listCitizend = await _serviceManager.CitizenIdService.GetAllCitizenAsync(page , limit , citizendId , verify , search);
-            if(listCitizend == null){
-                _resultModel = new ResultModel{
+            var listCitizend = await _serviceManager.CitizenIdService.GetAllCitizenAsync(page, limit, citizendId, verify, search);
+            if (listCitizend == null)
+            {
+                _resultModel = new ResultModel
+                {
                     Success = false,
                     Message = "Citizen ID list not found.",
                     Status = (int)HttpStatusCode.NotFound
                 };
             }
-            _resultModel = new ResultModel{
-                    Success = true,
-                    Message = "Citizen ID list retrieved successfully.",
-                    Data = listCitizend,
-                    Status = (int)HttpStatusCode.OK
-                };
-                return Ok(_resultModel);
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Message = "Citizen ID list retrieved successfully.",
+                Data = listCitizend,
+                Status = (int)HttpStatusCode.OK
+            };
+            return Ok(_resultModel);
         }
 
         [HttpGet]
         [Route("{citizenId:guid}")]
-        public async Task<ActionResult<ResultModel>>GetCitizenIdByID(Guid citizenId )
+        public async Task<ActionResult<ResultModel>> GetCitizenIdByID(Guid citizenId)
         {
             var query = await _serviceManager.CitizenIdService.GetcitizenIdAsync(citizenId);
-            if(query == null){
-                _resultModel = new ResultModel{
+            if (query == null)
+            {
+                _resultModel = new ResultModel
+                {
                     Success = false,
                     Message = "Citizen ID not found.",
                     Status = (int)HttpStatusCode.NotFound
                 };
             }
-            _resultModel = new ResultModel{
-                    Success = true,
-                    Message = "Citizen ID retrieved successfully.",
-                    Data = query,
-                    Status = (int)HttpStatusCode.OK
-                };
-                return Ok(_resultModel);
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Message = "Citizen ID retrieved successfully.",
+                Data = query,
+                Status = (int)HttpStatusCode.OK
+            };
+            return Ok(_resultModel);
         }
 
         [HttpGet]
         [Route("user/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>>GetCitizenIdByUserID(Guid userId )
+        public async Task<ActionResult<ResultModel>> GetCitizenIdByUserID(Guid userId)
         {
             var query = await _serviceManager.CitizenIdService.GetcitizenIdbyUserAsync(userId);
-            if(query == null){
-                _resultModel = new ResultModel{
+            if (query == null)
+            {
+                _resultModel = new ResultModel
+                {
                     Success = false,
                     Message = "Citizen ID not found for the user.",
                     Status = (int)HttpStatusCode.NotFound
                 };
             }
-            _resultModel = new ResultModel{
-                    Success = true,
-                    Message = "Citizen ID retrieved successfully for the user.",
-                    Data = query,
-                    Status = (int)HttpStatusCode.OK
-                };
-                return Ok(_resultModel);
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Message = "Citizen ID retrieved successfully for the user.",
+                Data = query,
+                Status = (int)HttpStatusCode.OK
+            };
+            return Ok(_resultModel);
         }
 
         [HttpPost]
         public async Task<ActionResult<ResultModel>> CreateCitizenId([FromBody] CreateCitizenIdRequest request)
         {
-          
+
             var result = await _serviceManager.CitizenIdService.CreateCitizenIdAsync(request);
             if (request == null)
             {
@@ -104,9 +113,10 @@ namespace Moncati_Car_API.Controllers
 
         [HttpPut]
         [Route("{citizenId:guid}")]
-        public async Task<ActionResult<ResultModel>>UpdateCitizenId( UpdateCitizenIdRequest request ,Guid citizenId ){
-            var result = await _serviceManager.CitizenIdService.UpdateCitizenIdAsync(request , citizenId);
-             if (request == null)
+        public async Task<ActionResult<ResultModel>> UpdateCitizenId(UpdateCitizenIdRequest request, Guid citizenId)
+        {
+            var result = await _serviceManager.CitizenIdService.UpdateCitizenIdAsync(request, citizenId);
+            if (request == null)
             {
                 return new ResultModel
                 {
@@ -147,7 +157,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Verification updated successfully."
             };
 
-            return Ok(_resultModel);    
+            return Ok(_resultModel);
         }
 
         [HttpDelete]

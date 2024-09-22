@@ -14,7 +14,7 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<Image>> GetImagesByCarIdAsync(Guid CarId)
         {
             return await _context.Images.Where(c => c.CarId == CarId).ToListAsync();
-            
+
         }
     }
 }

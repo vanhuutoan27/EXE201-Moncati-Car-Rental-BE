@@ -298,7 +298,7 @@ namespace MoncatiCar.Data.Services
                     totalRentals = totalRental,
                     totalReviews = totalReview,
                     averageRating = avarageRating,
-                    commissionAmount = car.PricePerDay * 15/100
+                    commissionAmount = car.PricePerDay * 15 / 100
                 });
             }
             return new PageResult<CarResponse>
@@ -312,16 +312,16 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<CarResponse>> GetAllCars(int page, int limit,
          string search, bool? status, string fuelType, int? seats,
-        bool? electric, bool? discount, bool? instantBooking ,string brandName, string modelName, 
-        string transmission, string location, string sortedBy, string order ,int? minYear, int? maxYear , 
-        int? minPrice ,int? maxPrice)
+        bool? electric, bool? discount, bool? instantBooking, string brandName, string modelName,
+        string transmission, string location, string sortedBy, string order, int? minYear, int? maxYear,
+        int? minPrice, int? maxPrice)
         {
             // Gọi repository để lấy danh sách xe và tổng số mục
             (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
-             brandName, transmission, fuelType, seats, electric, discount, instantBooking , location, sortedBy, order , minYear , maxYear , minPrice , maxPrice);
+             brandName, transmission, fuelType, seats, electric, discount, instantBooking, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice);
 
             // Khai báo biến carResponse trước vòng lặp foreach
-        var carResponse = new List<CarResponse>();
+            var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
             foreach (var car in listCar)
@@ -366,7 +366,7 @@ namespace MoncatiCar.Data.Services
                     totalRentals = totalRental,
                     totalReviews = totalReview,
                     averageRating = avarageRating,
-                   
+
                 });
             }
 
@@ -457,7 +457,7 @@ namespace MoncatiCar.Data.Services
                 FuelConsumption = (float)car.FuelConsumption,
                 Description = car.Description,
                 PricePerDay = car.PricePerDay,
-                CommissionAmount = car.PricePerDay * 15/100 ,
+                CommissionAmount = car.PricePerDay * 15 / 100,
                 discount = (float)car.discount,
                 Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
                 //Features = car.CarFeatures != null

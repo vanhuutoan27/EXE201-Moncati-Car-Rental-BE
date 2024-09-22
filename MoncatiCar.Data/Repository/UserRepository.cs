@@ -44,7 +44,7 @@ namespace MoncatiCar.Data.Repository
                     || s.FullName.ToLower().Contains(search.ToLower()) && s.Status == status));
             }
             // check status
-            if(status.HasValue)
+            if (status.HasValue)
             {
                 query = query.Where(s => s.Status == status.Value);
             }

@@ -7,10 +7,10 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class GetReviewandUserbyOwnerRespone
     {
-        public string customerName {get ;set;}
-        public string  customerAvatar { get; set; }
-        public int rating {get ; set ;}
-        public DateTime? createdAt {get ; set ;}
+        public string customerName { get; set; }
+        public string customerAvatar { get; set; }
+        public int rating { get; set; }
+        public DateTime? createdAt { get; set; }
         public DateTime? updatedAt { get; set; }
     }
 }

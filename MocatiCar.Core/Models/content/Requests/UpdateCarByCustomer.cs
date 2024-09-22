@@ -28,7 +28,7 @@ namespace MocatiCar.Core.Models.content.Requests
         public int? LimitKilometersPerDay { get; set; } = 0;
         public int? OverLimitFeePerKm { get; set; } = 0;
         public string? RentalTerms { get; set; }
-       
+
 
 
 
