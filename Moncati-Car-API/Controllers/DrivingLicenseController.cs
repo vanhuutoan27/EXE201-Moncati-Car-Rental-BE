@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MocatiCar.Core.Domain.Content;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -42,7 +40,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                     Message = "Driving license not found."
+                    Message = "Driving license not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -50,11 +48,11 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = license,
-                  Message = "Driving license retrieved successfully."
+                Message = "Driving license retrieved successfully."
             });
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Guid userId, [FromBody]CreateDrivingLicenseRequest createLicense)
+        public async Task<IActionResult> Create([FromBody] CreateDrivingLicenseRequest createLicense)
         {
             if (!ModelState.IsValid)
             {
@@ -65,21 +63,22 @@ namespace Moncati_Car_API.Controllers
                     Message = "Invalid data."
                 });
             }
-            var result = await _serviceManager.DrivingLicenseService.AddDrivingLicense(userId, createLicense);
+            var result = await _serviceManager.DrivingLicenseService.AddDrivingLicense(createLicense);
+
             if (result == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                     Message = "Failed to create driving license."
+                    Message = "Failed to create driving license."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                  Message = "Driving license created successfully.",
+                Message = "Driving license created successfully.",
             });
         }
         [HttpPut("{lisenceId}")]
@@ -92,7 +91,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                     Message = "Failed to update driving license."
+                    Message = "Failed to update driving license."
                 };
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
@@ -100,7 +99,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-               Message = "Driving license updated successfully."
+                Message = "Driving license updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -129,13 +128,13 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> VerifyDrivingLisence(Guid drivingLicenseId)
         {
             var drivingLisence = await _serviceManager.DrivingLicenseService.VeryfyDrivingLisence(drivingLicenseId);
-            if(!drivingLisence)
+            if (!drivingLisence)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                     Message = "Driving license not found."
+                    Message = "Driving license not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -144,7 +143,7 @@ namespace Moncati_Car_API.Controllers
                 Status = (int)HttpStatusCode.OK,
                 Message = "Driving license verified successfully."
             });
-            
+
         }
     }
 }

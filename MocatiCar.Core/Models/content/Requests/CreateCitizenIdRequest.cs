@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using MocatiCar.Core.SeedWorks.Enums;
+﻿using MocatiCar.Core.SeedWorks.Enums;
+using System.Text.Json.Serialization;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
@@ -8,6 +8,7 @@ namespace MocatiCar.Core.Models.content.Requests
         [JsonPropertyName("user")]
         public Guid UserId { get; set; }
         public string IdNumber { get; set; }
+        public string FullName { get; set; }
         public DateTime Dob { get; set; }
         public Gender Gender { get; set; }
         public string Nationality { get; set; }

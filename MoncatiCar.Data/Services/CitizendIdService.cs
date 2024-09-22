@@ -41,6 +41,7 @@ namespace MoncatiCar.Data.Services
                 IdNumber = request.IdNumber,
                 Dob = request.Dob,
                 Gender = request.Gender,
+                FullName = request.FullName,
                 Nationality = request.Nationality,
                 Address = request.Address,
                 IssueDate = request.IssueDate,
@@ -58,12 +59,13 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> DeleteCitizenId(Guid id)
         {
             var query = await _repositoryManager.CitizendIdRepository.GetbyId(id);
-            if(query == null){
+            if (query == null)
+            {
                 throw new Exception("Citizen ID not found.");
             }
-             _repositoryManager.CitizendIdRepository.Remove(query);
-             await _repositoryManager.SaveAsync();
-             return true;
+            _repositoryManager.CitizendIdRepository.Remove(query);
+            await _repositoryManager.SaveAsync();
+            return true;
         }
 
         public async Task<PageResult<CitizenIdResponse>> GetAllCitizenAsync(int page, int limit, long? citizendId, bool? verify, string? search)
@@ -73,6 +75,7 @@ namespace MoncatiCar.Data.Services
             var citizendRespone = listCitizend.Select(x => new CitizenIdResponse
             {
                 CitizenId = x.Citizen_Id,
+                FullName = x.FullName,
                 Address = x.Address,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -106,6 +109,7 @@ namespace MoncatiCar.Data.Services
             return new CitizenIdResponse
             {
                 CitizenId = citizenId.Citizen_Id,
+                FullName = citizenId.FullName,
                 Address = citizenId.Address,
                 CreatedAt = DateTime.Now,
                 CreatedBy = citizenId.CreatedBy,
@@ -123,14 +127,15 @@ namespace MoncatiCar.Data.Services
 
         public async Task<CitizenIdResponse> GetcitizenIdbyUserAsync(Guid id)
         {
-           var query = await _repositoryManager.CitizendIdRepository.GetbyUserIdAsyn(id);
-           if (query == null)
+            var query = await _repositoryManager.CitizendIdRepository.GetbyUserIdAsyn(id);
+            if (query == null)
             {
                 throw new ArgumentException("User not found.");
             };
             return new CitizenIdResponse
             {
                 CitizenId = query.Citizen_Id,
+                FullName = query.FullName,
                 Address = query.Address,
                 CreatedAt = DateTime.Now,
                 CreatedBy = query.CreatedBy,
@@ -149,7 +154,7 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> UpdateCitizenIdAsync(UpdateCitizenIdRequest request, Guid id)
         {
             var query = await _repositoryManager.CitizendIdRepository.GetbyId(id);
-           if (!HasAtleast12Digits(request.IdNumber))
+            if (!HasAtleast12Digits(request.IdNumber))
             {
                 throw new Exception("ID number must contain at least 12 digits.");
             }
@@ -164,6 +169,7 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Citizen ID not found.");
             }
             query.Address = request.Address;
+            query.FullName = request.FullName;
             query.Dob = request.Dob;
             query.Gender = request.Gender;
             query.IdNumber = request.IdNumber;

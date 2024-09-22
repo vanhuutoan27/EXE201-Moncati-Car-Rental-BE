@@ -1,15 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Services
 {
@@ -22,16 +16,16 @@ namespace MoncatiCar.Data.Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task<CreateDrivingLicenseRequest> AddDrivingLicense(Guid userId, CreateDrivingLicenseRequest drivingLicenseRequest)
+        public async Task<CreateDrivingLicenseRequest> AddDrivingLicense(CreateDrivingLicenseRequest drivingLicenseRequest)
         {
-            var user = await _repositoryManager.UserRepository.GetByIdAsync(userId);
+            var user = await _repositoryManager.UserRepository.GetByIdAsync(drivingLicenseRequest.UserId);
             if (user == null)
             {
                 throw new Exception("User not found.");
             }
 
             // kiem tra user co drivinglisence hay chua
-            var checkDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(userId);
+            var checkDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(drivingLicenseRequest.UserId);
             if (checkDrivingLisence != null)
             {
                 throw new Exception("The user already has a driving license.");
@@ -47,7 +41,7 @@ namespace MoncatiCar.Data.Services
             var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
             if (existingLicense != null)
             {
-                 throw new Exception("License number already exists.");
+                throw new Exception("License number already exists.");
             }
 
             var modelLicense = new DrivingLicense
@@ -101,7 +95,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // check verify
-            if(updateLicense.Verified == true)
+            if (updateLicense.Verified == true)
             {
                 updateLicense.Verified = false;
             }
@@ -111,16 +105,16 @@ namespace MoncatiCar.Data.Services
             // check length of LicenseNumber
             if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
             {
-                 throw new Exception("Invalid license number. It must be 12 digits.");
+                throw new Exception("Invalid license number. It must be 12 digits.");
             }
 
             // check license duplicate
             var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
             if (existingLicense != null)
             {
-                 throw new Exception("License number already exists.");
+                throw new Exception("License number already exists.");
             }
-           
+
             updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
             updateLicense.IssueDate = drivingLicenseRequest.IssueDate;
             updateLicense.ExpiryDate = drivingLicenseRequest.ExpiryDate;
@@ -134,11 +128,11 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> VeryfyDrivingLisence(Guid lisenceId)
         {
             var existingDrivingLisence = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(lisenceId);
-            if(existingDrivingLisence == null)
+            if (existingDrivingLisence == null)
             {
                 throw new Exception("Driving license not found.");
             }
-            if(existingDrivingLisence.Verified == true)
+            if (existingDrivingLisence.Verified == true)
             {
                 throw new Exception("Driving license is already verified.");
             }

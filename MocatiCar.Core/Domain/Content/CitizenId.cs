@@ -10,6 +10,7 @@ namespace MocatiCar.Core.Domain.Content
         [Key]
         public Guid Citizen_Id { get; set; }
         public string IdNumber { get; set; }
+        public string FullName { get; set; }
         public DateTime Dob { get; set; }
         public Gender Gender { get; set; }
         public string Nationality { get; set; }
