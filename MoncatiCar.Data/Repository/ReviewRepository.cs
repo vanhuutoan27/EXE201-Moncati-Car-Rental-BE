@@ -125,7 +125,7 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<Review> HasReview(Guid author, Guid carId)
         {
-            return await _context.Reviews.FirstOrDefaultAsync(r => r.CarId == carId && r.Author == author);
+            return await _context.Reviews.FirstOrDefaultAsync(r => r.RentalId == carId && r.Author == author);
         }
 
         public void UpdateReview(Guid id, Review review)
