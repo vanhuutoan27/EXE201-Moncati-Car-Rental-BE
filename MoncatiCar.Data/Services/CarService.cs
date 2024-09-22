@@ -234,7 +234,8 @@ namespace MoncatiCar.Data.Services
                     RentalTerms = car.RentalTerms,
                     totalRentals = totalRental,
                     totalReviews = totalReview,
-                    averageRating = avarageRating
+                    averageRating = avarageRating,
+                    commissionAmount = car.PricePerDay * 15 / 100
                 });
             }
 
@@ -296,7 +297,8 @@ namespace MoncatiCar.Data.Services
                     RentalTerms = car.RentalTerms,
                     totalRentals = totalRental,
                     totalReviews = totalReview,
-                    averageRating = avarageRating
+                    averageRating = avarageRating,
+                    commissionAmount = car.PricePerDay * 15/100
                 });
             }
             return new PageResult<CarResponse>

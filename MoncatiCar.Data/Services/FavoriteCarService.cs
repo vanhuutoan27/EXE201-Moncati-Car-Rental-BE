@@ -52,7 +52,15 @@ namespace MoncatiCar.Data.Services
                     Items = new List<FavoriteCarRespone>()
                 };
             }
-            var favoritecarRespone = listFavoriteCar.Select(car => new FavoriteCarRespone
+            var favoritecarREspone =  new List<FavoriteCarRespone>();
+            foreach (var car in listFavoriteCar)
+            {
+                Guid carId = car.CarId ?? Guid.Empty; 
+                int totalRental = await _repositoryManager.RentalRepository.CountAsync(carId);
+                int totalReview = await _repositoryManager.ReviewRepository.CountAsync(carId);
+                double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(carId);
+            
+            favoritecarREspone.Add( new FavoriteCarRespone
             {
                 FavoriteCarId = car.FavoriteCarId,
                 CarId = car.CarId,
@@ -76,14 +84,18 @@ namespace MoncatiCar.Data.Services
                          .OrderBy(img => img.ImageId)
                          .Select(img => img.Url)
                          .FirstOrDefault() ?? string.Empty,
-            }).ToList();
-
+                commissionAmount = (decimal)(car.Car?.PricePerDay * 15 /100),
+                totalRentals = totalRental,
+                totalReviews = totalReview,
+                averageRating = avarageRating
+            });
+    }
             return new PageResult<FavoriteCarRespone>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
                 TotalItems = totalItems,
-                Items = favoritecarRespone
+                Items = favoritecarREspone
             };
         }
 

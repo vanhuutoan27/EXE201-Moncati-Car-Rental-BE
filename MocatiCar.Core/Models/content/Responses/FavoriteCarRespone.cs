@@ -30,6 +30,9 @@ namespace MocatiCar.Core.Models.content.Responses
         public string? location { get; set; }
         public decimal pricePerDay { get; set; }
         public string image { get; set; }
-
+        public decimal commissionAmount{get ; set;}
+         public int totalRentals {get; set;}
+        public int totalReviews{get ; set;}
+        public double averageRating {get;set;}
     }
 }
