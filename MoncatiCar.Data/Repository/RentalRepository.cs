@@ -70,8 +70,12 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Rental>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<Rental> query = _context.Rentals.Where(r => r.CarId == id).Include(r => r.Car)
-                 .Include(r => r.Owner)
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.CarId == id)
+                .Include(r => r.Car).
+                ThenInclude( i=> i.Images)
+                .Include(r => r.Car).ThenInclude(m => m.Model)
+                .ThenInclude(b => b.Brand)
+                .Include(r => r.Owner)
                 .Include(r => r.Customer)
                 .Include(r => r.Contracts)
                 .Include(r => r.Payments).AsQueryable();
@@ -132,6 +136,8 @@ namespace MoncatiCar.Data.Repository
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id || r.OwnerId == id).Include(r => r.Car)
+                .ThenInclude(i => i.Images)
+                .Include(c => c.Car).ThenInclude(m => m.Model).ThenInclude(b => b.Brand)
                 .Include(r => r.Owner)
                 .Include(r => r.Customer)
                .Include(r => r.Contracts)

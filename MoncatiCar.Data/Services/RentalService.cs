@@ -181,13 +181,21 @@ namespace MoncatiCar.Data.Services
             var rentalrespone = carId.Select(x => new RentalResponseForGetById
             {
                 RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
                 CarId = x.Car?.CarId,
                 CommissionAmount = x.CommissionAmount,
-                CreatedAt = DateTime.Now,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
                 OwnerId = x.Owner?.Id,
@@ -195,10 +203,9 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDateTime = x.StartDateTime,
                 RemainAmount = x.RemainAmount,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = x.UpdatedBy
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
             });
             return new PageResult<RentalResponseForGetById>
             {
@@ -262,14 +269,22 @@ namespace MoncatiCar.Data.Services
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
             var rentalrespone = users.Select(x => new RentalResponseForGetById
             {
-                RentalId = x.RentalId,
+               RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
                 CarId = x.Car?.CarId,
                 CommissionAmount = x.CommissionAmount,
-                CreatedAt = DateTime.Now,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
                 OwnerId = x.Owner?.Id,
@@ -277,10 +292,9 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDateTime = x.StartDateTime,
                 RemainAmount = x.RemainAmount,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = x.UpdatedBy
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
             });
             return new PageResult<RentalResponseForGetById>
             {

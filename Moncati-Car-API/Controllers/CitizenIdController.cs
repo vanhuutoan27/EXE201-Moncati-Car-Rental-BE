@@ -142,7 +142,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Update Verify successfully."
             };
 
-            return Ok(_resultModel);
+            return Ok(_resultModel);    
         }
          [HttpDelete]
         [Route("{citizenId:guid}")]

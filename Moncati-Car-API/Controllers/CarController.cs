@@ -54,40 +54,7 @@ namespace Moncati_Car_API.Controllers
             };
             return Ok(_resultModel);
         }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUpdateCarRequest createCarRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.BadRequest
 
-                };
-                return BadRequest(_resultModel);
-            }
-
-            var result = await _serviceManager.CarService.AddCar(createCarRequest);
-            if (result == null)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to add car."
-                };
-                return NotFound(_resultModel);
-            }
-
-            _resultModel = new ResultModel
-            {
-                Status = (int)HttpStatusCode.OK,
-                Success = true,
-                Message = "Car added successfully.",
-            };
-            return Ok(_resultModel);
-        }
         [HttpGet]
         [Route("{carId:guid}")]
         public async Task<ActionResult<ResultModel>> GetCarbyId(Guid carId)
@@ -198,6 +165,63 @@ namespace Moncati_Car_API.Controllers
             });
 
         }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateUpdateCarRequest createCarRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.BadRequest
+
+                };
+                return BadRequest(_resultModel);
+            }
+
+            var result = await _serviceManager.CarService.AddCar(createCarRequest);
+            if (result == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Failed to add car."
+                };
+                return NotFound(_resultModel);
+            }
+
+            _resultModel = new ResultModel
+            {
+                Status = (int)HttpStatusCode.OK,
+                Success = true,
+                Message = "Car added successfully.",
+            };
+            return Ok(_resultModel);
+        }
+        
+        [HttpDelete("{carId}")]
+        public async Task<ActionResult<ResultModel>> Delete(Guid carId)
+        {
+
+            if (carId == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Car not found."
+                };
+                return _resultModel;
+            }
+            var delete = await _serviceManager.CarService.DeleteCar(carId);
+            return _resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.NoContent,
+                Message = "Car deleted successfully.",
+            };
+        }
         [HttpPut("{carId}/admin")]
         public async Task<ActionResult<ResultModel>> Update(Guid carId, UpdateCarRequest createCarRequest)
         {
@@ -272,28 +296,6 @@ namespace Moncati_Car_API.Controllers
         }
 
 
-        [HttpDelete("{carId}")]
-        public async Task<ActionResult<ResultModel>> Delete(Guid carId)
-        {
-
-            if (carId == null)
-            {
-                _resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "Car not found."
-                };
-                return _resultModel;
-            }
-            var delete = await _serviceManager.CarService.DeleteCar(carId);
-            return _resultModel = new ResultModel
-            {
-                Success = true,
-                Status = (int)HttpStatusCode.NoContent,
-                Message = "Car deleted successfully.",
-            };
-        }
 
         [HttpPatch("{carId}/status")]
         public async Task<ActionResult<ResultModel>> ChangeStatusCar(Guid carId)
