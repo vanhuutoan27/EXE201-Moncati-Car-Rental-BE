@@ -36,7 +36,7 @@ namespace MoncatiCar.Data.SeedWork
             _brandService = new Lazy<IBrandService>(() => new BrandService(repositoryManager, mapper));
             _userService = new Lazy<IUserService>(() => new UserService(userManager, repositoryManager, mapper));
             _addressService = new Lazy<IAddressService>(() => new AddressService(repositoryManager, mapper));
-            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper, userManager));
+            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper, userManager, contactService));
             _citizenIdService = new Lazy<ICitizenIdService>(() => new CitizendIdService(repositoryManager, mapper));
             _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper, userManager, contactService));
             _favoriteCarService = new Lazy<IFavoriteCarService>(() => new FavoriteCarService(repositoryManager, mapper, userManager));

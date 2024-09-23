@@ -19,7 +19,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, long? citizendId = null, bool? verify = null, string? search = null)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, string? citizendId = null, bool? verify = null, string? search = null)
         {
             var listCitizend = await _serviceManager.CitizenIdService.GetAllCitizenAsync(page, limit, citizendId, verify, search);
             if (listCitizend == null)

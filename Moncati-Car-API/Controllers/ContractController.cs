@@ -3,13 +3,13 @@ using MocatiCar.Core.SeedWorks;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/contracts")]
     [ApiController]
-    public class ContactController : ControllerBase
+    public class ContractController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
 
-        public ContactController(IServiceManager serviceManager)
+        public ContractController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
         }

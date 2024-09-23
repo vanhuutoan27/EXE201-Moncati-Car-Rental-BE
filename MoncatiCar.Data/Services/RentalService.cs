@@ -87,7 +87,7 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
+        public async Task<CreateRentalResponse> CreateRental(CreateRentalRequest rentalRequest)
         {
 
             var create = new Rental()
@@ -134,7 +134,8 @@ namespace MoncatiCar.Data.Services
             System.IO.File.Copy(templateFilePath, tempFilePath, true);
 
             _contactService.InsertDataInFile(tempFilePath, replacements);
-            // var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
+
+            var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
             //System.IO.File.Delete(tempFilePath);
 
 
@@ -144,8 +145,15 @@ namespace MoncatiCar.Data.Services
 
 
             await _repositoryManager.SaveAsync();
-            var result = _mapper.Map<CreateRentalRequest>(create);
-            return result;
+            //var result = _mapper.Map<CreateRentalRequest>(create);
+
+
+
+            return new CreateRentalResponse
+            {
+                FileReturn = pdfBytes,
+                rentalId = create.RentalId
+            };
         }
 
         public async Task<bool> DeleteRental(Guid id)
