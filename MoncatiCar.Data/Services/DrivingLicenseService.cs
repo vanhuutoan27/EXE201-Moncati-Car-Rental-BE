@@ -74,6 +74,33 @@ namespace MoncatiCar.Data.Services
 
         }
 
+        public async Task<PageResult<DrivingLicenseRespone>> GetAllCitizenAsync(int page, int limit)
+        {
+            var listdrivinglicense = await _repositoryManager.DrivingLicenseRepository.GetAlldrvingLicenseAsync(page, limit);
+            var totalItems = listdrivinglicense.Count();
+            var drivinglisenceRespone = listdrivinglicense.Select(x => new DrivingLicenseRespone
+            {
+                DrivingLicenseId = x.DrivingLicenseId,
+                CreatedAt = DateTime.Now,
+                CreatedBy = x.CreatedBy,
+                ExpiryDate = x.ExpiryDate,
+                IssueDate = x.IssueDate,
+                LicenseNumber = x.LicenseNumber,
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
+                UserId = x.UserId,
+                Verified = x.Verified,
+
+            });
+            return new PageResult<DrivingLicenseRespone>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = drivinglisenceRespone
+            };
+        }
+
         public async Task<DrivingLicenseRespone> GetDrivingLicenseById(Guid licenseId)
         {
             var license = await _repositoryManager.DrivingLicenseRepository.GetByIdAsync(licenseId);
