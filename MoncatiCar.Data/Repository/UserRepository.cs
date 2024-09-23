@@ -36,7 +36,7 @@ namespace MoncatiCar.Data.Repository
         }
 
      public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search, bool? status)
-{
+    {
     IQueryable<AppUser> query = _context.Users;
 
     // Thêm các bảng liên quan
