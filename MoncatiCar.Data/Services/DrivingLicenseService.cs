@@ -83,9 +83,10 @@ namespace MoncatiCar.Data.Services
         public async Task<DrivingLicenseRespone> GetDrivingLicenseUserId(Guid userId)
         {
             var license = await _repositoryManager.DrivingLicenseRepository.GetDrivingLicenseUserId(userId);
-             if(license == null ){
-                throw new Exception("User not found.");
-            }
+            // if (license == null)
+            // {
+            //     throw new Exception("User not found.");
+            // }
             return _mapper.Map<DrivingLicenseRespone>(license);
         }
 
