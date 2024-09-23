@@ -27,6 +27,8 @@ namespace MoncatiCar.Data.Repository
             };
         }
 
+
+
         public async Task<CitizenId> GetbyId(Guid citizenId)
         {
             var citizen = await _context.CitizenIds.FirstOrDefaultAsync(c => c.Citizen_Id == citizenId);
@@ -35,7 +37,7 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<CitizenId> GetbyUserIdAsyn(Guid id)
         {
-            var query = await _context.CitizenIds.Where(c => c.UserId == id).FirstOrDefaultAsync();
+            var query = await _context.CitizenIds.FirstOrDefaultAsync(u => u.UserId == id);
             return query;
         }
 

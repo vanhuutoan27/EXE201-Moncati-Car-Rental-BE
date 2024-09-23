@@ -18,6 +18,28 @@ namespace Moncati_Car_API.Controllers
             _serviceManager = service;
             _resultModel = new ResultModel();
         }
+         [HttpGet]
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
+        {
+            var listdrivinglicense = await _serviceManager.DrivingLicenseService.GetAllCitizenAsync(page, limit);
+            if (listdrivinglicense == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "Driving License list not found.",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Message = "Driving License list retrieved successfully.",
+                Data = listdrivinglicense,
+                Status = (int)HttpStatusCode.OK
+            };
+            return Ok(_resultModel);
+        }
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
@@ -30,6 +52,7 @@ namespace Moncati_Car_API.Controllers
                 Message = "Driving license retrieved successfully."
             });
         }
+
         [HttpGet("{licenseId}")]
         public async Task<IActionResult> GetById(Guid licenseId)
         {
