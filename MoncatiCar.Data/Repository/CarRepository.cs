@@ -1,6 +1,6 @@
-﻿using System.Reflection.PortableExecutable;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.Repository;
 using MocatiCar.Core.SeedWorks.Enums;
 using MoncatiCar.Data.SeedWork;
@@ -14,13 +14,13 @@ namespace MoncatiCar.Data.Repository
 
         }
 
-        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit, string search,
+        public async Task<PaginatedResult<Car>> GetAllCarAsync(int page, int limit, string search,
          bool? status, string modelname,
         string brandname, string transmission,
         string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
-        string location, string sortedBy, string order , int? minYear, int? maxYear , 
-        int? minPrice ,int? maxPrice)
+        string location, string sortedBy, string order, int? minYear, int? maxYear,
+        int? minPrice, int? maxPrice)
         {
             search = search?.Trim();
             modelname = modelname?.Trim();
@@ -37,18 +37,22 @@ namespace MoncatiCar.Data.Repository
                                             .Include(r => r.Reviews)
                                             .Include(c => c.CarFeatures)
                                             .ThenInclude(cf => cf.Feature);
-             //filter year
-             if(minYear.HasValue){
+            //filter year
+            if (minYear.HasValue)
+            {
                 query = query.Where(c => c.year >= minYear.Value);
-             }
-             if(maxYear.HasValue){
+            }
+            if (maxYear.HasValue)
+            {
                 query = query.Where(c => c.year <= maxYear.Value);
-             }                               
+            }
             //filter price
-            if(minPrice.HasValue){
+            if (minPrice.HasValue)
+            {
                 query = query.Where(c => c.PricePerDay >= minPrice.Value);
             }
-            if(maxPrice.HasValue){
+            if (maxPrice.HasValue)
+            {
                 query = query.Where(c => c.PricePerDay <= maxPrice.Value);
             }
             // Search slug
@@ -57,7 +61,8 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(c => c.Slug.ToLower().Contains(search.ToLower()));
             }
             //filter instantBooking
-            if(instantBooking.HasValue){
+            if (instantBooking.HasValue)
+            {
                 query = query.Where(c => c.InstantBooking == instantBooking.Value);
             }
 
@@ -95,6 +100,7 @@ namespace MoncatiCar.Data.Repository
                 {
                     query = query.Where(c => c.FuelType == fuelTypeEnum);
                 }
+
             }
 
             // Filter by location
@@ -142,19 +148,18 @@ namespace MoncatiCar.Data.Repository
             {
                 if (sortedBy.Equals("price", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Sắp xếp theo PricePerDay (decimal)
                     query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
-                            ? query.OrderByDescending(c => c.PricePerDay)
-                            : query.OrderBy(c => c.PricePerDay);
+                           ? query.OrderByDescending(c => c.PricePerDay)
+                           : query.OrderBy(c => c.PricePerDay);
                 }
                 else if (sortedBy.Equals("year", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Sắp xếp theo year (int)
                     query = order.Equals("desc", StringComparison.OrdinalIgnoreCase)
                             ? query.OrderByDescending(c => c.year)  // Sắp xếp theo year giảm dần
                             : query.OrderBy(c => c.year);  // Sắp xếp theo year tăng dần
                 }
             }
+
 
 
             // Get total count
@@ -167,10 +172,14 @@ namespace MoncatiCar.Data.Repository
             }
 
             var cars = await query.ToListAsync();
-            return (cars, totalItems);
+            return new PaginatedResult<Car>
+            {
+                Items = cars,
+                TotalCount = totalItems,
+            };
         }
 
-        public async Task<(IEnumerable<Car> Cars, int TotalItems)> GetCarByUserAsync(int page, int limit, bool? status, Guid id)
+        public async Task<PaginatedResult<Car>> GetCarByUserAsync(int page, int limit, bool? status, Guid id)
         {
             IQueryable<Car> query = _context.Cars
                 .Where(c => c.OwnerId == id)
@@ -197,7 +206,11 @@ namespace MoncatiCar.Data.Repository
             }
 
             var cars = await query.ToListAsync();
-            return (cars, totalItems);
+            return new PaginatedResult<Car>
+            {
+                Items = cars,
+                TotalCount = totalItems,
+            };
         }
 
 
@@ -244,17 +257,33 @@ namespace MoncatiCar.Data.Repository
             return query;
         }
 
-        public async Task<IEnumerable<Car>> GetAllCarByUsername(string userName)
+        public async Task<PaginatedResult<Car>> GetAllCarByUsername(string userName, int page, int limit, bool? status)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
             if (user == null) return null;
 
-            return await _context.Cars.Where(c => c.OwnerId == user.Id)
+            IQueryable<Car> query = _context.Cars.Where(c => c.OwnerId == user.Id)
                                                        .Include(m => m.Model)
                                                          .ThenInclude(b => b.Brand)
                                                          .Include(i => i.Images)
                                                          .Include(c => c.CarFeatures).ThenInclude(cf => cf.Feature)
-                                                         .Include(review => review.Reviews).ToListAsync();
+                                                         .Include(review => review.Reviews);
+
+            if (status.HasValue)
+            {
+                query = query.Where(c => c.Status == status.Value);
+            }
+
+            int totalItems = await query.CountAsync();
+            if (page > 0 && limit > 0)
+            {
+                query = query.Skip((page - 1) * limit).Take(limit);
+            }
+            return new PaginatedResult<Car>
+            {
+                Items = await query.ToListAsync(),
+                TotalCount = totalItems
+            };
         }
     }
 }

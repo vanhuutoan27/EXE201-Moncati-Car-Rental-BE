@@ -129,7 +129,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Status = (int)HttpStatusCode.BadRequest,
                     Success = false,
-                    Message= "Failed to delete car type."
+                    Message = "Failed to delete car type."
 
                 };
                 _resultModel = new ResultModel
@@ -138,7 +138,7 @@ namespace Moncati_Car_API.Controllers
                     Success = true,
                     Message = "Car type deleted successfully.",
                 };
-               
+
             }
             return Ok(_resultModel);
         }

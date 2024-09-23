@@ -7,8 +7,8 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class LocationDetailRespone
     {
-         public string location { get; set; }
-        public string locationDetails {get ; set;}
-       
+        public string location { get; set; }
+        public string locationDetails { get; set; }
+
     }
 }

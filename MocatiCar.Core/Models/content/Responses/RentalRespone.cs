@@ -12,19 +12,14 @@ namespace MocatiCar.Core.Models.content.Responses
         public string? CarName { get; set; }
         public string? CarPlate { get; set; }
         public string? CarImage { get; set; }
-
-
         [JsonPropertyName("owner")]
         public Guid? OwnerId { get; set; }
         public string? OwnerName { get; set; }
         public string? OnwerPhone { get; set; }
         [JsonPropertyName("customer")]
         public Guid? CustomerId { get; set; }
-
-
         public string? CustomerName { get; set; }
         public string? CustomerPhone { get; set; }
-
         public DateTime StartDateTime
         { get; set; }
         public DateTime EndDateTime { get; set; }
@@ -37,7 +32,6 @@ namespace MocatiCar.Core.Models.content.Responses
         public decimal DepositAmount { get; set; }
         public decimal RemainAmount { get; set; }
         public decimal CommissionAmount { get; set; }
-
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }

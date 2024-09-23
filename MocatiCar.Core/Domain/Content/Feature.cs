@@ -14,8 +14,6 @@ namespace MocatiCar.Core.Domain.Content
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-
-
         ICollection<CarFeature> CarFeatures { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResultModel>> CreateRental(CreateRentalRequest createRentalRequest)
+        public async Task<IActionResult> CreateRental(CreateRentalRequest createRentalRequest)
         {
             var query = await _serviceManager.RentalService.CreateRental(createRentalRequest);
             if (query == null)
@@ -46,15 +46,19 @@ namespace Moncati_Car_API.Controllers
                     Status = (int)HttpStatusCode.BadRequest,
                     Message = "Failed to rental."
                 };
+                return BadRequest(_resultModel);
             }
-            _resultModel = new ResultModel
-            {
-                Success = true,
-                Status = (int)HttpStatusCode.OK,
 
-                Message = "Rental added successfully."
-            };
-            return Ok(_resultModel);
+            //_resultModel = new ResultModel
+            //{
+            //    Success = true,
+            //    Status = (int)HttpStatusCode.OK,
+            //    Data = query,
+            //    Message = "Rental added successfully."
+            //};
+            string contentType = "application/pdf";
+            string fileName = $"{query.rentalId}.pdf";
+            return File(query.FileReturn, contentType, fileName);
         }
 
         [HttpGet]

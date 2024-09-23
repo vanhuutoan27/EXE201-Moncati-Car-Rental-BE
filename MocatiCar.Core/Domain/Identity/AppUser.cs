@@ -16,7 +16,7 @@ namespace MocatiCar.Core.Domain.Identity
         public DateTime? VipStartDate { get; set; }
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        public Gender? Gender { get; set; }
+        public string? Gender { get; set; }
         public bool Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -33,5 +33,9 @@ namespace MocatiCar.Core.Domain.Identity
 
         public ICollection<FavoriteCar> FavoriteCars { get; set; }
         public DrivingLicense DrivingLicenses { get; set; }
+        public ICollection<Rental> Rentals { get; set; }
+
+        public CitizenId CitizenId { get; set; } //one to ones
+
     }
 }

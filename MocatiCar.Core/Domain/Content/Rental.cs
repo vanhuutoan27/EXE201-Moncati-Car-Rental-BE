@@ -24,7 +24,6 @@ namespace MocatiCar.Core.Domain.Content
         public decimal DepositAmount { get; set; }
         public decimal RemainAmount { get; set; }
         public decimal CommissionAmount { get; set; }
-
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
@@ -33,14 +32,11 @@ namespace MocatiCar.Core.Domain.Content
         public Car Car { get; set; }
         [ForeignKey(nameof(OwnerId)), Column(Order = 0)]
         //[NotMapped]
-
         public AppUser Owner { get; set; }
         [ForeignKey(nameof(CustomerId)), Column(Order = 1)]
         //[NotMapped]
-
         public AppUser Customer { get; set; }
         public ICollection<Contract> Contracts { get; set; }
-
         public ICollection<Payment> Payments { get; set; }
         public Review Review { get; set; }
     }

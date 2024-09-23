@@ -27,6 +27,9 @@ namespace Moncati_Car_API.AutoMappers
                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))
                .ForMember(dest => dest.Dob, opt => opt.MapFrom(src => src.Dob))
                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+              .ForMember(dest => dest.DrivingLicense, opt => opt.MapFrom(src => src.DrivingLicenses != null && src.DrivingLicenses.Verified))
+              .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.CitizenId != null && src.CitizenId.Verified))
+
                .ForMember(dest => dest.Role, opt => opt.Ignore())
                .ReverseMap();
 
@@ -43,12 +46,21 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Address, CreateAddressRequest>().ReverseMap();
             CreateMap<Address, AddressRespone>().ReverseMap();
             CreateMap<Address, GetAddressByUsernameRespone>().ReverseMap();
+            CreateMap<Rental, CreateRentalRequest>().ReverseMap();
+            CreateMap<Car, CarResponse>().ReverseMap();
+
+            CreateMap<CitizenId, CitizenIdResponse>().ReverseMap();
+
             CreateMap<Rental ,CreateRentalRequest>().ReverseMap();
             CreateMap<Car , CarResponse>().ReverseMap();
             CreateMap<FavoriteCar , CreateFavoriteCarRequest>().ReverseMap();
             CreateMap<DrivingLicense, CreateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, UpdateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, DrivingLicenseRespone>().ReverseMap();
+          CreateMap<CitizenId, CitizenIdResponse>()
+    .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.Citizen_Id))
+    .ReverseMap();
+
         }
     }
 }

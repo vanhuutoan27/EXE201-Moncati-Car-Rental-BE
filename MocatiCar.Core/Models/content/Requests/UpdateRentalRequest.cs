@@ -10,7 +10,7 @@ namespace MocatiCar.Core.Models.content.Requests
 {
     public class UpdateRentalRequest
     {
-      
+
         public string PickupLocation { get; set; }
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }

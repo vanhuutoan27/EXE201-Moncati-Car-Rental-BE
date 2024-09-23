@@ -72,7 +72,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetModelByBrandId(Guid brandId)
         {
             var checkBrandId = await _serviceManager.BrandService.GetBrandById(brandId);
-            if(checkBrandId == null)
+            if (checkBrandId == null)
             {
                 return BadRequest(_resultModel = new ResultModel
                 {
@@ -96,7 +96,7 @@ namespace Moncati_Car_API.Controllers
         [HttpGet("brand/{brandName}")]
         public async Task<ActionResult<ResultModel>> GetModelByBrandName(string brandName)
         {
-            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);           
+            var model = await _serviceManager.ModelService.GetModelByBrandName(brandName);
             _resultModel = new ResultModel
             {
                 Success = true,
@@ -143,7 +143,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPut("{modelId}")]
-        public async Task<ActionResult<ResultModel>> Update(Guid modelId, [FromBody]CreateUpdateModelRequest updateModelRequest)
+        public async Task<ActionResult<ResultModel>> Update(Guid modelId, [FromBody] CreateUpdateModelRequest updateModelRequest)
         {
             var update = await _serviceManager.ModelService.UpdateModel(modelId, updateModelRequest);
             if (!update)

@@ -26,7 +26,10 @@ namespace MoncatiCar.Data
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<DrivingLicense> DrivingLicenses { get; set; }
-        public DbSet<FavoriteCar>FavoriteCars { get; set; }
+        public DbSet<FavoriteCar> FavoriteCars { get; set; }
+        public DbSet<CitizenId> CitizenIds { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims").HasKey(x => x.Id);

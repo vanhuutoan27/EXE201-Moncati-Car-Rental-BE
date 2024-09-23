@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MocatiCar.Core.Domain.Content;
+﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
@@ -20,27 +18,41 @@ namespace Moncati_Car_API.Controllers
             _serviceManager = service;
             _resultModel = new ResultModel();
         }
+         [HttpGet]
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
+        {
+            var listdrivinglicense = await _serviceManager.DrivingLicenseService.GetAllCitizenAsync(page, limit);
+            if (listdrivinglicense == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Message = "Driving License list not found.",
+                    Status = (int)HttpStatusCode.NotFound
+                };
+            }
+            _resultModel = new ResultModel
+            {
+                Success = true,
+                Message = "Driving License list retrieved successfully.",
+                Data = listdrivinglicense,
+                Status = (int)HttpStatusCode.OK
+            };
+            return Ok(_resultModel);
+        }
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
             var license = await _serviceManager.DrivingLicenseService.GetDrivingLicenseUserId(userId);
-            if (license == null)
-            {
-                return NotFound(_resultModel = new ResultModel
-                {
-                    Success = false,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Message = "License not found."
-                });
-            }
             return Ok(_resultModel = new ResultModel
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = license,
-                Message = "License retrieved successfully."
+                Message = "Driving license retrieved successfully."
             });
         }
+
         [HttpGet("{licenseId}")]
         public async Task<IActionResult> GetById(Guid licenseId)
         {
@@ -51,7 +63,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "License not found."
+                    Message = "Driving license not found."
                 });
             }
             return Ok(_resultModel = new ResultModel
@@ -59,11 +71,11 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = license,
-                Message = "License retrieved successfully."
+                Message = "Driving license retrieved successfully."
             });
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Guid userId, [FromBody]CreateDrivingLicenseRequest createLicense)
+        public async Task<IActionResult> Create([FromBody] CreateDrivingLicenseRequest createLicense)
         {
             if (!ModelState.IsValid)
             {
@@ -74,21 +86,22 @@ namespace Moncati_Car_API.Controllers
                     Message = "Invalid data."
                 });
             }
-            var result = await _serviceManager.DrivingLicenseService.AddDrivingLicense(userId, createLicense);
+            var result = await _serviceManager.DrivingLicenseService.AddDrivingLicense(createLicense);
+
             if (result == null)
             {
                 return NotFound(_resultModel = new ResultModel
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Failed to add license."
+                    Message = "Failed to create driving license."
                 });
             }
             return Ok(_resultModel = new ResultModel
             {
                 Status = (int)HttpStatusCode.OK,
                 Success = true,
-                Message = "License added successfully."
+                Message = "Driving license created successfully.",
             });
         }
         [HttpPut("{lisenceId}")]
@@ -101,7 +114,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.InternalServerError,
-                    Message = "Failed to update driving lisence."
+                    Message = "Failed to update driving license."
                 };
                 return StatusCode((int)HttpStatusCode.InternalServerError, _resultModel);
             }
@@ -109,7 +122,7 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Driving Lisence updated successfully."
+                Message = "Driving license updated successfully."
             };
             return Ok(_resultModel);
         }
@@ -123,7 +136,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Driving Lisence not found."
+                    Message = "Driving license not found."
                 });
             }
             await _serviceManager.DrivingLicenseService.DeleteDrivingLisence(lisencedId);
@@ -131,8 +144,29 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Message = "Driving Lisence deleted successfully."
+                Message = "Driving license deleted successfully."
             });
+        }
+        [HttpPatch("{drivingLicenseId}/verify")]
+        public async Task<IActionResult> VerifyDrivingLisence(Guid drivingLicenseId)
+        {
+            var drivingLisence = await _serviceManager.DrivingLicenseService.VeryfyDrivingLisence(drivingLicenseId);
+            if (!drivingLisence)
+            {
+                return NotFound(_resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "Driving license not found."
+                });
+            }
+            return Ok(_resultModel = new ResultModel
+            {
+                Success = true,
+                Status = (int)HttpStatusCode.OK,
+                Message = "Driving license verified successfully."
+            });
+
         }
     }
 }

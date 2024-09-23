@@ -15,8 +15,9 @@ namespace MocatiCar.Core.SeedWorks
         IUserRepository UserRepository { get; }
         IAddressRepository AddressRepository { get; }
         IRentalRepository RentalRepository { get; }
-        IFavoriteCarRepository FavoriteCarRepository {get;}
-        IDrivingLicenseRepository DrivingLicenseRepository { get;}
+        ICitizendIdRepository CitizendIdRepository { get; }
+        IFavoriteCarRepository FavoriteCarRepository { get; }
+        IDrivingLicenseRepository DrivingLicenseRepository { get; }
         Task SaveAsync();
     }
 }

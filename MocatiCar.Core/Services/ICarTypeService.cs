@@ -6,7 +6,7 @@ namespace MocatiCar.Core.Services
 {
     public interface ICarTypeService
     {
-        Task<PageResult<CarTypeResponse>> GetAllCarTypeAsync(int page , int limit);
+        Task<PageResult<CarTypeResponse>> GetAllCarTypeAsync(int page, int limit);
         Task<CarTypeResponse> GetCarTypeById(Guid id);
         Task<CreateUpdateCarTypeRequest> AddCarTypeAsync(CreateUpdateCarTypeRequest carRequest);
         Task<bool> UpdateCarType(Guid id, CreateUpdateCarTypeRequest cartype);

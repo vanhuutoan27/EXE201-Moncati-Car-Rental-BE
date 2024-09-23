@@ -10,6 +10,6 @@ namespace MocatiCar.Core.Models.content.Requests
     {
         [JsonPropertyName("car")]
         public Guid CarId { get; set; }
-        
+
     }
 }

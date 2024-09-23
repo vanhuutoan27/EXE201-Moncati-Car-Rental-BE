@@ -114,9 +114,19 @@ namespace MoncatiCar.Data.Repository
          .ToListAsync();
         }
 
+        public async Task<IEnumerable<Review>> GetUserByOwnerName(string ownerName, int page, int limit)
+        {
+            IQueryable<Review> query = _context.Reviews.Include(u => u.User).AsQueryable();
+            if (page > 0 && limit > 0)
+            {
+                query = query.Where(rv => rv.Car.User.UserName == ownerName).Skip((page - 1) * limit).Take(limit);
+            }
+            return await query.ToListAsync();
+        }
+
         public async Task<Review> HasReview(Guid author, Guid carId)
         {
-            return await _context.Reviews.FirstOrDefaultAsync(r => r.CarId == carId && r.Author == author);
+            return await _context.Reviews.FirstOrDefaultAsync(r => r.RentalId == carId && r.Author == author);
         }
 
         public void UpdateReview(Guid id, Review review)

@@ -22,7 +22,7 @@ namespace MoncatiCar.Data.Services
             var createBrand = _mapper.Map<Brand>(brandRequest);
 
             // check brandName exist
-            if(await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
+            if (await _repositoryManager.BrandRepository.CheckBrandName(brandRequest.BrandName))
             {
                 throw new Exception($"Brand name '{brandRequest.BrandName}' already exists.");
             }
@@ -57,7 +57,7 @@ namespace MoncatiCar.Data.Services
         {
             var listBrand = await _repositoryManager.BrandRepository.GetAllBrandAsync(page, limit, searchName);
             var listResult = _mapper.Map<IEnumerable<BrandRespone>>(listBrand);
-            var totalItems = await _repositoryManager.BrandRepository.GetTotalBrandCountAsync(searchName);
+            var totalItems = listBrand.Count();
 
             return new PageResult<BrandRespone>
             {

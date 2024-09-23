@@ -15,5 +15,6 @@ namespace MocatiCar.Core.Services
         Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag);
         Task<PageResult<ReviewRespone>> GetAllReviewByUsername(string username, int page, int limit, bool? flag);
         Task<bool> ChangeFlagAsync(Guid id);
+        Task<PageResult<GetReviewandUserbyOwnerRespone>> GetUserAndReviewByOwner(string ownerName, int page, int limit);
     }
 }

@@ -58,30 +58,26 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<CarTypeResponse>> GetAllCarTypeAsync(int page, int limit)
         {
-            var carTypes = await _repositoryManager.CarTypeRepository.GetAllCarTypeAsync(page, limit);
+            var paginatedCarType = await _repositoryManager.CarTypeRepository.GetAllCarTypeAsync(page, limit);
 
-            var totalItems = carTypes.Count();
-            var listResults = carTypes.Select(cartype => new CarTypeResponse
+            var listResults = paginatedCarType.Items.Select(cartype => new CarTypeResponse
             {
 
                 CarTypeId = cartype.CarTypeId,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = cartype.CreatedAt,
+                UpdatedAt = cartype.UpdatedAt,
                 Description = cartype.Description,
                 TypeName = cartype.TypeName,
                 CreatedBy = cartype.CreatedBy,
                 UpdatedBy = cartype.UpdatedBy,
 
             });
-            if (carTypes == null)
-            {
-                throw new Exception("Car type list not found.");
-            }
+
             return new PageResult<CarTypeResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
-                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(paginatedCarType.TotalCount / (double)limit),
+                TotalItems = paginatedCarType.TotalCount,
                 Items = listResults
             };
         }
@@ -93,14 +89,15 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("CarType does not found!");
             }
-            return new CarTypeResponse { 
-              CarTypeId = cartype.CarTypeId,
-              CreatedAt = DateTime.Now,
-              UpdatedAt = DateTime.Now,
-              Description = cartype.Description,
-              TypeName = cartype.TypeName,
-              CreatedBy = cartype.CreatedBy,
-              UpdatedBy = cartype.UpdatedBy
+            return new CarTypeResponse
+            {
+                CarTypeId = cartype.CarTypeId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Description = cartype.Description,
+                TypeName = cartype.TypeName,
+                CreatedBy = cartype.CreatedBy,
+                UpdatedBy = cartype.UpdatedBy
             };
         }
 

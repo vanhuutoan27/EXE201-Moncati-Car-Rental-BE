@@ -52,38 +52,50 @@ namespace MoncatiCar.Data.Services
                     Items = new List<FavoriteCarRespone>()
                 };
             }
-            var favoritecarRespone = listFavoriteCar.Select(car => new FavoriteCarRespone
+            var favoritecarREspone = new List<FavoriteCarRespone>();
+            foreach (var car in listFavoriteCar)
             {
-                FavoriteCarId = car.FavoriteCarId,
-                CarId = car.CarId,
+                Guid carId = car.CarId ?? Guid.Empty;
+                int totalRental = await _repositoryManager.RentalRepository.CountAsync(carId);
+                int totalReview = await _repositoryManager.ReviewRepository.CountAsync(carId);
+                double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(carId);
 
-                OwnerId = car.Car.User.Id,
-                ownerName = car.Car.User.UserName,
-                ownerAvatar = car.Car?.User?.Avatar,
-                licensePlate = car.Car?.licensePlate,
-                slug = car.Car?.Slug,
-                brand = car.Car?.Model?.Brand?.BrandName,
-                model = car.Car?.Model?.ModelName,
-                year = car.Car?.year ?? 0,
-                seats = car.Car?.Seats ?? 0,
-                transmission = car.Car?.Transmission ?? default(MocatiCar.Core.SeedWorks.Enums.Transmission),
-                fuelType = car.Car?.FuelType ?? default(MocatiCar.Core.SeedWorks.Enums.FuelType),
+                favoritecarREspone.Add(new FavoriteCarRespone
+                {
+                    FavoriteCarId = car.FavoriteCarId,
+                    CarId = car.CarId,
 
-                description = car.Car?.Description,
-                location = car.Car?.Location,
-                pricePerDay = car.Car?.PricePerDay ?? 0,
-                image = car.Car?.Images?
-                         .OrderBy(img => img.ImageId)
-                         .Select(img => img.Url)
-                         .FirstOrDefault() ?? string.Empty,
-            }).ToList();
+                    OwnerId = car.Car.User.Id,
+                    ownerName = car.Car.User.UserName,
+                    ownerAvatar = car.Car?.User?.Avatar,
+                    licensePlate = car.Car?.licensePlate,
+                    slug = car.Car?.Slug,
+                    brand = car.Car?.Model?.Brand?.BrandName,
+                    model = car.Car?.Model?.ModelName,
+                    year = car.Car?.year ?? 0,
+                    seats = car.Car?.Seats ?? 0,
+                    transmission = car.Car?.Transmission ?? default(MocatiCar.Core.SeedWorks.Enums.Transmission),
+                    fuelType = car.Car?.FuelType ?? default(MocatiCar.Core.SeedWorks.Enums.FuelType),
 
+                    description = car.Car?.Description,
+                    location = car.Car?.Location,
+                    pricePerDay = car.Car?.PricePerDay ?? 0,
+                    image = car.Car?.Images?
+                             .OrderBy(img => img.ImageId)
+                             .Select(img => img.Url)
+                             .FirstOrDefault() ?? string.Empty,
+                    commissionAmount = (decimal)(car.Car?.PricePerDay * 15 / 100),
+                    totalRentals = totalRental,
+                    totalReviews = totalReview,
+                    averageRating = avarageRating
+                });
+            }
             return new PageResult<FavoriteCarRespone>
             {
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
                 TotalItems = totalItems,
-                Items = favoritecarRespone
+                Items = favoritecarREspone
             };
         }
 

@@ -20,7 +20,6 @@ namespace MocatiCar.Core.Domain.Content
         public bool isDefault { get; set; }
         public DateTime createdAt { get; set; }
         public DateTime updateAt { get; set; }
-
         public Guid UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public AppUser User { get; set; }

@@ -15,11 +15,13 @@ namespace MoncatiCar.Data.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager)
+        private readonly IContactService _contactService;
+        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
             _userManager = userManager;
+            _contactService = contactService;
         }
 
         public async Task<bool> ChangeRentalStatusAsync(Guid id)
@@ -85,7 +87,7 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
+        public async Task<CreateRentalResponse> CreateRental(CreateRentalRequest rentalRequest)
         {
 
             var create = new Rental()
@@ -105,11 +107,53 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
             };
             create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
-            create.CommissionAmount = create.RentalAmount * 20 / 100;
+            create.CommissionAmount = create.RentalAmount * 15 / 100;
             _repositoryManager.RentalRepository.Add(create);
+
+            //add contact
+            var owner = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.OwnerId);
+            var customer = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.CustomerId);
+            var replacements = new Dictionary<string, string>
+            {
+                {"{ownerName}", owner.FullName },
+                {"{ownerIdnumber}", null },
+                {"{ownerAddress}", null },
+                {"{ownerPhoneNumber}", owner.PhoneNumber },
+                {"{customerName}",  customer.FullName},
+                {"{customerAddress}", null },
+                {"{customerIdnumber}", null },
+                {"{customerPhoneNumber}", customer.PhoneNumber },
+                {"{citizenProvideDay}", null },
+                {"{citzenProvideDay}", null },
+                {"{driveLicense}", null },
+                {"{driveProvideDay}", null },
+
+            };
+            string templateFilePath = "F:/GitSource/ContactForRental.docx";
+            string tempFilePath = Path.Combine("F:/GitSource/", $"{create.RentalId}.docx");
+            System.IO.File.Copy(templateFilePath, tempFilePath, true);
+
+            _contactService.InsertDataInFile(tempFilePath, replacements);
+
+            var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
+            //System.IO.File.Delete(tempFilePath);
+
+
+
+
+
+
+
             await _repositoryManager.SaveAsync();
-            var result = _mapper.Map<CreateRentalRequest>(create);
-            return result;
+            //var result = _mapper.Map<CreateRentalRequest>(create);
+
+
+
+            return new CreateRentalResponse
+            {
+                FileReturn = pdfBytes,
+                rentalId = create.RentalId
+            };
         }
 
         public async Task<bool> DeleteRental(Guid id)
@@ -181,13 +225,21 @@ namespace MoncatiCar.Data.Services
             var rentalrespone = carId.Select(x => new RentalResponseForGetById
             {
                 RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
                 CarId = x.Car?.CarId,
                 CommissionAmount = x.CommissionAmount,
-                CreatedAt = DateTime.Now,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
                 OwnerId = x.Owner?.Id,
@@ -195,10 +247,9 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDateTime = x.StartDateTime,
                 RemainAmount = x.RemainAmount,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = x.UpdatedBy
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
             });
             return new PageResult<RentalResponseForGetById>
             {
@@ -263,13 +314,21 @@ namespace MoncatiCar.Data.Services
             var rentalrespone = users.Select(x => new RentalResponseForGetById
             {
                 RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
                 CarId = x.Car?.CarId,
                 CommissionAmount = x.CommissionAmount,
-                CreatedAt = DateTime.Now,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
                 CreatedBy = x.CreatedBy,
-                EndDateTime = x.EndDateTime,
                 CustomerId = x.Customer?.Id,
                 DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
                 InsuranceAmount = x.InsuranceAmount,
                 Note = x.Note,
                 OwnerId = x.Owner?.Id,
@@ -277,10 +336,9 @@ namespace MoncatiCar.Data.Services
                 RentalAmount = x.RentalAmount,
                 RentalStatus = x.RentalStatus,
                 ReturnLocation = x.ReturnLocation,
-                StartDateTime = x.StartDateTime,
                 RemainAmount = x.RemainAmount,
-                UpdatedAt = DateTime.Now,
-                UpdatedBy = x.UpdatedBy
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
             });
             return new PageResult<RentalResponseForGetById>
             {

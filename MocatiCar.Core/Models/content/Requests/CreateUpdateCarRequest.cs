@@ -29,7 +29,7 @@ namespace MocatiCar.Core.Models.content.Requests
         public decimal PricePerDay { get; set; }
         public string Location { get; set; } = string.Empty;
         public string? LocationDetails { get; set; }
-        public float? discount { get; set; }    
+        public float? discount { get; set; }
         public bool? InstantBooking { get; set; } = false;
         public int? MaxDeliveryDistance { get; set; } = 0;
         public int? DeliveryFeePerKm { get; set; } = 0;

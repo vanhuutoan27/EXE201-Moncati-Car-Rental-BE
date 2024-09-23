@@ -8,7 +8,7 @@ namespace MocatiCar.Core.Services
     {
         Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
         Task<RentalRespone> GetRentalById(Guid id);
-        Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest);
+        Task<CreateRentalResponse> CreateRental(CreateRentalRequest rentalRequest);
         Task<PageResult<RentalResponseForGetById>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
         Task<PageResult<RentalResponseForGetById>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
         Task<bool> DeleteRental(Guid id);
