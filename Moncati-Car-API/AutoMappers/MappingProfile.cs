@@ -28,7 +28,7 @@ namespace Moncati_Car_API.AutoMappers
                .ForMember(dest => dest.Dob, opt => opt.MapFrom(src => src.Dob))
                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
               .ForMember(dest => dest.DrivingLicense, opt => opt.MapFrom(src => src.DrivingLicenses != null && src.DrivingLicenses.Verified))
-              .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.CitizenId != null && src.CitizenId.Verifed))
+              .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.CitizenId != null && src.CitizenId.Verified))
 
                .ForMember(dest => dest.Role, opt => opt.Ignore())
                .ReverseMap();

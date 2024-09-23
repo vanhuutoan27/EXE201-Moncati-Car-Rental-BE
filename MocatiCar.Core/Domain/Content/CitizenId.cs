@@ -17,7 +17,7 @@ namespace MocatiCar.Core.Domain.Content
         public string Address { get; set; }
         public DateTime IssueDate { get; set; }
         public string IssuingAuthority { get; set; }
-        public bool Verifed { get; set; }
+        public bool Verified { get; set; }
         //public string FrontOfCard { get; set; }
         //public string EndOfCard { get; set; }
 
