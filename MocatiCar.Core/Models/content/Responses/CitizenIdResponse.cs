@@ -8,7 +8,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string IdNumber { get; set; }
         public string FullName { get; set; }
         public DateTime Dob { get; set; }
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
         public string Nationality { get; set; }
         public string Address { get; set; }
         public DateTime IssueDate { get; set; }

@@ -46,7 +46,7 @@ namespace MoncatiCar.Data.Services
                 Address = request.Address,
                 IssueDate = request.IssueDate,
                 IssuingAuthority = request.IssuingAuthority,
-                Verify = false,
+                Verified = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 UserId = request.UserId
@@ -87,7 +87,7 @@ namespace MoncatiCar.Data.Services
                 IssuingAuthority = x.IssuingAuthority,
                 Nationality = x.Nationality,
                 UpdatedBy = x.UpdatedBy,
-                Verified = x.Verify
+                Verified = x.Verified
 
             });
             return new PageResult<CitizenIdResponse>
@@ -121,7 +121,7 @@ namespace MoncatiCar.Data.Services
                 Nationality = citizenId.Nationality,
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = citizenId.UpdatedBy,
-                Verified = citizenId.Verify
+                Verified = citizenId.Verified
             };
         }
 
@@ -172,13 +172,13 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
-            if (query.Verify == true)
+            if (query.Verified == true)
             {
-                query.Verify = false;
+                query.Verified = false;
             }
             else
             {
-                query.Verify = true;
+                query.Verified = true;
             }
             _repositoryManager.CitizendIdRepository.Update(query);
             await _repositoryManager.SaveAsync();
