@@ -129,8 +129,8 @@ namespace MoncatiCar.Data.Services
                 {"{driveProvideDay}", null },
 
             };
-            string templateFilePath = "F:/GitSource/ContactForRental.docx";
-            string tempFilePath = Path.Combine("F:/GitSource/", $"{create.RentalId}.docx");
+            string templateFilePath = "C:/Users/saoph/Downloads/ContactForRental.docx";
+            string tempFilePath = Path.Combine("C:/Users/saoph/Downloads/", $"{create.RentalId}.docx");
             System.IO.File.Copy(templateFilePath, tempFilePath, true);
 
             _contactService.InsertDataInFile(tempFilePath, replacements);
