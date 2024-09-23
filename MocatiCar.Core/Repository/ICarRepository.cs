@@ -1,11 +1,12 @@
 ﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 
 namespace MocatiCar.Core.Repository
 {
     public interface ICarRepository : IRepositoryBase<Car, Guid>
     {
-        Task<(IEnumerable<Car> Cars, int TotalItems)> GetAllCarAsync(int page, int limit,
+        Task<PaginatedResult<Car>> GetAllCarAsync(int page, int limit,
         string search, bool? status,
         string modelname, string brandname,
         string transmission, string fuel, int? seats,
@@ -17,8 +18,8 @@ namespace MocatiCar.Core.Repository
         void UpdateCar(Guid id, Car car);
         Task<int> GetTotalCarAsync();
         Task<Car> GetByLicensePlateAsync(string licensePlate);
-        Task<(IEnumerable<Car> Cars, int TotalItems)> GetCarByUserAsync(int page, int limit, bool? status, Guid id);
+        Task<PaginatedResult<Car>> GetCarByUserAsync(int page, int limit, bool? status, Guid id);
         Task<Car> GetLocationDetailByCarId(Guid carId);
-        Task<IEnumerable<Car>> GetAllCarByUsername(string userName);
+        Task<PaginatedResult<Car>> GetAllCarByUsername(string userName, int page, int limit, bool? status);
     }
 }

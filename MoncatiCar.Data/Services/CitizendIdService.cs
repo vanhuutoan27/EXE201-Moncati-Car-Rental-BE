@@ -68,11 +68,10 @@ namespace MoncatiCar.Data.Services
             return true;
         }
 
-        public async Task<PageResult<CitizenIdResponse>> GetAllCitizenAsync(int page, int limit, long? citizendId, bool? verify, string? search)
+        public async Task<PageResult<CitizenIdResponse>> GetAllCitizenAsync(int page, int limit, string? citizendId, bool? verify, string? search)
         {
-            var listCitizend = await _repositoryManager.CitizendIdRepository.GetAllCitizendIdAsync(page, limit, citizendId, verify, search);
-            var totalItems = listCitizend.Count();
-            var citizendRespone = listCitizend.Select(x => new CitizenIdResponse
+            var paginatedCitizends = await _repositoryManager.CitizendIdRepository.GetAllCitizendIdAsync(page, limit, citizendId, verify, search);
+            var citizendRespone = paginatedCitizends.Items.Select(x => new CitizenIdResponse
             {
                 CitizenId = x.Citizen_Id,
                 FullName = x.FullName,
@@ -93,8 +92,8 @@ namespace MoncatiCar.Data.Services
             return new PageResult<CitizenIdResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
-                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(paginatedCitizends.TotalCount / (double)limit),
+                TotalItems = paginatedCitizends.TotalCount,
                 Items = citizendRespone
             };
         }

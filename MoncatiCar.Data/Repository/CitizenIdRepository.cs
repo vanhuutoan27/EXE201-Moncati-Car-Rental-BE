@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.Repository;
 using MoncatiCar.Data.SeedWork;
 
@@ -11,14 +12,19 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<CitizenId>> GetAllCitizendIdAsync(int page, int limit, long? citizendId, bool? verify, string? search)
+        public async Task<PaginatedResult<CitizenId>> GetAllCitizendIdAsync(int page, int limit, string? citizendId, bool? verify, string? search)
         {
             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
+            int totalItems = query.Count();
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
             }
-            return await query.ToListAsync();
+            return new PaginatedResult<CitizenId>
+            {
+                Items = await query.ToListAsync(),
+                TotalCount = totalItems
+            };
         }
 
         public async Task<CitizenId> GetbyId(Guid citizenId)

@@ -189,12 +189,12 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<CarResponse>> GetAllCarByUser(int page, int limit, bool? status, Guid userId)
         {
-            var (listCar, totalItems) = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
+            var paginatedResult = await _repositoryManager.CarRepository.GetCarByUserAsync(page, limit, status, userId);
 
             var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
-            foreach (var car in listCar)
+            foreach (var car in paginatedResult.Items)
             {
 
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
@@ -242,22 +242,19 @@ namespace MoncatiCar.Data.Services
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
-                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(paginatedResult.TotalCount / (double)limit),
+                TotalItems = paginatedResult.TotalCount,
                 Items = carResponse
             };
         }
 
         public async Task<PageResult<CarResponse>> GetAllCarByUserNameOfOwner(int page, int limit, bool? status, string username)
         {
-            var carList = await _repositoryManager.CarRepository.GetAllCarByUsername(username);
-            var totalItems = await _repositoryManager.CarRepository.GetTotalCarAsync();
-
-
+            var paginatedCar = await _repositoryManager.CarRepository.GetAllCarByUsername(username, page, limit, status);
             var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
-            foreach (var car in carList)
+            foreach (var car in paginatedCar.Items)
             {
 
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
@@ -304,8 +301,8 @@ namespace MoncatiCar.Data.Services
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
-                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(paginatedCar.TotalCount / (double)limit),
+                TotalItems = paginatedCar.TotalCount,
                 Items = carResponse
             };
         }
@@ -317,14 +314,14 @@ namespace MoncatiCar.Data.Services
         int? minPrice, int? maxPrice)
         {
             // Gọi repository để lấy danh sách xe và tổng số mục
-            (IEnumerable<Car> listCar, int totalItems) = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
+            var paginatedCars = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
              brandName, transmission, fuelType, seats, electric, discount, instantBooking, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice);
 
             // Khai báo biến carResponse trước vòng lặp foreach
             var carResponse = new List<CarResponse>();
 
             // Chuyển đổi dữ liệu từ Car thành CarResponse
-            foreach (var car in listCar)
+            foreach (var car in paginatedCars.Items)
             {
 
                 int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
@@ -374,8 +371,8 @@ namespace MoncatiCar.Data.Services
             return new PageResult<CarResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
-                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(paginatedCars.TotalCount / (double)limit),
+                TotalItems = paginatedCars.TotalCount,
                 Items = carResponse
             };
         }
