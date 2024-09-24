@@ -16,7 +16,6 @@ namespace MoncatiCar.Data.Repository
         {
             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
 
-            
             search = search?.Trim();
 
             // Kiểm tra xem có từ khóa tìm kiếm hay không
@@ -46,8 +45,6 @@ namespace MoncatiCar.Data.Repository
         }
 
 
-
-
         public async Task<CitizenId> GetbyId(Guid citizenId)
         {
             var citizen = await _context.CitizenIds.FirstOrDefaultAsync(c => c.Citizen_Id == citizenId);
@@ -62,16 +59,17 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<bool> HasIdNumberAsync(string idNumber, Guid? currentUserId)
         {
-            if(currentUserId == null)
+            if (currentUserId == null)
             {
                 var citizenId = await _context.CitizenIds.FirstOrDefaultAsync(c => c.IdNumber == idNumber);
                 return citizenId != null;
-            } else
+            }
+            else
             {
                 var citizenId = await _context.CitizenIds.Where(c => c.IdNumber == idNumber && c.UserId != currentUserId).FirstOrDefaultAsync();
                 return citizenId != null;
             }
-            
+
         }
     }
 }
