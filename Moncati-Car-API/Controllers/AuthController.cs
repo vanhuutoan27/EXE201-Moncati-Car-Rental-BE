@@ -164,35 +164,57 @@ namespace Moncati_Car_API.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpGet]
-        [Route("me")]
-        [Authorize]
-        public async Task<ActionResult<ResultModel>> GetInformationOfUser()
-        {
-            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+       [HttpGet]
+[Route("me")]
+[Authorize]
+public async Task<ActionResult<ResultModel>> GetInformationOfUser()
+{
+    var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var user = await _userManager.FindByEmailAsync(userEmail);
-            if (user == null)
-            {
-                _resp.Status = (int)HttpStatusCode.InternalServerError;
-                _resp.Message = "User not found.";
-                _resp.Success = false;
-            }
-            var roles = await _userManager.GetRolesAsync(user);
-            _resp.Status = (int)HttpStatusCode.OK;
-            _resp.Message = "MONCATI";
-            _resp.Success = true;
-            _resp.Data = new MeResponse()
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                Username = user.UserName,
-                Avatar = user.Avatar,
-                FullName = user.FullName,
-                Role = roles.FirstOrDefault()
-            };
-            return _resp;
-        }
+    // Kiểm tra xem email có tồn tại hay không
+    if (string.IsNullOrEmpty(userEmail))
+    {
+        _resp.Status = (int)HttpStatusCode.InternalServerError;
+        _resp.Message = "Email claim not found.";
+        _resp.Success = false;
+        return _resp;
+    }
+
+    // Tìm kiếm người dùng dựa trên email
+    var user = await _serviceManager.UserService.GetUserByEmail(userEmail);
+
+    // Kiểm tra nếu người dùng không tồn tại
+    if (user == null)
+    {
+        _resp.Status = (int)HttpStatusCode.InternalServerError;
+        _resp.Message = "User not found.";
+        _resp.Success = false;
+        return _resp;
+    }
+
+    // Lấy danh sách các roles của người dùng
+    var roles = await _userManager.GetRolesAsync(user);
+
+    // Kiểm tra và xử lý nếu bất kỳ thuộc tính nào của user có thể là null
+    _resp.Status = (int)HttpStatusCode.OK;
+    _resp.Message = "MONCATI";
+    _resp.Success = true;
+    _resp.Data = new MeResponse()
+    {
+        UserId = user.Id,
+        Email = user.Email,
+        Username = user.UserName,
+        Avatar = user.Avatar ?? string.Empty,  // Kiểm tra null cho Avatar
+        FullName = user.FullName ?? string.Empty,  // Kiểm tra null cho FullName
+        Role = roles.FirstOrDefault() ?? "No Role",  // Đảm bảo role không bị null
+        CitizenId = user.CitizenId?.Verified ?? false,  // Kiểm tra null cho CitizenId và giá trị Verified
+        DrivingLicense = user.DrivingLicenses?.Verified ?? false,  // Kiểm tra null cho DrivingLicenses và giá trị Verified
+        PhoneNumber = user.PhoneNumber ?? string.Empty  // Kiểm tra null cho PhoneNumber
+    };
+
+    return _resp;
+}
+
         private bool IsEmail(string input)
         {
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
