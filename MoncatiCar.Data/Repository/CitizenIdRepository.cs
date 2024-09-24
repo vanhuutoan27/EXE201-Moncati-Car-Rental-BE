@@ -17,7 +17,9 @@ namespace MoncatiCar.Data.Repository
             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
 
             search = search?.Trim();
-
+            if(verify.HasValue){
+                query = query.Where( c => c.Verified == verify.Value);
+            }
             // Kiểm tra xem có từ khóa tìm kiếm hay không
             if (!string.IsNullOrEmpty(search))
             {
