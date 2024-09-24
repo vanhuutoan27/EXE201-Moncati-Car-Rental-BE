@@ -15,5 +15,6 @@ namespace MocatiCar.Core.Repository
         void UpdateAddress(Address address);
         Task SetDefaultAddress(Guid userId, Guid addressId);
         Task<IEnumerable<Address>> GetAddressesByUsername(string username);
+        Task<bool> CheckAddressNameExist(string addressName, Guid? userId);
     }
 }

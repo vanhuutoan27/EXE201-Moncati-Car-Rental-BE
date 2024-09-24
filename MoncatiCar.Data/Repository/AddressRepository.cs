@@ -53,5 +53,18 @@ namespace MoncatiCar.Data.Repository
         {
             return await _context.Addresses.Include(i => i.User).Where(x => x.User.UserName == username).ToListAsync();
         }
+
+        public async Task<bool> CheckAddressNameExist(string addressName, Guid? userId)
+        {
+            if(userId is null) // add
+            {
+                var address = await _context.Addresses.Where(a => a.addressName == addressName).FirstOrDefaultAsync();
+                return address != null;
+            } else // update
+            {
+                var address = await _context.Addresses.Where(a => a.addressName == addressName && a.UserId != userId).FirstOrDefaultAsync();
+                return address != null;
+            }
+        }
     }
 }

@@ -43,6 +43,13 @@ namespace MoncatiCar.Data.Services
                     }
                 }
             }
+
+            // check addressName
+            var checkAddressName = await _repositoryManager.AddressRepository.CheckAddressNameExist(addressRequest.addressName, null);
+            if(checkAddressName)
+            {
+                throw new Exception("Address name already exists.");
+            }
             // Tao moi dia chi
             var createAddress = _mapper.Map<Address>(addressRequest);
             var model = new Address
@@ -149,12 +156,24 @@ namespace MoncatiCar.Data.Services
                     }
                 }
             }
+            
+            if(!string.IsNullOrEmpty(updateAddress.addressName) && existingAddress.addressName != updateAddress.addressName)
+            {
+                // check AddressName exist
+                var address = await _repositoryManager.AddressRepository.CheckAddressNameExist(updateAddress.addressName, userid);
+                if(address)
+                {
+                    throw new Exception("Address name already exists.");
+                }
+                existingAddress.addressName = updateAddress.addressName;
+            }
+
             // kiem tra neu nguoi dung update dia chi mac dinh thanh false thi khong cho phep cap nhat
             if (existingAddress.isDefault)
             {
                 throw new Exception("Cannot update the default address.");
             }
-            existingAddress.addressName = updateAddress.addressName;
+            
             existingAddress.locationType = updateAddress.locationType;
             existingAddress.address = updateAddress.address;
             existingAddress.province = updateAddress.province;
