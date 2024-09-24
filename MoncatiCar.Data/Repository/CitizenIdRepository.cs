@@ -41,10 +41,18 @@ namespace MoncatiCar.Data.Repository
             return query;
         }
 
-        public async Task<bool> HasIdNumberAsync(string idNumber)
+        public async Task<bool> HasIdNumberAsync(string idNumber, Guid? currentUserId)
         {
-            var citizenId = await _context.CitizenIds.FirstOrDefaultAsync(c => c.IdNumber == idNumber);
-            return citizenId != null;
+            if(currentUserId == null)
+            {
+                var citizenId = await _context.CitizenIds.FirstOrDefaultAsync(c => c.IdNumber == idNumber);
+                return citizenId != null;
+            } else
+            {
+                var citizenId = await _context.CitizenIds.Where(c => c.IdNumber == idNumber && c.UserId != currentUserId).FirstOrDefaultAsync();
+                return citizenId != null;
+            }
+            
         }
     }
 }
