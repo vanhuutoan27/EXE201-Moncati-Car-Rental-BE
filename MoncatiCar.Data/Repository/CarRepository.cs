@@ -20,7 +20,7 @@ namespace MoncatiCar.Data.Repository
         string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
         string location, string sortedBy, string order, int? minYear, int? maxYear,
-        int? minPrice, int? maxPrice)
+        int? minPrice, int? maxPrice, string rentalStatus)
         {
             search = search?.Trim();
             modelname = modelname?.Trim();
@@ -101,6 +101,13 @@ namespace MoncatiCar.Data.Repository
                     query = query.Where(c => c.FuelType == fuelTypeEnum);
                 }
 
+            }
+            if (!string.IsNullOrEmpty(rentalStatus))
+            {
+                if (Enum.TryParse(rentalStatus, true, out CarRentalStatus rentalStatusEnum))
+                {
+                    query = query.Where(c => c.RentalStatus == rentalStatusEnum );
+                }
             }
 
             // Filter by location

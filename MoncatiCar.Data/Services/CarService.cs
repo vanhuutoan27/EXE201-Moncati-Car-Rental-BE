@@ -311,11 +311,11 @@ namespace MoncatiCar.Data.Services
          string search, bool? status, string fuelType, int? seats,
         bool? electric, bool? discount, bool? instantBooking, string brandName, string modelName,
         string transmission, string location, string sortedBy, string order, int? minYear, int? maxYear,
-        int? minPrice, int? maxPrice)
+        int? minPrice, int? maxPrice , string rentalStatus)
         {
             // Gọi repository để lấy danh sách xe và tổng số mục
             var paginatedCars = await _repositoryManager.CarRepository.GetAllCarAsync(page, limit, search, status, modelName,
-             brandName, transmission, fuelType, seats, electric, discount, instantBooking, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice);
+             brandName, transmission, fuelType, seats, electric, discount, instantBooking, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice , rentalStatus);
 
             // Khai báo biến carResponse trước vòng lặp foreach
             var carResponse = new List<CarResponse>();

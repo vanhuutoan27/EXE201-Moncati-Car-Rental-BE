@@ -13,6 +13,6 @@ namespace MocatiCar.Core.Repository
     {
         Task<DrivingLicense> GetDrivingLicenseUserId(Guid userId);
         Task<DrivingLicense> CheckLisenceNumber(string lisenceNumber);
-        Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit);
+        Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit , string search);
     }
 }

@@ -21,9 +21,13 @@ namespace MoncatiCar.Data.Repository
             return await _context.DrivingLicenses.Where(s => s.LicenseNumber == lisenceNumber).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit)
+        public async Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit , string search )
         {
+            search = search?.Trim();
           IQueryable<DrivingLicense> query = _context.DrivingLicenses.AsQueryable();
+          if(!string.IsNullOrEmpty(search)){
+            query = query.Where(dr => dr.LicenseNumber.ToLower().Contains(search));
+          }
              if(page > 0 && limit > 0){
                 query = query.Skip((page -1 )* limit).Take(limit);
              }
