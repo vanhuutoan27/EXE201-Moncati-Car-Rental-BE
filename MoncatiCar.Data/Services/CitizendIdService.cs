@@ -70,7 +70,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<CitizenIdResponse>> GetAllCitizenAsync(int page, int limit, string? citizendId, bool? verify, string? search)
         {
-            var paginatedCitizends = await _repositoryManager.CitizendIdRepository.GetAllCitizendIdAsync(page, limit, citizendId, verify, search);
+            var paginatedCitizends = await _repositoryManager.CitizendIdRepository.GetAllCitizenIdAsync(page, limit, citizendId, verify, search);
             var citizendRespone = paginatedCitizends.Items.Select(x => new CitizenIdResponse
             {
                 CitizenId = x.Citizen_Id,

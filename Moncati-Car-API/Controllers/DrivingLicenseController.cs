@@ -19,9 +19,9 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
          [HttpGet]
-        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10)
+        public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10 , string search = null)
         {
-            var listdrivinglicense = await _serviceManager.DrivingLicenseService.GetAllCitizenAsync(page, limit);
+            var listdrivinglicense = await _serviceManager.DrivingLicenseService.GetAllCitizenAsync(page, limit , search);
             if (listdrivinglicense == null)
             {
                 _resultModel = new ResultModel
