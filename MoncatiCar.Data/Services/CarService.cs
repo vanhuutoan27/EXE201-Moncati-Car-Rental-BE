@@ -382,7 +382,7 @@ namespace MoncatiCar.Data.Services
         {
             var car = await _repositoryManager.CarRepository.GetCarByCarId(id);
             int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
-            int totalReview = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
             double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
             var carResponse = new CarResponse()
             {
@@ -432,7 +432,7 @@ namespace MoncatiCar.Data.Services
         {
             var car = await _repositoryManager.CarRepository.GetCarBySlug(slug);
             int totalRental = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
-            int totalReview = await _repositoryManager.RentalRepository.CountAsync(car.CarId);
+            int totalReview = await _repositoryManager.ReviewRepository.CountAsync(car.CarId);
             double avarageRating = await _repositoryManager.ReviewRepository.GetAverageRatingByCarId(car.CarId);
             if (car == null)
             {
@@ -457,9 +457,9 @@ namespace MoncatiCar.Data.Services
                 CommissionAmount = car.PricePerDay * 15 / 100,
                 discount = (float)car.discount,
                 Images = car.Images?.OrderBy(img => img.ImageId).Select(img => img.Url).ToList() ?? new List<string>(),
-                //Features = car.CarFeatures != null
+                // Features = car.CarFeatures != null
                 //  ? car.CarFeatures.Select(cf => cf.Feature.FeatureName).ToList() // Null check added here
-                //         : new List<string>(),
+                //   : new List<string>(),
                 RentalStatus = car.RentalStatus,
                 Status = car.Status,
                 CreatedAt = DateTime.Now,

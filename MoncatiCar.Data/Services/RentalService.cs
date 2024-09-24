@@ -129,8 +129,8 @@ namespace MoncatiCar.Data.Services
                 {"{driveProvideDay}", null },
 
             };
-            string templateFilePath = "C:/Users/saoph/Downloads/ContactForRental.docx";
-            string tempFilePath = Path.Combine("C:/Users/saoph/Downloads/", $"{create.RentalId}.docx");
+            string templateFilePath = "C:/Users/Admin/Desktop/Moncati/Moncati-Contract-Rental.docx";
+            string tempFilePath = Path.Combine("C:/Users/Admin/Desktop/Moncati/", $"{create.RentalId}.docx");
             System.IO.File.Copy(templateFilePath, tempFilePath, true);
 
             _contactService.InsertDataInFile(tempFilePath, replacements);
@@ -138,16 +138,8 @@ namespace MoncatiCar.Data.Services
             var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
             //System.IO.File.Delete(tempFilePath);
 
-
-
-
-
-
-
             await _repositoryManager.SaveAsync();
             //var result = _mapper.Map<CreateRentalRequest>(create);
-
-
 
             return new CreateRentalResponse
             {
