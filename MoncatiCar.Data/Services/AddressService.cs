@@ -45,10 +45,10 @@ namespace MoncatiCar.Data.Services
             }
 
             // check addressName
-            var checkAddressName = await _repositoryManager.AddressRepository.CheckAddressNameExist(addressRequest.addressName, null);
-            if(checkAddressName)
+            var addressNameExist = existingAddresses.Any(a => a.addressName.Equals(addressRequest.addressName, StringComparison.OrdinalIgnoreCase));
+            if(addressNameExist)
             {
-                throw new Exception("Address name already exists.");
+                throw new Exception("You already have an address with this name.");
             }
             // Tao moi dia chi
             var createAddress = _mapper.Map<Address>(addressRequest);
@@ -160,8 +160,8 @@ namespace MoncatiCar.Data.Services
             if(!string.IsNullOrEmpty(updateAddress.addressName) && existingAddress.addressName != updateAddress.addressName)
             {
                 // check AddressName exist
-                var address = await _repositoryManager.AddressRepository.CheckAddressNameExist(updateAddress.addressName, userid);
-                if(address)
+                var addressNameExist = existingAddresses.Any(n => n.addressName.Equals(updateAddress.addressName, StringComparison.OrdinalIgnoreCase));
+                if(addressNameExist)
                 {
                     throw new Exception("Address name already exists.");
                 }
