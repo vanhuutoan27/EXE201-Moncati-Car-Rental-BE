@@ -152,7 +152,9 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Citizen ID not found.");
             }
-            
+            if(query.Verified == true){
+                query.Verified = false;
+            }
             query.Address = request.Address;
             query.FullName = request.FullName;
             query.Dob = request.Dob;
