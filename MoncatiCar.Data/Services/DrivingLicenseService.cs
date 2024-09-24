@@ -38,7 +38,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // check license duplicate
-            var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
+            var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber, null);
             if (existingLicense != null)
             {
                 throw new Exception("License number already exists.");
@@ -133,20 +133,22 @@ namespace MoncatiCar.Data.Services
 
             var createLicense = _mapper.Map<DrivingLicense>(drivingLicenseRequest);
 
-            // check length of LicenseNumber
-            if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
+            if (!string.IsNullOrEmpty(drivingLicenseRequest.LicenseNumber) && drivingLicenseRequest.LicenseNumber != updateLicense.LicenseNumber)
             {
-                throw new Exception("Invalid license number. It must be 12 digits.");
-            }
-
-            // check license duplicate
-            var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber);
-            if (existingLicense != null)
-            {
-                throw new Exception("License number already exists.");
-            }
-
-            updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
+                // check length of LicenseNumber
+                if (drivingLicenseRequest.LicenseNumber.Length != 12 || !drivingLicenseRequest.LicenseNumber.All(char.IsDigit))
+                {
+                    throw new Exception("Invalid license number. It must be 12 digits.");
+                }
+                // check license duplicate
+                var existingLicense = await _repositoryManager.DrivingLicenseRepository.CheckLisenceNumber(drivingLicenseRequest.LicenseNumber, lisenceId);
+                if (existingLicense != null)
+                {
+                    throw new Exception("License number already exists.");
+                }
+                updateLicense.LicenseNumber = drivingLicenseRequest.LicenseNumber;
+            }            
+            
             updateLicense.IssueDate = drivingLicenseRequest.IssueDate;
             updateLicense.ExpiryDate = drivingLicenseRequest.ExpiryDate;
             updateLicense.UpdatedAt = DateTime.Now;

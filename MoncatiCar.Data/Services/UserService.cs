@@ -341,5 +341,10 @@ namespace MoncatiCar.Data.Services
             await _repositoryManager.SaveAsync();
             return true;
         }
+
+        public async Task<AppUser> GetUserByEmail(string email)
+        {
+           return await _repositoryManager.UserRepository.GetUserByEmail(email);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace MocatiCar.Core.Repository
     public interface IDrivingLicenseRepository : IRepositoryBase<DrivingLicense, Guid>
     {
         Task<DrivingLicense> GetDrivingLicenseUserId(Guid userId);
-        Task<DrivingLicense> CheckLisenceNumber(string lisenceNumber);
+        Task<DrivingLicense> CheckLisenceNumber(string lisenceNumber, Guid? currentId);
         Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit);
     }
 }

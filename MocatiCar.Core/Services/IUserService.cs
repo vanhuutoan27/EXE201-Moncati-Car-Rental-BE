@@ -1,4 +1,5 @@
-﻿using MocatiCar.Core.Models.content.Requests;
+﻿using MocatiCar.Core.Domain.Identity;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 
 namespace MocatiCar.Core.Services
@@ -21,6 +22,7 @@ namespace MocatiCar.Core.Services
         Task<bool> ChangeAvatar(Guid userId, ChangeAvatarRequest request);
         Task<bool> CheckPhoneNumerAsync(string phoneNumber);
         Task<bool> UpdateUserRoleCustomer(Guid userId, UpdateUserRoleCustomerRequest updateCustomer);
+        Task<AppUser>GetUserByEmail(string email);
 
     }
 }

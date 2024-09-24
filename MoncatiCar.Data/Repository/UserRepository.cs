@@ -97,5 +97,10 @@ namespace MoncatiCar.Data.Repository
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
+
+        public async Task<AppUser> GetUserByEmail(string email)
+        {
+           return await _context.Users.Include(dr => dr.DrivingLicenses).Include(ci => ci.CitizenId).FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

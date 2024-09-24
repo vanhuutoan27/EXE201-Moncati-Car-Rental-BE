@@ -24,7 +24,7 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("ID number must contain at least 12 digits.");
             }
-            bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber);
+            bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber, null);
             if (checkExisedIdNumber)
             {
                 throw new Exception("ID number already exists.");
@@ -138,19 +138,25 @@ namespace MoncatiCar.Data.Services
         public async Task<bool> UpdateCitizenIdAsync(UpdateCitizenIdRequest request, Guid id)
         {
             var query = await _repositoryManager.CitizendIdRepository.GetbyId(id);
-            if (!HasAtleast12Digits(request.IdNumber))
+            if (!string.IsNullOrEmpty(request.IdNumber) && request.IdNumber != query.IdNumber)
             {
-                throw new Exception("ID number must contain at least 12 digits.");
-            }
-            bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber);
-            if (checkExisedIdNumber)
-            {
-                throw new Exception("ID number already exists.");
+                if (!HasAtleast12Digits(request.IdNumber))
+                {
+                    throw new Exception("ID number must contain at least 12 digits.");
+                }
+                bool checkExisedIdNumber = await _repositoryManager.CitizendIdRepository.HasIdNumberAsync(request.IdNumber, id);
+                if (checkExisedIdNumber)
+                {
+                    throw new Exception("ID number already exists.");
 
+                }
             }
             if (query == null)
             {
                 throw new Exception("Citizen ID not found.");
+            }
+            if(query.Verified == true){
+                query.Verified = false;
             }
             query.Address = request.Address;
             query.FullName = request.FullName;
