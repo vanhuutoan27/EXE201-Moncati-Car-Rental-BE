@@ -137,10 +137,10 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpGet]
-        [Route("owner/{userId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByOnwerId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
+        [Route("owner/{ownerId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetRentalByOnwerId(Guid ownerId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
         {
-            var rentals = await _serviceManager.RentalService.getRentalByOwnerId(userId, page, limit, status, start, end);
+            var rentals = await _serviceManager.RentalService.getRentalByOwnerId(ownerId, page, limit, status, start, end);
 
 
             _resultModel = new ResultModel
