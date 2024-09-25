@@ -28,15 +28,23 @@ namespace MoncatiCar.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit)
+        public async Task<IEnumerable<DrivingLicense>> GetAlldrvingLicenseAsync(int page, int limit , string search , bool? verify )
         {
-            IQueryable<DrivingLicense> query = _context.DrivingLicenses.AsQueryable();
-            if (page > 0 && limit > 0)
-            {
-                query = query.Skip((page - 1) * limit).Take(limit);
-            }
-            return await query.ToListAsync();
+          search = search?.Trim();
+          IQueryable<DrivingLicense> query = _context.DrivingLicenses.AsQueryable();
+          if(verify.HasValue){
+            query = query.Where(dr => dr.Verified == verify);
+          }
+          if(!string.IsNullOrEmpty(search)){
+            query = query.Where(dr => dr.LicenseNumber.ToLower().Contains(search));
+          }
+             if(page > 0 && limit > 0){
+                query = query.Skip((page -1 )* limit).Take(limit);
+             }
+             return await query.ToListAsync();
         }
+
+       
 
         public async Task<DrivingLicense> GetDrivingLicenseUserId(Guid userId)
         {

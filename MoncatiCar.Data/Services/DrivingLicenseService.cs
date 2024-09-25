@@ -74,9 +74,9 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<PageResult<DrivingLicenseRespone>> GetAllCitizenAsync(int page, int limit)
+        public async Task<PageResult<DrivingLicenseRespone>> GetAllCitizenAsync(int page, int limit , string search , bool? verify)
         {
-            var listdrivinglicense = await _repositoryManager.DrivingLicenseRepository.GetAlldrvingLicenseAsync(page, limit);
+            var listdrivinglicense = await _repositoryManager.DrivingLicenseRepository.GetAlldrvingLicenseAsync(page, limit ,search , verify);
             var totalItems = listdrivinglicense.Count();
             var drivinglisenceRespone = listdrivinglicense.Select(x => new DrivingLicenseRespone
             {
@@ -165,11 +165,14 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Driving license not found.");
             }
-            if (existingDrivingLisence.Verified == true)
+            if (existingDrivingLisence.Verified == false)
             {
-                throw new Exception("Driving license is already verified.");
+               existingDrivingLisence.Verified = true;
+            }else{
+                existingDrivingLisence.Verified = false;
             }
-            existingDrivingLisence.Verified = true;
+
+           
             await _repositoryManager.SaveAsync();
             return true;
         }

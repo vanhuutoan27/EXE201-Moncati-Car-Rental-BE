@@ -12,21 +12,39 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<PaginatedResult<CitizenId>> GetAllCitizendIdAsync(int page, int limit, string? citizendId, bool? verify, string? search)
+        public async Task<PaginatedResult<CitizenId>> GetAllCitizenIdAsync(int page, int limit,  bool? verify, string? search)
         {
             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
-            int totalItems = query.Count();
+
+            search = search?.Trim();
+            if(verify.HasValue){
+                query = query.Where( c => c.Verified == verify.Value);
+            }
+            // Kiểm tra xem có từ khóa tìm kiếm hay không
+            if (!string.IsNullOrEmpty(search))
+            {
+                // Tìm kiếm tương đối cả IdNumber và FullName
+                query = query.Where(c =>
+                    c.IdNumber.ToLower().Contains(search.ToLower()) ||  // Kiểm tra IdNumber
+                    c.FullName.ToLower().Contains(search.ToLower()));   // Kiểm tra FullName
+            }
+
+            // Đếm tổng số kết quả trước khi phân trang
+            int totalItems = await query.CountAsync();
+
+            // Thực hiện phân trang
             if (page > 0 && limit > 0)
             {
                 query = query.Skip((page - 1) * limit).Take(limit);
             }
+
+            // Trả về kết quả phân trang
             return new PaginatedResult<CitizenId>
             {
                 Items = await query.ToListAsync(),
                 TotalCount = totalItems
             };
         }
-
 
 
         public async Task<CitizenId> GetbyId(Guid citizenId)
@@ -43,16 +61,17 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<bool> HasIdNumberAsync(string idNumber, Guid? currentUserId)
         {
-            if(currentUserId == null)
+            if (currentUserId == null)
             {
                 var citizenId = await _context.CitizenIds.FirstOrDefaultAsync(c => c.IdNumber == idNumber);
                 return citizenId != null;
-            } else
+            }
+            else
             {
                 var citizenId = await _context.CitizenIds.Where(c => c.IdNumber == idNumber && c.UserId != currentUserId).FirstOrDefaultAsync();
                 return citizenId != null;
             }
-            
+
         }
     }
 }

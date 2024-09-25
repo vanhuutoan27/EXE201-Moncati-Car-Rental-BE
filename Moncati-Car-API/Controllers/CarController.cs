@@ -30,11 +30,11 @@ namespace Moncati_Car_API.Controllers
         discount = null, bool? instantBooking = null,
         string location = null, int? minPrice = null, int?
         maxPrice = null, string sortedBy = null,
-        string order = null)
+        string order = null, string rentalStatus = null)
         {
             var cars = await _serviceManager.CarService.GetAllCars(page, limit, search, status, fuel, seats,
              electric, discount, instantBooking, brand, model,
-             transmission, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice);
+             transmission, location, sortedBy, order, minYear, maxYear, minPrice, maxPrice, rentalStatus);
             if (cars == null)
             {
                 _resultModel = new ResultModel

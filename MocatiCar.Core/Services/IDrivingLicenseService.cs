@@ -7,7 +7,7 @@ namespace MocatiCar.Core.Services
     {
         Task<DrivingLicenseRespone> GetDrivingLicenseById(Guid licenseId);
         Task<DrivingLicenseRespone> GetDrivingLicenseUserId(Guid userId);
-        Task<PageResult<DrivingLicenseRespone>>GetAllCitizenAsync(int page, int limit);
+        Task<PageResult<DrivingLicenseRespone>> GetAllCitizenAsync(int page, int limit, string search , bool? verify);
         Task<CreateDrivingLicenseRequest> AddDrivingLicense(CreateDrivingLicenseRequest drivingLicenseRequest);
         Task<bool> UpdateDrivingLicense(Guid userId, UpdateDrivingLicenseRequest drivingLicenseRequest);
         Task<bool> DeleteDrivingLisence(Guid lisenceId);

@@ -1,6 +1,7 @@
 ﻿using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.SeedWorks.Enums;
 
 namespace MocatiCar.Core.Repository
 {
@@ -12,7 +13,7 @@ namespace MocatiCar.Core.Repository
         string transmission, string fuel, int? seats,
         bool? electric, bool? discount, bool? instantBooking,
         string location, string sortedBy, string order, int? minYear, int? maxYear,
-        int? minPrice, int? maxPrice);
+        int? minPrice, int? maxPrice, string rentalStatus);
         Task<Car> GetCarByCarId(Guid id);
         Task<Car> GetCarBySlug(string slug);
         void UpdateCar(Guid id, Car car);
