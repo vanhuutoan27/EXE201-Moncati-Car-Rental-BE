@@ -49,6 +49,9 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Rental, CreateRentalRequest>().ReverseMap();
             CreateMap<Car, CarResponse>().ReverseMap();
 
+           // CreateMap<Rental,>
+
+
             CreateMap<CitizenId, CitizenIdResponse>().ReverseMap();
 
             CreateMap<Rental ,CreateRentalRequest>().ReverseMap();
