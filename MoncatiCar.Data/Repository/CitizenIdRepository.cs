@@ -12,7 +12,7 @@ namespace MoncatiCar.Data.Repository
         {
         }
 
-        public async Task<PaginatedResult<CitizenId>> GetAllCitizenIdAsync(int page, int limit, string? citizendId, bool? verify, string? search)
+        public async Task<PaginatedResult<CitizenId>> GetAllCitizenIdAsync(int page, int limit,  bool? verify, string? search)
         {
             IQueryable<CitizenId> query = _context.CitizenIds.AsQueryable();
 
