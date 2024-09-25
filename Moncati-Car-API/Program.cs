@@ -31,6 +31,7 @@ builder.Services.ConfigureJwtSetting(configuration);
 builder.Services.ConfigureTokenAndManagerIdentity();
 builder.Services.AddTransient<ICarService, CarService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<IFireBaseService, FireBaseService>();
 builder.Services.AddCustomJwtAuthentication(configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
