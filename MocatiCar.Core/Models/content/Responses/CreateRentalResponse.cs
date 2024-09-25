@@ -2,7 +2,7 @@
 {
     public class CreateRentalResponse
     {
-        public byte[] FileReturn { get; set; }
+        public string FileReturn { get; set; }
         public Guid rentalId { get; set; }
     }
 }

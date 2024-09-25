@@ -15,13 +15,13 @@ namespace MoncatiCar.Data.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IContactService _contactService;
-        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService)
+        private readonly IFireBaseService _firebaseService;
+        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IFireBaseService fireBaseService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
             _userManager = userManager;
-            _contactService = contactService;
+            _firebaseService = fireBaseService;
         }
 
         public async Task<bool> ChangeRentalStatusAsync(Guid id)
@@ -116,28 +116,42 @@ namespace MoncatiCar.Data.Services
             var replacements = new Dictionary<string, string>
             {
                 {"{ownerName}", owner.FullName },
-                {"{ownerIdnumber}", null },
+                {"{ownerGender}", owner.Gender  },
+                {"{ownerIdNumber}", null },
+                {"{ownerCitizenIssue}", null },
                 {"{ownerAddress}", null },
-                {"{ownerPhoneNumber}", owner.PhoneNumber },
-                {"{customerName}",  customer.FullName},
+                {"{ownerPhoneNumber}",  null},
+                {"{customerName}", null },
+                {"{customerGender}", null },
                 {"{customerAddress}", null },
-                {"{customerIdnumber}", null },
-                {"{customerPhoneNumber}", customer.PhoneNumber },
-                {"{citizenProvideDay}", null },
-                {"{citzenProvideDay}", null },
-                {"{driveLicense}", null },
-                {"{driveProvideDay}", null },
+                {"{customerPhoneNumber}", null },
+                {"{customerIdNumber}", null },
+                {"{customerCitizenIssue}", null },
+                {"{customerLicenseId}", null },
+                {"{customerLicenseIssue}", null },
 
             };
-            string templateFilePath = "F:/GitSource/ContactForRental.docx";
-            string tempFilePath = Path.Combine("F:/GitSource/", $"{create.RentalId}.docx");
-            System.IO.File.Copy(templateFilePath, tempFilePath, true);
 
-            _contactService.InsertDataInFile(tempFilePath, replacements);
+            //fire base 
+            string fileName = "MONCATI-CAR-RENTAL-CONTRACT.docx";
+            // Step 1: Download the DOCX template from Firebase
+            var memory = await _firebaseService.DownloadDocxTemplateFromFirebase(fileName);
 
-            var pdfBytes = _contactService.ConverDocxToPdf(tempFilePath);
-            //System.IO.File.Delete(tempFilePath);
+            // Step 2: Add user info to the DOCX (ensure changes are applied)
+            _firebaseService.AddUserInfoToDocx(memory, replacements);
 
+            // Step 3: Reset the memory stream position before conversion
+            memory.Seek(0, SeekOrigin.Begin); // Ensure we're at the start of the modified DOCX
+            using (FileStream fs = new FileStream("ModifiedContract.docx", FileMode.Create, FileAccess.Write))
+            {
+                memory.CopyTo(fs);
+            }
+            // Step 4: Convert the modified DOCX to PDF
+            var pdfStream = _firebaseService.ConvertDocxToPdf(memory);
+
+            // Step 5: Upload the converted PDF to Firebase
+            string fileNameUpload = $"{create.RentalId}.pdf";
+            string uploadPdfUrl = await _firebaseService.UploadPdfToFirebase(pdfStream, fileNameUpload);
 
 
 
@@ -151,7 +165,7 @@ namespace MoncatiCar.Data.Services
 
             return new CreateRentalResponse
             {
-                FileReturn = pdfBytes,
+                FileReturn = uploadPdfUrl,
                 rentalId = create.RentalId
             };
         }
