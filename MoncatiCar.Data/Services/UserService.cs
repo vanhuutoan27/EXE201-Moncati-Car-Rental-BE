@@ -344,7 +344,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<AppUser> GetUserByEmail(string email)
         {
-           return await _repositoryManager.UserRepository.GetUserByEmail(email);
+            return await _repositoryManager.UserRepository.GetUserByEmail(email);
         }
     }
 }

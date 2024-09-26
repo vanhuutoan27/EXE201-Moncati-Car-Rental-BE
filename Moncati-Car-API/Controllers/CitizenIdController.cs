@@ -22,7 +22,7 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetAll(int page = 1, int limit = 10, bool? verify = null, string search = null)
         {
             var listCitizend = await _serviceManager.CitizenIdService.GetAllCitizenAsync(page, limit, verify, search);
-            if (listCitizend == null )
+            if (listCitizend == null)
             {
                 _resultModel = new ResultModel
                 {

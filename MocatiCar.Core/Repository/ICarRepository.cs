@@ -1,7 +1,6 @@
 ﻿using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
-using MocatiCar.Core.SeedWorks.Enums;
 
 namespace MocatiCar.Core.Repository
 {

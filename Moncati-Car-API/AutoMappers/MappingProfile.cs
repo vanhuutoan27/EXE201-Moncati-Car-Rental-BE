@@ -51,16 +51,16 @@ namespace Moncati_Car_API.AutoMappers
 
             CreateMap<CitizenId, CitizenIdResponse>().ReverseMap();
 
-            CreateMap<Rental ,CreateRentalRequest>().ReverseMap();
-            CreateMap<Car , CarResponse>().ReverseMap();
-            CreateMap<FavoriteCar , CreateFavoriteCarRequest>().ReverseMap();
+            CreateMap<Rental, CreateRentalRequest>().ReverseMap();
+            CreateMap<Car, CarResponse>().ReverseMap();
+            CreateMap<FavoriteCar, CreateFavoriteCarRequest>().ReverseMap();
             CreateMap<DrivingLicense, CreateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, UpdateDrivingLicenseRequest>().ReverseMap();
             CreateMap<DrivingLicense, DrivingLicenseRespone>().ReverseMap();
-          CreateMap<CitizenId, CitizenIdResponse>()
-    .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.Citizen_Id))
-    .ReverseMap();
-
+            CreateMap<CitizenId, CitizenIdResponse>()
+      .ForMember(dest => dest.CitizenId, opt => opt.MapFrom(src => src.Citizen_Id))
+      .ReverseMap();
+            CreateMap<Contract, ContractResponse>().ReverseMap();
         }
     }
 }
