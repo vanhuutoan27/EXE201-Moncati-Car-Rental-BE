@@ -91,7 +91,6 @@ namespace MoncatiCar.Data.Services
 
         public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
         {
-
             var create = new Rental()
             {
                 CarId = rentalRequest.CarId,
@@ -149,7 +148,6 @@ namespace MoncatiCar.Data.Services
 };
 
 
-
             //fire base 
             string fileName = "MONCATI-CAR-RENTAL-CONTRACT.docx";
             // Step 1: Download the DOCX template from Firebase
@@ -180,14 +178,9 @@ namespace MoncatiCar.Data.Services
             };
             await contactService.CreateContract(contractRequest);
 
-
-
-
             await _repositoryManager.SaveAsync();
             var result = _mapper.Map<CreateRentalRequest>(create);
             return result;
-
-
         }
 
         public async Task<bool> DeleteRental(Guid id)

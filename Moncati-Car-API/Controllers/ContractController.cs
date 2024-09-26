@@ -14,18 +14,6 @@ namespace Moncati_Car_API.Controllers
         {
             _serviceManager = serviceManager;
         }
-        [HttpGet("{rentalId}")]
-        public async Task<ActionResult<ResultModel>> GetContractByRentalId(Guid rentalId)
-        {
-            var result = await _serviceManager.ContactService.GetContractByRentalId(rentalId);
-            return new ResultModel()
-            {
-                Status = 200,
-                Data = result,
-                Message = "Contract retrieved successfully.",
-                Success = true
-            };
-        }
 
         [HttpGet]
         public async Task<ActionResult<ResultModel>> GetAllContracts(int page = 1, int limit = 10, Guid? rentalId = null)
@@ -36,6 +24,19 @@ namespace Moncati_Car_API.Controllers
                 Status = 200,
                 Data = result,
                 Message = "Contracts retrieved successfully.",
+                Success = true
+            };
+        }
+
+        [HttpGet("rental/{rentalId}")]
+        public async Task<ActionResult<ResultModel>> GetContractByRentalId(Guid rentalId)
+        {
+            var result = await _serviceManager.ContactService.GetContractByRentalId(rentalId);
+            return new ResultModel()
+            {
+                Status = 200,
+                Data = result,
+                Message = "Contract retrieved successfully.",
                 Success = true
             };
         }
