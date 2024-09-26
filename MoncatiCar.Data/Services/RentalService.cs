@@ -89,7 +89,7 @@ namespace MoncatiCar.Data.Services
 
         }
 
-        public async Task<CreateRentalResponse> CreateRental(CreateRentalRequest rentalRequest)
+        public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
         {
 
             var create = new Rental()
@@ -102,9 +102,11 @@ namespace MoncatiCar.Data.Services
                 PickupLocation = rentalRequest.PickupLocation,
                 ReturnLocation = rentalRequest.ReturnLocation,
                 Note = rentalRequest.Note,
-                RentalAmount = rentalRequest.RentalAmount,
-                InsuranceAmount = rentalRequest.InsuranceAmount,
-                DepositAmount = rentalRequest.DepositAmount,
+                // RentalAmount = rentalRequest.RentalAmount,
+                // InsuranceAmount = rentalRequest.InsuranceAmount,
+                // DepositAmount = rentalRequest.DepositAmount,
+                BasePricePerDay = rentalRequest.BasePricePerDay,
+                TotalDaysRented = rentalRequest.TotalDaysRented,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
@@ -175,7 +177,8 @@ namespace MoncatiCar.Data.Services
 
 
             await _repositoryManager.SaveAsync();
-            //var result = _mapper.Map<CreateRentalRequest>(create);
+            var result = _mapper.Map<CreateRentalRequest>(create);
+            return result;
 
             return new CreateRentalResponse
             {
@@ -201,34 +204,40 @@ namespace MoncatiCar.Data.Services
             var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter, startDate, endDate);
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
 
-            var rentalResponses = listrental.Select(x => new RentalRespone
+            var rentalResponses = listrental.Select(rental => new RentalRespone
             {
-                RentalId = x.RentalId,
-                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
-                CarPlate = x.Car?.licensePlate,
-                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
-                OwnerName = x.Owner?.FullName,
-                OnwerPhone = x.Owner?.PhoneNumber,
-                CustomerName = x.Customer?.FullName,
-                CustomerPhone = x.Customer?.PhoneNumber,
-                CarId = x.Car?.CarId,
-                CommissionAmount = x.CommissionAmount,
-                CreatedAt = x.CreatedAt ?? DateTime.Now,
-                CreatedBy = x.CreatedBy,
-                CustomerId = x.Customer?.Id,
-                DepositAmount = x.DepositAmount,
-                EndDateTime = x.EndDateTime,
-                StartDateTime = x.StartDateTime,
-                InsuranceAmount = x.InsuranceAmount,
-                Note = x.Note,
-                OwnerId = x.Owner?.Id,
-                PickupLocation = x.PickupLocation,
-                RentalAmount = x.RentalAmount,
-                RentalStatus = x.RentalStatus,
-                ReturnLocation = x.ReturnLocation,
-                RemainAmount = x.RemainAmount,
-                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
-                UpdatedBy = x.UpdatedBy,
+                RentalId = rental.RentalId,
+                CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",
+                CarPlate = rental.Car?.licensePlate,
+                CarImage = rental.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = rental.Owner?.FullName,
+                OnwerPhone = rental.Owner?.PhoneNumber,
+                CustomerName = rental.Customer?.FullName,
+                CustomerPhone = rental.Customer?.PhoneNumber,
+                CarId = rental.Car?.CarId,
+                CreatedAt = rental.CreatedAt ?? DateTime.Now,
+                CreatedBy = rental.CreatedBy,
+                CustomerId = rental.Customer?.Id,
+                EndDateTime = rental.EndDateTime,
+                StartDateTime = rental.StartDateTime,
+                Note = rental.Note,
+                OwnerId = rental.Owner?.Id,
+                PickupLocation = rental.PickupLocation,
+                RentalStatus = rental.RentalStatus,
+                ReturnLocation = rental.ReturnLocation,
+                UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = rental.UpdatedBy,
+                BasePricePerDay = rental.BasePricePerDay,
+                CommissionPercentage = 15,
+                CommissionAmount = rental.BasePricePerDay * 15 / 100,
+                TotalPricePerDay = rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100,
+                DepositPercentage = 20,
+                DepositAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20,
+                TotalDaysRented = rental.TotalDaysRented,
+                TotalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented,
+                InsuranceFee = 60000,
+                FinalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000,
+                RemainingDepositAmount = ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20) - ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000)
 
             });
 
@@ -250,34 +259,40 @@ namespace MoncatiCar.Data.Services
             {
                 return null;
             }
-            var rentalrespone = carId.Select(x => new RentalResponseForGetById
+            var rentalrespone = carId.Select(rental => new RentalResponseForGetById
             {
-                RentalId = x.RentalId,
-                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
-                CarPlate = x.Car?.licensePlate,
-                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
-                OwnerName = x.Owner?.FullName,
-                OnwerPhone = x.Owner?.PhoneNumber,
-                CustomerName = x.Customer?.FullName,
-                CustomerPhone = x.Customer?.PhoneNumber,
-                CarId = x.Car?.CarId,
-                CommissionAmount = x.CommissionAmount,
-                CreatedAt = x.CreatedAt ?? DateTime.Now,
-                CreatedBy = x.CreatedBy,
-                CustomerId = x.Customer?.Id,
-                DepositAmount = x.DepositAmount,
-                EndDateTime = x.EndDateTime,
-                StartDateTime = x.StartDateTime,
-                InsuranceAmount = x.InsuranceAmount,
-                Note = x.Note,
-                OwnerId = x.Owner?.Id,
-                PickupLocation = x.PickupLocation,
-                RentalAmount = x.RentalAmount,
-                RentalStatus = x.RentalStatus,
-                ReturnLocation = x.ReturnLocation,
-                RemainAmount = x.RemainAmount,
-                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
-                UpdatedBy = x.UpdatedBy,
+                RentalId = rental.RentalId,
+                CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",
+                CarPlate = rental.Car?.licensePlate,
+                CarImage = rental.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = rental.Owner?.FullName,
+                OnwerPhone = rental.Owner?.PhoneNumber,
+                CustomerName = rental.Customer?.FullName,
+                CustomerPhone = rental.Customer?.PhoneNumber,
+                CarId = rental.Car?.CarId,
+                CreatedAt = rental.CreatedAt ?? DateTime.Now,
+                CreatedBy = rental.CreatedBy,
+                CustomerId = rental.Customer?.Id,
+                EndDateTime = rental.EndDateTime,
+                StartDateTime = rental.StartDateTime,
+                Note = rental.Note,
+                OwnerId = rental.Owner?.Id,
+                PickupLocation = rental.PickupLocation,
+                RentalStatus = rental.RentalStatus,
+                ReturnLocation = rental.ReturnLocation,
+                UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = rental.UpdatedBy,
+                BasePricePerDay = rental.BasePricePerDay,
+                CommissionPercentage = 15,
+                CommissionAmount = rental.BasePricePerDay * 15 / 100,
+                TotalPricePerDay = rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100,
+                DepositPercentage = 20,
+                DepositAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20,
+                TotalDaysRented = rental.TotalDaysRented,
+                TotalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented,
+                InsuranceFee = 60000,
+                FinalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000,
+                RemainingDepositAmount = ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20) - ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000)
             });
             return new PageResult<RentalResponseForGetById>
             {
@@ -308,25 +323,31 @@ namespace MoncatiCar.Data.Services
                 CustomerName = rental.Customer?.FullName,
                 CustomerPhone = rental.Customer?.PhoneNumber,
                 CarId = rental.Car?.CarId,
-                CommissionAmount = rental.CommissionAmount,
                 CreatedAt = rental.CreatedAt ?? DateTime.Now,
                 CreatedBy = rental.CreatedBy,
                 CustomerId = rental.Customer?.Id,
-                DepositAmount = rental.DepositAmount,
                 EndDateTime = rental.EndDateTime,
                 StartDateTime = rental.StartDateTime,
-                InsuranceAmount = rental.InsuranceAmount,
                 Note = rental.Note,
                 OwnerId = rental.Owner?.Id,
                 PickupLocation = rental.PickupLocation,
-                RentalAmount = rental.RentalAmount,
                 RentalStatus = rental.RentalStatus,
                 ReturnLocation = rental.ReturnLocation,
-                RemainAmount = rental.RemainAmount,
                 UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
                 UpdatedBy = rental.UpdatedBy,
-
+                BasePricePerDay = rental.BasePricePerDay,
+                CommissionPercentage = 15,
+                CommissionAmount = rental.BasePricePerDay * 15 / 100,
+                TotalPricePerDay = rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100,
+                DepositPercentage = 20,
+                DepositAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20,
+                TotalDaysRented = rental.TotalDaysRented,
+                TotalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented,
+                InsuranceFee = 60000,
+                FinalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000,
+                RemainingDepositAmount = ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20) - ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000)
             };
+
             return rentalResponse;
         }
 
@@ -339,34 +360,40 @@ namespace MoncatiCar.Data.Services
                 return null;
             }
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
-            var rentalrespone = users.Select(x => new RentalResponseForGetById
+            var rentalrespone = users.Select(rental => new RentalResponseForGetById
             {
-                RentalId = x.RentalId,
-                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
-                CarPlate = x.Car?.licensePlate,
-                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
-                OwnerName = x.Owner?.FullName,
-                OnwerPhone = x.Owner?.PhoneNumber,
-                CustomerName = x.Customer?.FullName,
-                CustomerPhone = x.Customer?.PhoneNumber,
-                CarId = x.Car?.CarId,
-                CommissionAmount = x.CommissionAmount,
-                CreatedAt = x.CreatedAt ?? DateTime.Now,
-                CreatedBy = x.CreatedBy,
-                CustomerId = x.Customer?.Id,
-                DepositAmount = x.DepositAmount,
-                EndDateTime = x.EndDateTime,
-                StartDateTime = x.StartDateTime,
-                InsuranceAmount = x.InsuranceAmount,
-                Note = x.Note,
-                OwnerId = x.Owner?.Id,
-                PickupLocation = x.PickupLocation,
-                RentalAmount = x.RentalAmount,
-                RentalStatus = x.RentalStatus,
-                ReturnLocation = x.ReturnLocation,
-                RemainAmount = x.RemainAmount,
-                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
-                UpdatedBy = x.UpdatedBy,
+                RentalId = rental.RentalId,
+                CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",
+                CarPlate = rental.Car?.licensePlate,
+                CarImage = rental.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = rental.Owner?.FullName,
+                OnwerPhone = rental.Owner?.PhoneNumber,
+                CustomerName = rental.Customer?.FullName,
+                CustomerPhone = rental.Customer?.PhoneNumber,
+                CarId = rental.Car?.CarId,
+                CreatedAt = rental.CreatedAt ?? DateTime.Now,
+                CreatedBy = rental.CreatedBy,
+                CustomerId = rental.Customer?.Id,
+                EndDateTime = rental.EndDateTime,
+                StartDateTime = rental.StartDateTime,
+                Note = rental.Note,
+                OwnerId = rental.Owner?.Id,
+                PickupLocation = rental.PickupLocation,
+                RentalStatus = rental.RentalStatus,
+                ReturnLocation = rental.ReturnLocation,
+                UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = rental.UpdatedBy,
+                BasePricePerDay = rental.BasePricePerDay,
+                CommissionPercentage = 15,
+                CommissionAmount = rental.BasePricePerDay * 15 / 100,
+                TotalPricePerDay = rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100,
+                DepositPercentage = 20,
+                DepositAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20,
+                TotalDaysRented = rental.TotalDaysRented,
+                TotalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented,
+                InsuranceFee = 60000,
+                FinalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000,
+                RemainingDepositAmount = ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20) - ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000)
             });
             return new PageResult<RentalResponseForGetById>
             {
@@ -399,11 +426,8 @@ namespace MoncatiCar.Data.Services
             updateRental.PickupLocation = update.PickupLocation;
             updateRental.ReturnLocation = update.ReturnLocation;
             updateRental.Note = update.Note;
-            updateRental.RentalAmount = update.RentalAmount;
-            updateRental.InsuranceAmount = update.InsuranceAmount;
-            updateRental.DepositAmount = update.DepositAmount;
-            updateRental.RemainAmount = update.DepositAmount - update.RentalAmount + update.InsuranceAmount;
-            updateRental.CommissionAmount = update.RentalAmount * 20 / 100;
+            updateRental.BasePricePerDay = update.BasePricePerDay;
+            updateRental.TotalDaysRented = update.TotalDaysRented;
             _repositoryManager.RentalRepository.Update(updateRental);
             await _repositoryManager.SaveAsync();
             return true;
