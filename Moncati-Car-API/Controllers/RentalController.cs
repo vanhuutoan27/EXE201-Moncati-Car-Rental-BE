@@ -53,7 +53,6 @@ namespace Moncati_Car_API.Controllers
             {
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
-                Data = query,
                 Message = "Rental added successfully."
             };
             return _resultModel;

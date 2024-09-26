@@ -117,29 +117,37 @@ namespace MoncatiCar.Data.Services
             var customer = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.CustomerId);
             var car = await _repositoryManager.CarRepository.GetCarByCarId((Guid)rentalRequest.CarId);
             var carName = $"{car.Model.Brand.BrandName} {car.Model.ModelName} {car.year}";
-            var carPrice = car.PricePerDay + ((car.PricePerDay * 15) / 100);
+            decimal? carPrice = car.PricePerDay + ((car.PricePerDay * 15) / 100);
+            string carPriceString = carPrice?.ToString("F2") ?? string.Empty;  // Format with 2 decimal places or use empty string if null
+
             var replacements = new Dictionary<string, string>
-                    {
-                     {"{ownerName}", owner?.FullName ?? string.Empty },
-                     {"{ownerGender}", owner?.CitizenId.Gender ?? string.Empty },
-                      {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },
-                    {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString() ?? string.Empty },
-                    {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },
-                       {"{ownerPhoneNumber}",  owner?.PhoneNumber ?? string.Empty },
-                     {"{customerName}", customer?.FullName ?? string.Empty },
-                    {"{customerGender}", customer?.CitizenId.Gender ?? string.Empty },
-                    {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },
-                     {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },
-                  {"{customerIdNumber}", customer?.CitizenId?.IdNumber ?? string.Empty },
-              {"{customerCitizenIssue}", customer?.CitizenId?.IssueDate.ToString() ?? string.Empty },
-            {"{customerLicenseId}", customer?.DrivingLicenses?.LicenseNumber ?? string.Empty },
-                {"{customerLicenseIssue}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },
-                {"{carName}", carName ?? string.Empty },
-                {"{carPlate}", car?.licensePlate ?? string.Empty },
-                {"{carPrice}", carPrice.ToString() ?? string.Empty },
-                ////{"{rentalAmount}", rentalRequest?.RentalAmount.ToString() ?? string.Empty },
-                // {"{totalAmount}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty }
-                };
+{
+    {"{ownerName}", owner?.FullName ?? string.Empty },  // Check if owner is null and return empty string if so
+    {"{ownerGender}", owner?.CitizenId?.Gender ?? string.Empty },  // Check if owner or CitizenId is null
+    {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },  // Check if owner or CitizenId is null
+    {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if owner or CitizenId is null and format IssueDate
+    {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },  // Check if owner or CitizenId is null
+    {"{ownerPhoneNumber}", owner?.PhoneNumber ?? string.Empty },  // Check if owner is null
+
+    {"{customerName}", customer?.FullName ?? string.Empty },  // Check if customer is null
+    {"{customerGender}", customer?.CitizenId?.Gender ?? string.Empty },  // Check if customer or CitizenId is null
+    {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },  // Check if customer or CitizenId is null
+    {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },  // Check if customer is null
+    {"{customerIdNumber}", customer?.CitizenId?.IdNumber ?? string.Empty },  // Check if customer or CitizenId is null
+    {"{customerCitizenIssue}", customer?.CitizenId?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if customer or CitizenId is null
+
+    {"{customerLicenseId}", customer?.DrivingLicenses?.LicenseNumber ?? string.Empty },  // Check if customer or DrivingLicenses is null
+    {"{customerLicenseIssue}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if customer or DrivingLicenses is null and format IssueDate
+
+    {"{carName}", carName ?? string.Empty },  // Assuming carName is a string variable already checked elsewhere
+    {"{carPlate}", car?.licensePlate ?? string.Empty },  // Check if car is null
+    {"{carPrice}", carPriceString},  // Assuming carPrice is a numeric variable already checked elsewhere
+
+    // If you plan to include rentalRequest and totalAmount, make sure to handle them as well:
+    // {"{rentalAmount}", rentalRequest?.RentalAmount?.ToString() ?? string.Empty },  // Check if rentalRequest is null
+    // {"{totalAmount}", customer?.DrivingLicenses?.IssueDate?.ToString("yyyy-MM-dd") ?? string.Empty }  // Check if customer or DrivingLicenses is null and format IssueDate
+};
+
 
 
             //fire base 
