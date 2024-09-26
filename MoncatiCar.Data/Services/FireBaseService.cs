@@ -16,13 +16,20 @@ namespace MoncatiCar.Data.Services
 
         public FireBaseService()
         {
-            string credentialPath = "F:/GitSource/moncatiproject-firebase-adminsdk-kc6fn-ea9c866bbc.json";
+            //Env.Load();
 
-            // Khởi tạo Firebase Admin SDK
-            FirebaseApp.Create(new AppOptions()
+            //string credentialPath = "F:/GitSource/moncatiproject-firebase-adminsdk-kc6fn-ea9c866bbc.json";
+            string credentialPath = Environment.GetEnvironmentVariable(variable: "FIREBASE_CREDENTIALS_JSON");
+
+            // Khởi tạo Firebase Admin SDK  
+            if (FirebaseApp.DefaultInstance == null)
             {
-                Credential = GoogleCredential.FromFile(credentialPath),
-            });
+                FirebaseApp.Create(new AppOptions()
+                {
+                    Credential = GoogleCredential.FromFile(credentialPath),
+                });
+            }
+
             GoogleCredential googleCredential = GoogleCredential.FromFile(credentialPath);
 
             _storageClient = StorageClient.Create(googleCredential);

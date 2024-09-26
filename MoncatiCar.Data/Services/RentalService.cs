@@ -16,12 +16,14 @@ namespace MoncatiCar.Data.Services
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IFireBaseService _firebaseService;
-        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IFireBaseService fireBaseService)
+        private readonly IContactService contactService;
+        public RentalService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IFireBaseService fireBaseService, IContactService contactService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
             _userManager = userManager;
             _firebaseService = fireBaseService;
+            this.contactService = contactService;
         }
 
         public async Task<bool> ChangeRentalStatusAsync(Guid id)
@@ -106,31 +108,38 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
+
             create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
             create.CommissionAmount = create.RentalAmount * 15 / 100;
             _repositoryManager.RentalRepository.Add(create);
 
             //add contact
-            var owner = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.OwnerId);
-            var customer = await _repositoryManager.UserRepository.GetByIdAsync((Guid)rentalRequest.CustomerId);
+            var owner = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.OwnerId);
+            var customer = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.CustomerId);
+            var car = await _repositoryManager.CarRepository.GetCarByCarId((Guid)rentalRequest.CarId);
             var replacements = new Dictionary<string, string>
-            {
-                {"{ownerName}", owner.FullName },
-                {"{ownerGender}", owner.Gender  },
-                {"{ownerIdNumber}", null },
-                {"{ownerCitizenIssue}", null },
-                {"{ownerAddress}", null },
-                {"{ownerPhoneNumber}",  null},
-                {"{customerName}", null },
-                {"{customerGender}", null },
-                {"{customerAddress}", null },
-                {"{customerPhoneNumber}", null },
-                {"{customerIdNumber}", null },
-                {"{customerCitizenIssue}", null },
-                {"{customerLicenseId}", null },
-                {"{customerLicenseIssue}", null },
-
+                {
+                 {"{ownerName}", owner?.FullName ?? string.Empty },
+                 {"{ownerGender}", owner?.Gender ?? string.Empty },
+                  {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },
+                {"{ownerCitizenIssue}", owner?.CitizenId?.IssuingAuthority ?? string.Empty },
+                {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },
+                   {"{ownerPhoneNumber}",  owner?.PhoneNumber ?? string.Empty },
+                 {"{customerName}", customer?.FullName ?? string.Empty },
+                {"{customerGender}", customer?.Gender ?? string.Empty },
+                {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },
+                 {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },
+              {"{customerIdNumber}", customer?.CitizenId?.IdNumber ?? string.Empty },
+          {"{customerCitizenIssue}", customer?.CitizenId?.IssuingAuthority ?? string.Empty },
+        {"{customerLicenseId}", customer?.DrivingLicenses?.LicenseNumber ?? string.Empty },
+            {"{customerLicenseIssue}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },
+            {"{carName}", car?.Model?.ModelName ?? string.Empty },
+            {"{carPlate}", car?.licensePlate ?? string.Empty },
+            {"{carPrice}", car?.PricePerDay.ToString() ?? string.Empty },
+            {"{rentalAmount}", rentalRequest?.RentalAmount.ToString() ?? string.Empty },
+             {"{totalAmount}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty }
             };
+
 
             //fire base 
             string fileName = "MONCATI-CAR-RENTAL-CONTRACT.docx";
@@ -153,7 +162,14 @@ namespace MoncatiCar.Data.Services
             string fileNameUpload = $"{create.RentalId}.pdf";
             string uploadPdfUrl = await _firebaseService.UploadPdfToFirebase(pdfStream, fileNameUpload);
 
+            //create contract
+            var contractRequest = new CreateContractRequest()
+            {
+                RentalId = create.RentalId,
+                Attachment = uploadPdfUrl,
 
+            };
+            await contactService.CreateContract(contractRequest);
 
 
 

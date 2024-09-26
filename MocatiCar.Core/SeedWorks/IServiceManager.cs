@@ -19,5 +19,6 @@ namespace MocatiCar.Core.SeedWorks
         IFavoriteCarService FavoriteCarService { get; }
         IDrivingLicenseService DrivingLicenseService { get; }
         IContactService ContactService { get; }
+
     }
 }
