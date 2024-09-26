@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
@@ -26,7 +21,8 @@ namespace MocatiCar.Core.Models.content.Requests
         // public decimal RentalAmount { get; set; }
         // public decimal InsuranceAmount { get; set; }
         // public decimal DepositAmount { get; set; }
-        public decimal BasePricePerDay {get ; set ;}
+
+        public decimal BasePricePerDay { get; set; }
         public decimal TotalDaysRented { get; set; }
 
     }

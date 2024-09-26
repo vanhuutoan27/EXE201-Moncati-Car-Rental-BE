@@ -110,37 +110,36 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
-
-            create.RemainAmount = create.DepositAmount - (create.RentalAmount + create.InsuranceAmount);
-            create.CommissionAmount = create.RentalAmount * 15 / 100;
             _repositoryManager.RentalRepository.Add(create);
 
             //add contact
             var owner = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.OwnerId);
             var customer = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.CustomerId);
             var car = await _repositoryManager.CarRepository.GetCarByCarId((Guid)rentalRequest.CarId);
+            var carName = $"{car.Model.Brand.BrandName} {car.Model.ModelName} {car.year}";
+            var carPrice = car.PricePerDay + ((car.PricePerDay * 15) / 100);
             var replacements = new Dictionary<string, string>
-                {
-                 {"{ownerName}", owner?.FullName ?? string.Empty },
-                 {"{ownerGender}", owner?.Gender ?? string.Empty },
-                  {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },
-                {"{ownerCitizenIssue}", owner?.CitizenId?.IssuingAuthority ?? string.Empty },
-                {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },
-                   {"{ownerPhoneNumber}",  owner?.PhoneNumber ?? string.Empty },
-                 {"{customerName}", customer?.FullName ?? string.Empty },
-                {"{customerGender}", customer?.Gender ?? string.Empty },
-                {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },
-                 {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },
-              {"{customerIdNumber}", customer?.CitizenId?.IdNumber ?? string.Empty },
-          {"{customerCitizenIssue}", customer?.CitizenId?.IssuingAuthority ?? string.Empty },
-        {"{customerLicenseId}", customer?.DrivingLicenses?.LicenseNumber ?? string.Empty },
-            {"{customerLicenseIssue}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },
-            {"{carName}", car?.Model?.ModelName ?? string.Empty },
-            {"{carPlate}", car?.licensePlate ?? string.Empty },
-            {"{carPrice}", car?.PricePerDay.ToString() ?? string.Empty },
-            {"{rentalAmount}", rentalRequest?.RentalAmount.ToString() ?? string.Empty },
-             {"{totalAmount}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty }
-            };
+                    {
+                     {"{ownerName}", owner?.FullName ?? string.Empty },
+                     {"{ownerGender}", owner?.CitizenId.Gender ?? string.Empty },
+                      {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },
+                    {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString() ?? string.Empty },
+                    {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },
+                       {"{ownerPhoneNumber}",  owner?.PhoneNumber ?? string.Empty },
+                     {"{customerName}", customer?.FullName ?? string.Empty },
+                    {"{customerGender}", customer?.CitizenId.Gender ?? string.Empty },
+                    {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },
+                     {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },
+                  {"{customerIdNumber}", customer?.CitizenId?.IdNumber ?? string.Empty },
+              {"{customerCitizenIssue}", customer?.CitizenId?.IssueDate.ToString() ?? string.Empty },
+            {"{customerLicenseId}", customer?.DrivingLicenses?.LicenseNumber ?? string.Empty },
+                {"{customerLicenseIssue}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },
+                {"{carName}", carName ?? string.Empty },
+                {"{carPlate}", car?.licensePlate ?? string.Empty },
+                {"{carPrice}", carPrice.ToString() ?? string.Empty },
+                ////{"{rentalAmount}", rentalRequest?.RentalAmount.ToString() ?? string.Empty },
+                // {"{totalAmount}", customer?.DrivingLicenses?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty }
+                };
 
 
             //fire base 
@@ -180,11 +179,7 @@ namespace MoncatiCar.Data.Services
             var result = _mapper.Map<CreateRentalRequest>(create);
             return result;
 
-            return new CreateRentalResponse
-            {
-                FileReturn = uploadPdfUrl,
-                rentalId = create.RentalId
-            };
+
         }
 
         public async Task<bool> DeleteRental(Guid id)
