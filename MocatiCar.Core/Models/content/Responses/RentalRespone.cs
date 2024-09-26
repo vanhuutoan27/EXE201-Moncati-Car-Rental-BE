@@ -27,11 +27,23 @@ namespace MocatiCar.Core.Models.content.Responses
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }
         public RentalStatus RentalStatus { get; set; }
-        public decimal RentalAmount { get; set; }
-        public decimal InsuranceAmount { get; set; }
-        public decimal DepositAmount { get; set; }
-        public decimal RemainAmount { get; set; }
+        // public decimal RentalAmount { get; set; }
+        // public decimal InsuranceAmount { get; set; }
+        // public decimal DepositAmount { get; set; }
+        // public decimal RemainAmount { get; set; }
+      
+        public decimal BasePricePerDay { get; set; }
+        public decimal CommissionPercentage  { get; set; } = 15;
         public decimal CommissionAmount { get; set; }
+        public decimal TotalPricePerDay { get; set; }
+        public decimal DepositPercentage { get; set; } = 20;
+        public decimal  DepositAmount { get; set; }
+        public decimal TotalDaysRented { get; set; }
+        public decimal TotalRentalAmount { get; set; }
+        public decimal InsuranceFee {get ;set;} = 60000;
+        public decimal FinalRentalAmount { get; set; }
+        public decimal RemainingDepositAmount { get; set; }
+
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }

@@ -23,9 +23,11 @@ namespace MocatiCar.Core.Models.content.Requests
         public string PickupLocation { get; set; }
         public string ReturnLocation { get; set; }
         public string? Note { get; set; }
-        public decimal RentalAmount { get; set; }
-        public decimal InsuranceAmount { get; set; }
-        public decimal DepositAmount { get; set; }
+        // public decimal RentalAmount { get; set; }
+        // public decimal InsuranceAmount { get; set; }
+        // public decimal DepositAmount { get; set; }
+        public decimal BasePricePerDay {get ; set ;}
+        public decimal TotalDaysRented { get; set; }
 
     }
 }
