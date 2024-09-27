@@ -106,7 +106,7 @@ namespace MoncatiCar.Data.Repository
             {
                 if (Enum.TryParse(rentalStatus, true, out CarRentalStatus rentalStatusEnum))
                 {
-                    query = query.Where(c => c.RentalStatus == rentalStatusEnum );
+                    query = query.Where(c => c.RentalStatus == rentalStatusEnum);
                 }
             }
 
