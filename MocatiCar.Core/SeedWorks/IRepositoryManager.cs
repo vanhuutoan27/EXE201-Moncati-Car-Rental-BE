@@ -1,4 +1,4 @@
-﻿using MocatiCar.Core.Repository;
+using MocatiCar.Core.Repository;
 
 namespace MocatiCar.Core.SeedWorks
 {
@@ -14,6 +14,7 @@ namespace MocatiCar.Core.SeedWorks
         IBrandRepository BrandRepository { get; }
         IUserRepository UserRepository { get; }
         IAddressRepository AddressRepository { get; }
+        IPaymentRepository PaymentRepository { get; }
         IRentalRepository RentalRepository { get; }
         ICitizendIdRepository CitizendIdRepository { get; }
         IFavoriteCarRepository FavoriteCarRepository { get; }
