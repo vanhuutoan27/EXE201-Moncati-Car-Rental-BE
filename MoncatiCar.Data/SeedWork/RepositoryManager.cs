@@ -16,6 +16,9 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IReviewRepository> _reviewRepository;
         private readonly Lazy<IBrandRepository> _brandRepository;
         private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IPaymentRepository> _paymentRepository;
+
+
         private readonly Lazy<IAddressRepository> _addressRepository;
         private readonly Lazy<IRentalRepository> _rentalRepository;
         private readonly Lazy<ICitizendIdRepository> _citizendIdRepository;
@@ -35,6 +38,8 @@ namespace MoncatiCar.Data.SeedWork
             _brandRepository = new Lazy<IBrandRepository>(() => new BrandRepository(context));
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
             _addressRepository = new Lazy<IAddressRepository>(() => new AddressRepository(context));
+            _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
+
             _rentalRepository = new Lazy<IRentalRepository>(() => new RentalRepository(context));
             _citizendIdRepository = new Lazy<ICitizendIdRepository>(() => new CitizenIdRepository(context));
             _favoriteCarRepository = new Lazy<IFavoriteCarRepository>(() => new FavoriteCarRepository(context));
@@ -60,6 +65,7 @@ namespace MoncatiCar.Data.SeedWork
         public IAddressRepository AddressRepository => _addressRepository.Value;
 
         public IUserRepository UserRepository => _userRepository.Value;
+        public IPaymentRepository PaymentRepository => _paymentRepository.Value;
 
         public IRentalRepository RentalRepository => _rentalRepository.Value;
         public IFavoriteCarRepository FavoriteCarRepository => _favoriteCarRepository.Value;

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MocatiCar.Core.SeedWorks.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MocatiCar.Core.Domain.Content
@@ -9,7 +10,7 @@ namespace MocatiCar.Core.Domain.Content
         public Guid PaymentId { get; set; }
         public Guid? RentalId { get; set; }
         public string PaymentMethod { get; set; }
-        public string PaymentStatus { get; set; }
+        public string PaymentStatus { get; set; } // su dung enum 
         public string Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
