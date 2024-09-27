@@ -91,6 +91,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<CreateRentalRequest> CreateRental(CreateRentalRequest rentalRequest)
         {
+
             var create = new Rental()
             {
                 CarId = rentalRequest.CarId,
@@ -121,14 +122,14 @@ namespace MoncatiCar.Data.Services
 
             var replacements = new Dictionary<string, string>
 {
-    {"{ownerName}", owner?.FullName ?? string.Empty },  // Check if owner is null and return empty string if so
-    {"{ownerGender}", owner?.CitizenId?.Gender ?? string.Empty },  // Check if owner or CitizenId is null
-    {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },  // Check if owner or CitizenId is null
-    {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if owner or CitizenId is null and format IssueDate
-    {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },  // Check if owner or CitizenId is null
-    {"{ownerPhoneNumber}", owner?.PhoneNumber ?? string.Empty },  // Check if owner is null
+                 {"{ownerName}", owner?.FullName ?? string.Empty },  // Check if owner is null and return empty string if so
+                 {"{ownerGender}", owner?.CitizenId?.Gender ?? string.Empty },  // Check if owner or CitizenId is null
+                 {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },  // Check if owner or CitizenId is null
+                 {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if owner or CitizenId is null and format IssueDate
+                 {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },  // Check if owner or CitizenId is null
+                 {"{ownerPhoneNumber}", owner?.PhoneNumber ?? string.Empty },  // Check if owner is null
 
-    {"{customerName}", customer?.FullName ?? string.Empty },  // Check if customer is null
+                 {"{customerName}", customer?.FullName ?? string.Empty },  // Check if customer is null
     {"{customerGender}", customer?.CitizenId?.Gender ?? string.Empty },  // Check if customer or CitizenId is null
     {"{customerAddress}", customer?.CitizenId?.Address ?? string.Empty },  // Check if customer or CitizenId is null
     {"{customerPhoneNumber}", customer?.PhoneNumber ?? string.Empty },  // Check if customer is null
@@ -146,6 +147,7 @@ namespace MoncatiCar.Data.Services
     // {"{rentalAmount}", rentalRequest?.RentalAmount?.ToString() ?? string.Empty },  // Check if rentalRequest is null
     // {"{totalAmount}", customer?.DrivingLicenses?.IssueDate?.ToString("yyyy-MM-dd") ?? string.Empty }  // Check if customer or DrivingLicenses is null and format IssueDate
 };
+
 
 
             //fire base 
@@ -178,9 +180,14 @@ namespace MoncatiCar.Data.Services
             };
             await contactService.CreateContract(contractRequest);
 
+
+
+
             await _repositoryManager.SaveAsync();
             var result = _mapper.Map<CreateRentalRequest>(create);
             return result;
+
+
         }
 
         public async Task<bool> DeleteRental(Guid id)

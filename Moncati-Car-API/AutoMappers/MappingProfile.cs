@@ -4,6 +4,7 @@ using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
+using MocatiCar.Core.SeedWorks.Enums;
 
 namespace Moncati_Car_API.AutoMappers
 {
@@ -33,6 +34,26 @@ namespace Moncati_Car_API.AutoMappers
                .ForMember(dest => dest.Role, opt => opt.Ignore())
                .ReverseMap();
 
+            CreateMap<Payment, PaymentReponse>()
+            .ForMember(dest => dest.PaymentStatus, opt => opt.MapFrom(src => ConvertToPaymentStatus(src.PaymentStatus)))
+             .ForMember(dest => dest.Rental, opt => opt.MapFrom(src => src.Rental))
+             .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => src.PaymentMethod))
+             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
+             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
+             .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt))
+             .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.CreatedBy))
+             .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.UpdatedBy));
+
+            CreateMap<Rental, RentalResponse>()
+                //.ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.TotalAmount))
+                .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
+                .ForMember(dest => dest.CarTypeId, opt => opt.MapFrom(src => src.CarId))
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId));
+
+
+
+
+            ///----
             CreateMap<Car, CreateUpdateCarRequest>().ReverseMap();
             CreateMap<Car, CarResponeIdandSlug>()
                     .ForMember(dest => dest.Images, opt =>
@@ -49,6 +70,9 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Rental, CreateRentalRequest>().ReverseMap();
             CreateMap<Car, CarResponse>().ReverseMap();
 
+            // CreateMap<Rental,>
+
+
             CreateMap<CitizenId, CitizenIdResponse>().ReverseMap();
 
             CreateMap<Rental, CreateRentalRequest>().ReverseMap();
@@ -62,5 +86,11 @@ namespace Moncati_Car_API.AutoMappers
       .ReverseMap();
             CreateMap<Contract, ContractResponse>().ReverseMap();
         }
+        public static PaymentStatus ConvertToPaymentStatus(string paymentStatus)
+        {
+            return Enum.TryParse<PaymentStatus>(paymentStatus, true, out var status) ? status : PaymentStatus.Deleted;
+        }
+
+
     }
 }

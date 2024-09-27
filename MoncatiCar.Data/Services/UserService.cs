@@ -226,7 +226,7 @@ namespace MoncatiCar.Data.Services
 
             if (user == null) throw new Exception("User not found.");
 
-            user.LockoutEnabled = true;
+           // user.LockoutEnabled = true;
 
             user.Status = false;
 
