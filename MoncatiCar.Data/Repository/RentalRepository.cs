@@ -132,10 +132,37 @@ namespace MoncatiCar.Data.Repository
             return rental;
         }
 
+        public async Task<IEnumerable<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        {
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.OwnerId == id ).Include(r => r.Car)
+                .ThenInclude(i => i.Images)
+                .Include(c => c.Car).ThenInclude(m => m.Model).ThenInclude(b => b.Brand)
+                .Include(r => r.Owner)
+                .Include(r => r.Customer)
+               .Include(r => r.Contracts)
+               .Include(r => r.Payments).AsQueryable();
+
+            if (filter.HasValue)
+            {
+                query = query.Where(r => r.RentalStatus == filter.Value);
+            }
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
+
+            }
+            if (page > 0 && limit > 0)
+            {
+                // Phân trang
+                query = query.Skip((page - 1) * limit)
+                         .Take(limit);
+            }
+            return await query.ToListAsync();
+        } 
 
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id || r.OwnerId == id).Include(r => r.Car)
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id ).Include(r => r.Car)
                 .ThenInclude(i => i.Images)
                 .Include(c => c.Car).ThenInclude(m => m.Model).ThenInclude(b => b.Brand)
                 .Include(r => r.Owner)

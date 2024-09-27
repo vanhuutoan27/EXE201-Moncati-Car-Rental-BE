@@ -347,6 +347,54 @@ namespace MoncatiCar.Data.Services
             return rentalResponse;
         }
 
+        public async Task<PageResult<RentalResponseForGetById>> getRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        {
+            var users = await _repositoryManager.RentalRepository.GetRentalByOwnerId(id, page, limit, filter, startDate, endDate);
+            if (users == null)
+            {
+                //throw new Exception("Owner or Customer not found.");
+                return null;
+            }
+            var totalItems = await _repositoryManager.RentalRepository.CountRecord();
+            var rentalrespone = users.Select(x => new RentalResponseForGetById
+            {
+                RentalId = x.RentalId,
+                CarName = $"{x.Car?.Model?.Brand?.BrandName} {x.Car?.Model?.ModelName} {x.Car?.year}",
+                CarPlate = x.Car?.licensePlate,
+                CarImage = x.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = x.Owner?.FullName,
+                OnwerPhone = x.Owner?.PhoneNumber,
+                CustomerName = x.Customer?.FullName,
+                CustomerPhone = x.Customer?.PhoneNumber,
+                CarId = x.Car?.CarId,
+                CommissionAmount = x.CommissionAmount,
+                CreatedAt = x.CreatedAt ?? DateTime.Now,
+                CreatedBy = x.CreatedBy,
+                CustomerId = x.Customer?.Id,
+                DepositAmount = x.DepositAmount,
+                EndDateTime = x.EndDateTime,
+                StartDateTime = x.StartDateTime,
+                InsuranceAmount = x.InsuranceAmount,
+                Note = x.Note,
+                OwnerId = x.Owner?.Id,
+                PickupLocation = x.PickupLocation,
+                RentalAmount = x.RentalAmount,
+                RentalStatus = x.RentalStatus,
+                ReturnLocation = x.ReturnLocation,
+                RemainAmount = x.RemainAmount,
+                UpdatedAt = x.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = x.UpdatedBy,
+            });
+            //     var rentalreponse = _mapper.Map<IEnumerable<RentalResponseForGetById>>(users);
+            return new PageResult<RentalResponseForGetById>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = rentalrespone
+            };
+        }
+
         public async Task<PageResult<RentalResponseForGetById>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             var users = await _repositoryManager.RentalRepository.GetRentalByUserId(id, page, limit, filter, startDate, endDate);
