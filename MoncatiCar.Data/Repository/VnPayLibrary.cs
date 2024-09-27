@@ -18,7 +18,7 @@ namespace MocatiCar.Core.Repository
     {
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
-        public PaymentReponse GetFullResponseData(IQueryCollection collection, string hashSecret)
+        public VnPayReponse GetFullResponseData(IQueryCollection collection, string hashSecret)
         {
             
 
@@ -43,7 +43,7 @@ namespace MocatiCar.Core.Repository
                 vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
 
             if (!checkSignature)
-                return new PaymentReponse()
+                return new VnPayReponse()
                 {
                     Success = false,
                     OrderDescription = orderInfo,
@@ -52,7 +52,7 @@ namespace MocatiCar.Core.Repository
                 };
             if (vnpResponseCode != "00")
             {
-                return new PaymentReponse()
+                return new VnPayReponse()
                 {
                     Success = false,
                     OrderDescription = orderInfo,
@@ -61,9 +61,10 @@ namespace MocatiCar.Core.Repository
             }
             else
             {
-                return new PaymentReponse()
+                return new VnPayReponse()
                 {
                     Success = true,
+                    
                     PaymentMethod = "VnPay",
                     OrderDescription = orderInfo,
                     OrderId = orderId.ToString(),

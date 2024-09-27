@@ -50,7 +50,7 @@ namespace MoncatiCar.Data.Services
             return paymentUrl;
         }
 
-        public PaymentReponse PaymentExecute(IQueryCollection collections)
+        public VnPayReponse PaymentExecute(IQueryCollection collections)
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);

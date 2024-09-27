@@ -12,6 +12,6 @@ namespace MocatiCar.Core.Services
     public interface IVnPayService
     {
         string CreatePaymentUrl(PaymentRequest model, HttpContext context);
-        PaymentReponse PaymentExecute(IQueryCollection collections);
+        VnPayReponse PaymentExecute(IQueryCollection collections);
     }
 }
