@@ -1,17 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNet.Identity;
-using MocatiCar.Core.Domain.Content;
-using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.SeedWorks.Enums;
 using MocatiCar.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoncatiCar.Data.Services
 {
@@ -28,50 +20,51 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> AddPayment(CreatePaymentRequest payment)
         {
-            var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(payment.RentalId ?? Guid.Empty)  ;
-            if (rentalId == null) {
-                throw new Exception("RentalId is not found");
-            }
-            var paymentStatus =PaymentStatus.Pending;
+            //var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(payment.RentalId ?? Guid.Empty);
+            //if (rentalId == null)
+            //{
+            //    throw new Exception("RentalId is not found");
+            //}
+            ////var paymentStatus =PaymentStatus.Pending;
 
 
-            if (rentalId.DepositAmount == 0) {
-                 paymentStatus = PaymentStatus.Pending;
-            } else if (rentalId.TotalAmount == 0) {
-                 paymentStatus = PaymentStatus.DepositPaid;
-            }
-            else {
-                 paymentStatus = PaymentStatus.FullyPaid;
-            }
+            ////if (rentalId.DepositAmount == 0) {
+            ////     paymentStatus = PaymentStatus.Pending;
+            ////} else if (rentalId.TotalAmount == 0) {
+            ////     paymentStatus = PaymentStatus.DepositPaid;
+            ////}
+            ////else {
+            ////     paymentStatus = PaymentStatus.FullyPaid;
+            ////}
 
 
 
-            var newPayment = new Payment
-            {
-                Amount = rentalId.DepositAmount.ToString(),
-                CreatedAt = DateTime.Now,
-                CreatedBy = rentalId.CustomerId,
-                PaymentId = Guid.NewGuid(),
-                PaymentMethod = payment.PaymentMethod,
-                PaymentStatus = paymentStatus.ToString(),
-                RentalId = rentalId.RentalId,
-            };
-              _repositoryManager.PaymentRepository.Add(newPayment);
-            await _repositoryManager.SaveAsync();
-            return true;
-
+            //var newPayment = new Payment
+            //{
+            //    Amount = rentalId.DepositAmount.ToString(),
+            //    CreatedAt = DateTime.Now,
+            //    CreatedBy = rentalId.CustomerId,
+            //    PaymentId = Guid.NewGuid(),
+            //    PaymentStatus = payment.PaymentStatus,
+            //    PaymentMethod = payment.PaymentMethod,
+            //    RentalId = rentalId.RentalId,
+            //};
+            //_repositoryManager.PaymentRepository.Add(newPayment);
+            //await _repositoryManager.SaveAsync();
+            //return true;
+            throw new NotImplementedException();
         }
 
         public async Task<bool> DeletePayment(Guid id, Guid UserId)
         {
-                var getPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(id);
+            var getPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(id);
             if (getPayment == null)
             {
                 throw new Exception("Not Found");
             }
             getPayment.PaymentStatus = PaymentStatus.Deleted.ToString();
-            getPayment.UpdatedBy = UserId;  
-            getPayment.UpdatedAt = DateTime.Now;    
+            getPayment.UpdatedBy = UserId;
+            getPayment.UpdatedAt = DateTime.Now;
 
             _repositoryManager.PaymentRepository.Update(getPayment);
             await _repositoryManager.SaveAsync();
@@ -85,33 +78,33 @@ namespace MoncatiCar.Data.Services
 
             var PaymentReponses = _mapper.Map<IEnumerable<PaymentReponse>>(listPayment);
 
-       /*     foreach (var paymentResponse in PaymentReponses) {
-                var payment = listPayment.FirstOrDefault(p => p.PaymentId == paymentResponse.PaymentId);
+            /*     foreach (var paymentResponse in PaymentReponses) {
+                     var payment = listPayment.FirstOrDefault(p => p.PaymentId == paymentResponse.PaymentId);
 
-                if (payment != null)
-                {
-                    if (payment.Rental != null)
-                    {
-                        var customerId = payment.Rental.CustomerId ?? Guid.Empty;
+                     if (payment != null)
+                     {
+                         if (payment.Rental != null)
+                         {
+                             var customerId = payment.Rental.CustomerId ?? Guid.Empty;
 
-                        // Retrieve customer details using the customerId from the Rental object
-                        var customer = await _repositoryManager.UserRepository.GetUserById(customerId);
+                             // Retrieve customer details using the customerId from the Rental object
+                             var customer = await _repositoryManager.UserRepository.GetUserById(customerId);
 
-                        // Retrieve car details using carId from payment
-                        if (paymentResponse.Rental.User == null)
-                        {
-                            paymentResponse.Rental.User = new UserResponse();
-                        }
+                             // Retrieve car details using carId from payment
+                             if (paymentResponse.Rental.User == null)
+                             {
+                                 paymentResponse.Rental.User = new UserResponse();
+                             }
 
-                        // Enrich the PaymentResponse object with additional customer and car details
-                        paymentResponse.Rental.User.FullName = customer?.FullName;
-                        paymentResponse.Rental.User.Address = customer?.Address;
-                        paymentResponse.Rental.User.Avatar = customer?.Avatar;
-                    }
-                }
+                             // Enrich the PaymentResponse object with additional customer and car details
+                             paymentResponse.Rental.User.FullName = customer?.FullName;
+                             paymentResponse.Rental.User.Address = customer?.Address;
+                             paymentResponse.Rental.User.Avatar = customer?.Avatar;
+                         }
+                     }
 
 
-            }*/
+                 }*/
 
             var totalItems = listPayment.Count();
 
@@ -127,15 +120,15 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PaymentReponse> GetPaymentById(Guid rentalId)
         {
-            var getPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(rentalId); 
-            return _mapper.Map<PaymentReponse>(getPayment); 
+            var getPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(rentalId);
+            return _mapper.Map<PaymentReponse>(getPayment);
         }
 
         public async Task<IEnumerable<PaymentReponse>> GetPaymentByUserId(Guid id)
         {
-           /* var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(1, 10, null);
-            var getPaymentByUser =  listPayment.Where(p => p.Rental.CustomerId == id);*/
-           var getPaymentByUser = await _repositoryManager.PaymentRepository.getPaymentByUserId(id);    
+            /* var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(1, 10, null);
+             var getPaymentByUser =  listPayment.Where(p => p.Rental.CustomerId == id);*/
+            var getPaymentByUser = await _repositoryManager.PaymentRepository.getPaymentByUserId(id);
             return _mapper.Map<IEnumerable<PaymentReponse>>(getPaymentByUser);
 
         }
@@ -146,10 +139,11 @@ namespace MoncatiCar.Data.Services
             return _mapper.Map<PaymentReponse>(listPayment);
         }
 
-        public async Task<bool> UpdatePayment(CreateUpdateAllFieldPaymentRequest payment,Guid UserUpdate)
+        public async Task<bool> UpdatePayment(CreateUpdateAllFieldPaymentRequest payment, Guid UserUpdate)
         {
             var existingPayment = await _repositoryManager.PaymentRepository.GetPaymentByPaymentId(payment.PaymentId);
-            if(existingPayment == null) {
+            if (existingPayment == null)
+            {
                 throw new Exception(" Can not found");
             }
             existingPayment.PaymentId = existingPayment.PaymentId;
@@ -162,10 +156,10 @@ namespace MoncatiCar.Data.Services
             existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus).ToString();
             existingPayment.UpdatedAt = DateTime.Now;
             _repositoryManager.PaymentRepository.Update(existingPayment);
-              await _repositoryManager.SaveAsync();
+            await _repositoryManager.SaveAsync();
             return true;
 
-        } 
+        }
 
         public async Task<bool> UpdateStatus(CreateUpdatePaymentRequest payment, Guid userUpdate)
         {
@@ -178,12 +172,12 @@ namespace MoncatiCar.Data.Services
             }
 
             // Cập nhật trạng thái thanh toán của Payment
-            existingPayment.PaymentStatus =((PaymentStatus)payment.PaymentStatus).ToString();
+            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus).ToString();
             existingPayment.UpdatedAt = DateTime.Now;        // Cập nhật thời gian cập nhật
             existingPayment.UpdatedBy = userUpdate;   // Cập nhật người thực hiện thay đổi
 
             // Lưu thay đổi vào cơ sở dữ liệu
-             _repositoryManager.PaymentRepository.Update(existingPayment);
+            _repositoryManager.PaymentRepository.Update(existingPayment);
             await _repositoryManager.SaveAsync();
 
             return true;

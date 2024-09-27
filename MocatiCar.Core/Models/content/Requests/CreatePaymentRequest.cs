@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MocatiCar.Core.SeedWorks.Enums;
 
 namespace MocatiCar.Core.Models.content.Requests
 {
@@ -10,6 +6,7 @@ namespace MocatiCar.Core.Models.content.Requests
     {
         public Guid? RentalId { get; set; }
         public string PaymentMethod { get; set; }
+        public RentalStatus? PaymentStatus { get; set; }
 
     }
 }

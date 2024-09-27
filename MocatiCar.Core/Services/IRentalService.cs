@@ -18,6 +18,6 @@ namespace MocatiCar.Core.Services
         Task<bool> ChangeRentalStatusAsync(Guid id);
         Task<bool> ChangeRentalStatusToCancelAsync(Guid id);
 
-        Task<PageResult<RentalResponseForGetById>> getRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
+        //Task<PageResult<RentalResponseForGetById>> getRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
     }
 }

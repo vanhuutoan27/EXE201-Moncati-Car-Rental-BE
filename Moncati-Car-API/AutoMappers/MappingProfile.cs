@@ -33,7 +33,7 @@ namespace Moncati_Car_API.AutoMappers
 
                .ForMember(dest => dest.Role, opt => opt.Ignore())
                .ReverseMap();
-    
+
             CreateMap<Payment, PaymentReponse>()
             .ForMember(dest => dest.PaymentStatus, opt => opt.MapFrom(src => ConvertToPaymentStatus(src.PaymentStatus)))
              .ForMember(dest => dest.Rental, opt => opt.MapFrom(src => src.Rental))
@@ -45,7 +45,7 @@ namespace Moncati_Car_API.AutoMappers
              .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.UpdatedBy));
 
             CreateMap<Rental, RentalResponse>()
-                .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.TotalAmount))
+                //.ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.TotalAmount))
                 .ForMember(dest => dest.CarId, opt => opt.MapFrom(src => src.CarId))
                 .ForMember(dest => dest.CarTypeId, opt => opt.MapFrom(src => src.CarId))
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId));
@@ -70,7 +70,7 @@ namespace Moncati_Car_API.AutoMappers
             CreateMap<Rental, CreateRentalRequest>().ReverseMap();
             CreateMap<Car, CarResponse>().ReverseMap();
 
-           // CreateMap<Rental,>
+            // CreateMap<Rental,>
 
 
             CreateMap<CitizenId, CitizenIdResponse>().ReverseMap();
