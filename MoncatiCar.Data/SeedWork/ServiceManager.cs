@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using MocatiCar.Core.Domain.Identity;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.Services;
@@ -24,7 +25,9 @@ namespace MoncatiCar.Data.SeedWork
         private readonly Lazy<IFavoriteCarService> _favoriteCarService;
         private readonly Lazy<IDrivingLicenseService> _drivingLicenseService;
         private readonly Lazy<IContactService> _contactService;
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService, IFireBaseService fireBaseService)
+        private readonly Lazy<IVnPayService> _vnPayService;
+
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<AppUser> userManager, IContactService contactService, IFireBaseService fireBaseService, IConfiguration configuation)
         {
             _carFeatureService = new Lazy<ICarFeatureService>(() => new CarFeatureService(repositoryManager, mapper));
             _carService = new Lazy<ICarService>(() => new CarService(repositoryManager, mapper, userManager));
@@ -41,6 +44,8 @@ namespace MoncatiCar.Data.SeedWork
             _favoriteCarService = new Lazy<IFavoriteCarService>(() => new FavoriteCarService(repositoryManager, mapper, userManager));
             _drivingLicenseService = new Lazy<IDrivingLicenseService>(() => new DrivingLicenseService(repositoryManager, mapper));
             _contactService = new Lazy<IContactService>(() => new ContactService(repositoryManager, mapper));
+            _vnPayService = new Lazy<IVnPayService>(() => new VnPayService(configuation));
+
         }
         public ICarFeatureService CarFeatureService => _carFeatureService.Value;
 
@@ -69,5 +74,7 @@ namespace MoncatiCar.Data.SeedWork
         public IDrivingLicenseService DrivingLicenseService => _drivingLicenseService.Value;
 
         public IContactService ContactService => _contactService.Value;
+
+        public IVnPayService VnPayService => _vnPayService.Value;
     }
 }
