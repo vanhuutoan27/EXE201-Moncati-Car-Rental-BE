@@ -46,11 +46,17 @@ namespace Moncati_Car_API.Controllers
 
                 // Lấy claims từ người dùng hiện tại (sử dụng User.Claims hoặc HttpContext.User.Claims)
                 var claims = HttpContext.User;
-
+            /*    var paymentRequest = new PaymentRequest {
+                
+                
+                }
+*/
                 // Gọi phương thức AddtoPayment với thông tin từ claims (đợi xử lý nếu cần thiết)
                 // await _serviceManager.PaymentService.AddPayment(paymentResponseModel, claims);
 
                 // Trả về kết quả thành công cùng với dữ liệu payment
+  //              await _serviceManager.paymentService.AddPayment()
+
                 return Ok(_resultModel = new ResultModel 
                 {
                     Success = true,

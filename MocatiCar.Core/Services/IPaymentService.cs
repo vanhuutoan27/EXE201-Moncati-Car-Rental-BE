@@ -16,7 +16,7 @@ namespace MocatiCar.Core.Services
         Task <PaymentReponse> GetPaymentById(Guid id);
         Task<IEnumerable<PaymentReponse>> GetPaymentByUserId(Guid id);
         Task<PaymentReponse> GetPaymentRentalId(Guid id);
-     //   Task <bool> AddPayment(CreatePaymentRequest payment);
+        Task <bool> AddPayment(CreatePaymentRequest payment);
         Task<bool> UpdatePayment(CreateUpdateAllFieldPaymentRequest payment, Guid userUpdate); 
 
         Task <bool> DeletePayment(Guid id, Guid UserId);
