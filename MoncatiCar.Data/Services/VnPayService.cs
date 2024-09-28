@@ -7,6 +7,7 @@ using MocatiCar.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,9 +40,9 @@ namespace MoncatiCar.Data.Services
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
             pay.AddRequestData("vnp_OrderInfo", $"{model.Name} {model.OrderDescription} {model.Amount}");
-            //    pay.AddRequestData("vnp_AccountId", $"{model.AccountId}");
+            //   pay.AddRequestData("vnp_AccountId", $"{model.AccountId}");
+           pay.AddRequestData("vnp_OrderType", model.OrderType);
 
-            pay.AddRequestData("vnp_OrderType", model.OrderType);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
             var paymentUrl =

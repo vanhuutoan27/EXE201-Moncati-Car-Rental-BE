@@ -35,27 +35,29 @@ namespace Moncati_Car_API.Controllers
         public async Task<IActionResult> PaymentCallback()
         {
             var response = _serviceManager.VnPayService.PaymentExecute(Request.Query);
-            // If the response is successful, proceed with adding the payment
-            /*     if (response.Success)
-                 {*/
-            // Extract necessary data from the response
+            var paymentResponseModel = response;
+
+            var parts = paymentResponseModel.OrderDescription?.Split(' ') ?? new string[0];
+            Guid rentalId = Guid.Empty; 
+
+            if (parts.Length > 1)
+            {
+                Guid.TryParse(parts[1], out rentalId);
+            }
+
             if (response.Success)
             {
-                // Lấy thông tin thanh toán từ response
-                var paymentResponseModel = response;
-
-                // Lấy claims từ người dùng hiện tại (sử dụng User.Claims hoặc HttpContext.User.Claims)
                 var claims = HttpContext.User;
-            /*    var paymentRequest = new PaymentRequest {
-                
-                
-                }
-*/
-                // Gọi phương thức AddtoPayment với thông tin từ claims (đợi xử lý nếu cần thiết)
-                // await _serviceManager.PaymentService.AddPayment(paymentResponseModel, claims);
+                var paymentRequest = new CreatePaymentRequest
+                {
+                    PaymentMethod = "VNPAY",
+                    PaymentStatus = "FullyPaid",
+                    Amount =paymentResponseModel.AmountOfRental,
+                    RentalId = rentalId,
 
-                // Trả về kết quả thành công cùng với dữ liệu payment
-  //              await _serviceManager.paymentService.AddPayment()
+
+                };
+                await _serviceManager.paymentService.AddPayment(paymentRequest);
 
                 return Ok(_resultModel = new ResultModel 
                 {
@@ -67,6 +69,16 @@ namespace Moncati_Car_API.Controllers
             }
             else
             {
+                var paymentRequest = new CreatePaymentRequest
+                {
+                    PaymentMethod = "VNPAY",
+                    PaymentStatus = "Pending",
+                    Amount = paymentResponseModel.AmountOfRental,
+                    RentalId = rentalId,
+                };
+
+                await _serviceManager.paymentService.AddPayment(paymentRequest);
+
                 // Trả về lỗi nếu thanh toán thất bại
                 return BadRequest(_resultModel = new ResultModel
                 {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 using MocatiCar.Core.Models.content.Responses;
 using Sprache;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace MocatiCar.Core.Repository
 {
@@ -41,7 +42,14 @@ namespace MocatiCar.Core.Repository
             var orderInfo = vnPay.GetResponseData("vnp_OrderInfo");
             var amountRental = vnPay.GetResponseData("vnp_Amount");
 
-
+           /* if (string.IsNullOrEmpty(rentalId))
+            {
+                Console.WriteLine("vnp_OrderType (RentalId) is missing in the response.");
+            }
+            else
+            {
+                Console.WriteLine("RentalId retrieved: " + rentalId);
+            }*/
             var checkSignature =
                 vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
 
@@ -67,7 +75,6 @@ namespace MocatiCar.Core.Repository
                 return new VnPayReponse()
                 {
                     Success = true,
-                    
                     PaymentMethod = "VnPay",
                     AmountOfRental = decimal.Parse(amountRental),
                     OrderDescription = orderInfo,
