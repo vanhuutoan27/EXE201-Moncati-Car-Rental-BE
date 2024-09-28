@@ -9,6 +9,7 @@ namespace MocatiCar.Core.Models.content.Responses
     public class VnPayReponse
     {
         public bool Success { get; set; }
+        public decimal AmountOfRental { get; set; }
         public string PaymentMethod { get; set; }
         public string OrderDescription { get; set; }
         public string OrderId { get; set; }

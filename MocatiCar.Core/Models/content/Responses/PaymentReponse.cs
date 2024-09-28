@@ -23,7 +23,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public string VnPayResponseCode { get; set; }
         public int AccountId { get; set; }
     //}
-        public Guid PaymentId { get; set; }
+      //  public Guid PaymentId { get; set; }
         public Guid? RentalId { get; set; }
         //--> Reponse Rental(RentalAmount ,InsuranceAmount,InsuranceAmount,, commission DepositAmount,TotalAmount, CarId, CustomerId) --> User( fullname,ADdress,Avartar) && Cars (Cartypeid --> Cartype (id , name))
         /*
@@ -41,7 +41,7 @@ namespace MocatiCar.Core.Models.content.Responses
    /*     // Carr type 
         public string TypeName { get; set; }*/
         //
-        public string PaymentMethod { get; set; }
+     //   public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string PaymentStatusString => PaymentStatus.ToString();
 

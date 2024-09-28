@@ -135,7 +135,7 @@ namespace Moncati_Car_API.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<ResultModel>> AddPayment([FromBody] CreatePaymentRequest payment)
+     /*   public async Task<ActionResult<ResultModel>> AddPayment([FromBody] CreatePaymentRequest payment)
         {
             var Payment = await _serviceManager.paymentService.AddPayment(payment);
             if (Payment == false)
@@ -157,7 +157,7 @@ namespace Moncati_Car_API.Controllers
             };
 
             return Ok(_resultModel);
-        }
+        }*/
         [HttpPut]
         public async Task<ActionResult<ResultModel>> UpdatePaymentById([FromBody] CreateUpdateAllFieldPaymentRequest payment)
         {

@@ -60,7 +60,7 @@ namespace Moncati_Car_API.Controllers
 
         [HttpGet]
         [Route("{rentalId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalBy_Id(Guid rentalId)
+        public async Task<ActionResult<ResultModel>> GetRentalById(Guid rentalId)
         {
             try
             {
@@ -116,10 +116,27 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
         [HttpGet]
-        [Route("user/{userId:guid}")]
+        [Route("customer/{userId:guid}")]
         public async Task<ActionResult<ResultModel>> GetRentalByUserId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
         {
-            var rentals = await _serviceManager.RentalService.GetRentalByUserId(userId, page, limit, status, start, end);
+            var rentals = await _serviceManager.RentalService.GetRentalByCustomerId(userId, page, limit, status, start, end);
+
+
+            _resultModel = new ResultModel
+            {
+                Status = (int)HttpStatusCode.OK,
+                Success = true,
+                Message = "Rentals retrieved successfully.",
+                Data = rentals
+            };
+
+            return Ok(_resultModel);
+        }
+        [HttpGet]
+        [Route("owner/{userId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetRentalByOwnerId(Guid userId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
+        {
+            var rentals = await _serviceManager.RentalService.GetRentalByOwnerId(userId, page, limit, status, start, end);
 
 
             _resultModel = new ResultModel

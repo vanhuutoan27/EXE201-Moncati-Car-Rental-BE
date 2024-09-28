@@ -9,7 +9,9 @@ namespace MocatiCar.Core.Repository
         Task<IEnumerable<Rental>> GetAllRentalAsync(int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
         Task<Rental> GetRentalByIdAsync(Guid id);
         Task<IEnumerable<Rental>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
-        Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
+        Task<IEnumerable<Rental>> GetRentalByCustomerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
+        Task<IEnumerable<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
+
         Task<int> CountAsync(Guid carId);
         Task<int> CountRecord();
     }

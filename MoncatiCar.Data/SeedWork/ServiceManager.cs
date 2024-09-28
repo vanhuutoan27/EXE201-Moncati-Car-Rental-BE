@@ -48,10 +48,9 @@ namespace MoncatiCar.Data.SeedWork
             _vnPayService = new Lazy<IVnPayService>(() => new VnPayService(configuation));
             _paymentService = new Lazy<IPaymentService>(() => new PaymentService(repositoryManager, mapper));
 
-            _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper ,userManager));
+         //   _rentalService = new Lazy<IRentalService>(() => new RentalService(repositoryManager, mapper ,userManager));
         }
 
-        }
         public ICarFeatureService CarFeatureService => _carFeatureService.Value;
 
         public ICarService CarService => _carService.Value;

@@ -26,7 +26,7 @@ namespace MoncatiCar.Data.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AddPayment(CreatePaymentRequest payment)
+      /*  public async Task<bool> AddPayment(CreatePaymentRequest payment)
         {
             var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(payment.RentalId ?? Guid.Empty)  ;
             if (rentalId == null) {
@@ -60,7 +60,7 @@ namespace MoncatiCar.Data.Services
             await _repositoryManager.SaveAsync();
             return true;
 
-        }
+        }*/
 
         public async Task<bool> DeletePayment(Guid id, Guid UserId)
         {

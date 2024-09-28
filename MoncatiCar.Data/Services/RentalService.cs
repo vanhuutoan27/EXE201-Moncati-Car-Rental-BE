@@ -347,9 +347,9 @@ namespace MoncatiCar.Data.Services
             return rentalResponse;
         }
 
-        public async Task<PageResult<RentalResponseForGetById>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        public async Task<PageResult<RentalResponseForGetById>> GetRentalByCustomerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            var users = await _repositoryManager.RentalRepository.GetRentalByUserId(id, page, limit, filter, startDate, endDate);
+            var users = await _repositoryManager.RentalRepository.GetRentalByCustomerId(id, page, limit, filter, startDate, endDate);
             if (users == null)
             {
                 //throw new Exception("Owner or Customer not found.");
@@ -439,6 +439,59 @@ namespace MoncatiCar.Data.Services
             query.StartDateTime = DateTime.Now;
             await _repositoryManager.SaveAsync();
             return true;
+        }
+
+        public async Task<PageResult<RentalResponseForGetById>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        {
+            var users = await _repositoryManager.RentalRepository.GetRentalByCustomerId(id, page, limit, filter, startDate, endDate);
+            if (users == null)
+            {
+                //throw new Exception("Owner or Customer not found.");
+                return null;
+            }
+            var totalItems = await _repositoryManager.RentalRepository.CountRecord();
+            var rentalrespone = users.Select(rental => new RentalResponseForGetById
+            {
+                RentalId = rental.RentalId,
+                CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",
+                CarPlate = rental.Car?.licensePlate,
+                CarImage = rental.Car?.Images?.OrderBy(i => i.ImageId).Select(i => i.Url).FirstOrDefault(),
+                OwnerName = rental.Owner?.FullName,
+                OnwerPhone = rental.Owner?.PhoneNumber,
+                CustomerName = rental.Customer?.FullName,
+                CustomerPhone = rental.Customer?.PhoneNumber,
+                CarId = rental.Car?.CarId,
+                CreatedAt = rental.CreatedAt ?? DateTime.Now,
+                CreatedBy = rental.CreatedBy,
+                CustomerId = rental.Customer?.Id,
+                EndDateTime = rental.EndDateTime,
+                StartDateTime = rental.StartDateTime,
+                Note = rental.Note,
+                OwnerId = rental.Owner?.Id,
+                PickupLocation = rental.PickupLocation,
+                RentalStatus = rental.RentalStatus,
+                ReturnLocation = rental.ReturnLocation,
+                UpdatedAt = rental.UpdatedAt ?? DateTime.Now,
+                UpdatedBy = rental.UpdatedBy,
+                BasePricePerDay = rental.BasePricePerDay,
+                CommissionPercentage = 15,
+                CommissionAmount = rental.BasePricePerDay * 15 / 100,
+                TotalPricePerDay = rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100,
+                DepositPercentage = 20,
+                DepositAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20,
+                TotalDaysRented = rental.TotalDaysRented,
+                TotalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented,
+                InsuranceFee = 60000,
+                FinalRentalAmount = (rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000,
+                RemainingDepositAmount = ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * 20) - ((rental.BasePricePerDay + rental.BasePricePerDay * 15 / 100) * rental.TotalDaysRented + 60000)
+            });
+            return new PageResult<RentalResponseForGetById>
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)limit),
+                TotalItems = totalItems,
+                Items = rentalrespone
+            };
         }
     }
 }

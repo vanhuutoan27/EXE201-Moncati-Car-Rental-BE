@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using MocatiCar.Core.Models.content.Responses;
+using Sprache;
 
 namespace MocatiCar.Core.Repository
 {
@@ -38,6 +39,8 @@ namespace MocatiCar.Core.Repository
             var vnpSecureHash =
                 collection.FirstOrDefault(k => k.Key == "vnp_SecureHash").Value; //hash của dữ liệu trả về
             var orderInfo = vnPay.GetResponseData("vnp_OrderInfo");
+            var amountRental = vnPay.GetResponseData("vnp_Amount");
+
 
             var checkSignature =
                 vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
@@ -66,6 +69,7 @@ namespace MocatiCar.Core.Repository
                     Success = true,
                     
                     PaymentMethod = "VnPay",
+                    AmountOfRental = decimal.Parse(amountRental),
                     OrderDescription = orderInfo,
                     OrderId = orderId.ToString(),
                     PaymentId = vnPayTranId.ToString(),
