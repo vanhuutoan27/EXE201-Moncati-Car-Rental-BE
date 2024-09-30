@@ -150,24 +150,6 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
         }
 
-        [HttpGet]
-        [Route("owner/{ownerId:guid}")]
-        public async Task<ActionResult<ResultModel>> GetRentalByOnwerId(Guid ownerId, int page = 1, int limit = 10, RentalStatus? status = null, DateTime? start = null, DateTime? end = null)
-        {
-            //var rentals = await _serviceManager.RentalService.getRentalByOwnerId(ownerId, page, limit, status, start, end);
-
-
-            //_resultModel = new ResultModel
-            //{
-            //    Status = (int)HttpStatusCode.OK,
-            //    Success = true,
-            //    Message = "Rentals retrieved successfully.",
-            //    Data = rentals
-            //};
-
-            //return Ok(_resultModel);
-            throw new NotImplementedException();
-        }
         [HttpDelete]
         [Route("{rentalId:guid}")]
         public async Task<ActionResult<ResultModel>> DeleteRental(Guid rentalId)
