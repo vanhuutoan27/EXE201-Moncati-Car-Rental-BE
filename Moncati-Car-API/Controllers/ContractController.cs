@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
+using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.SeedWorks;
 
 namespace Moncati_Car_API.Controllers
@@ -36,6 +37,23 @@ namespace Moncati_Car_API.Controllers
             {
                 Status = 200,
                 Data = result,
+                Message = "Contract retrieved successfully.",
+                Success = true
+            };
+        }
+        [HttpPost]
+        public async Task<ActionResult<ResultModel>> CreateContract([FromBody] CreateContractRequest request)
+        {
+            var rentalId = await _serviceManager.RentalService.GetRentalById(request.RentalId);
+            if (rentalId == null)
+            {
+                return BadRequest("RentalId Not Found.");
+            }
+            await _serviceManager.ContactService.CreateContract(request);
+
+            return new ResultModel()
+            {
+                Status = 200,
                 Message = "Contract retrieved successfully.",
                 Success = true
             };

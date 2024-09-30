@@ -62,7 +62,7 @@ namespace MoncatiCar.Data.Services
             {
                 throw new Exception("Not Found");
             }
-            getPayment.PaymentStatus = PaymentStatus.Deleted.ToString();
+            getPayment.PaymentStatus = PaymentStatus.Deleted;
             getPayment.UpdatedBy = UserId;
             getPayment.UpdatedAt = DateTime.Now;
 
@@ -152,8 +152,7 @@ namespace MoncatiCar.Data.Services
             existingPayment.Amount = payment.Amount;
             existingPayment.CreatedAt = existingPayment.CreatedAt;
             existingPayment.CreatedBy = existingPayment.CreatedBy;
-            existingPayment.PaymentMethod = payment.PaymentMethod;
-            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus).ToString();
+            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus);
             existingPayment.UpdatedAt = DateTime.Now;
             _repositoryManager.PaymentRepository.Update(existingPayment);
             await _repositoryManager.SaveAsync();
@@ -172,7 +171,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // Cập nhật trạng thái thanh toán của Payment
-            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus).ToString();
+            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus);
             existingPayment.UpdatedAt = DateTime.Now;        // Cập nhật thời gian cập nhật
             existingPayment.UpdatedBy = userUpdate;   // Cập nhật người thực hiện thay đổi
 

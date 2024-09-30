@@ -35,9 +35,8 @@ namespace Moncati_Car_API.AutoMappers
                .ReverseMap();
 
             CreateMap<Payment, PaymentReponse>()
-            .ForMember(dest => dest.PaymentStatus, opt => opt.MapFrom(src => ConvertToPaymentStatus(src.PaymentStatus)))
+            .ForMember(dest => dest.PaymentStatus, opt => opt.MapFrom(src => src.PaymentStatus))
              .ForMember(dest => dest.Rental, opt => opt.MapFrom(src => src.Rental))
-             .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => src.PaymentMethod))
              .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
              .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
              .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt))

@@ -8,5 +8,6 @@ namespace MocatiCar.Core.Services
         public Task CreateContract(CreateContractRequest request);
         public Task<ContractResponse> GetContractByRentalId(Guid rentalId);
         public Task<PageResult<ContractResponse>> GetAllContracts(int page, int limit, Guid? RentalId);
+
     }
 }
