@@ -7,7 +7,7 @@ namespace MocatiCar.Core.Services
     {
         Task<PageResult<ReviewRespone>> GetAllReviewAsync(int page, int limit, int star, bool? flag);
         Task<CreateUpdateReviewRequest> AddReview(CreateUpdateReviewRequest carRequest);
-
+        Task<ReviewRespone>GetReviewbyrentalId(Guid id);
         Task<ReviewRespone> GetReviewById(Guid id);
         Task<bool> UpdateReview(Guid id, CreateUpdateReviewRequest update);
         Task<bool> DeleteReview(Guid id);

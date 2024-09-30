@@ -86,6 +86,12 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
+        public async Task<Review> GetReviewByRentalId(Guid rentalId)
+        {
+           var rental = await _context.Reviews.Where(r => r.RentalId == rentalId).FirstOrDefaultAsync();
+           return rental;
+        }
+
         public async Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
             IQueryable<Review> query = _context.Reviews.AsQueryable();

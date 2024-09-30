@@ -165,6 +165,24 @@ namespace MoncatiCar.Data.Services
             };
         }
 
+        public async Task<ReviewRespone> GetReviewbyrentalId(Guid id)
+        {
+            var query = await _repositoryManager.ReviewRepository.GetReviewByRentalId(id);
+            if (query == null) throw new ArgumentException("No rentals found.");
+            return new ReviewRespone
+            {
+                ReviewId = query.ReviewId,
+                CarId = query.CarId,
+                Author = query.Author,
+                Rating = query.Rating,
+                Content = query.Content,
+                Flag = query.Flag,
+                RentalId = query.RentalId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+        }
+
         public async Task<PageResult<ReviewRespone>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag)
         {
             var user = await _repositoryManager.ReviewRepository.GetReviewByUserId(userId, page, limit, flag);

@@ -94,6 +94,40 @@ namespace Moncati_Car_API.Controllers
             return Ok(_resultModel);
 
 
+
+        }
+        [HttpGet]
+        [Route("rental/{rentalId:guid}")]
+        public async Task<ActionResult<ResultModel>> GetReviewByRentalId(Guid rentalId)
+        {
+
+
+            var reviews = await _serviceManager.ReviewService.GetReviewbyrentalId(rentalId);
+
+            if (reviews == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Data = null,
+                    Message = "Id does not exist!."
+
+                };
+            }
+            else
+                _resultModel = new ResultModel
+                {
+                    Success = true,
+                    Status = (int)HttpStatusCode.OK,
+                    Data = reviews,
+                    Message = "Review retrieved successfully."
+                };
+
+            return Ok(_resultModel);
+
+
+
         }
         [HttpGet]
         [Route("car/{carId:guid}")]

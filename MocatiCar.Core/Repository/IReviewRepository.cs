@@ -10,6 +10,7 @@ namespace MocatiCar.Core.Repository
         void UpdateReview(Guid id, Review review);
         Task<IEnumerable<Review>> GetReviewByCarId(Guid carId, int page, int limit, Boolean? flag);
         Task<IEnumerable<Review>> GetReviewByUserId(Guid userId, int page, int limit, Boolean? flag);
+        Task<Review>GetReviewByRentalId(Guid rentalId);
         Task<IEnumerable<Review>> GetReviewsByCarTypeIdAsync(Guid carTypeId);
         Task<IEnumerable<Review>> GetAllReviewByUsername(string username, int page, int limit, bool? flag);
         Task<Review> HasReview(Guid author, Guid CarId);
