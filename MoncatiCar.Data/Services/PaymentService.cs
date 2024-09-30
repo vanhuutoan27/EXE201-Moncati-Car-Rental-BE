@@ -20,39 +20,28 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> AddPayment(CreatePaymentRequest payment)
         {
-            //var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(payment.RentalId ?? Guid.Empty);
-            //if (rentalId == null)
-            //{
-            //    throw new Exception("RentalId is not found");
-            //}
-            ////var paymentStatus =PaymentStatus.Pending;
+            var rentalId = await _repositoryManager.RentalRepository.GetRentalByIdAsync(payment.RentalId ?? Guid.Empty);
+            if (rentalId == null)
+            {
+                throw new Exception("RentalId is not found");
+            }
+            //var paymentStatus = PaymentStatus.Pending;
 
 
-            ////if (rentalId.DepositAmount == 0) {
-            ////     paymentStatus = PaymentStatus.Pending;
-            ////} else if (rentalId.TotalAmount == 0) {
-            ////     paymentStatus = PaymentStatus.DepositPaid;
-            ////}
-            ////else {
-            ////     paymentStatus = PaymentStatus.FullyPaid;
-            ////}
+            var newPayment = new Payment
+            {
+                Amount = payment.Amount,
+                CreatedAt = DateTime.Now,
+                CreatedBy = rentalId.CustomerId,
+                PaymentId = Guid.NewGuid(),
+             //   PaymentMethod = payment.PaymentMethod,
+                PaymentStatus = payment.PaymentStatus,
+                RentalId = rentalId.RentalId,
+            };
+            _repositoryManager.PaymentRepository.Add(newPayment);
+            await _repositoryManager.SaveAsync();
+            return true;
 
-
-
-            //var newPayment = new Payment
-            //{
-            //    Amount = rentalId.DepositAmount.ToString(),
-            //    CreatedAt = DateTime.Now,
-            //    CreatedBy = rentalId.CustomerId,
-            //    PaymentId = Guid.NewGuid(),
-            //    PaymentStatus = payment.PaymentStatus,
-            //    PaymentMethod = payment.PaymentMethod,
-            //    RentalId = rentalId.RentalId,
-            //};
-            //_repositoryManager.PaymentRepository.Add(newPayment);
-            //await _repositoryManager.SaveAsync();
-            //return true;
-            throw new NotImplementedException();
         }
 
         public async Task<bool> DeletePayment(Guid id, Guid UserId)
@@ -63,8 +52,8 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Not Found");
             }
             getPayment.PaymentStatus = PaymentStatus.Deleted;
-            getPayment.UpdatedBy = UserId;
-            getPayment.UpdatedAt = DateTime.Now;
+            getPayment.UpdatedBy = UserId;  
+            getPayment.UpdatedAt = DateTime.Now;    
 
             _repositoryManager.PaymentRepository.Update(getPayment);
             await _repositoryManager.SaveAsync();
@@ -152,6 +141,7 @@ namespace MoncatiCar.Data.Services
             existingPayment.Amount = payment.Amount;
             existingPayment.CreatedAt = existingPayment.CreatedAt;
             existingPayment.CreatedBy = existingPayment.CreatedBy;
+            //existingPayment.PaymentMethod = payment.PaymentMethod;
             existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus);
             existingPayment.UpdatedAt = DateTime.Now;
             _repositoryManager.PaymentRepository.Update(existingPayment);
@@ -171,7 +161,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // Cập nhật trạng thái thanh toán của Payment
-            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus);
+            existingPayment.PaymentStatus =((PaymentStatus)payment.PaymentStatus);
             existingPayment.UpdatedAt = DateTime.Now;        // Cập nhật thời gian cập nhật
             existingPayment.UpdatedBy = userUpdate;   // Cập nhật người thực hiện thay đổi
 

@@ -9,8 +9,9 @@ namespace MocatiCar.Core.Domain.Content
         [Key]
         public Guid PaymentId { get; set; }
         public Guid? RentalId { get; set; }
+      //  public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; } // su dung enum 
-        public string Amount { get; set; }
+        public decimal Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }

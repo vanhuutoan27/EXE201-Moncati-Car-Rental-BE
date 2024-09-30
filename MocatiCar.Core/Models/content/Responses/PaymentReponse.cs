@@ -1,4 +1,6 @@
-﻿using MocatiCar.Core.Domain.Content;
+
+using System.Collections.Generic;
+
 using MocatiCar.Core.SeedWorks.Enums;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,9 @@ namespace MocatiCar.Core.Models.content.Responses
 {
     public class PaymentReponse
     {
-        public Guid PaymentId { get; set; }
+  
+    //}
+      //  public Guid PaymentId { get; set; }
         public Guid? RentalId { get; set; }
         //--> Reponse Rental(RentalAmount ,InsuranceAmount,InsuranceAmount,, commission DepositAmount,TotalAmount, CarId, CustomerId) --> User( fullname,ADdress,Avartar) && Cars (Cartypeid --> Cartype (id , name))
         /*
@@ -29,7 +33,7 @@ namespace MocatiCar.Core.Models.content.Responses
    /*     // Carr type 
         public string TypeName { get; set; }*/
         //
-        public string PaymentMethod { get; set; }
+     //   public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string PaymentStatusString => PaymentStatus.ToString();
 
@@ -38,7 +42,7 @@ namespace MocatiCar.Core.Models.content.Responses
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy { get; set; }
-    }
+        }
     public class RentalResponse
     {
         /*   public decimal RentalAmount { get; set; }
