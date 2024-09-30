@@ -98,6 +98,7 @@ namespace MoncatiCar.Data.Repository
             return await query.ToListAsync();
         }
 
+
         public async Task<Rental> GetRentalByIdAsync(Guid id)
         {
             var rental = await _context.Rentals
@@ -134,7 +135,7 @@ namespace MoncatiCar.Data.Repository
 
         public async Task<IEnumerable<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<Rental> query = _context.Rentals.Where(r => r.OwnerId == id ).Include(r => r.Car)
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.OwnerId == id).Include(r => r.Car)
                 .ThenInclude(i => i.Images)
                 .Include(c => c.Car).ThenInclude(m => m.Model).ThenInclude(b => b.Brand)
                 .Include(r => r.Owner)
@@ -158,11 +159,11 @@ namespace MoncatiCar.Data.Repository
                          .Take(limit);
             }
             return await query.ToListAsync();
-        } 
+        }
 
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id ).Include(r => r.Car)
+            IQueryable<Rental> query = _context.Rentals.Where(r => r.CustomerId == id).Include(r => r.Car)
                 .ThenInclude(i => i.Images)
                 .Include(c => c.Car).ThenInclude(m => m.Model).ThenInclude(b => b.Brand)
                 .Include(r => r.Owner)

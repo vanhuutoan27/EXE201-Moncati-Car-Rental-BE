@@ -384,7 +384,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<RentalResponseForGetById>> GetRentalByCustomerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            var users = await _repositoryManager.RentalRepository.GetRentalByCustomerId(id, page, limit, filter, startDate, endDate);
+            var users = await _repositoryManager.RentalRepository.GetRentalByUserId(id, page, limit, filter, startDate, endDate);
             if (users == null)
             {
                 //throw new Exception("Owner or Customer not found.");
@@ -478,7 +478,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<PageResult<RentalResponseForGetById>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
-            var users = await _repositoryManager.RentalRepository.GetRentalByCustomerId(id, page, limit, filter, startDate, endDate);
+            var users = await _repositoryManager.RentalRepository.GetRentalByOwnerId(id, page, limit, filter, startDate, endDate);
             if (users == null)
             {
                 //throw new Exception("Owner or Customer not found.");

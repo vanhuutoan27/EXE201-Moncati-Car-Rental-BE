@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
-using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.SeedWorks.Enums;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace Moncati_Car_API.Controllers
 {
@@ -39,7 +37,7 @@ namespace Moncati_Car_API.Controllers
             var paymentResponseModel = response;
 
             var parts = paymentResponseModel.OrderDescription?.Split(' ') ?? new string[0];
-            Guid rentalId = Guid.Empty; 
+            Guid rentalId = Guid.Empty;
 
             if (parts.Length > 1)
             {
@@ -53,14 +51,14 @@ namespace Moncati_Car_API.Controllers
                 {
                     //PaymentMethod = "VNPAY",
                     PaymentStatus = PaymentStatus.FullyPaid,
-                    Amount =paymentResponseModel.AmountOfRental,
+                    Amount = paymentResponseModel.AmountOfRental,
                     RentalId = rentalId,
 
 
                 };
                 await _serviceManager.paymentService.AddPayment(paymentRequest);
 
-                return Ok(_resultModel = new ResultModel 
+                return Ok(_resultModel = new ResultModel
                 {
                     Success = true,
                     Status = 200,
@@ -72,8 +70,8 @@ namespace Moncati_Car_API.Controllers
             {
                 var paymentRequest = new CreatePaymentRequest
                 {
-                   // PaymentMethod = "VNPAY",
-                    PaymentStatus = PaymentStatus.Pending,
+                    // PaymentMethod = "VNPAY",
+                    PaymentStatus = PaymentStatus.Deleted,
                     Amount = paymentResponseModel.AmountOfRental,
                     RentalId = rentalId,
                 };

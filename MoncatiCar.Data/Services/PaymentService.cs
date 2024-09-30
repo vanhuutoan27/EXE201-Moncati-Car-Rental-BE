@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MocatiCar.Core.Domain.Content;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
@@ -34,7 +35,7 @@ namespace MoncatiCar.Data.Services
                 CreatedAt = DateTime.Now,
                 CreatedBy = rentalId.CustomerId,
                 PaymentId = Guid.NewGuid(),
-             //   PaymentMethod = payment.PaymentMethod,
+                //   PaymentMethod = payment.PaymentMethod,
                 PaymentStatus = payment.PaymentStatus,
                 RentalId = rentalId.RentalId,
             };
@@ -52,8 +53,8 @@ namespace MoncatiCar.Data.Services
                 throw new Exception("Not Found");
             }
             getPayment.PaymentStatus = PaymentStatus.Deleted;
-            getPayment.UpdatedBy = UserId;  
-            getPayment.UpdatedAt = DateTime.Now;    
+            getPayment.UpdatedBy = UserId;
+            getPayment.UpdatedAt = DateTime.Now;
 
             _repositoryManager.PaymentRepository.Update(getPayment);
             await _repositoryManager.SaveAsync();
@@ -161,7 +162,7 @@ namespace MoncatiCar.Data.Services
             }
 
             // Cập nhật trạng thái thanh toán của Payment
-            existingPayment.PaymentStatus =((PaymentStatus)payment.PaymentStatus);
+            existingPayment.PaymentStatus = ((PaymentStatus)payment.PaymentStatus);
             existingPayment.UpdatedAt = DateTime.Now;        // Cập nhật thời gian cập nhật
             existingPayment.UpdatedBy = userUpdate;   // Cập nhật người thực hiện thay đổi
 
