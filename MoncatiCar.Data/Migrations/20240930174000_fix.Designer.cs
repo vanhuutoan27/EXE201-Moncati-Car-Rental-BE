@@ -12,8 +12,8 @@ using MoncatiCar.Data;
 namespace MoncatiCar.Data.Migrations
 {
     [DbContext(typeof(MocatiContext))]
-    [Migration("20240930152215_DeletePaymentMethod")]
-    partial class DeletePaymentMethod
+    [Migration("20240930174000_fix")]
+    partial class fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -716,823 +716,823 @@ namespace MoncatiCar.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CarFeatureId = new Guid("9188f286-bc44-435e-9430-3a07197d59ec"),
+                            CarFeatureId = new Guid("2cb323e8-0ad3-48ad-bbf6-ab56402930bb"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b12de7b9-22e3-4984-8433-964a98f32041"),
+                            CarFeatureId = new Guid("609f1c3e-45b1-4447-b7ba-0531d8cc0b9f"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("37d195a2-824e-4d14-a7a0-2565583262fb"),
+                            CarFeatureId = new Guid("14fb62cf-cb7e-46a0-9fcf-504cd6838774"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("bd2a9246-1d45-4f34-a616-efe1f2b7bbe4"),
+                            CarFeatureId = new Guid("85ba812a-e6c8-40f8-9738-0e8a06c89885"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e1e62c72-ea4c-4b75-91e0-89bbd8688020"),
+                            CarFeatureId = new Guid("95200392-46e8-4ffb-a783-c6b48e7de364"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1fb74935-f0b6-423c-8bb1-001b21bf79a0"),
+                            CarFeatureId = new Guid("ca79abac-fbe1-4a58-bf85-cce965319198"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1a819866-2b5b-41fa-a144-2911c7e3de7a"),
+                            CarFeatureId = new Guid("ff60d668-5329-4cc4-b202-99cc5f50bce6"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("6cd3225d-076d-4faa-8cbe-5a8e254f5db0"),
+                            CarFeatureId = new Guid("ff244f9f-2693-4937-8990-493596e8fac6"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("bf1a907b-b9f2-4e23-9801-9b95ec1417c0"),
+                            CarFeatureId = new Guid("d0b0cfc4-bef6-41b2-9901-23652bf13c37"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("012194be-1a63-43c1-8643-837eac62e99a"),
+                            CarFeatureId = new Guid("c9787ecd-8945-4c1f-ba19-16ee1589b592"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("53200648-d241-43b6-9e36-27d50baec67e"),
+                            CarFeatureId = new Guid("5d1379be-f0d3-49c6-9c1e-29ddbcfa6f3b"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("78ae511f-0d0a-4144-9e0d-e1a009c39366"),
+                            CarFeatureId = new Guid("95a3346b-faa8-4872-9f1b-a8bd5e8842d8"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9d66c7ec-67e9-4daf-86ba-6da1b3d2212f"),
+                            CarFeatureId = new Guid("68b638bc-7558-4b6a-81cb-e489aa705725"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("62fe0be8-dc05-487b-bb8c-1ff1e12e8d70"),
+                            CarFeatureId = new Guid("c92cdb09-9876-416f-920b-752739a2dc31"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b78144f3-8e92-46f7-bbef-cde0c94be96e"),
+                            CarFeatureId = new Guid("1c039bef-4576-42ce-9446-56840e86a8ef"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("c07ec0ba-232d-4d74-ad0f-6edafa36a21c"),
+                            CarFeatureId = new Guid("f0fad10f-5534-4425-8544-c0d43977b33c"),
                             CarId = new Guid("87ffac08-1eb6-4c3f-8ec8-977860913635"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("a459b1d7-9165-46fa-9c5e-a47dec73048e"),
+                            CarFeatureId = new Guid("74aea664-129f-4e4d-a101-250d8d1306fd"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("6ed0b221-23b1-45b1-99bf-666a78add7a9"),
+                            CarFeatureId = new Guid("d94eda95-6055-488c-8f3d-7e1b4f9ef990"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("91d74187-e017-433f-a1ef-42fcdf50fdad"),
+                            CarFeatureId = new Guid("2e179c2e-60c8-42d9-80a6-75a272efe0bb"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("67f32d85-79bd-422d-bd15-3dd20e4baf34"),
+                            CarFeatureId = new Guid("a1249dff-e522-40e6-a299-2b1c73d1eb6b"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("6cc6eb72-49d3-4c98-b876-972742fa7f00"),
+                            CarFeatureId = new Guid("d0c86168-3a5e-48fc-b2dd-f5ac09a708f1"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("343b9afe-c342-486d-adb9-ddabfad75cba"),
+                            CarFeatureId = new Guid("56237ce6-8e82-4fd3-a2bb-fc0ec2dd5959"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("f0f650de-6e95-4922-9a0b-99b31e240867"),
+                            CarFeatureId = new Guid("178e71ab-27f1-4802-921a-8bb73cf93104"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("bac788c3-c570-46a4-a8dc-62067b482219"),
+                            CarFeatureId = new Guid("a07f5443-5d15-4482-8061-265b71f2d8e1"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("656735dd-f377-4646-b5b9-e6b2fd71a011"),
+                            CarFeatureId = new Guid("52ac3a44-3e80-4307-8927-a3cc7753abda"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("c453d4b5-92af-41ef-b852-b9c081348a10"),
+                            CarFeatureId = new Guid("129d443d-d969-49de-a90e-8296b0db4d6e"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("76ed2c48-48b3-4b6c-bdb0-cf007426654d"),
+                            CarFeatureId = new Guid("b43f6c86-33db-4112-8048-3189acc5e5e6"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("741d0b4d-4af3-4c5e-ade1-c330ffcc93dc"),
+                            CarFeatureId = new Guid("3efca504-3c1f-4814-9d63-75c0660545e9"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("842681aa-f688-46cd-a4b0-67fc91e4944f"),
+                            CarFeatureId = new Guid("9fd242d1-d21b-4bb1-98b6-bdde2bb21dc9"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("86eb5d66-bee3-49b8-8a30-8385b3cc21e0"),
+                            CarFeatureId = new Guid("6a407718-c8c8-4579-ad31-e1e397dbdf28"),
                             CarId = new Guid("95cf0585-b940-4afb-926d-01d9a3a27259"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("2d240732-8126-42b6-a715-26e6af0072d0"),
+                            CarFeatureId = new Guid("48af67c8-2dab-4c2a-bacc-34e595d9efce"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b05cf7cc-6638-4d1c-a9e4-2fe1125d61fa"),
+                            CarFeatureId = new Guid("5f714e18-6c2a-4a95-a01f-0b0127ba55da"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("cef57c71-9e0a-4efb-9736-e364f5eba290"),
+                            CarFeatureId = new Guid("b8560772-999b-4c28-9c3c-da39052e509f"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("4cb5ccdb-8e75-47fc-8eb5-8f7d66d12b13"),
+                            CarFeatureId = new Guid("787b4218-f736-46e1-9b95-9bc7706f507c"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("44dbdfdc-5a27-4935-856a-6442c87d3980"),
+                            CarFeatureId = new Guid("be11d9ce-800d-4846-ad2c-8554d44ffa45"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("0b801cba-2ec1-4c97-b415-34628b0e1db8"),
+                            CarFeatureId = new Guid("71e74187-7a43-4a84-8363-89bed0a3d1d7"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e770b7b8-cfa7-4baf-8cf7-0d1ca0475a2a"),
+                            CarFeatureId = new Guid("4bbdf6c8-f5f5-41ca-86e3-5f28174b215a"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("023538b3-5759-4972-b150-e84b1983e0f4"),
+                            CarFeatureId = new Guid("06252364-3eab-44b6-8473-3a423bde5f2f"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("734568c6-9130-41dc-ab01-e820dd89804a"),
+                            CarFeatureId = new Guid("bb69be00-dfd3-4ec1-9e67-622e0b206e12"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("721fe5e2-4b6d-4346-bcf5-765571e82359"),
+                            CarFeatureId = new Guid("f91e7390-9083-4138-865c-421c9906e9eb"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("89f805bd-e8f2-493f-9971-3d578585c2bf"),
+                            CarFeatureId = new Guid("ac1b1eba-9238-4e7b-8812-5918b94755ab"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("8ff0d870-35ae-4d65-b811-075f22be3495"),
+                            CarFeatureId = new Guid("94fa43ce-3a5b-4040-b5a3-da826d241c7a"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9ed38faf-aafc-4049-8bdc-7a82c606309f"),
+                            CarFeatureId = new Guid("e8efbd1c-8aa1-4dcc-a5bc-0b52e9b3ce16"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d113c25f-af68-4a58-be22-68327432a3dc"),
+                            CarFeatureId = new Guid("60f8e219-85db-4e4e-83de-d4885d29131b"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("ef4e7006-5722-4e38-9aa4-a849b1428086"),
+                            CarFeatureId = new Guid("b1cdc481-bd11-4383-8ae8-fd954008cf7e"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("0802a1ed-b386-45c1-bde8-2f73703e5f94"),
+                            CarFeatureId = new Guid("aac98ecf-71d7-4426-a598-0fe56ae8b61b"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("bc7d9cc8-3aeb-4013-a045-dcb25aa0f611"),
+                            CarFeatureId = new Guid("31afe942-23ae-4f0b-9d27-2ff06874ee44"),
                             CarId = new Guid("c0ee3730-2717-4f50-8294-cf13437bbc2b"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("08db4ae3-9e46-408b-8d34-e05efb8df0be"),
+                            CarFeatureId = new Guid("21acb7dd-d521-4462-a377-8ee2f88a47b1"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("38ad3f6e-084a-430f-aeb0-dec42eaa4efe"),
+                            CarFeatureId = new Guid("9b4f60e2-a883-4425-9952-dda40b3f6124"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d5969790-9a4b-411c-870a-5d84e285e47e"),
+                            CarFeatureId = new Guid("988de854-71a7-4f3c-8dba-2d81ae2039a6"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("a570cdd5-8197-427a-8dc0-7e1c37c98a7c"),
+                            CarFeatureId = new Guid("b4b0137e-4172-4833-b2f0-4663f807ea08"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("41adb6e0-238b-4900-b63c-0f73f425b47f"),
+                            CarFeatureId = new Guid("7e33d3b5-4d55-4223-b40a-9dbed5d305f8"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("7f6c24a5-8fd4-44ae-aa04-cb4212bb283f"),
+                            CarFeatureId = new Guid("b76700c5-a09c-4d97-869d-fcac155887d4"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e1172657-fcd3-4bb1-9935-6f65b6f0c1f8"),
+                            CarFeatureId = new Guid("768d5a86-db7e-4507-a06e-ba75d1c948ef"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e2ca278d-1b4e-42fb-bf3b-8305f2b91c35"),
+                            CarFeatureId = new Guid("d0d5a28b-697c-4a5e-b3bc-a27018fc27c6"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("738f9573-a664-4c08-a59c-6f65a2fa16d5"),
+                            CarFeatureId = new Guid("92377706-5ef4-45ba-95a4-f0ee78b086d1"),
                             CarId = new Guid("8705f403-06bc-4983-8c81-86310959cc37"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("92eac2bc-7577-49f6-8dcf-e9d0f5e167c4"),
+                            CarFeatureId = new Guid("9efad4dc-0718-4baf-90a6-48fa3f64bffe"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("ae262325-a60e-45c8-a288-94345cc6933d"),
+                            CarFeatureId = new Guid("e679001f-de13-4886-8bf8-85fa7b2124e2"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d1843d46-5987-4f9a-b0d5-24e31373151c"),
+                            CarFeatureId = new Guid("3eec8664-b69f-4bff-9fcb-5deb7868e177"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("5e75832c-f38b-4d8a-9b85-d049af8b23a8"),
+                            CarFeatureId = new Guid("f2b2a9b2-1a16-492a-9e81-5292eee9f81c"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("069fdf8c-26d8-4cc4-848a-5888def8b206"),
+                            CarFeatureId = new Guid("4abc71d4-b176-47f3-b38e-0bb88aa1e9c2"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("0c89365f-1ad8-4d38-b27b-d3087c2e97e3"),
+                            CarFeatureId = new Guid("d47c727b-7dde-4c9e-bf5a-d4f658fb7e11"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("ce18521d-08ae-4cb6-a060-c23fd9f44739"),
+                            CarFeatureId = new Guid("649395ee-ae09-48ec-bb4f-da702f8071fa"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("5e7b63b4-44aa-4284-be6c-09e9763576e8"),
+                            CarFeatureId = new Guid("a4e473e7-497a-4c9f-9eea-e2f927aa9758"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("6adbeafa-91fe-49ac-9bcd-70d346e2bad4"),
+                            CarFeatureId = new Guid("aa5115e1-0795-4497-a4bd-1acacb067561"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("2209e1aa-1736-463e-8325-cb18ac247a9e"),
+                            CarFeatureId = new Guid("2c9100f7-8c84-4cfa-ace6-7a59a9fbbb34"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("ecbc9213-1929-433b-8fbb-df206200186a"),
+                            CarFeatureId = new Guid("f1827270-64f3-462b-8236-9ddce1a9be95"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1fe2f5d6-846a-4746-8709-6d92cb914c40"),
+                            CarFeatureId = new Guid("fa94d10f-c25b-487b-8a0c-27decb160a87"),
                             CarId = new Guid("7ac71700-7a87-45b6-9120-19d4ed3933fa"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9098c9d1-6006-4ed2-95d2-fc52be7f1687"),
+                            CarFeatureId = new Guid("c8d084ea-0c25-4127-b10b-ace7d8fdbf69"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1a74b408-fffc-414b-a519-8c97a18c9299"),
+                            CarFeatureId = new Guid("20c4d9fd-ce31-464b-8aa4-2f92fbc7399e"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("ef61d1cd-ea20-40f4-abc9-8391d6ca2044"),
+                            CarFeatureId = new Guid("9cf8cc70-e289-43df-9d10-480962d84703"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("cd73b2c2-eb70-4a2f-9ff9-5718d912e54a"),
+                            CarFeatureId = new Guid("584fb687-161f-4276-84c0-366695c39a3d"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e45fb00a-62aa-4e07-a1a3-1a5570e62292"),
+                            CarFeatureId = new Guid("5f38b2f6-c646-4d8c-9990-9c17181ce7de"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1aca38cc-0caa-4020-b380-31c0ce4e8fda"),
+                            CarFeatureId = new Guid("044fd9ef-5bb2-4098-9aa6-2fff0eb49fd3"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("5ae0ce92-4734-4545-9192-ff38590d5004"),
+                            CarFeatureId = new Guid("aa971895-da26-453f-8b4c-7cb530bd70eb"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("65c474ec-ff61-43f9-820e-a59f29597162"),
+                            CarFeatureId = new Guid("cfddea47-14dd-4967-9db9-d85f94f1a250"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("cc699ab6-598d-47f0-8989-88a6faa28d3d"),
+                            CarFeatureId = new Guid("c48e1091-2d0a-49b8-ac2e-cbdbf0ac678e"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("198e4997-1364-42d3-9b31-dac375ae1d6c"),
+                            CarFeatureId = new Guid("d0aec44a-06bb-490f-a020-b6b0d2879355"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("65c0bb20-738e-4429-ad26-91e1a01d07cc"),
+                            CarFeatureId = new Guid("53e4db4a-bbf3-4a6e-8677-8ae4150a7b7c"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e8b3c6b8-72b1-4a54-815f-ea99e0cb7d50"),
+                            CarFeatureId = new Guid("fbb94e79-9a27-4751-b7d2-fe52e5174cc6"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("6ebf1d36-35fa-4cad-9d6f-671476d02020")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("beea3865-f784-43a5-a814-94bb11a15b20"),
+                            CarFeatureId = new Guid("1d28420e-18da-4d45-ade0-67f1ea0e3cff"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("393544c4-8c7f-4c6b-91ac-81b1a8acab35"),
+                            CarFeatureId = new Guid("e7deb731-d62c-46fc-8b79-da172aa02e74"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("43d58bf1-06e5-4ddb-85dd-0b29ffd33d67"),
+                            CarFeatureId = new Guid("e1445d16-6562-4e84-aa97-31f300409d4f"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("f1f4d3f6-9727-4267-b834-63bc2b4cc32f"),
+                            CarFeatureId = new Guid("f4689c75-831e-49d8-ae47-0cee6d1b90ec"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("569ba415-6172-4960-8cf8-36ad5c3cf7db"),
+                            CarFeatureId = new Guid("1e87a21d-b85d-4a70-a248-e1c0e82c34d1"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d7f02626-1800-491c-a3ac-df501a602256"),
+                            CarFeatureId = new Guid("215be73a-02a2-40b2-892f-6aaa5cfeff65"),
                             CarId = new Guid("e9743276-25fd-4b47-a8ac-be13f27d2a53"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d125ba0a-0813-4233-b1b3-b3a74e32aad9"),
+                            CarFeatureId = new Guid("8a864c1e-53d5-462c-8bfe-9324981a4586"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("eec3ac81-6d48-40c2-911c-4c34b912dec9"),
+                            CarFeatureId = new Guid("ea6d6092-6936-4138-a160-59e112efba14"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1240fcb5-9010-4aea-a9dc-1f90f8b27fda"),
+                            CarFeatureId = new Guid("7948f358-c9f0-47b1-ae95-a5fe5b3d404a"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("274aa3a0-05f8-4ff0-b100-e70ddb0d39d9")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("199d1f90-cdf4-400d-972e-750982c29ef9"),
+                            CarFeatureId = new Guid("430d70b4-da5d-4951-8d30-c55b8723fcbb"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d39edbc4-592d-4fae-81d7-6b22672b7bfe"),
+                            CarFeatureId = new Guid("496a98e6-0112-42c9-b4b2-af665710775a"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("8b872a7d-1c7e-435e-9fcc-fe0fcf380625"),
+                            CarFeatureId = new Guid("aacfbdce-1439-49de-bc3e-76d3db852084"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("c7fa940c-8f07-42c6-bb5b-5816d3dda3a5"),
+                            CarFeatureId = new Guid("2a792a0b-73f8-4d9b-a5d9-7ce08b37558f"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("4d2b7db4-6f59-4c7f-84af-c4b0005767a5"),
+                            CarFeatureId = new Guid("bb7b6d78-ac94-4852-9365-0149e326d338"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("be63b34d-170f-4330-85c5-da983b7cd537"),
+                            CarFeatureId = new Guid("351bad2b-5012-45b2-ab5c-ffb638d84b88"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("c4432d07-b8e6-49b0-919f-0d2c6fb64737"),
+                            CarFeatureId = new Guid("ba7cc16a-c084-475e-8ce0-18d09f7a7145"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("4c74d515-1067-4fe0-b9f9-98e428c9a142"),
+                            CarFeatureId = new Guid("bd9d6bf1-39f4-4057-b315-0445a1a1ee07"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("8bdde1e4-8d7a-427b-ada6-c8ebe683dfff"),
+                            CarFeatureId = new Guid("b2bd0422-f879-478a-b2c7-c0d5f4f61115"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("32e47c93-42dc-4a85-9a97-221c7a8ccb9b"),
+                            CarFeatureId = new Guid("359323e7-38c4-4bfe-a12f-6aa79a1fc0c5"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("d38f022f-a5f9-4e18-b7e0-28bb2225cc27"),
+                            CarFeatureId = new Guid("d296d99f-b773-4022-8859-c817cbede7f3"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("cc5ca7b1-abaa-4ca1-a868-c1681a1718f5"),
+                            CarFeatureId = new Guid("97c594c5-d2e9-42ab-b092-9bfd6350de5e"),
                             CarId = new Guid("1e83d72d-ad11-4f9f-b342-b39a2ef7a2f8"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("8ca6a0f2-4f8b-4c95-985c-31008d202342"),
+                            CarFeatureId = new Guid("8b939073-d99e-432a-89fe-d2f0b36d5186"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("f58dc247-d5c4-4643-9b45-b3087e0f8d73"),
+                            CarFeatureId = new Guid("76db22d6-ebff-45fa-a345-33e7b2f5a0ac"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("f61f2a80-ff3e-4416-9da6-15734ebfe7d5"),
+                            CarFeatureId = new Guid("e93b11bb-9a95-4f21-8368-0c1d22c1b496"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("beafe5b6-ef59-49e1-b74b-023232151881"),
+                            CarFeatureId = new Guid("887dd59c-b01e-4a75-b26e-0154e02e0784"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("f8ad09a1-d149-44c9-ac14-d5c8cb1d4167")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("465587c8-8e34-4636-be6c-8f0f5a4ff0a0"),
+                            CarFeatureId = new Guid("b453d369-9b01-4b87-9008-e8ade42ca20d"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("985fab66-0c32-4c92-8897-6669972a8e4f"),
+                            CarFeatureId = new Guid("57ef05d2-eb63-495e-8abc-58a7ad4c4747"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("04947d0f-73ce-4683-b7f8-dd3eebccfd96"),
+                            CarFeatureId = new Guid("f8f50810-c219-4bb8-9223-7e2a2c9b4d7a"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("7154a9d7-733c-41ee-a5b6-52b8913acafe"),
+                            CarFeatureId = new Guid("179037b8-bd8e-40f7-b4b5-0ae5a7094c6f"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1b27eed7-c8e6-4e89-81d9-71ccd77d050a"),
+                            CarFeatureId = new Guid("e360d14d-9f61-4388-bb6d-9b0931c82ed3"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("15d444f8-d25e-41aa-aae3-61b13f6eb4f7"),
+                            CarFeatureId = new Guid("45fccaf1-950a-4c48-8783-a9d2e3106943"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("a1157890-f793-431d-9a27-0e575d2ce5c8"),
+                            CarFeatureId = new Guid("01f50c50-90d3-41ea-a12c-19704a53f457"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("5eea64ff-a488-427b-b018-a6a93c965bc1"),
+                            CarFeatureId = new Guid("fd7a88f2-8083-4023-b7f2-fe85e5f02b57"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1727a8f1-55f7-4b1f-a74a-61ff3b701931"),
+                            CarFeatureId = new Guid("e27754a3-897f-48a3-b513-24c57c100f87"),
                             CarId = new Guid("06ed14a0-a17e-48d8-868f-33cf5ce916aa"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("84fa9b20-661b-4ee6-be07-f607f444e522"),
+                            CarFeatureId = new Guid("4e8aa42c-cf63-4dd9-b168-425f70439779"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b0e58419-fdcd-4e9c-abaa-d5e536aeaec6"),
+                            CarFeatureId = new Guid("b7003514-5456-406c-a5b8-1ae3d75ce64b"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("310c2b69-db0e-4579-8a22-a0cb19361adc"),
+                            CarFeatureId = new Guid("2be2dab0-ae17-466f-bef1-308cef91a35d"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("c4d9f42e-6c19-4ee3-b9ea-6b004aa1dfa3")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("bb56d6e3-3dcd-4ad3-8d85-02587de1c229"),
+                            CarFeatureId = new Guid("86090143-2014-4972-9850-68bdea4d25f1"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("be392eff-ef38-4039-94ec-7922f315ea6a")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b3000cee-80de-4f7d-ae31-87cce62f58c0"),
+                            CarFeatureId = new Guid("a10732e9-3650-4461-8522-8e6d2b3020fc"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("182612c2-4fbf-46d9-bee0-9e1a10c29ff5")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("674d5ba7-609a-4e83-996a-41fad4b55b59"),
+                            CarFeatureId = new Guid("90f48013-4a58-41a6-87bc-eeb038e85195"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("e285ec6a-3119-43b5-8edb-209fa732a77d")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("1971b3c9-fb6d-457a-a029-8820898d4566"),
+                            CarFeatureId = new Guid("1e44cc5d-53e0-4bf9-894a-175361f54603"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("2fc8b5d1-9fb7-417a-bf6e-2b866cedb9b0"),
+                            CarFeatureId = new Guid("3d028796-96cd-4e37-935d-7c2879ff26b7"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("11133230-517a-4a53-aaa5-1585b6df940b"),
+                            CarFeatureId = new Guid("5751b160-4fde-4807-a30a-f33c56b4699f"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b1f7d3c6-cc28-4b14-b742-a08e7a16bfc9"),
+                            CarFeatureId = new Guid("62c4f7fe-f16f-418d-ab7e-e4bc7b56dbe0"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("905d9d8f-7b09-4536-82d1-d15b938b2dac")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("5ee0ef36-a8ae-48bc-8fe9-8c2be25ec703"),
+                            CarFeatureId = new Guid("4b5a6669-eda3-4e5b-958a-ea92d3b8f40a"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9a0e2ef5-d00b-41f3-b621-2c98d38ff7bd"),
+                            CarFeatureId = new Guid("c292db33-179d-452f-8d2f-148f594484f5"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("75d90d73-48c2-4288-8d5d-944e8757451c"),
+                            CarFeatureId = new Guid("174bfb7c-1aa6-41f5-ba95-c556807f2a2c"),
                             CarId = new Guid("d2da81d0-8f87-43cb-9dba-1a0903c1871a"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("14d71366-148c-4ae5-a7df-be1918b35ad1"),
+                            CarFeatureId = new Guid("0b756819-50ec-4b76-acc9-3ce4d17d595d"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("845a0c8f-59d5-4abb-bdc9-bf95d4d0ce1c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9dead22a-8dd8-4734-802b-4abe833163e4"),
+                            CarFeatureId = new Guid("26d83cce-ec97-4f66-b56c-c0accf873770"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("533a7038-190b-4830-8125-5d2aacb7174e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("2cecd416-341c-48a7-b530-f5299be29d36"),
+                            CarFeatureId = new Guid("eb4389a5-bbb4-47c9-afb7-90697972aab7"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("4481e46d-e85b-4870-a210-cdfea8932641")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("7404df9a-1143-41d1-aec6-e5716056d9b7"),
+                            CarFeatureId = new Guid("c5876dd9-6b74-474a-848a-4fa253600133"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("25814c9e-4ee4-4f36-a973-44cf0cf64485")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("c1404127-5f7c-4fd9-b045-7f54ae4e13ed"),
+                            CarFeatureId = new Guid("d1509647-aa1d-4b34-ada5-feac06b6e548"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("9501c63f-e7ca-4ef6-898e-9c8a23f4edd1")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("b1391ca9-96f3-48a4-ae4a-e37f1d43c972"),
+                            CarFeatureId = new Guid("7453a93e-f28b-4ed2-9f01-2b2963196a7d"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("59df0181-9f39-4f9c-b41f-2a0f3d6360d0")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("afab1d78-fbe6-4e00-8415-50ce46234246"),
+                            CarFeatureId = new Guid("ac154412-a822-4d63-9bfe-512f6104ce9f"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("defbc09e-9f00-49b9-a37e-592a17cecc63")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("e0bfa69c-ee32-43ff-a960-46bcbdf510c3"),
+                            CarFeatureId = new Guid("e25b6835-b05b-4972-b674-c5cbc6c82c01"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("06653486-dec4-4054-ba49-c3a63490453e")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("8270d130-5ce2-4792-a318-be5271bfb0bc"),
+                            CarFeatureId = new Guid("54ad4587-0cb3-4116-9400-c224ceafa20f"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("057670f0-ab14-41bf-b5f0-42c0bdcc069c")
                         },
                         new
                         {
-                            CarFeatureId = new Guid("9f63b2b5-6481-460b-ab0d-e749114ac086"),
+                            CarFeatureId = new Guid("93b3824f-ccfa-4c58-8ac6-53f4579711bc"),
                             CarId = new Guid("35fa8298-81a2-4ddd-9312-0876455bf402"),
                             FeatureId = new Guid("f761d066-304f-49f7-b988-3aca64536d9b")
                         });
@@ -2416,9 +2416,8 @@ namespace MoncatiCar.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Amount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2713,7 +2712,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("277ea066-d041-40ff-9dae-6271dbd6fd87"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20a0a9e7-737d-4be3-9ef3-842ecc519f30",
+                            ConcurrencyStamp = "c0e061ca-62c6-4826-8535-bffc9f7ff70e",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quocdai@gmail.com",
                             EmailConfirmed = true,
@@ -2721,10 +2720,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "QUOCDAI@GMAIL.COM",
                             NormalizedUserName = "DAINQ115",
-                            PasswordHash = "AQAAAAIAAYagAAAAELrBsRnmrOakuqoLj39x54aRFUXblZuEAO00tPAlP4kI+qfdhLs4SbC80kb/L6gKdA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGrExEcLQHrzoFkAPsAg2n3WajTnlNO4PzJSva/T58RQHB276P59XRErAQFIjEaU4w==",
                             PhoneNumber = "0932748924",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "728f3976-3768-4aca-b2de-df571696ad24",
+                            SecurityStamp = "af0071cd-f6ed-418e-bd7c-c4d44c3f1d71",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2734,7 +2733,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("9d7e87a9-b070-4607-a0b0-2d2322aece9b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce2dacf0-a6c5-4101-96d2-1cf7e28f2e80",
+                            ConcurrencyStamp = "5a2f480b-93f8-4f03-a936-dfe42448dc4a",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "toanvan@gmail.com",
                             EmailConfirmed = true,
@@ -2742,10 +2741,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TOANVAN@GMAIL.COM",
                             NormalizedUserName = "VIPRO123",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJMIhCt2phr6oVERIQKv6xlPgcclW1REXlUWSqI1HMbtKSwj3CaxGuFAKJnLQPdFUA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOxCUzTjDBz+u1SXOQborHAoaDMKMUdB8s0kA8KBNmAYw/ypKt2iKAbBnxJ5Shbf4w==",
                             PhoneNumber = "0999998888",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "44fe93bf-5575-40a7-b9a1-53c85fe4fa87",
+                            SecurityStamp = "7aa089f0-90ad-4ea2-b2d0-203104f264c5",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2755,7 +2754,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("0075ba2c-f60d-4f75-b9f1-f71579bc4fd2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ebea50d-9d5d-40e2-99fa-a8f63ea4e494",
+                            ConcurrencyStamp = "fb80ebd3-25eb-432b-8ab0-95ee6ea5c063",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "khanhpham@gmail.com",
                             EmailConfirmed = true,
@@ -2763,10 +2762,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KHANHPHAM@GMAIL.COM",
                             NormalizedUserName = "KUEM113",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIrbPfhrswIT0jIa1C16IZbWqWH8XRir7nXma1Lg53vweSILnHkWwIqgtaLth6cBPA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO6z70RZOnp5ElnbWHWHG4SsmkZ+naosqNp8CS8p2NpIIVIh10TZehFFO6h+C/AIsg==",
                             PhoneNumber = "0969998878",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3e427f22-0963-4bbf-9abe-79b4dad7fd83",
+                            SecurityStamp = "360e7bec-8dd9-4de4-856f-957dc0fa25ef",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2776,7 +2775,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("3b1a8845-765f-4d91-984a-4e8a9d7d376e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "deeb6c90-e0b7-4cff-a555-504a83fa2d57",
+                            ConcurrencyStamp = "73617dc1-30fb-4093-b3b4-e0d56ba86c4e",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "khaitoi@gmail.com",
                             EmailConfirmed = true,
@@ -2784,10 +2783,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KHAITOI@GMAIL.COM",
                             NormalizedUserName = "XAUTRAI123",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJlTLp7af6w2nHjfxTa6mtcXEeSnEvMBz/J2KD+a9nAB1rfD8IARKDugtwZSCKMETg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHpcLd9QMBLGeOq2bgKUoPMzBiNs5ucDTrF+osaoAxA5E98ugREtxBVruDIWQQzjxw==",
                             PhoneNumber = "0777444499",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "65f367da-ed5f-45d1-b45a-88dbfe22ab92",
+                            SecurityStamp = "370c2f89-f0e7-452f-a049-3a3ad25d997f",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2797,7 +2796,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("4565f47a-7239-4666-b9b4-0523b1d9ba3d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29ec3051-e3af-4d9f-a355-17758d983030",
+                            ConcurrencyStamp = "82459a3e-0213-459e-8ec5-6532e446a703",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quangdalat@gmail.com",
                             EmailConfirmed = true,
@@ -2805,10 +2804,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "QUANGDALAT@GMAIL.COM",
                             NormalizedUserName = "QUANGSPA009",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPFlT8vs7mpiT0prRB/cWEYTI8ZMMwAMv+NT4RdUGwcsfG7isBAROZKBSN8oM5347A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPRhyTIFBRARKcOT1xgetFz2Cci81urGSUpSgBZDVyowo00LbRAOJkAIn9+vOHD1pg==",
                             PhoneNumber = "0999777712",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a88379a-65ce-4c51-9a1f-29ac32204c1c",
+                            SecurityStamp = "8d05d6e8-4aac-4a71-ac34-e55a19633e45",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -2818,7 +2817,7 @@ namespace MoncatiCar.Data.Migrations
                         {
                             Id = new Guid("1246b8e5-af73-4aa3-bdef-b8815e21a78b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccc9c4e6-8b04-4caa-b6ba-6ec04c10b45c",
+                            ConcurrencyStamp = "4a35743e-c1c7-442b-8c60-a698ba26404e",
                             CreatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "duythunglungtinhiu@gmail.com",
                             EmailConfirmed = true,
@@ -2826,10 +2825,10 @@ namespace MoncatiCar.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DUYTHUNGLUNGTINHIU",
                             NormalizedUserName = "DUYPRO113",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH41itTMGquU/Pe4HkDmrplSUUoKcaZrHRQ+7UvFhOM/o36Joi7qF4N8DsmxTkF+9w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNpHCsHyqxpjhLD4oWYBbK+es/1x128/kkRDW5J9P/8CMgES5Ct5KALLOIiFhWafg==",
                             PhoneNumber = "0555666612",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b740987f-bcdf-460a-8dae-baeb1074250f",
+                            SecurityStamp = "77918b08-bf10-4bfd-93e7-96468ed6c2b8",
                             Status = true,
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
