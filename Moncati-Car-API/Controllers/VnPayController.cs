@@ -7,7 +7,7 @@ using MocatiCar.Core.SeedWorks.Enums;
 namespace Moncati_Car_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class VnPayController : ControllerBase
     {
 
@@ -20,8 +20,8 @@ namespace Moncati_Car_API.Controllers
             _resultModel = new ResultModel();
         }
 
-
-        [HttpPost("create-payment-url")]
+        // [HttpPost("create-payment-url")]
+        [HttpPost]
 
         public async Task<IActionResult> CreatePaymentUrl([FromBody] PaymentRequest model)
         {

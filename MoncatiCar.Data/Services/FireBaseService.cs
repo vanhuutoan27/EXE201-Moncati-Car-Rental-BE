@@ -134,7 +134,7 @@ namespace MoncatiCar.Data.Services
         public async Task<string> UploadPdfToFirebase(MemoryStream memoryStream, string fileName)
         {
             // Define the path where the file will be stored in the bucket
-            var objectName = $"uploads/{fileName}";
+            var objectName = $"Moncati/Contract/{fileName}";
 
             // Reset the position of the MemoryStream to the beginning before upload
             memoryStream.Position = 0;
