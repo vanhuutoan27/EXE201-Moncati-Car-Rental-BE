@@ -3,6 +3,7 @@ using MocatiCar.Core.Models;
 using MocatiCar.Core.Models.content.Requests;
 using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
+using MocatiCar.Core.SeedWorks.Enums;
 using static Google.Apis.Requests.BatchRequest;
 
 namespace Moncati_Car_API.Controllers
@@ -50,8 +51,8 @@ namespace Moncati_Car_API.Controllers
                 var claims = HttpContext.User;
                 var paymentRequest = new CreatePaymentRequest
                 {
-                    PaymentMethod = "VNPAY",
-                    PaymentStatus = "FullyPaid",
+                    //PaymentMethod = "VNPAY",
+                    PaymentStatus = PaymentStatus.FullyPaid,
                     Amount =paymentResponseModel.AmountOfRental,
                     RentalId = rentalId,
 
@@ -71,8 +72,8 @@ namespace Moncati_Car_API.Controllers
             {
                 var paymentRequest = new CreatePaymentRequest
                 {
-                    PaymentMethod = "VNPAY",
-                    PaymentStatus = "Pending",
+                   // PaymentMethod = "VNPAY",
+                    PaymentStatus = PaymentStatus.Pending,
                     Amount = paymentResponseModel.AmountOfRental,
                     RentalId = rentalId,
                 };

@@ -21,7 +21,7 @@ namespace MocatiCar.Core.Models.content.Requests
         public Guid PaymentId { get; set; }
 
         public Guid? RentalId { get; set; }
-        public string PaymentMethod { get; set; }
+       // public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; } 
         public decimal Amount { get; set; }
         public DateTime? CreatedAt { get; set; }
