@@ -6,7 +6,7 @@ namespace MocatiCar.Core.Domain.Content
     public class Contract
     {
         [Key]
-        public Guid ContactId { get; set; }
+        public Guid ContractId { get; set; }
         public Guid RentalId { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? ExpirationDate { get; set; }

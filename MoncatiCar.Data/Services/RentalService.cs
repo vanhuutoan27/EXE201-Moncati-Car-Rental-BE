@@ -33,36 +33,57 @@ namespace MoncatiCar.Data.Services
             {
                 return false;
             }
+
+            // Lấy thông tin xe liên quan tới rental
+            var car = await _repositoryManager.CarRepository.GetByIdAsync(rental.CarId.Value);
+            if (car == null)
+            {
+                throw new Exception("Car not found.");
+            }
+
+            // Kiểm tra điều kiện nếu rental đã hoàn thành và quá hạn
             if (rental.RentalStatus == RentalStatus.Completed && rental.EndDateTime < DateTime.Now)
             {
                 rental.RentalStatus = RentalStatus.Overdue;
             }
+
             Console.WriteLine($"Current rental status: {rental.RentalStatus}");
 
+            // Thay đổi trạng thái RentalStatus và đồng thời cập nhật trạng thái CarRentalStatus
             switch (rental.RentalStatus)
             {
                 case RentalStatus.Pending:
                     rental.RentalStatus = RentalStatus.Confirmed;
+                    car.RentalStatus = CarRentalStatus.Rented; // Xe đã được xác nhận và đang được thuê
                     break;
                 case RentalStatus.Confirmed:
                     rental.RentalStatus = RentalStatus.Active;
+                    car.RentalStatus = CarRentalStatus.Rented; // Xe đã bắt đầu được thuê
                     break;
                 case RentalStatus.Active:
                     rental.RentalStatus = RentalStatus.Completed;
+                    car.RentalStatus = CarRentalStatus.Available; // Sau khi hoàn tất, xe sẵn sàng cho thuê lại
                     break;
                 case RentalStatus.Completed:
                     throw new Exception("Cannot update status from 'Completed'.");
                 case RentalStatus.Cancelled:
                 case RentalStatus.Overdue:
-                    throw new Exception("Cannot update status from the 'Cancel'.");
+                    car.RentalStatus = CarRentalStatus.Available; // Xe có thể được cho thuê lại nếu bị hủy hoặc quá hạn
+                    throw new Exception("Cannot update status from 'Cancelled' or 'Overdue'.");
                 default:
                     throw new Exception("Invalid status.");
             }
 
+            // Cập nhật trạng thái của Rental và Car trong repository
             _repositoryManager.RentalRepository.Update(rental);
+            _repositoryManager.CarRepository.Update(car);
+
+            // Lưu thay đổi vào database
             await _repositoryManager.SaveAsync();
+
             return true;
         }
+
 
         public async Task<bool> ChangeRentalStatusToCancelAsync(Guid id)
         {
@@ -72,6 +93,10 @@ namespace MoncatiCar.Data.Services
                 return false;
             }
             // Kiểm tra nếu EndDayTime đã qua và trạng thái hiện tại là Active
+            if (rental.RentalStatus == RentalStatus.Completed)
+            {
+                throw new Exception("Cannot update status because rental is already completed.");
+            }
             if (rental.RentalStatus == RentalStatus.Active && rental.EndDateTime < DateTime.Now)
             {
                 rental.RentalStatus = RentalStatus.Overdue;
@@ -111,6 +136,9 @@ namespace MoncatiCar.Data.Services
                 UpdatedAt = DateTime.Now,
             };
             _repositoryManager.RentalRepository.Add(create);
+
+
+
 
             //add contact
             var owner = await _repositoryManager.UserRepository.GetUserById((Guid)rentalRequest.OwnerId);
