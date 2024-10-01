@@ -22,9 +22,7 @@ namespace MoncatiCar.Data.Services
             var contract = new Contract()
             {
                 RentalId = request.RentalId,
-                EffectiveDate = request.EffectiveDate,
-                ExpirationDate = request.ExpirationDate,
-                ContractTerms = request.ContractTerms,
+                 ContractTerms = request.ContractTerms,
                 Attachment = request.Attachment,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
