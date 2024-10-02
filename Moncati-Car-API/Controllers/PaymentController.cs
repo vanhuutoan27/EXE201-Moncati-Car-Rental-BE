@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Moncati_Car_API.Controllers
 {
-    [Route("api/v1/payment")]
+    [Route("api/v1/payments")]
     [ApiController]
     public class PaymentController : ControllerBase
     {
@@ -55,8 +55,7 @@ namespace Moncati_Car_API.Controllers
 
         /*     [HttpGet("{id:guid}")]*/
         [HttpGet]
-        [Route("payment/{paymentId:guid}")]
-
+        [Route("{paymentId:guid}")]
 
         public async Task<ActionResult<ResultModel>> getPaymentbyId(Guid paymentId)
         {
@@ -118,7 +117,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No Payment found."
+                    Message = "No payment found."
                 };
                 return NotFound(_resultModel);
             }
@@ -134,8 +133,7 @@ namespace Moncati_Car_API.Controllers
         }
 
         [HttpPost]
-
-     /*   public async Task<ActionResult<ResultModel>> AddPayment([FromBody] CreatePaymentRequest payment)
+        public async Task<ActionResult<ResultModel>> AddPayment([FromBody] CreatePaymentRequest payment)
         {
             var Payment = await _serviceManager.paymentService.AddPayment(payment);
             if (Payment == false)
@@ -144,7 +142,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "No Payment found."
+                    Message = "No payment found."
                 };
                 return NotFound(_resultModel);
             }
@@ -153,11 +151,11 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = Payment,
-                Message = "Payment Add successfully."
+                Message = "Payment create successfully."
             };
 
             return Ok(_resultModel);
-        }*/
+        }
         [HttpPut]
         public async Task<ActionResult<ResultModel>> UpdatePaymentById([FromBody] CreateUpdateAllFieldPaymentRequest payment)
         {
@@ -172,7 +170,7 @@ namespace Moncati_Car_API.Controllers
                 {
                     Success = false,
                     Status = (int)HttpStatusCode.NotFound,
-                    Message = "Update Payment fail."
+                    Message = "Update payment fail."
                 };
                 return NotFound(_resultModel);
             }
@@ -181,19 +179,19 @@ namespace Moncati_Car_API.Controllers
                 Success = true,
                 Status = (int)HttpStatusCode.OK,
                 Data = Payment,
-                Message = "Update Payment  successfully."
+                Message = "Update payment successfully."
             };
 
             return Ok(_resultModel);
         }
 
-        [HttpDelete("{PaymentId:guid}")]
-        public async Task<ActionResult<ResultModel>> DeletePaymentById(Guid PaymentId)
+        [HttpDelete("{paymentId:guid}")]
+        public async Task<ActionResult<ResultModel>> DeletePaymentById(Guid paymentId)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
             var user = await _userManager.FindByEmailAsync(userEmail);
-            var Payment = await _serviceManager.paymentService.DeletePayment(PaymentId, user.Id);
+            var Payment = await _serviceManager.paymentService.DeletePayment(paymentId, user.Id);
 
             if (Payment == false)
             {

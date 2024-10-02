@@ -14,7 +14,5 @@ namespace MocatiCar.Core.Models.content.Requests
                 public decimal Amount { get; set; }
 
                 public PaymentStatus PaymentStatus { get; set; }
-
-
         }
 }
