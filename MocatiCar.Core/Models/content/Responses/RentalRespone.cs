@@ -31,16 +31,16 @@ namespace MocatiCar.Core.Models.content.Responses
         // public decimal InsuranceAmount { get; set; }
         // public decimal DepositAmount { get; set; }
         // public decimal RemainAmount { get; set; }
-      
+
         public decimal BasePricePerDay { get; set; }
-        public decimal CommissionPercentage  { get; set; } = 15;
+        public decimal CommissionPercentage { get; set; } = 15;
         public decimal CommissionAmount { get; set; }
         public decimal TotalPricePerDay { get; set; }
         public decimal DepositPercentage { get; set; } = 20;
-        public decimal  DepositAmount { get; set; }
+        public decimal DepositAmount { get; set; }
         public decimal TotalDaysRented { get; set; }
         public decimal TotalRentalAmount { get; set; }
-        public decimal InsuranceFee {get ;set;} = 60000;
+        public decimal InsuranceFee { get; set; } = 60000;
         public decimal FinalRentalAmount { get; set; }
         public decimal RemainingDepositAmount { get; set; }
 

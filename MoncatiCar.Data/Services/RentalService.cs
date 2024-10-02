@@ -155,7 +155,7 @@ namespace MoncatiCar.Data.Services
                  {"{ownerIdNumber}", owner?.CitizenId?.IdNumber ?? string.Empty },  // Check if owner or CitizenId is null
                  {"{ownerCitizenIssue}", owner?.CitizenId?.IssueDate.ToString("yyyy-MM-dd") ?? string.Empty },  // Check if owner or CitizenId is null and format IssueDate
                  {"{ownerAddress}", owner?.CitizenId?.Address ?? string.Empty },  // Check if owner or CitizenId is null
-                 {"{ownerPhoneNumber}", owner?.PhoneNumber ?? string.Empty },  // Check if owner is null
+                 {"{OwnerPhoneNumber}", owner?.PhoneNumber ?? string.Empty },  // Check if owner is null
 
                  {"{customerName}", customer?.FullName ?? string.Empty },  // Check if customer is null
     {"{customerGender}", customer?.CitizenId?.Gender ?? string.Empty },  // Check if customer or CitizenId is null
@@ -484,7 +484,7 @@ namespace MoncatiCar.Data.Services
                 //throw new Exception("Owner or Customer not found.");
                 return null;
             }
-            var totalItems =  users.Count();
+            var totalItems = users.Count();
             var rentalrespone = users.Select(rental => new RentalResponseForGetById
             {
                 RentalId = rental.RentalId,

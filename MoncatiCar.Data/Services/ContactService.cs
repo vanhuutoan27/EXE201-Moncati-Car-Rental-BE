@@ -50,5 +50,19 @@ namespace MoncatiCar.Data.Services
             var contract = await _repositoryManager.ContractRepository.GetContractByRentalId(rentalId);
             return _mapper.Map<ContractResponse>(contract);
         }
+
+        public async Task<bool> UpdateContract(UpdateContractRequest request, Guid id)
+        {
+            var contractId = await _repositoryManager.ContractRepository.GetByIdAsync(id);
+            if (contractId == null)
+            {
+                throw new Exception("contract not found.");
+            }
+            contractId.Signature = request.Signature;
+            contractId.ContractTerms = request.ContractTerms;
+            _repositoryManager.ContractRepository.Update(contractId);
+            await _repositoryManager.SaveAsync();
+            return true;
+        }
     }
 }
