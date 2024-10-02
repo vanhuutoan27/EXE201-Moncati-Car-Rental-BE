@@ -53,7 +53,7 @@ namespace MoncatiCar.Data.Services
 
         public async Task<bool> UpdateContract(UpdateContractRequest request, Guid id)
         {
-            var contractId = await _repositoryManager.ContractRepository.GetByIdAsync(id);
+            var contractId = await _repositoryManager.ContractRepository.GetContractByRentalId(id);
             if (contractId == null)
             {
                 throw new Exception("contract not found.");

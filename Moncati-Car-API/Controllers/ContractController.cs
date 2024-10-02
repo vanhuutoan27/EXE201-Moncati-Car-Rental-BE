@@ -42,10 +42,10 @@ namespace Moncati_Car_API.Controllers
             };
         }
         [HttpPut]
-        [Route("{contractId:guid}")]
-        public async Task<ActionResult<ResultModel>> UpdateContract(UpdateContractRequest request, Guid contractId)
+        [Route("{rentalId:guid}")]
+        public async Task<ActionResult<ResultModel>> UpdateContract(UpdateContractRequest request, Guid rentalId)
         {
-            var contract = await _serviceManager.ContactService.UpdateContract(request, contractId);
+            var contract = await _serviceManager.ContactService.UpdateContract(request, rentalId);
             if (contract == null)
             {
                 return BadRequest("Contract Not Found.");
