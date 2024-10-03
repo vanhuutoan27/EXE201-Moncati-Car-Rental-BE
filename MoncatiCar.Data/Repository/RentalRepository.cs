@@ -55,7 +55,7 @@ namespace MoncatiCar.Data.Repository
 
 
 
-            var rentals = await query.ToListAsync();
+            var rentals = await query.OrderByDescending(o => o.CreatedAt).ToListAsync();
 
             // Nạp dữ liệu thủ công cho Owner và Customer nếu cần
             //foreach (var rental in rentals)
@@ -158,7 +158,7 @@ namespace MoncatiCar.Data.Repository
                 query = query.Skip((page - 1) * limit)
                          .Take(limit);
             }
-            return await query.ToListAsync();
+            return await query.OrderByDescending(o => o.CreatedAt).ToListAsync();
         }
 
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
