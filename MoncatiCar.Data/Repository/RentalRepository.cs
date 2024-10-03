@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.Repository;
 using MocatiCar.Core.SeedWorks.Enums;
 using MoncatiCar.Data.SeedWork;
@@ -133,7 +134,7 @@ namespace MoncatiCar.Data.Repository
             return rental;
         }
 
-        public async Task<IEnumerable<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
+        public async Task<PaginatedResult<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Rental> query = _context.Rentals.Where(r => r.OwnerId == id).Include(r => r.Car)
                 .ThenInclude(i => i.Images)
@@ -141,7 +142,7 @@ namespace MoncatiCar.Data.Repository
                 .Include(r => r.Owner)
                 .Include(r => r.Customer)
                .Include(r => r.Contracts)
-               .Include(r => r.Payments).AsQueryable();
+               .Include(r => r.Payments).OrderByDescending(o => o.CreatedAt).AsQueryable();
 
             if (filter.HasValue)
             {
@@ -152,13 +153,19 @@ namespace MoncatiCar.Data.Repository
                 query = query.Where(r => r.CreatedAt >= startDate && r.CreatedAt <= endDate);
 
             }
+            int totalItems = await query.CountAsync();
+
             if (page > 0 && limit > 0)
             {
                 // Phân trang
                 query = query.Skip((page - 1) * limit)
                          .Take(limit);
             }
-            return await query.OrderByDescending(o => o.CreatedAt).ToListAsync();
+            return new PaginatedResult<Rental>
+            {
+                Items = await query.ToListAsync(),
+                TotalCount = totalItems
+            };
         }
 
         public async Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)

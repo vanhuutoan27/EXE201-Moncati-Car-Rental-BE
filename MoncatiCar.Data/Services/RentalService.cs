@@ -484,8 +484,8 @@ namespace MoncatiCar.Data.Services
                 //throw new Exception("Owner or Customer not found.");
                 return null;
             }
-            var totalItems = users.Count();
-            var rentalrespone = users.Select(rental => new RentalResponseForGetById
+            var totalItems = users.TotalCount;
+            var rentalrespone = users.Items.Select(rental => new RentalResponseForGetById
             {
                 RentalId = rental.RentalId,
                 CarName = $"{rental.Car?.Model?.Brand?.BrandName} {rental.Car?.Model?.ModelName} {rental.Car?.year}",

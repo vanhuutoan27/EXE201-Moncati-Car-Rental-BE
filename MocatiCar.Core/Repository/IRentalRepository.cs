@@ -1,4 +1,5 @@
 ﻿using MocatiCar.Core.Domain.Content;
+using MocatiCar.Core.Models.content.Responses;
 using MocatiCar.Core.SeedWorks;
 using MocatiCar.Core.SeedWorks.Enums;
 
@@ -10,7 +11,7 @@ namespace MocatiCar.Core.Repository
         Task<Rental> GetRentalByIdAsync(Guid id);
         Task<IEnumerable<Rental>> GetRentalByCarId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
         Task<IEnumerable<Rental>> GetRentalByUserId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
-        Task<IEnumerable<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
+        Task<PaginatedResult<Rental>> GetRentalByOwnerId(Guid id, int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate);
 
         Task<int> CountAsync(Guid carId);
         Task<int> CountRecord();
