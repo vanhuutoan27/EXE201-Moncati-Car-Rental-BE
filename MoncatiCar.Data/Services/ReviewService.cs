@@ -168,7 +168,7 @@ namespace MoncatiCar.Data.Services
         public async Task<ReviewRespone> GetReviewbyrentalId(Guid id)
         {
             var query = await _repositoryManager.ReviewRepository.GetReviewByRentalId(id);
-            if (query == null) throw new ArgumentException("No rentals found.");
+            // if (query == null) throw new ArgumentException("No rentals found.");
             return new ReviewRespone
             {
                 ReviewId = query.ReviewId,
