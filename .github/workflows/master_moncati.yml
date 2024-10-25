@@ -22,10 +22,11 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        # run: dotnet build --configuration Release
+        run: dotnet build ./path/to/Moncati-Car-API/Moncati-Car-API.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o D:/moncati/moncati/myapp
+        run: dotnet publish ./path/to/Moncati-Car-API/Moncati-Car-API.csproj -c Release -o D:/moncati/moncati/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
