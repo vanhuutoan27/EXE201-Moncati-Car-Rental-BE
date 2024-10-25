@@ -17,5 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MoncatiCar.Data\MoncatiCar.Data.csproj" />
   </ItemGroup>
+	<ItemGroup>
+  <None Update="appsettings.json">
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+  </None>
+</ItemGroup>
 
 </Project>
