@@ -233,6 +233,7 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<RentalRespone>> GetAllRentalsAsync(int page, int limit, RentalStatus? filter, DateTime? startDate, DateTime? endDate)
         {
             var listrental = await _repositoryManager.RentalRepository.GetAllRentalAsync(page, limit, filter, startDate, endDate);
+            
             var totalItems = await _repositoryManager.RentalRepository.CountRecord();
 
             var rentalResponses = listrental.Select(rental => new RentalRespone

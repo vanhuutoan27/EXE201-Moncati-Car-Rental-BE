@@ -44,7 +44,21 @@ namespace MoncatiCar.Data
 
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens")
                .HasKey(x => new { x.UserId });
+  builder.Entity<Car>()
+        .Property(c => c.PricePerDay)
+        .HasColumnType("decimal(18,2)"); // Precision = 18, Scale = 2
 
+    builder.Entity<Payment>()
+        .Property(p => p.Amount)
+        .HasColumnType("decimal(18,2)");
+
+    builder.Entity<Rental>()
+        .Property(r => r.BasePricePerDay)
+        .HasColumnType("decimal(18,2)");
+
+    builder.Entity<Rental>()
+        .Property(r => r.TotalDaysRented)
+        .HasColumnType("decimal(18,2)");
             builder.ApplyConfiguration(new RoleConfiguration());
             builder.ApplyConfiguration(new FeatureConfiguration());
             builder.ApplyConfiguration(new BrandConfiguration());

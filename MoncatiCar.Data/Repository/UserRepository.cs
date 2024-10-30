@@ -35,6 +35,22 @@ namespace MoncatiCar.Data.Repository
                       .Where(p => p.UserName == username).FirstOrDefaultAsync();
         }
 
+
+// //            searchName = searchName?.Trim();
+//             if (string.IsNullOrEmpty(searchName))
+//             {
+//                 if (page > 0 && limit > 0)
+//                 {
+//                     return await _context.Brands.Skip((page - 1) * limit).Take(limit).ToListAsync();
+//                 }
+//                 return await _context.Brands.ToListAsync();
+//             }
+//             else
+//             {
+//                 return await _context.Brands
+//                     .Where(s => s.BrandName.ToLower().Contains(searchName.ToLower()))
+//                     .Skip((page - 1) * limit).Take(limit).ToListAsync();
+//             }
      public async Task<IEnumerable<AppUser>> GetUsersAsync(int page, int limit, string search, bool? status)
     {
     IQueryable<AppUser> query = _context.Users;

@@ -158,7 +158,7 @@ namespace MoncatiCar.Data.Services
             var currentUser = await _userManager.FindByIdAsync(currentUserId);
             var currentUserRoles = (await _userManager.GetRolesAsync(currentUser)).FirstOrDefault();//chi co 1 role
 
-
+            var GetAllUser = await _repositoryManager.UserRepository.GetAllAsync();
             var listUser = await _repositoryManager.UserRepository.GetUsersAsync(page, limit, search, status);
 
             var filteredUsers = new List<AppUser>();
@@ -178,7 +178,7 @@ namespace MoncatiCar.Data.Services
             }
 
 
-            var totalItems = filteredUsers.Count();
+            var totalItems = GetAllUser.Count();
 
             var listUserReponse = _mapper.Map<IEnumerable<UserReponse>>(filteredUsers).ToList();
             var listUsers = filteredUsers.ToList();
@@ -196,6 +196,7 @@ namespace MoncatiCar.Data.Services
                 Items = listUserReponse
             };
         }
+        //
 
         /* private bool CanViewUser(string currentUserRole, string targetUserRole)
          {

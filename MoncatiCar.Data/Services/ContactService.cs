@@ -36,10 +36,12 @@ namespace MoncatiCar.Data.Services
         {
             var contracts = await _repositoryManager.ContractRepository.GetAllContractAsync(page, limit, RentalId);
             var contractReponse = _mapper.Map<IEnumerable<ContractResponse>>(contracts.Items);
+            var getAll = await _repositoryManager.ContractRepository.GetAllAsync();
+            
             return new PageResult<ContractResponse>
             {
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(contracts.TotalCount / (double)limit),
+                TotalPages = (int)Math.Ceiling(getAll.Count() / (double)limit),
                 TotalItems = contracts.TotalCount,
                 Items = contractReponse
             };

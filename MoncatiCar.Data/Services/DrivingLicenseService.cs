@@ -77,7 +77,8 @@ namespace MoncatiCar.Data.Services
         public async Task<PageResult<DrivingLicenseRespone>> GetAllCitizenAsync(int page, int limit , string search , bool? verify)
         {
             var listdrivinglicense = await _repositoryManager.DrivingLicenseRepository.GetAlldrvingLicenseAsync(page, limit ,search , verify);
-            var totalItems = listdrivinglicense.Count();
+          var total = await _repositoryManager.DrivingLicenseRepository.GetAllAsync();
+            var totalItems = total.Count();
             var drivinglisenceRespone = listdrivinglicense.Select(x => new DrivingLicenseRespone
             {
                 DrivingLicenseId = x.DrivingLicenseId,
