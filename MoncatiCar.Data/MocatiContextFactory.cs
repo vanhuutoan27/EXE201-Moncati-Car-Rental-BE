@@ -10,7 +10,7 @@ namespace MoncatiCar.Data
         {
             var configuration = new ConfigurationBuilder()
                          .SetBasePath(Directory.GetCurrentDirectory())
-                         .AddJsonFile("appsettings.json")
+                         .AddJsonFile("appsettings.Data.json")
                          .Build();
             var builder = new DbContextOptionsBuilder<MocatiContext>();
             builder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));

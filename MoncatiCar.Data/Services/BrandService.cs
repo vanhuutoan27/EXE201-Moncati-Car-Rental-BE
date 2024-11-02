@@ -57,7 +57,8 @@ namespace MoncatiCar.Data.Services
         {
             var listBrand = await _repositoryManager.BrandRepository.GetAllBrandAsync(page, limit, searchName);
             var listResult = _mapper.Map<IEnumerable<BrandRespone>>(listBrand);
-            var totalItems = listBrand.Count();
+            var total = await _repositoryManager.BrandRepository.GetAllAsync();
+            var totalItems = total.Count();
 
             return new PageResult<BrandRespone>
             {

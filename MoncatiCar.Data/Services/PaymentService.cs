@@ -66,6 +66,7 @@ namespace MoncatiCar.Data.Services
         {
             var listPayment = await _repositoryManager.PaymentRepository.GetAllPaymentAsync(page, limit, PaymentStatus);
 
+            var total = await _repositoryManager.PaymentRepository.GetAllAsync();
             var PaymentReponses = _mapper.Map<IEnumerable<PaymentReponse>>(listPayment);
 
             /*     foreach (var paymentResponse in PaymentReponses) {
@@ -96,7 +97,7 @@ namespace MoncatiCar.Data.Services
 
                  }*/
 
-            var totalItems = listPayment.Count();
+            var totalItems = total.Count();
 
 
             return new PageResult<PaymentReponse>

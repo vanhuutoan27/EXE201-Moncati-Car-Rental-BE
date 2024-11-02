@@ -83,8 +83,9 @@ namespace MoncatiCar.Data.Services
             // Call the repository to get reviews
             var listreview = await _repositoryManager.ReviewRepository.GetAllReviewAsync(page, limit, star, flag);
 
+
             // Total items for pagination
-            var totalItems = listreview.Count();
+            var totalItems = await _repositoryManager.RentalRepository.CountRecord();
 
             // Map the reviews to the response model
             var reviewRespone = listreview.Select(x => new ReviewRespone
