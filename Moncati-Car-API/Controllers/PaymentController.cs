@@ -85,16 +85,16 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> getPaymentbyUserId(Guid userId)
         {
             var getPayment = await _serviceManager.paymentService.GetPaymentByUserId(userId);
-            // if (getPayment == null)
-            // {
-            //     _resultModel = new ResultModel
-            //     {
-            //         Success = false,
-            //         Status = (int)HttpStatusCode.NotFound,
-            //         Message = "No payment found."
-            //     };
-            //     return NotFound(_resultModel);
-            // }
+            if (getPayment == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No payment found."
+                };
+                return NotFound(_resultModel);
+            }
             _resultModel = new ResultModel
             {
                 Success = true,
@@ -111,16 +111,16 @@ namespace Moncati_Car_API.Controllers
         public async Task<ActionResult<ResultModel>> GetPaymentRentalId(Guid rentalId)
         {
             var getPayment = await _serviceManager.paymentService.GetPaymentRentalId(rentalId);
-            // if (getPayment == null)
-            // {
-            //     _resultModel = new ResultModel
-            //     {
-            //         Success = false,
-            //         Status = (int)HttpStatusCode.NotFound,
-            //         Message = "No payment found."
-            //     };
-            //     return NotFound(_resultModel);
-            // }
+            if (getPayment == null)
+            {
+                _resultModel = new ResultModel
+                {
+                    Success = false,
+                    Status = (int)HttpStatusCode.NotFound,
+                    Message = "No payment found."
+                };
+                return NotFound(_resultModel);
+            }
             _resultModel = new ResultModel
             {
                 Success = true,
