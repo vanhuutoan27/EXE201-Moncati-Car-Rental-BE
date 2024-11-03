@@ -1,5 +1,5 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
+# Documentation for Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# Additional GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy ASP.Net Core app to Azure Web App - moncatii
 
@@ -14,7 +14,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -22,16 +23,16 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./Moncati-Car-API/Moncati-Car-API.csproj --configuration Release
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Publish with dotnet
+        run: dotnet publish ./Moncati-Car-API/Moncati-Car-API.csproj -c Release -o D:/moncati/moncati/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: D:/moncati/moncati/myapp
 
   deploy:
     runs-on: windows-latest
@@ -40,14 +41,14 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # Required for JWT requests
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -62,4 +63,3 @@ jobs:
           app-name: 'moncatii'
           slot-name: 'Production'
           package: .
-          
