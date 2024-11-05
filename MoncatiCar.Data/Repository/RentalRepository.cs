@@ -31,7 +31,7 @@ namespace MoncatiCar.Data.Repository
                                         .Include(r => r.Owner)
                                         .Include(r => r.Customer)
                                         .Include(r => r.Contracts)
-                                        .Include(r => r.Payments).AsQueryable();
+                                        .Include(r => r.Payments).OrderByDescending(o => o.CreatedAt).AsQueryable();
 
             // Thêm log để kiểm tra filter và createAt
             //Console.WriteLine($"Filter: {filter}, CreateAt: {createAt}");
@@ -56,7 +56,7 @@ namespace MoncatiCar.Data.Repository
 
 
 
-            var rentals = await query.OrderByDescending(o => o.CreatedAt).ToListAsync();
+            var rentals = await query.ToListAsync();
 
             // Nạp dữ liệu thủ công cho Owner và Customer nếu cần
             //foreach (var rental in rentals)
